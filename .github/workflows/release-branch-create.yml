@@ -1,0 +1,59 @@
+name: CI/CD Release Prepare
+
+on:
+  push:
+    branches:
+      - release/*
+  
+jobs:
+  # Inspect the information that is accessible in each context
+  # https://docs.github.com/en/actions/learn-github-actions/contexts#example-printing-context-information-to-the-log-file
+  # You can delete this section
+  jobinfo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJSON(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+     
+  # Create Pull Request
+  pull_request:
+    runs-on: "ubuntu-latest"
+    name: "Create PR"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/heads\/release\//}
+
+      - name: Create Release PR
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_branch: "main"
+          pr_title: "Release ${{ steps.get_version.outputs.VERSION }}"
+          pr_body: "Next Release ${{ steps.get_version.outputs.VERSION }} almost complete. Follow the guide in `CONTRIBUTING.md`!"
+          pr_label: "release"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
