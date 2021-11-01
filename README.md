@@ -4,7 +4,7 @@
 [![GitHub license](https://img.shields.io/github/license/NOWUM/EnSysMod.svg)](https://github.com/NOWUM/EnSysMod/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/NOWUM/EnSysMod.svg)](https://github.com/NOWUM/EnSysMod/releases/)
 
-You never found an awesome project like this before!
+Just another energy system model made by Institut NOWUM-Energy - FH Aachen.
 
 ## Installation
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install EnSysMod.
