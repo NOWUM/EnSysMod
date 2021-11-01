@@ -1,0 +1,23 @@
+# Template for auto generated release notes
+# see: https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes
+
+changelog:
+  exclude:
+    labels:
+      - release
+    authors:
+      - dependabot[bot]
+      - github-actions[bot]
+  categories:
+  - title: Breaking Changes 🛠
+    labels:
+    - breaking-change
+  - title: Exciting New Features 🚀
+    labels:
+    - enhancement
+  - title: Dependency updates 📦
+    labels:
+       - dependencies
+  - title: Other Changes
+    labels:
+       - "*"
