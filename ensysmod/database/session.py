@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from counter.core import settings
+from ensysmod.core import settings
 
 engine = create_engine(settings.SQLALCHEMY_DATABASE_URI,
                        pool_pre_ping=True,

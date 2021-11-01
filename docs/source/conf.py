@@ -15,7 +15,8 @@ import sys
 
 from fastapi.openapi.utils import get_openapi
 
-from counter.app import app
+import ensysmod
+from ensysmod.app import app
 
 sys.path.insert(0, pathlib.Path(__file__).parents[2].resolve().as_posix())
 
@@ -28,12 +29,12 @@ sys.path.insert(0, pathlib.Path(__file__).parents[2].resolve().as_posix())
 
 # -- Project information -----------------------------------------------------
 
-project = 'Python Starter'
-copyright = '2021, V3lop5 & einfachMel'
-author = 'V3lop5 & einfachMel'
+project = 'EnSysMod'
+copyright = '2021, v3lop5'
+author = 'v3lop5'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1'
+release = ensysmod.__version__
 
 # -- General configuration ---------------------------------------------------
 
@@ -54,8 +55,8 @@ extensions = [
 # configure for edit_on_github-Button
 html_context = {
     'display_github': True,
-    'github_user': 'V3lop5',
-    'github_repo': 'python-starter',
+    'github_user': 'v3lop5',
+    'github_repo': 'ensysmod',
     'github_version': 'main/docs/source/',
 }
 

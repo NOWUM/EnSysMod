@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 
-from counter.database.base_class import Base
+from ensysmod.database.base_class import Base
 
 
 class User(Base):

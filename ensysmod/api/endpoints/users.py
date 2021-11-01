@@ -3,8 +3,8 @@ from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from counter import schemas, crud, model
-from counter.api import deps
+from ensysmod import schemas, crud, model
+from ensysmod.api import deps
 
 router = APIRouter()
 

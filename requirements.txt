@@ -1,4 +1,4 @@
-# Requirements for Counter
+# Requirements for EnSysMod
 
 fastapi~=0.70.0
 sqlalchemy~=1.4.26

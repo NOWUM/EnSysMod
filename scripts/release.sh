@@ -38,7 +38,7 @@ require_no_uncommitted_changes() {
 
 ### Retrieve current version for project
 get_current_version() {
-  version=$(grep -Po '(?<=__version__ = ")[^"]+' ./counter/__init__.py)
+  version=$(grep -Po '(?<=__version__ = ")[^"]+' ./ensysmod/__init__.py)
   echo "$version"
 }
 
@@ -46,7 +46,7 @@ get_current_version() {
 ## $1: current version
 ## $2: new version
 update_version() {
-  sed -i "s/$1/$2/g" ./counter/__init__.py
+  sed -i "s/$1/$2/g" ./ensysmod/__init__.py
 }
 
 ### Convert string into bump option index

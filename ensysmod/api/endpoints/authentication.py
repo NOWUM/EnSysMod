@@ -4,9 +4,9 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
-from counter import schemas, crud, model
-from counter.api import deps
-from counter.core import security, settings
+from ensysmod import schemas, crud, model
+from ensysmod.api import deps
+from ensysmod.core import security, settings
 
 router = APIRouter()
 

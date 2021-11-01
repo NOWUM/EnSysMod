@@ -1,4 +1,4 @@
-from counter.core import security
+from ensysmod.core import security
 
 
 def test_password_hash_equal():

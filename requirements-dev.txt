@@ -1,7 +1,7 @@
-# Requirements for Counter
+# Requirements for EnSysMod
 -r requirements.txt
 
-# Dev dependencies for Counter
+# Dev dependencies for EnSysMod
 pytest~=6.2.5
 pytest-cov
 codecov

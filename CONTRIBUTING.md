@@ -8,7 +8,7 @@ fixes/changes/improvements via pull requests.
 ## Submitting issues
 
 Both bug reports and feature requests are welcome.
-Submit issues [here](https://github.com/V3lop5/python-starter/issues).
+Submit issues [here](https://github.com/NOWUM/EnSysMod/issues).
 
 * Search for existing issues to avoid reporting duplicates.
 * When submitting a bug report:
@@ -24,7 +24,7 @@ Submit issues [here](https://github.com/V3lop5/python-starter/issues).
 
 ## Submitting PRs
 
-We love PRs. Submit PRs [here](https://github.com/V3lop5/python-starter/pulls).
+We love PRs. Submit PRs [here](https://github.com/NOWUM/EnSysMod/pulls) after reading the [PR Workflow](#pr-workflow).
 However, please keep in mind that maintainers will have to support the resulting code of the project,
 so do familiarize yourself with the following guidelines.
 
@@ -45,10 +45,53 @@ so do familiarize yourself with the following guidelines.
 * If you fix documentation:
   * If you plan extensive rewrites/additions to the docs, then please [contact the maintainers](#contacting-maintainers) to coordinate the work in advance.
 
+
+## How to fix an existing issue
+
+* If you are going to work on the existing issue:
+  * Comment on the existing issue if you want to work on it. 
+  * Wait till it is assigned to you by [maintainers](#contacting-maintainers). 
+  * Ensure that the issue not only describes a problem, but also describes a solution that had received a positive feedback. Propose a solution if there isn't any.
+* If you are going to submit your first PR in this project:
+  * Find tickets with the label ["good first issue"](https://github.com/NOWUM/EnSysMod/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+no%3Aassignee) 
+    which are not assigned to somebody.
+  * Learn the [`examples`](https://github.com/NOWUM/EnSysMod/tree/main/examples) module, submit new interesting example or improve documentation for one of them.
+* If you are an experienced developer with good knowledge of Keras/TensorFlow/PyTorch/ONNX framework, find tickets with the label
+  ["good second issue"](https://github.com/NOWUM/EnSysMod/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+second+issue%22+no%3Aassignee),
+  which are not assigned to somebody.
+* If you are ready to participate in library design and in new experiments, find tickets with the label
+  ["research"](https://github.com/NOWUM/EnSysMod/issues?q=is%3Aissue+is%3Aopen+label%3Aresearch).
+  
+  
+## Development workflow
+1. Checkout the project using Git.
+   - New to Git? Get Git [here](https://git-scm.com/downloads)!
+   - Clone project `git clone https://github.com/NOWUM/EnSysMod.git`
+   - Navigate into project folder `cd EnSysMod`
+2. Install all pre requirements for development
+   - New to Python? Get Python [here](https://www.python.org/downloads/)!
+   - Create environment `sh scripts/install.sh`
+3. Check if project is fine
+   - Run tests `sh scripts/test.sh`
+4. Open the project in an IDE of your choice
+   - You like [PyCharm](https://www.jetbrains.com/pycharm/)? See [this](https://www.jetbrains.com/help/pycharm/open-projects.html) guide.
+   - You like [VSCode](https://code.visualstudio.com/)? See [this](https://code.visualstudio.com/docs/python/python-tutorial) guide.
+5. Time to code! Develop your changes
+   - Run main `sh scripts/run.sh`
+   - Run tests `sh scripts/test.sh`
+   - Run linting `sh scripts/lint.sh`
+7. Ready? Commit your changes
+   - Create a new Branch `git checkout -b <branch-name>` <br>The Branch should be named like `feature/user-guide` or `fix/background-color`.
+   - Check changed files `git status`
+   - Add changed files `git add <file-name>` or all of them using `git add .`
+   - Commit your changes `git commit -m "<your message>"` <br>The Message should describe your changes like `Added development workflow guide` or `Updated development workflow guide`. See [this](https://www.freecodecamp.org/news/writing-good-commit-messages-a-practical-guide/) guide for more information.
+   - Push your changes `git push`
+8. All finished? Checkout the [PR workflow](#pr-workflow)
+
+
 ## PR workflow
 
-0. Contributor build the project locally and run all unit tests and integration tests with pytest `sh scripts/test.sh`. 
-   (If it's possible on contributor machine...) 
+0. Contributor build the project locally and run all unit tests and integration tests. (If it's possible on contributor machine...) 
 1. Contributor submits the PR if the local build is successful and tests are green.
 2. Reviewer marks the PR with the "Review" label at the start of the review process.
 3. Reviewer leaves the comments or marks the PR with the label "LGTM."
@@ -60,30 +103,17 @@ so do familiarize yourself with the following guidelines.
 9. If it is possible, maintainers share the details of the failed build with the contributor.
 10. Maintainer merges the PR if all checks are successful and there is no conflict with the master branch.
 
-## How to fix an existing issue
 
-* If you are going to work on the existing issue:
-  * Comment on the existing issue if you want to work on it. 
-  * Wait till it is assigned to you by [maintainers](#contacting-maintainers). 
-  * Ensure that the issue not only describes a problem, but also describes a solution that had received a positive feedback. Propose a solution if there isn't any.
-* If you are going to submit your first PR in this project:
-  * Find tickets with the label ["good first issue"](https://github.com/V3lop5/python-starter/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+no%3Aassignee) 
-    which are not assigned to somebody.
-  * Learn the [`examples`](https://github.com/V3lop5/python-starter/tree/main/examples) module, submit new interesting example or improve documentation for one of them.
-* If you are an experienced developer with good knowledge of Keras/TensorFlow/PyTorch/ONNX framework, find tickets with the label
-  ["good second issue"](https://github.com/V3lop5/python-starter/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+second+issue%22+no%3Aassignee),
-  which are not assigned to somebody.
-* If you are ready to participate in library design and in new experiments, find tickets with the label
-  ["research"](https://github.com/V3lop5/python-starter/issues?q=is%3Aissue+is%3Aopen+label%3Aresearch).
-  
-## Building
-
-This project is built with Python... I guess. 
-
-* Run `sh scripts/install.sh` to setup your environment.
-* Run `sh scripts/run.sh` to run the project.
-* Run `sh scripts/test.sh` to test the project.
-   
+## Release workflow [Maintainer only]
+0. This task is only for Maintainers!
+1. Merge all PRs into `main` that should be part of next release.
+2. Run `sh scripts/release.sh [major|minor|patch]` locally.
+3. Check the PR created for your release [here](https://github.com/NOWUM/EnSysMod/pulls?q=is%3Apr+is%3Aopen+label%3Arelease).
+4. Check if documentation is still up-to-date. You can push changes to branch `release/x.x.x`.
+5. Merge PR if everything looks good to you.
+6. Wait CI/CD for creating your release. See the new release [here](https://github.com/NOWUM/EnSysMod/releases/latest).
+7. Edit the release and click on button `+ Auto-generate release notes`.
+8. 🎉 Done! 🎉
 
 ## Contacting maintainers
 

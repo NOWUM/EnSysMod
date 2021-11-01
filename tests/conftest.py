@@ -3,8 +3,8 @@ from typing import Generator
 import pytest
 from fastapi.testclient import TestClient
 
-from counter.app import app
-from counter.database.session import SessionLocal
+from ensysmod.app import app
+from ensysmod.database.session import SessionLocal
 
 
 @pytest.fixture(scope="session")

@@ -4,7 +4,7 @@ from typing import Any, Union
 from jose import jwt
 from passlib.context import CryptContext
 
-from counter.core import settings
+from ensysmod.core import settings
 
 ALGORITHM = "HS256"
 
