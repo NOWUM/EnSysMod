@@ -1,7 +1,7 @@
 # Requirements for EnSysMod
 
 fastapi~=0.70.0
-sqlalchemy~=1.4.26
+sqlalchemy~=1.4.27
 uvicorn~=0.15.0
 pydantic~=1.8.2
 pydantic[dotenv]
@@ -15,4 +15,4 @@ numpy
 
 pytest~=6.2.5
 MarkupSafe~=2.0.1
-setuptools~=58.5.2
+setuptools~=59.1.1
