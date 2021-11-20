@@ -1,34 +1,32 @@
+from sqlalchemy.orm import Session
+
+from ensysmod import crud
 from ensysmod.crud.base import CRUDBase
 from ensysmod.model import Consumption
 from ensysmod.schemas import ConsumptionCreate, ConsumptionUpdate
-from ensysmod.crud.region import region
-from ensysmod.crud.energy_source import energy_source
-from ensysmod.crud.energy_sink import energy_sink
-from sqlalchemy.orm import Session
 
 
 # noinspection PyMethodMayBeStatic,PyArgumentList
 class CRUDConsumption(CRUDBase[Consumption, ConsumptionCreate, ConsumptionUpdate]):
-    def create(self, db: Session, *, consumption: ConsumptionCreate) -> Consumption:
-        #DB-getRegion mit Namen xy
-        l_region = region.get_by_name(consumption.region)
-        #DB-getSource mit Namen xy
-        l_source = energy_source.get_by_name(consumption.source)
-        #DB-getSink mit Namen xy
-        l_sink = energy_sink.get_by_name(consumption.sink)
-        #wenn beide nicht null sind:
-        if (not l_region):
-            raise ValueError("Region not found!") 
-        if (not l_source):
-            raise ValueError("Energy-Source not found!") 
-        if (not l_sink):
-            raise ValueError("Energy-Sink not found!") 
+    def create(self, db: Session, *, obj_in: ConsumptionCreate) -> Consumption:
+        region_obj = crud.region.get_by_name(obj_in.region)
+        if not region_obj:
+            raise ValueError(f"Region '{obj_in.region}' does not exist.")
+
+        source_obj = crud.energy_source.get_by_name(obj_in.source)
+        if not source_obj:
+            raise ValueError(f"Energy source '{obj_in.source}' does not exist.")
+
+        sink_obj = crud.energy_sink.get_by_name(obj_in.sink)
+        if not sink_obj:
+            raise ValueError(f"Energy sink '{obj_in.sink}' does not exist.")
+
         db_obj = Consumption(
-            year=consumption.year,
-            quantity=consumption.quantity,
-            region=l_region,
-            source=l_source,
-            sink=l_sink
+            year=obj_in.year,
+            quantity=obj_in.quantity,
+            region=region_obj.id,
+            source=source_obj.id,
+            sink=sink_obj.id,
         )
         db.add(db_obj)
         db.commit()

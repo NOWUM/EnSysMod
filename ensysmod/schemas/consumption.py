@@ -10,7 +10,7 @@ class ConsumptionBase(BaseModel):
 
 
 # Properties to receive via API on creation
-class consumptionCreate(consumptionBase):
+class ConsumptionCreate(ConsumptionBase):
     year: int
     quantity: int
     region: str
@@ -19,15 +19,13 @@ class consumptionCreate(consumptionBase):
 
 
 # Properties to receive via API on update
-class consumptionUpdate(consumptionBase):
-    year: Optional[id] = None
-    quantity: Optional[id] = None
-    region: Optional[id] = None
-    source: Optional[id] = None
-    sink: Optional[id] = None
+class ConsumptionUpdate(ConsumptionBase):
+    region: Optional[str] = None
+    source: Optional[str] = None
+    sink: Optional[str] = None
 
 
-class consumptionInDBBase(consumptionBase):
+class ConsumptionInDBBase(ConsumptionBase):
     id: Optional[int] = None
 
     class Config:
@@ -35,12 +33,12 @@ class consumptionInDBBase(consumptionBase):
 
 
 # Additional properties to return via API
-class consumption(consumptionInDBBase):
+class Consumption(ConsumptionInDBBase):
     pass
 
 
 # Additional properties stored in DB
-class consumptionInDB(consumptionInDBBase):
-    region: Optional[str] = None
-    source: Optional[str] = None
-    sink: Optional[str] = None
+class ConsumptionInDB(ConsumptionInDBBase):
+    region: Optional[int] = None
+    source: Optional[int] = None
+    sink: Optional[int] = None

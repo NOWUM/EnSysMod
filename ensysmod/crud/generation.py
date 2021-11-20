@@ -1,34 +1,33 @@
+from sqlalchemy.orm import Session
+
+from ensysmod import crud
 from ensysmod.crud.base import CRUDBase
 from ensysmod.model import Generation
 from ensysmod.schemas import GenerationCreate, GenerationUpdate
-from ensysmod.crud.region import region
-from ensysmod.crud.energy_source import energy_source
-from sqlalchemy.orm import Session
 
 
 # noinspection PyMethodMayBeStatic,PyArgumentList
 class CRUDGeneration(CRUDBase[Generation, GenerationCreate, GenerationUpdate]):
-    def create(self, db: Session, *, generation: GenerationCreate) -> Generation:
-        #DB-getRegion mit Namen xy
-        l_region = region.get_by_name(generation.region)
-        #DB-getSource mit Namen xy
-        l_source = energy_source.get_by_name(generation.source)
-        #wenn beide nicht null sind:
-        if (not l_region):
-            raise ValueError("Region not found!") 
-        if (not l_source):
-            raise ValueError("Energy-Source not found!") 
+    def create(self, db: Session, *, obj_in: GenerationCreate) -> Generation:
+        region_obj = crud.region.get_by_name(obj_in.region)
+        if not region_obj:
+            raise ValueError(f"Region '{obj_in.region}' does not exist.")
+
+        source_obj = crud.energy_source.get_by_name(obj_in.source)
+        if not source_obj:
+            raise ValueError(f"Energy source '{obj_in.source}' does not exist.")
+
         db_obj = Generation(
-            year=generation.year,
-            quantity=generation.quantity,
-            region=l_region,
-            source=l_source
+            year=obj_in.year,
+            quantity=obj_in.quantity,
+            region=region_obj.id,
+            source=source_obj.id,
         )
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
         return db_obj
-    
+
     pass
 
 

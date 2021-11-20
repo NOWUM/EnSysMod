@@ -1,8 +1,10 @@
+from typing import Optional
+
+from sqlalchemy.orm import Session
+
 from ensysmod.crud.base import CRUDBase
 from ensysmod.model import EnergySink
 from ensysmod.schemas import EnergySinkCreate, EnergySinkUpdate
-from sqlalchemy.orm import Session
-from typing import Optional
 
 
 # noinspection PyMethodMayBeStatic,PyArgumentList

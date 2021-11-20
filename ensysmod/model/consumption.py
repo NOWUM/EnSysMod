@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer
 from sqlalchemy.sql.schema import ForeignKey
+
 from ensysmod.database.base_class import Base
 
 

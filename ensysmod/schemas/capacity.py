@@ -39,5 +39,5 @@ class Capacity(CapacityInDBBase):
 
 # Additional properties stored in DB
 class CapacityInDB(CapacityInDBBase):
-    region: Optional[str] = None
-    source: Optional[str] = None
+    region: Optional[int] = None
+    source: Optional[int] = None

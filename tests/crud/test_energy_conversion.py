@@ -9,4 +9,3 @@ def test_create_energy_conversion(db: Session):
     energy_conversion = crud.energy_conversion.create(db, obj_in=create)
     assert energy_conversion.name == "test_energy_conversion"
     assert energy_conversion.description == "test_energy_conversion desc"
-
