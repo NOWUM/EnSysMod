@@ -43,7 +43,7 @@ def register(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail="User with that username already exists!")
 
-    user = crud.user.create(db, user=request)
+    user = crud.user.create(db, obj_in=request)
 
     return user
 
