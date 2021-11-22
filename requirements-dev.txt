@@ -9,3 +9,6 @@ sphinx
 sphinx-rtd-theme
 sphinxcontrib-openapi
 flake8
+
+MarkupSafe~=2.0.1
+setuptools~=59.2.0

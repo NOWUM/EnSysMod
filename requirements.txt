@@ -12,7 +12,5 @@ python-multipart
 bcrypt
 
 numpy
+pandas
 
-pytest~=6.2.5
-MarkupSafe~=2.0.1
-setuptools~=59.2.0
