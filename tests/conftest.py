@@ -7,9 +7,15 @@ from ensysmod.app import app
 from ensysmod.database.session import SessionLocal
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def db() -> Generator:
-    yield SessionLocal()
+    db = None
+    try:
+        db = SessionLocal()
+        yield db
+    finally:
+        if db is not None:
+            db.close()
 
 
 @pytest.fixture(scope="module")
