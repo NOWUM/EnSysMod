@@ -10,6 +10,6 @@ class EnergySource(Base):
     See https://vsa-fine.readthedocs.io/en/latest/sourceSinkClassDoc.html
     """
     id = Column(Integer, primary_key=True, index=True)
-    ref_component = Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False)
+    ref_component = Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False, unique=True)
     ref_commodity = Column(Integer, ForeignKey("energy_commodity.id"), index=True, nullable=False)
 
