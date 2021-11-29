@@ -1,15 +1,15 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, DECIMAL
 
 from ensysmod.database.base_class import Base
 
 
-class EnergySource(Base):
+class EnergyConversionFactor(Base):
     """
-    EnergySource table definition
+    EnergyConversionFactors table
 
-    See https://vsa-fine.readthedocs.io/en/latest/sourceSinkClassDoc.html
+    This class is used to store the energy conversion factors for a energy conversion component.
     """
     id = Column(Integer, primary_key=True, index=True)
     ref_component = Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False)
     ref_commodity = Column(Integer, ForeignKey("energy_commodity.id"), index=True, nullable=False)
-
+    conversion_factor = Column(DECIMAL, nullable=False)

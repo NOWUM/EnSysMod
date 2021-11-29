@@ -1,9 +1,14 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 
 from ensysmod.database.base_class import Base
 
 
 class EnergyStorage(Base):
+    """
+    EnergyStorage table definition
+
+    See https://vsa-fine.readthedocs.io/en/latest/storageClassDoc.html
+    """
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, unique=True, index=True, nullable=False)
-    description = Column(String, nullable=True)
+    ref_component = Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False)
+    ref_commodity = Column(Integer, ForeignKey("energy_commodity.id"), index=True, nullable=False)

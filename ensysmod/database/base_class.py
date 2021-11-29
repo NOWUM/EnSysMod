@@ -1,3 +1,4 @@
+import re
 from typing import Any
 
 from sqlalchemy.orm import as_declarative, declared_attr
@@ -14,4 +15,4 @@ class Base:
     # Generate __tablename__ automatically
     @declared_attr
     def __tablename__(self) -> str:
-        return self.__name__.lower()
+        return re.sub(r'(?<!^)(?=[A-Z])', '_', self.__name__).lower()
