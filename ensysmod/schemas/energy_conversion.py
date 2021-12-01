@@ -2,36 +2,38 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from ensysmod.model import EnergyComponentType
+from ensysmod.schemas import EnergyComponentCreate, EnergyComponent, EnergyComponentUpdate, EnergyCommodity
 
-# Shared properties
+
 class EnergyConversionBase(BaseModel):
-    name: Optional[str] = None
+    """
+    Shared properties for an energy conversion. Used as a base class for all schemas.
+    """
+    commodity_unit: str
+    type = EnergyComponentType.CONVERSION
 
 
-# Properties to receive via API on creation
-class EnergyConversionCreate(EnergyConversionBase):
-    name: str
-    description: Optional[str] = None
-
-
-# Properties to receive via API on update
-class EnergyConversionUpdate(EnergyConversionBase):
-    name: Optional[str] = None
-    description: Optional[str] = None
-
-
-class EnergyConversionInDBBase(EnergyConversionBase):
-    id: Optional[int] = None
-
-    class Config:
-        orm_mode = True
-
-
-# Additional properties to return via API
-class EnergyConversion(EnergyConversionInDBBase):
+class EnergyConversionCreate(EnergyConversionBase, EnergyComponentCreate):
+    """
+    Properties to receive via API on creation of an energy conversion.
+    """
     pass
 
 
-# Additional properties stored in DB
-class EnergyConversionInDB(EnergyConversionInDBBase):
-    description: Optional[str] = None
+class EnergyConversionUpdate(EnergyConversionBase, EnergyComponentUpdate):
+    """
+    Properties to receive via API on update of an energy conversion.
+    """
+    commodity_unit: Optional[str] = None
+
+
+class EnergyConversion(EnergyConversionBase):
+    """
+    Properties to return via API for an energy conversion.
+    """
+    component: EnergyComponent
+    commodity_unit: EnergyCommodity
+
+    class Config:
+        orm_mode = True

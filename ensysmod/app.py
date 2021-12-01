@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status, Request
+from fastapi.responses import JSONResponse
 
 from ensysmod.api import api_router
 from ensysmod.core import settings
@@ -14,3 +15,11 @@ app.include_router(api_router)
 def init_database():
     init_db.check_connection()
     init_db.create_all()
+
+
+@app.exception_handler(Exception)
+async def exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        content={"detail": str(exc)},
+    )

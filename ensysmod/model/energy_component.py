@@ -1,7 +1,6 @@
 import enum
 
 from sqlalchemy import Column, Integer, String, Boolean, DECIMAL, ForeignKey, Enum
-from sqlalchemy.orm import relationship
 
 from ensysmod.database.base_class import Base
 
@@ -10,19 +9,19 @@ class EnergyComponentType(enum.Enum):
     """
     Enum for the different types of energy components.
     """
-    SOURCE = 'source'
-    SINK = 'sink'
-    CONVERSION = 'conversion'
-    TRANSMISSION = 'transmission'
-    STORAGE = 'storage'
+    SOURCE = 'SOURCE'
+    SINK = 'SINK'
+    CONVERSION = 'CONVERSION'
+    TRANSMISSION = 'TRANSMISSION'
+    STORAGE = 'STORAGE'
 
 
 class CapacityVariableDomain(enum.Enum):
     """
     Enum for the different types of capacity variables.
     """
-    CONTINUOUS = 'continuous'
-    DISCRETE = 'discrete'
+    CONTINUOUS = 'CONTINUOUS'
+    DISCRETE = 'DISCRETE'
 
 
 class EnergyComponent(Base):
@@ -38,7 +37,7 @@ class EnergyComponent(Base):
     description = Column(String, nullable=True)
 
     # specifies if the component should be modeled with a capacity or not.
-    capacity_variable = Column(Boolean, nullable=False)
+    capacity_variable = Column(Boolean, nullable=False, default=False)
     capacity_variable_domain = Column(Enum(CapacityVariableDomain),
                                       default=CapacityVariableDomain.CONTINUOUS,
                                       nullable=False)

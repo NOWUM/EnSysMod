@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DECIMAL
+from sqlalchemy import Column, Integer, ForeignKey, DECIMAL
 
 from ensysmod.database.base_class import Base
 

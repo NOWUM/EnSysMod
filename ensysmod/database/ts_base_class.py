@@ -7,6 +7,7 @@ class TimeSeriesBase:
     """
     Base class for all time series classes.
     """
+
     @declared_attr
     def id(self):
         return Column(Integer, primary_key=True)

@@ -2,8 +2,8 @@
 This package contains all models in database
 """
 from .dataset import Dataset
-from .energy_component import EnergyComponent, EnergyComponentType, CapacityVariableDomain
 from .energy_commodity import EnergyCommodity
+from .energy_component import EnergyComponent, EnergyComponentType, CapacityVariableDomain
 from .energy_conversion import EnergyConversion
 from .energy_conversion_factor import EnergyConversionFactor
 from .energy_sink import EnergySink

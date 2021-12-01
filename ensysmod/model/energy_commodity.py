@@ -12,7 +12,8 @@ class EnergyCommodity(Base):
     unit = Column(String, nullable=False)
 
     # relationships
-    energy_conversions = relationship("EnergyConversion", back_populates="commodity")
+    dataset = relationship("Dataset")
+    energy_conversions = relationship("EnergyConversion", back_populates="commodity_unit")
     energy_sources = relationship("EnergySource", back_populates="commodity")
     energy_sinks = relationship("EnergySink", back_populates="commodity")
     energy_storages = relationship("EnergyStorage", back_populates="commodity")

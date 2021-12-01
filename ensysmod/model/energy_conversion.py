@@ -13,8 +13,8 @@ class EnergyConversion(Base):
     See https://vsa-fine.readthedocs.io/en/latest/conversionClassDoc.html
     """
     ref_component = Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False, primary_key=True)
-    commodity_unit = Column(Integer, ForeignKey("energy_commodity.id"), index=True, nullable=False)
+    ref_commodity_unit = Column(Integer, ForeignKey("energy_commodity.id"), index=True, nullable=False)
 
     # Relationships
     component = relationship("EnergyComponent")
-    commodity = relationship("EnergyCommodity", back_populates="energy_conversions")
+    commodity_unit = relationship("EnergyCommodity", back_populates="energy_conversions")

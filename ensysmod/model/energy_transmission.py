@@ -12,6 +12,7 @@ class EnergyTransmission(Base):
     """
     ref_component = Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False, primary_key=True)
     ref_commodity = Column(Integer, ForeignKey("energy_commodity.id"), index=True, nullable=False)
+    # TODO: add more fields
 
     # Relationships
     component = relationship("EnergyComponent")

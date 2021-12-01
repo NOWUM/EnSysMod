@@ -2,36 +2,38 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from ensysmod.model import EnergyComponentType
+from ensysmod.schemas import EnergyComponentCreate, EnergyComponentUpdate, EnergyComponent, EnergyCommodity
 
-# Shared properties
+
 class EnergySinkBase(BaseModel):
-    name: Optional[str] = None
+    """
+    Shared properties for an energy sink. Used as a base class for all schemas.
+    """
+    commodity: str
+    type = EnergyComponentType.SINK
 
 
-# Properties to receive via API on creation
-class EnergySinkCreate(EnergySinkBase):
-    name: str
-    description: Optional[str] = None
-
-
-# Properties to receive via API on update
-class EnergySinkUpdate(EnergySinkBase):
-    name: Optional[str] = None
-    description: Optional[str] = None
-
-
-class EnergySinkInDBBase(EnergySinkBase):
-    id: Optional[int] = None
-
-    class Config:
-        orm_mode = True
-
-
-# Additional properties to return via API
-class EnergySink(EnergySinkInDBBase):
+class EnergySinkCreate(EnergySinkBase, EnergyComponentCreate):
+    """
+    Properties to receive via API on creation of an energy sink.
+    """
     pass
 
 
-# Additional properties stored in DB
-class EnergySinkInDB(EnergySinkInDBBase):
-    description: Optional[str] = None
+class EnergySinkUpdate(EnergySinkBase, EnergyComponentUpdate):
+    """
+    Properties to receive via API on update of an energy sink.
+    """
+    commodity: Optional[str] = None
+
+
+class EnergySink(EnergySinkBase):
+    """
+    Properties to return via API for an energy sink.
+    """
+    component: EnergyComponent
+    commodity: EnergyCommodity
+
+    class Config:
+        orm_mode = True
