@@ -1,6 +1,7 @@
 import enum
 
 from sqlalchemy import Column, Integer, String, Boolean, DECIMAL, ForeignKey, Enum
+from sqlalchemy.orm import relationship
 
 from ensysmod.database.base_class import Base
 
@@ -47,7 +48,5 @@ class EnergyComponent(Base):
     opex_per_capacity = Column(DECIMAL, nullable=False, default=0.0)
     interest_rate = Column(DECIMAL, nullable=False, default=0.08)
     economic_lifetime = Column(Integer, nullable=False, default=10)
-
-    # Relationships
 
     # constraint capacityVariableDomain

@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, ForeignKey
+from sqlalchemy.orm import relationship
 
 from ensysmod.database.base_class import Base
 
@@ -11,6 +12,9 @@ class EnergyConversion(Base):
     It is used to convert one commodity to another.
     See https://vsa-fine.readthedocs.io/en/latest/conversionClassDoc.html
     """
-    id = Column(Integer, primary_key=True, index=True)
-    ref_component = Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False, unique=True)
+    ref_component = Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False, primary_key=True)
     commodity_unit = Column(Integer, ForeignKey("energy_commodity.id"), index=True, nullable=False)
+
+    # Relationships
+    component = relationship("EnergyComponent")
+    commodity = relationship("EnergyCommodity", back_populates="energy_conversions")
