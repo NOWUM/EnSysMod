@@ -190,7 +190,7 @@ jobs:
           token: ${{ github.token }}
           env: Production
           no_override: false
-          desc: "Production deployment"
+          desc: "Production deployment for latest release"
           ref: ${{ github.head_ref }}
           transient: true
 
