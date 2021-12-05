@@ -91,7 +91,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest --cov=./ --cov-report=xml --junitxml="result.xml" ./tests
+          pytest --cov=./ensysmod --cov-report=xml --junitxml="result.xml" ./tests
 
       - name: Upload tests results
         uses: actions/upload-artifact@v2
