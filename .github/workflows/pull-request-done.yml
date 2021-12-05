@@ -39,16 +39,48 @@ jobs:
   preview_delete:
     runs-on: ubuntu-latest
     name: "Delete preview"
+    if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
-      - name: Hello
+      - name: Update deployment status - deactivate
+        uses: bobheadxi/deployments@v0.6.1
+        id: deactivate
+        with:
+          step: deactivate-env
+          token: ${{ github.token }}
+          env: PR-${{ github.event.number }}-Preview
+          desc: "Preview deployment for PR #${{ github.event.number }} was pruned."
+
+      - name: Install VPN
         run: |
-          echo "Hello World!"
+          sudo /sbin/modprobe tun
+          sudo apt install openconnect
+
+      - name: Connect VPN
+        run: |
+          echo "${{ secrets.VPN_PASS }}" | sudo openconnect ${{ secrets.VPN_URL }} --background --user=${{ secrets.VPN_USER }} --passwd-on-stdin
+
+      - name: Stop docker container on private server
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_URL }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASS }}
+          script: |
+            docker ps --filter publish=$((9000 + ${{ github.event.number }}))
+            docker rm -f $(docker ps --filter publish=$((9000 + ${{ github.event.number }})) -aq)
+
+      - name: Disconnect VPN
+        if: ${{ always() }}
+        run: |
+          sudo pkill openconnect
             
 
   create_release:
     runs-on: "ubuntu-latest"
     if: github.event.pull_request.merged == true && startsWith( github.head_ref, 'release/')
     name: "Create Release"
+    outputs:
+      version: ${{ steps.get_version.outputs.VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2.4.0
@@ -110,11 +142,96 @@ jobs:
           commit_message: "Generated documentation @ ${{ github.sha }}"
 
 
-  prod_deploy:
+  build_prod_image:
     needs: [ create_release ]
     runs-on: ubuntu-latest
-    name: "Deploy production"
+    name: "Build prod image"
+    if: ${{ success() && github.actor != 'dependabot[bot]' }}
+    outputs:
+      image_tag: ${{ steps.get_tag.outputs.DOCKER_TAG }}
     steps:
-      - name: Hello
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Get tag for docker image
+        id: get_tag
         run: |
-          echo "Hello World!"
+          DOCKER_TAG=ghcr.io/${{ github.repository }}:${{ needs.create_release.outputs.version }}
+          DOCKER_TAG=${DOCKER_TAG,,}
+          echo ::set-output name=DOCKER_TAG::"${DOCKER_TAG}"
+
+      - name: Build the Docker image
+        run: |
+          docker build . --tag ${{ steps.get_tag.outputs.DOCKER_TAG }}
+
+      - name: Push the Docker image to GitHub Container Registry
+        run: |
+          docker push ${{ steps.get_tag.outputs.DOCKER_TAG }}
+
+
+  deploy_prod:
+    needs: [ build_prod_image ]
+    runs-on: ubuntu-latest
+    name: "Deploy production image"
+    if: ${{ success() && github.actor != 'dependabot[bot]' }}
+    steps:
+      - name: Update deployment status - start
+        uses: bobheadxi/deployments@v0.6.1
+        id: deployment
+        with:
+          step: start
+          token: ${{ github.token }}
+          env: Production
+          no_override: false
+          desc: "Production deployment"
+          ref: ${{ github.head_ref }}
+          transient: true
+
+      - name: Install VPN
+        run: |
+          sudo /sbin/modprobe tun
+          sudo apt install openconnect
+
+      - name: Connect VPN
+        run: |
+          echo "${{ secrets.VPN_PASS }}" | sudo openconnect ${{ secrets.VPN_URL }} --background --user=${{ secrets.VPN_USER }} --passwd-on-stdin
+
+      - name: Deploy docker container on private server
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_URL }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASS }}
+          script: |
+            docker pull ${{ needs.build_prod_image.outputs.image_tag }}
+            docker ps --filter publish=8080
+            docker rm -f $(docker ps --filter publish=8080 -aq)
+            docker run -d -p 8080:8080 --name "production" ${{ needs.build_prod_image.outputs.image_tag }}
+
+      - name: Disconnect VPN
+        if: ${{ always() }}
+        run: |
+          sudo pkill openconnect
+
+      - name: Get env url
+        id: get_env_url
+        run: |
+          ENV_URL="http://${{ secrets.SSH_URL }}:8080"
+          echo ::set-output name=ENV_URL::"${ENV_URL}"
+
+      - name: Update deployment status - finish
+        uses: bobheadxi/deployments@v0.6.1
+        if: always()
+        with:
+          step: finish
+          token: ${{ github.token }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: ${{ steps.get_env_url.outputs.env_url }}
