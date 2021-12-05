@@ -48,7 +48,7 @@ def register(
     return user
 
 
-@router.post("/test-token", response_model=schemas.User)
+@router.get("/test-token", response_model=schemas.User)
 def test_token(
         current_user: model.User = Depends(deps.get_current_user)
 ) -> schemas.User:
