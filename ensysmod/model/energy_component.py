@@ -1,6 +1,6 @@
 import enum
 
-from sqlalchemy import Column, Integer, String, Boolean, DECIMAL, ForeignKey, Enum, UniqueConstraint, CheckConstraint
+from sqlalchemy import Column, Integer, String, Boolean, DECIMAL, ForeignKey, Enum, UniqueConstraint
 
 from ensysmod.database.base_class import Base
 
@@ -54,4 +54,3 @@ class EnergyComponent(Base):
     __table_args__ = (
         UniqueConstraint("ref_dataset", "name", name="_commodity_name_dataset_uc"),
     )
-
