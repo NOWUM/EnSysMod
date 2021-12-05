@@ -48,12 +48,13 @@ def test_create_existing_energy_commodity(client: TestClient, normal_user_header
     response = client.post("/commodities/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
+
 def test_create_energy_commodity_unknown_dataset(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
     """
     Test creating a energy commodity.
     """
     create_request = get_random_energy_commodity_create(db)
-    create_request.ref_dataset = 0 # ungültige Anfrage
+    create_request.ref_dataset = 0  # ungültige Anfrage
     response = client.post("/commodities/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 

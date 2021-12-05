@@ -19,7 +19,7 @@ def user_authentication_headers(
 ) -> Dict[str, str]:
     data = {"username": username, "password": password}
 
-    r = client.post(f"/auth/login", data=data, headers={"content-type": "application/x-www-form-urlencoded"})
+    r = client.post("/auth/login", data=data, headers={"content-type": "application/x-www-form-urlencoded"})
     response = r.json()
     auth_token = response["access_token"]
     headers = {"Authorization": f"Bearer {auth_token}"}

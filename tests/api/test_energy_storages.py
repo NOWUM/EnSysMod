@@ -42,6 +42,7 @@ def test_create_energy_storage(client: TestClient, normal_user_headers: Dict[str
     assert created_storage["component"]["type"] == EnergyComponentType.STORAGE.value
     assert created_storage["commodity"]["name"] == create_request.commodity
 
+
 def test_create_existing_energy_storage(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
     """
     Test creating a existing energy storage.
@@ -52,21 +53,23 @@ def test_create_existing_energy_storage(client: TestClient, normal_user_headers:
     response = client.post("/storages/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
+
 def test_create_energy_storage_unknown_dataset(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
     """
     Test creating a energy storage.
     """
     create_request = get_random_energy_storage_create(db)
-    create_request.ref_dataset = 0 # ungültige Anfrage
+    create_request.ref_dataset = 0  # ungültige Anfrage
     response = client.post("/storages/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
+
 
 def test_create_energy_storage_unknown_commodity(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
     """
     Test creating a energy storage.
     """
     create_request = get_random_energy_storage_create(db)
-    create_request.commodity = "0" # ungültige Anfrage
+    create_request.commodity = "0"  # ungültige Anfrage
     response = client.post("/storages/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 

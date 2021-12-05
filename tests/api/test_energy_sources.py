@@ -1,7 +1,6 @@
 from typing import Dict
 
 from fastapi import status
-from fastapi.encoders import jsonable_encoder
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
@@ -43,6 +42,7 @@ def test_create_energy_source(client: TestClient, normal_user_headers: Dict[str,
     assert created_source["component"]["type"] == EnergyComponentType.SOURCE.value
     assert created_source["commodity"]["name"] == create_request.commodity
 
+
 def test_create_existing_energy_source(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
     """
     Test creating a existing energy source.
@@ -53,21 +53,23 @@ def test_create_existing_energy_source(client: TestClient, normal_user_headers: 
     response = client.post("/sources/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
+
 def test_create_energy_source_unknown_dataset(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
     """
     Test creating a energy source.
     """
     create_request = get_random_energy_source_create(db)
-    create_request.ref_dataset = 0 # ungültige Anfrage
+    create_request.ref_dataset = 0  # ungültige Anfrage
     response = client.post("/sources/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
+
 
 def test_create_energy_source_unknown_commodity(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
     """
     Test creating a energy source.
     """
     create_request = get_random_energy_source_create(db)
-    create_request.commodity = "0" # ungültige Anfrage
+    create_request.commodity = "0"  # ungültige Anfrage
     response = client.post("/sources/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 

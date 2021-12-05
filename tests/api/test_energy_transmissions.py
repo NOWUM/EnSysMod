@@ -42,6 +42,7 @@ def test_create_energy_transmission(client: TestClient, normal_user_headers: Dic
     assert created_transmission["component"]["type"] == EnergyComponentType.TRANSMISSION.value
     assert created_transmission["commodity"]["name"] == create_request.commodity
 
+
 def test_create_existing_energy_transmission(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
     """
     Test creating a existing energy transmission.
@@ -52,21 +53,25 @@ def test_create_existing_energy_transmission(client: TestClient, normal_user_hea
     response = client.post("/transmissions/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
-def test_create_energy_transmission_unknown_dataset(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+
+def test_create_energy_transmission_unknown_dataset(client: TestClient, normal_user_headers: Dict[str, str],
+                                                    db: Session):
     """
     Test creating a energy transmission.
     """
     create_request = get_random_energy_transmission_create(db)
-    create_request.ref_dataset = 0 # ungültige Anfrage
+    create_request.ref_dataset = 0  # ungültige Anfrage
     response = client.post("/transmissions/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
-def test_create_energy_transmission_unknown_commodity(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+
+def test_create_energy_transmission_unknown_commodity(client: TestClient, normal_user_headers: Dict[str, str],
+                                                      db: Session):
     """
     Test creating a energy transmission.
     """
     create_request = get_random_energy_transmission_create(db)
-    create_request.commodity = "0" # ungültige Anfrage
+    create_request.commodity = "0"  # ungültige Anfrage
     response = client.post("/transmissions/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
