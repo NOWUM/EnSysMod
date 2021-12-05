@@ -12,3 +12,4 @@ flake8
 
 MarkupSafe~=2.0.1
 setuptools~=59.4.0
+mistune==2.0.0rc1
