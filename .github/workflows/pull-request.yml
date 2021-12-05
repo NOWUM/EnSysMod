@@ -92,7 +92,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest --cov=./ --cov-report=xml --junitxml="result.xml" ./tests
+          pytest --cov=./ensysmod --cov-report=xml --junitxml="result.xml" ./tests
 
       - name: Upload tests results
         uses: actions/upload-artifact@v2
@@ -146,15 +146,98 @@ jobs:
           report_individual_runs: true  
           comment_mode: "create new"
         
-        
-  preview_deploy:
-    needs: [test, lint] 
+
+  build_pr_image:
+    needs: [ test, lint ]
     runs-on: ubuntu-latest
-    name: "Deploy preview"
+    name: "Build preview image"
+    if: ${{ success() && github.actor != 'dependabot[bot]' }}
+    outputs:
+      image_tag: ${{ steps.get_tag.outputs.DOCKER_TAG }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Get tag for docker image
+        id: get_tag
+        run: |
+          DOCKER_TAG=ghcr.io/${{ github.repository }}:pr-${{ github.event.number }}
+          DOCKER_TAG=${DOCKER_TAG,,}
+          echo ::set-output name=DOCKER_TAG::"${DOCKER_TAG}"
+
+      - name: Build the Docker image
+        run: |
+          docker build . --tag ${{ steps.get_tag.outputs.DOCKER_TAG }}
+
+      - name: Push the Docker image to GitHub Container Registry
+        run: |
+          docker push ${{ steps.get_tag.outputs.DOCKER_TAG }}
+
+
+  deploy_pr:
+    needs: [ build_pr_image ]
+    runs-on: ubuntu-latest
+    name: "Deploy preview image"
     if: ${{ success() && github.actor != 'dependabot[bot]' }}
     steps:
-      - name: Hello
+      - name: Update deployment status - start
+        uses: bobheadxi/deployments@v0.6.1
+        id: deployment
+        with:
+          step: start
+          token: ${{ github.token }}
+          env: PR-${{ github.event.number }}-Preview
+          no_override: false
+          desc: "Preview deployment for PR #${{ github.event.number }}"
+          ref: ${{ github.head_ref }}
+          transient: true
+
+      - name: Install VPN
         run: |
-          echo "Hello World!"
-            
-        
+          sudo /sbin/modprobe tun
+          sudo apt install openconnect
+
+      - name: Connect VPN
+        run: |
+          echo "${{ secrets.VPN_PASS }}" | sudo openconnect ${{ secrets.VPN_URL }} --background --user=${{ secrets.VPN_USER }} --passwd-on-stdin
+
+      - name: Deploy docker container on private server
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_URL }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASS }}
+          script: |
+            docker pull ${{ needs.build_pr_image.outputs.image_tag }}
+            docker ps --filter publish=$((9000 + ${{ github.event.number }}))
+            docker rm -f $(docker ps --filter publish=$((9000 + ${{ github.event.number }})) -aq)
+            docker run -d -p $((9000 + ${{ github.event.number }})):8080 --name "pr-preview-$((9000 + ${{ github
+            .event.number }}))" ${{ needs.build_pr_image.outputs.image_tag }}
+
+      - name: Disconnect VPN
+        if: ${{ always() }}
+        run: |
+          sudo pkill openconnect
+
+      - name: Get env url
+        id: get_env_url
+        run: |
+          ENV_URL="http://${{ secrets.SSH_URL }}:$((9000 + ${{ github.event.number }} ))"
+          echo ::set-output name=ENV_URL::"${ENV_URL}"
+
+      - name: Update deployment status - finish
+        uses: bobheadxi/deployments@v0.6.1
+        if: always()
+        with:
+          step: finish
+          token: ${{ github.token }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: ${{ steps.get_env_url.outputs.env_url }}
