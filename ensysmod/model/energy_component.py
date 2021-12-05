@@ -1,6 +1,6 @@
 import enum
 
-from sqlalchemy import Column, Integer, String, Boolean, DECIMAL, ForeignKey, Enum
+from sqlalchemy import Column, Integer, String, Boolean, DECIMAL, ForeignKey, Enum, UniqueConstraint, CheckConstraint
 
 from ensysmod.database.base_class import Base
 
@@ -49,3 +49,9 @@ class EnergyComponent(Base):
     economic_lifetime = Column(Integer, nullable=False, default=10)
 
     # constraint capacityVariableDomain
+
+    # table constraints
+    __table_args__ = (
+        UniqueConstraint("ref_dataset", "name", name="_commodity_name_dataset_uc"),
+    )
+

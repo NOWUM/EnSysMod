@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint
 
 from ensysmod.database.base_class import Base
 
@@ -11,4 +11,9 @@ class Region(Base):
     """
     id = Column(Integer, primary_key=True, index=True)
     ref_dataset = Column(Integer, ForeignKey("dataset.id"), index=True, nullable=False)
-    name = Column(String, unique=True, index=True, nullable=False)
+    name = Column(String, index=True, nullable=False)
+
+    # table constraints
+    __table_args__ = (
+        UniqueConstraint("ref_dataset", "name", name="_region_dataset_name_uc"),
+    )
