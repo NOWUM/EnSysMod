@@ -28,7 +28,6 @@ class EnergyComponentUpdate(EnergyComponentBase):
     pass
 
 
-# Additional properties to return via API
 class EnergyComponent(EnergyComponentBase):
     """
     Properties to return via API for an energy component.
