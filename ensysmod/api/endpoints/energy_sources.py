@@ -21,7 +21,8 @@ def all_energy_sources(db: Session = Depends(deps.get_db),
     return crud.energy_source.get_multi(db, skip, limit)
 
 
-@router.post("/", response_model=schemas.EnergySource)
+@router.post("/", response_model=schemas.EnergySource,
+             responses={409: {"description": "EnergySource with same name already exists."}})
 def create_source(request: schemas.EnergySourceCreate,
                   db: Session = Depends(deps.get_db),
                   current: model.User = Depends(deps.get_current_user)):

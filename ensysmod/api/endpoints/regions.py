@@ -35,7 +35,8 @@ def get_region(region_id: int,
     return crud.region.get(db, region_id)
 
 
-@router.post("/", response_model=schemas.Region)
+@router.post("/", response_model=schemas.Region,
+             responses={409: {"description": "Region with same name already exists."}})
 def create_region(request: schemas.RegionCreate,
                   db: Session = Depends(deps.get_db),
                   current: model.User = Depends(deps.get_current_user)):

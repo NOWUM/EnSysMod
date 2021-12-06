@@ -21,7 +21,8 @@ def all_energy_sinks(db: Session = Depends(deps.get_db),
     return crud.energy_sink.get_multi(db, skip, limit)
 
 
-@router.post("/", response_model=schemas.EnergySink)
+@router.post("/", response_model=schemas.EnergySink,
+             responses={409: {"description": "EnergySink with same name already exists."}})
 def create_sink(request: schemas.EnergySinkCreate,
                 db: Session = Depends(deps.get_db),
                 current: model.User = Depends(deps.get_current_user)):

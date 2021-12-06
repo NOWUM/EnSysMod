@@ -21,7 +21,8 @@ def all_energy_conversions(db: Session = Depends(deps.get_db),
     return crud.energy_conversion.get_multi(db, skip, limit)
 
 
-@router.post("/", response_model=schemas.EnergyConversion)
+@router.post("/", response_model=schemas.EnergyConversion,
+             responses={409: {"description": "EnergyConversion with same name already exists."}})
 def create_conversion(request: schemas.EnergyConversionCreate,
                       db: Session = Depends(deps.get_db),
                       current: model.User = Depends(deps.get_current_user)):

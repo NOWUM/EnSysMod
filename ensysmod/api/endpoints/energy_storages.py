@@ -21,7 +21,8 @@ def all_energy_storages(db: Session = Depends(deps.get_db),
     return crud.energy_storage.get_multi(db, skip, limit)
 
 
-@router.post("/", response_model=schemas.EnergyStorage)
+@router.post("/", response_model=schemas.EnergyStorage,
+             responses={409: {"description": "EnergyStorage with same name already exists."}})
 def create_storage(request: schemas.EnergyStorageCreate,
                    db: Session = Depends(deps.get_db),
                    current: model.User = Depends(deps.get_current_user)):

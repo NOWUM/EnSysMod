@@ -35,7 +35,8 @@ def get_commodity(commodity_id: int,
     return crud.energy_commodity.get(db, commodity_id)
 
 
-@router.post("/", response_model=schemas.EnergyCommodity)
+@router.post("/", response_model=schemas.EnergyCommodity,
+             responses={409: {"description": "EnergyCommodity with same name already exists."}})
 def create_commodity(request: schemas.EnergyCommodityCreate,
                      db: Session = Depends(deps.get_db),
                      current: model.User = Depends(deps.get_current_user)):

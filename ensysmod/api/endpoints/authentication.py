@@ -30,7 +30,8 @@ def login(
     return schemas.Token(access_token=token, token_type="bearer")
 
 
-@router.post("/register", response_model=schemas.User)
+@router.post("/register", response_model=schemas.User,
+             responses={409: {"description": "User with same name already exists."}})
 def register(
         request: schemas.UserCreate,
         db: Session = Depends(deps.get_db)
@@ -40,7 +41,7 @@ def register(
     """
     user = crud.user.get_by_username(db, username=request.username)
     if user:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
                             detail="User with that username already exists!")
 
     user = crud.user.create(db, obj_in=request)

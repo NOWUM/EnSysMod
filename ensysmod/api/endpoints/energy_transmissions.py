@@ -21,7 +21,8 @@ def all_energy_transmissions(db: Session = Depends(deps.get_db),
     return crud.energy_transmission.get_multi(db, skip, limit)
 
 
-@router.post("/", response_model=schemas.EnergyTransmission)
+@router.post("/", response_model=schemas.EnergyTransmission,
+             responses={409: {"description": "EnergyTransmission with same name already exists."}})
 def create_transmission(request: schemas.EnergyTransmissionCreate,
                         db: Session = Depends(deps.get_db),
                         current: model.User = Depends(deps.get_current_user)):

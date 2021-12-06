@@ -31,7 +31,8 @@ def get_dataset(dataset_id: int,
     return crud.dataset.get(db, dataset_id)
 
 
-@router.post("/", response_model=schemas.Dataset)
+@router.post("/", response_model=schemas.Dataset,
+             responses={409: {"description": "Dataset with same name already exists."}})
 def create_dataset(request: schemas.DatasetCreate,
                    db: Session = Depends(deps.get_db),
                    current: model.User = Depends(deps.get_current_user)):
@@ -69,4 +70,5 @@ def remove_dataset(dataset_id: int,
     Delete a dataset.
     """
     # TODO Check if user has permission for dataset
+    # TODO remove all components, commodities, regions, etc.
     return crud.dataset.remove(db=db, id=dataset_id)
