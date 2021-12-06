@@ -6,11 +6,11 @@ Usage
 Installation
 ------------
 
-To use the counter example, first install it using pip:
+See the `installation instructions on Github <https://github.com/NOWUM/EnSysMod#installation>`_.
 
-.. code-block:: console
 
-   (.venv) $ pip install counter
+
+
 
 
 
