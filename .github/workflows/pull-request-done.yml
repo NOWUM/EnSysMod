@@ -72,7 +72,7 @@ jobs:
           password: ${{ secrets.SSH_PASS }}
           script: |
             docker ps --filter publish=$((9000 + ${{ github.event.number }}))
-            docker rm -f $(docker ps --filter publish=$((9000 + ${{ github.event.number }})) -aq)
+            docker rm -f $(docker ps --filter publish=$((9000 + ${{ github.event.number }})) -aq) > /dev/null || true
 
       - name: Disconnect VPN
         if: ${{ always() }}
