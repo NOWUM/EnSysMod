@@ -187,7 +187,7 @@ jobs:
   deploy_pr:
     needs: [ build_pr_image ]
     runs-on: ubuntu-latest
-    concurrency: ssh-${{ secrets.SSH_URL }}-${{ secrets.SSH_USER }} # only one ssh connection at a time
+    concurrency: ssh-connection # only one ssh connection at a time
     name: "Deploy preview image"
     if: ${{ success() && github.actor != 'dependabot[bot]' }}
     steps:

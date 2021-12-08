@@ -221,7 +221,7 @@ jobs:
   deploy_dev:
     needs: [ build_dev_image ]
     runs-on: ubuntu-latest
-    concurrency: ssh-${{ secrets.SSH_URL }}-${{ secrets.SSH_USER }} # only one ssh connection at a time
+    concurrency: ssh-connection # only one ssh connection at a time
     name: "Deploy dev image"
     if: ${{ success() && github.actor != 'dependabot[bot]' }}
     steps:
