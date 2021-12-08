@@ -4,6 +4,9 @@ on:
   pull_request:
     types: [ opened, synchronize, reopened ]
 
+concurrency:
+  group: ${{ github.head_ref }}
+
 jobs:
   # Inspect the information that is accessible in each context
   # https://docs.github.com/en/actions/learn-github-actions/contexts#example-printing-context-information-to-the-log-file

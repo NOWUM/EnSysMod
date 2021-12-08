@@ -2,8 +2,12 @@ name: CI/CD Pull Requests Close
 
 on:
   pull_request:
-    types: [closed]
-  
+    types: [ closed ]
+
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   # Inspect the information that is accessible in each context
   # https://docs.github.com/en/actions/learn-github-actions/contexts#example-printing-context-information-to-the-log-file
@@ -74,7 +78,7 @@ jobs:
         if: ${{ always() }}
         run: |
           sudo pkill openconnect
-            
+
 
   create_release:
     runs-on: "ubuntu-latest"
