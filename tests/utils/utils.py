@@ -1,6 +1,6 @@
 import random
 import string
-from typing import Dict
+from typing import Dict, List
 
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
@@ -12,6 +12,10 @@ from ensysmod.schemas import UserCreate, UserUpdate
 
 def random_lower_string() -> str:
     return "".join(random.choices(string.ascii_lowercase, k=32))
+
+
+def random_float_numbers(size: int = 10) -> List[float]:
+    return [random.uniform(0, 1) for _ in range(size)]
 
 
 def user_authentication_headers(

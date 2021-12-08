@@ -11,7 +11,7 @@ from .energy_source import EnergySource
 from .energy_storage import EnergyStorage
 from .energy_transmission import EnergyTransmission
 from .region import Region
-from .ts_capacity import Capacity
-from .ts_consumption import Consumption
-from .ts_generation import Generation
+from .ts_capacity_max import CapacityMax
+from .ts_operation_rate_fix import OperationRateFix
+from .ts_operation_rate_max import OperationRateMax
 from .user import User
