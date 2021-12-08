@@ -38,6 +38,7 @@ jobs:
 
   preview_delete:
     runs-on: ubuntu-latest
+    concurrency: ssh-${{ secrets.SSH_URL }}-${{ secrets.SSH_USER }} # only one ssh connection at a time
     name: "Delete preview"
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
@@ -179,6 +180,7 @@ jobs:
   deploy_prod:
     needs: [ build_prod_image ]
     runs-on: ubuntu-latest
+    concurrency: ssh-${{ secrets.SSH_URL }}-${{ secrets.SSH_USER }} # only one ssh connection at a time
     name: "Deploy production image"
     if: ${{ success() && github.actor != 'dependabot[bot]' }}
     steps:
