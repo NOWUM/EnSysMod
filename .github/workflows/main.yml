@@ -234,7 +234,7 @@ jobs:
           env: Development
           no_override: false
           desc: "Development deployment for main branch"
-          ref: ${{ github.ref }}
+          ref: "main" # dev deployment of main branch
           transient: true
 
       - name: Install VPN
