@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     You can override the variables (and .env file) by environment variables.
     """
 
-    SERVER_NAME: str = "Counter local"
+    SERVER_NAME: str = "EnSysMod"
 
     # Secret key for hashing passwords
     SECRET_KEY: str = secrets.token_urlsafe(32)

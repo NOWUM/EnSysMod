@@ -5,7 +5,7 @@ Well a user is a user. I guess.
 
 Class description:
 
-.. automodule:: counter.model
+.. automodule:: ensysmod.model
 .. autoclass:: User
    :members:
    :member-order: bysource
