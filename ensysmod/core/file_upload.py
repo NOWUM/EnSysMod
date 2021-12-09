@@ -6,7 +6,7 @@ from zipfile import ZipFile
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
-from ensysmod.schemas import RegionCreate
+from ensysmod.schemas import RegionCreate, RegionUpdate
 
 
 def process_dataset_zip_archive(zip_archive: ZipFile, dataset_id: int, db: Session):
@@ -47,5 +47,11 @@ def process_region_file(region_file: TemporaryFile, dataset_id: int, db: Session
     for region in regions:
         existing_region = crud.region.get_by_dataset_and_name(db, dataset_id=dataset_id, name=region.name)
         if existing_region is not None:
+            print(f"Region {region.name} doesn't exists in dataset {dataset_id}. Creating...")
             region.ref_dataset = dataset_id
             crud.region.create(db, region=region)
+        else:
+            print(f"Region {region.name} already exists in database. Updating...")
+            update = RegionUpdate(**region.dict())
+            update.ref_dataset = dataset_id
+            crud.region.update(db, region_id=existing_region.id, region=update)
