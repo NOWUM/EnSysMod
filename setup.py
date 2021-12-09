@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import setuptools
+
 import ensysmod
 
 with open('requirements.txt') as file:
@@ -12,9 +13,9 @@ with open('README.md') as file:
 setuptools.setup(
     name='ensysmod',
     version=ensysmod.__version__,
-    author='v3lop5',
+    author='NOWUM-Energy - FH Aachen',
     # author_email='',
-    description='Default description for EnSysMod.',
+    description='Just another energy system modeling tool made by Institut NOWUM-Energy - FH Aachen',
     long_description=description,
     long_description_content_type="text/markdown",
     url='https://github.com/NOWUM/EnSysMod',
