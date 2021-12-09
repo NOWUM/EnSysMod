@@ -39,7 +39,7 @@ require_no_uncommitted_changes() {
 
 ### Retrieve current version for project
 get_current_version() {
-  version=$(grep -Po '(?<=__version__ = ")[^"]+' ./ensysmod/__init__.py)
+  version=$(sed -n '/^__version__/,//p' ./ensysmod/__init__.py | sed -e 's/__version__ = "\(.*\)"/\1/')
   echo "$version"
 }
 
