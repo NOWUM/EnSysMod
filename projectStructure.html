@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project structure &mdash; EnSysMod 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Endpoints of REST-API" href="endpoints.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> EnSysMod
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="endpoints.html">Endpoints of REST-API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Project structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#repository-structure">Repository structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-project-structure">Python project structure</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EnSysMod</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Project structure</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/NOWUM/ensysmod/blob/main/docs/source/projectStructure.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="project-structure">
+<h1>Project structure<a class="headerlink" href="#project-structure" title="Permalink to this headline"></a></h1>
+<p>This documentation should help developers understanding the project structure.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>project
+├── docs/
+│   └── source/
+├── project-name/
+│   ├── api/
+│   ├── core/
+│   ├── crud/
+│   ├── database/
+│   ├── model/
+│   ├── schemas/
+│   ├── main.py
+│   └── app.py
+├── scripts/
+├── tests/
+├── requirements.txt
+├── requirements-dev.txt
+├── setup.cfg
+└── setup.py
+</pre></div>
+</div>
+<section id="repository-structure">
+<h2>Repository structure<a class="headerlink" href="#repository-structure" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">docs/</span></code> contains everything needed for documentation. The subfolder <code class="docutils literal notranslate"><span class="pre">source/</span></code> contains <code class="docutils literal notranslate"><span class="pre">.rst</span></code> files containing the documentation. A rst-cheatsheet can be found here <a class="reference external" href="https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst">https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">project-name/</span></code> contains the actual python project.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scripts/</span></code> contains multiple scripts to install, test and run the project.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tests/</span></code> contains the pytest tests to test the python project.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> contains the required python dependencies in order to run the project in production mode.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">requirements-dev.txt</span></code> contains addition python dependencies for development.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> and <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> are some stuff needed for correct project setup.</p></li>
+</ul>
+</section>
+<section id="python-project-structure">
+<h2>Python project structure<a class="headerlink" href="#python-project-structure" title="Permalink to this headline"></a></h2>
+<p>The python project structure is based on the FastAPI postgresql example (<a class="reference external" href="https://github.com/tiangolo/full-stack-fastapi-postgresql">https://github.com/tiangolo/full-stack-fastapi-postgresql</a>).</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">api/</span></code> contains the endpoints of the REST-API.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">core/</span></code> contains multiple core functions of the project.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">crud/</span></code> represents the data query and data manipulation layer. It provides functions to query and manipulate the data in the database.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">database/</span></code> contains some stuff to get the database running.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model/</span></code> contains the database models. These Models will be converted to tables in the database.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">schemas/</span></code> contains some classes that represents the requests and responses of the REST-API.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="endpoints.html" class="btn btn-neutral float-left" title="Endpoints of REST-API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, NOWUM.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

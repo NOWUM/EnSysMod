@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTTP Routing Table &mdash; EnSysMod 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+ 
+
+    <script>
+      DOCUMENTATION_OPTIONS.COLLAPSE_INDEX = true;
+    </script>
+
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> EnSysMod
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="endpoints.html">Endpoints of REST-API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="projectStructure.html">Project structure</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EnSysMod</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>HTTP Routing Table</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+   <h1>HTTP Routing Table</h1>
+
+   <div class="modindex-jumpbox">
+   <a href="#cap-/auth"><strong>/auth</strong></a> | 
+   <a href="#cap-/commodities"><strong>/commodities</strong></a> | 
+   <a href="#cap-/conversions"><strong>/conversions</strong></a> | 
+   <a href="#cap-/datasets"><strong>/datasets</strong></a> | 
+   <a href="#cap-/fix-operation-rates"><strong>/fix-operation-rates</strong></a> | 
+   <a href="#cap-/max-capacities"><strong>/max-capacities</strong></a> | 
+   <a href="#cap-/max-operation-rates"><strong>/max-operation-rates</strong></a> | 
+   <a href="#cap-/regions"><strong>/regions</strong></a> | 
+   <a href="#cap-/sinks"><strong>/sinks</strong></a> | 
+   <a href="#cap-/sources"><strong>/sources</strong></a> | 
+   <a href="#cap-/storages"><strong>/storages</strong></a> | 
+   <a href="#cap-/transmissions"><strong>/transmissions</strong></a> | 
+   <a href="#cap-/users"><strong>/users</strong></a>
+   </div>
+
+   <table class="indextable modindextable">
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/auth"><td></td><td>
+       <strong>/auth</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--auth-test-token"><code class="xref">GET /auth/test-token</code></a></td><td>
+       <em>Test Token</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--auth-login"><code class="xref">POST /auth/login</code></a></td><td>
+       <em>Login</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--auth-register"><code class="xref">POST /auth/register</code></a></td><td>
+       <em>Register</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/commodities"><td></td><td>
+       <strong>/commodities</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--commodities-"><code class="xref">GET /commodities/</code></a></td><td>
+       <em>All Commodities</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--commodities-commodity_id"><code class="xref">GET /commodities/{commodity_id}</code></a></td><td>
+       <em>Get Commodity</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--commodities-"><code class="xref">POST /commodities/</code></a></td><td>
+       <em>Create Commodity</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#put--commodities-commodity_id"><code class="xref">PUT /commodities/{commodity_id}</code></a></td><td>
+       <em>Update Commodity</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--commodities-commodity_id"><code class="xref">DELETE /commodities/{commodity_id}</code></a></td><td>
+       <em>Remove Commodity</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/conversions"><td></td><td>
+       <strong>/conversions</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--conversions-"><code class="xref">GET /conversions/</code></a></td><td>
+       <em>All Energy Conversions</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--conversions-"><code class="xref">POST /conversions/</code></a></td><td>
+       <em>Create Conversion</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/datasets"><td></td><td>
+       <strong>/datasets</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--datasets-"><code class="xref">GET /datasets/</code></a></td><td>
+       <em>All Datasets</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--datasets-dataset_id"><code class="xref">GET /datasets/{dataset_id}</code></a></td><td>
+       <em>Get Dataset</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--datasets-"><code class="xref">POST /datasets/</code></a></td><td>
+       <em>Create Dataset</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#put--datasets-dataset_id"><code class="xref">PUT /datasets/{dataset_id}</code></a></td><td>
+       <em>Update Dataset</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--datasets-dataset_id"><code class="xref">DELETE /datasets/{dataset_id}</code></a></td><td>
+       <em>Remove Dataset</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/fix-operation-rates"><td></td><td>
+       <strong>/fix-operation-rates</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--fix-operation-rates-"><code class="xref">GET /fix-operation-rates/</code></a></td><td>
+       <em>All Fix Operation Rates</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--fix-operation-rates-ts_id"><code class="xref">GET /fix-operation-rates/{ts_id}</code></a></td><td>
+       <em>Get Operation Rate Fix</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--fix-operation-rates-"><code class="xref">POST /fix-operation-rates/</code></a></td><td>
+       <em>Create Operation Rate Fix</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#put--fix-operation-rates-ts_id"><code class="xref">PUT /fix-operation-rates/{ts_id}</code></a></td><td>
+       <em>Update Operation Rate Fix</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--fix-operation-rates-ts_id"><code class="xref">DELETE /fix-operation-rates/{ts_id}</code></a></td><td>
+       <em>Remove Operation Rate Fix</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/max-capacities"><td></td><td>
+       <strong>/max-capacities</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--max-capacities-"><code class="xref">GET /max-capacities/</code></a></td><td>
+       <em>All Max Capacities</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--max-capacities-ts_id"><code class="xref">GET /max-capacities/{ts_id}</code></a></td><td>
+       <em>Get Capacity Max</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--max-capacities-"><code class="xref">POST /max-capacities/</code></a></td><td>
+       <em>Create Capacity Max</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#put--max-capacities-ts_id"><code class="xref">PUT /max-capacities/{ts_id}</code></a></td><td>
+       <em>Update Capacity Max</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--max-capacities-ts_id"><code class="xref">DELETE /max-capacities/{ts_id}</code></a></td><td>
+       <em>Remove Capacity Max</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/max-operation-rates"><td></td><td>
+       <strong>/max-operation-rates</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--max-operation-rates-"><code class="xref">GET /max-operation-rates/</code></a></td><td>
+       <em>All Max Operation Rates</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--max-operation-rates-ts_id"><code class="xref">GET /max-operation-rates/{ts_id}</code></a></td><td>
+       <em>Get Operation Rate Max</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--max-operation-rates-"><code class="xref">POST /max-operation-rates/</code></a></td><td>
+       <em>Create Operation Rate Max</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#put--max-operation-rates-ts_id"><code class="xref">PUT /max-operation-rates/{ts_id}</code></a></td><td>
+       <em>Update Operation Rate Max</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--max-operation-rates-ts_id"><code class="xref">DELETE /max-operation-rates/{ts_id}</code></a></td><td>
+       <em>Remove Operation Rate Max</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/regions"><td></td><td>
+       <strong>/regions</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--regions-"><code class="xref">GET /regions/</code></a></td><td>
+       <em>All Regions</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--regions-region_id"><code class="xref">GET /regions/{region_id}</code></a></td><td>
+       <em>Get Region</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--regions-"><code class="xref">POST /regions/</code></a></td><td>
+       <em>Create Region</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#put--regions-region_id"><code class="xref">PUT /regions/{region_id}</code></a></td><td>
+       <em>Update Region</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--regions-region_id"><code class="xref">DELETE /regions/{region_id}</code></a></td><td>
+       <em>Remove Region</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/sinks"><td></td><td>
+       <strong>/sinks</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--sinks-"><code class="xref">GET /sinks/</code></a></td><td>
+       <em>All Energy Sinks</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--sinks-"><code class="xref">POST /sinks/</code></a></td><td>
+       <em>Create Sink</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/sources"><td></td><td>
+       <strong>/sources</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--sources-"><code class="xref">GET /sources/</code></a></td><td>
+       <em>All Energy Sources</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--sources-"><code class="xref">POST /sources/</code></a></td><td>
+       <em>Create Source</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/storages"><td></td><td>
+       <strong>/storages</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--storages-"><code class="xref">GET /storages/</code></a></td><td>
+       <em>All Energy Storages</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--storages-"><code class="xref">POST /storages/</code></a></td><td>
+       <em>Create Storage</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/transmissions"><td></td><td>
+       <strong>/transmissions</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--transmissions-"><code class="xref">GET /transmissions/</code></a></td><td>
+       <em>All Energy Transmissions</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--transmissions-"><code class="xref">POST /transmissions/</code></a></td><td>
+       <em>Create Transmission</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/users"><td></td><td>
+       <strong>/users</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--users-"><code class="xref">GET /users/</code></a></td><td>
+       <em>All Users</em></td></tr>
+   </table>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, NOWUM.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
