@@ -5,30 +5,15 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from ensysmod import crud
-from ensysmod.schemas import EnergyCommodityCreate, EnergyCommodity
-from tests.api.test_datasets import get_random_existing_dataset
-from tests.utils.utils import random_lower_string
-
-
-def get_random_energy_commodity_create(db: Session) -> EnergyCommodityCreate:
-    dataset = get_random_existing_dataset(db)
-    return EnergyCommodityCreate(name=f"EnergyCommodity-{dataset.id}-" + random_lower_string(),
-                                 ref_dataset=dataset.id,
-                                 description="EnergyCommodity description",
-                                 unit="kWh")
-
-
-def get_random_existing_energy_commodity(db: Session) -> EnergyCommodity:
-    create_request = get_random_energy_commodity_create(db)
-    return crud.energy_commodity.create(db=db, obj_in=create_request)
+from ensysmod.schemas import EnergyCommodityCreate
+from tests.utils import data_generator as data_gen
 
 
 def test_create_energy_commodity(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
     """
     Test creating a energy commodity.
     """
-    create_request = get_random_energy_commodity_create(db)
+    create_request = data_gen.random_energy_commodity_create(db)
     response = client.post("/commodities/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
@@ -43,7 +28,7 @@ def test_create_existing_energy_commodity(client: TestClient, normal_user_header
     """
     Test creating a existing energy commodity.
     """
-    existing_commodity = get_random_existing_energy_commodity(db)
+    existing_commodity = data_gen.random_existing_energy_commodity(db)
     create_request = EnergyCommodityCreate(**jsonable_encoder(existing_commodity))
     response = client.post("/commodities/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
@@ -53,7 +38,7 @@ def test_create_energy_commodity_unknown_dataset(client: TestClient, normal_user
     """
     Test creating a energy commodity.
     """
-    create_request = get_random_energy_commodity_create(db)
+    create_request = data_gen.random_energy_commodity_create(db)
     create_request.ref_dataset = 0  # ungültige Anfrage
     response = client.post("/commodities/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND

@@ -5,20 +5,9 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from ensysmod import crud
-from ensysmod.schemas import DatasetCreate, DatasetUpdate, Dataset
+from ensysmod.schemas import DatasetCreate, DatasetUpdate
+from tests.utils import data_generator as data_gen
 from tests.utils.utils import random_lower_string
-
-
-def get_random_dataset_create() -> DatasetCreate:
-    dataset_name = "DS " + random_lower_string()
-    dataset_description = "DS desc " + random_lower_string()
-    return DatasetCreate(name=dataset_name, description=dataset_description)
-
-
-def get_random_existing_dataset(db: Session) -> Dataset:
-    create_request = get_random_dataset_create()
-    return crud.dataset.create(db=db, obj_in=create_request)
 
 
 def test_create_dataset(client: TestClient, normal_user_headers: Dict[str, str]):
@@ -26,7 +15,7 @@ def test_create_dataset(client: TestClient, normal_user_headers: Dict[str, str])
     Test creating a dataset.
     """
     # Create a dataset
-    create_request = get_random_dataset_create()
+    create_request = data_gen.random_dataset_create()
 
     response = client.post(
         "/datasets/",
@@ -44,7 +33,7 @@ def test_create_existing_dataset(db: Session, client: TestClient, normal_user_he
     """
     Test creating an existing dataset.
     """
-    existing_dataset = get_random_existing_dataset(db)
+    existing_dataset = data_gen.random_existing_dataset(db)
     create_request = DatasetCreate(**jsonable_encoder(existing_dataset))
     response = client.post(
         "/datasets/",
@@ -58,7 +47,7 @@ def test_update_existing_dataset(db: Session, client: TestClient, normal_user_he
     """
     Test updating an existing dataset.
     """
-    existing_dataset = get_random_existing_dataset(db)
+    existing_dataset = data_gen.random_existing_dataset(db)
     update_request = DatasetUpdate(**jsonable_encoder(existing_dataset))
     new_description = random_lower_string()
     update_request.description = new_description
@@ -78,7 +67,7 @@ def test_delete_existing_dataset(db: Session, client: TestClient, normal_user_he
     """
     Test deleting an existing dataset.
     """
-    existing_dataset = get_random_existing_dataset(db)
+    existing_dataset = data_gen.random_existing_dataset(db)
     response = client.delete(
         f"/datasets/{existing_dataset.id}",
         headers=normal_user_headers
