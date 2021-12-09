@@ -191,7 +191,7 @@ jobs:
           env: Production
           no_override: false
           desc: "Production deployment for latest release"
-          ref: ${{ github.head_ref }}
+          ref: "v${{ needs.create_release.outputs.version }}" # tag of current release
           transient: true
 
       - name: Install VPN
