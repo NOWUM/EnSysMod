@@ -2,8 +2,12 @@ name: CI/CD Pull Requests Close
 
 on:
   pull_request:
-    types: [closed]
-  
+    types: [ closed ]
+
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   # Inspect the information that is accessible in each context
   # https://docs.github.com/en/actions/learn-github-actions/contexts#example-printing-context-information-to-the-log-file
@@ -38,6 +42,7 @@ jobs:
 
   preview_delete:
     runs-on: ubuntu-latest
+    concurrency: ssh-connection # only one ssh connection at a time
     name: "Delete preview"
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
@@ -67,13 +72,13 @@ jobs:
           password: ${{ secrets.SSH_PASS }}
           script: |
             docker ps --filter publish=$((9000 + ${{ github.event.number }}))
-            docker rm -f $(docker ps --filter publish=$((9000 + ${{ github.event.number }})) -aq)
+            docker rm -f $(docker ps --filter publish=$((9000 + ${{ github.event.number }})) -aq) > /dev/null || true
 
       - name: Disconnect VPN
         if: ${{ always() }}
         run: |
           sudo pkill openconnect
-            
+
 
   create_release:
     runs-on: "ubuntu-latest"
@@ -179,6 +184,7 @@ jobs:
   deploy_prod:
     needs: [ build_prod_image ]
     runs-on: ubuntu-latest
+    concurrency: ssh-connection # only one ssh connection at a time
     name: "Deploy production image"
     if: ${{ success() && github.actor != 'dependabot[bot]' }}
     steps:
