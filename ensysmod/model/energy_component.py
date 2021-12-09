@@ -9,6 +9,7 @@ class EnergyComponentType(enum.Enum):
     """
     Enum for the different types of energy components.
     """
+    UNDEFINED = 'UNDEFINED'  # Undefined component (should not be used)
     SOURCE = 'SOURCE'
     SINK = 'SINK'
     CONVERSION = 'CONVERSION'

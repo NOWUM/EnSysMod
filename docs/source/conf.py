@@ -30,8 +30,8 @@ sys.path.insert(0, pathlib.Path(__file__).parents[2].resolve().as_posix())
 # -- Project information -----------------------------------------------------
 
 project = 'EnSysMod'
-copyright = '2021, v3lop5'
-author = 'v3lop5'
+copyright = '2021, NOWUM'
+author = 'NOWUM'
 
 # The full version, including alpha/beta/rc tags
 release = ensysmod.__version__
@@ -55,7 +55,7 @@ extensions = [
 # configure for edit_on_github-Button
 html_context = {
     'display_github': True,
-    'github_user': 'v3lop5',
+    'github_user': 'NOWUM',
     'github_repo': 'ensysmod',
     'github_version': 'main/docs/source/',
 }

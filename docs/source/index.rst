@@ -25,6 +25,4 @@ Indices and tables
 
    usage
    endpoints
-   modelUser
-   api
    projectStructure

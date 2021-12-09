@@ -25,7 +25,6 @@ def test_create_max_capacity(client: TestClient, normal_user_headers: Dict[str, 
     """
     create_request = get_random_max_capacity_create(db)
     response = client.post("/max-capacities/", headers=normal_user_headers, data=create_request.json())
-    print(response.text)
     assert response.status_code == status.HTTP_200_OK
 
     created_ts = response.json()

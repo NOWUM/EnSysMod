@@ -25,7 +25,6 @@ def test_create_fix_operation_rate(client: TestClient, normal_user_headers: Dict
     """
     create_request = get_random_fix_operation_rate_create(db)
     response = client.post("/fix-operation-rates/", headers=normal_user_headers, data=create_request.json())
-    print(response.text)
     assert response.status_code == status.HTTP_200_OK
 
     created_ts = response.json()
