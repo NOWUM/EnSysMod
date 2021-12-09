@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from sqlalchemy.orm import Session
 
 from ensysmod import schemas, model, crud
@@ -72,3 +72,20 @@ def remove_dataset(dataset_id: int,
     # TODO Check if user has permission for dataset
     # TODO remove all components, commodities, regions, etc.
     return crud.dataset.remove(db=db, id=dataset_id)
+
+
+@router.post("/{dataset_id}/upload")
+def upload_zip_archive(dataset_id: int,
+                       file: UploadFile = File(...),
+                       db: Session = Depends(deps.get_db),
+                       current: model.User = Depends(deps.get_current_user)):
+    if file.content_type != "application/zip":
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="File must be a zip archive.")
+
+    # TODO Check if user has permission for dataset
+
+    archive = file.file.read()
+
+
+
+
