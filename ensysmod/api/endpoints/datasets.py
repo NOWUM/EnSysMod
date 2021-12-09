@@ -1,3 +1,5 @@
+import zipfile
+from io import BytesIO
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
@@ -5,6 +7,7 @@ from sqlalchemy.orm import Session
 
 from ensysmod import schemas, model, crud
 from ensysmod.api import deps
+from ensysmod.core.file_upload import process_dataset_zip_archive
 
 router = APIRouter()
 
@@ -85,8 +88,5 @@ def upload_zip_archive(dataset_id: int,
 
     # TODO Check if user has permission for dataset
 
-    archive = file.file.read()
-
-
-
-
+    with zipfile.ZipFile(BytesIO(file.file.read()), 'r') as zip_archive:
+        process_dataset_zip_archive(zip_archive, dataset_id, db)
