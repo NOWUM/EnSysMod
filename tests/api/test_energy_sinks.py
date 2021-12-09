@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from ensysmod.model import EnergyComponentType
 from tests.utils import data_generator as data_gen
+from tests.utils.assertions import assert_energy_component
 
 
 def test_create_energy_sink(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
@@ -17,9 +18,7 @@ def test_create_energy_sink(client: TestClient, normal_user_headers: Dict[str, s
     assert response.status_code == status.HTTP_200_OK
 
     created_sinks = response.json()
-    assert created_sinks["component"]["name"] == create_request.name
-    assert created_sinks["component"]["description"] == create_request.description
-    assert created_sinks["component"]["type"] == EnergyComponentType.SINK.value
+    assert_energy_component(created_sinks["component"], create_request, EnergyComponentType.SINK)
     assert created_sinks["commodity"]["name"] == create_request.commodity
 
 

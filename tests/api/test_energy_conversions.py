@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from ensysmod.model import EnergyComponentType
 from tests.utils import data_generator as data_gen
+from tests.utils.assertions import assert_energy_component
 
 
 def test_create_energy_conversion(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
@@ -17,9 +18,7 @@ def test_create_energy_conversion(client: TestClient, normal_user_headers: Dict[
     assert response.status_code == status.HTTP_200_OK
 
     created_conversion = response.json()
-    assert created_conversion["component"]["name"] == create_request.name
-    assert created_conversion["component"]["description"] == create_request.description
-    assert created_conversion["component"]["type"] == EnergyComponentType.CONVERSION.value
+    assert_energy_component(created_conversion["component"], create_request, EnergyComponentType.CONVERSION)
     assert created_conversion["commodity_unit"]["name"] == create_request.commodity_unit
 
 
