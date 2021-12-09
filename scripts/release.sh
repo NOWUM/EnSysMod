@@ -8,17 +8,19 @@ declare -a BUMP_OPTIONS=("major" "minor" "patch")
 increment_version() {
   local delimiter="."
   local array=($(echo "$1" | tr $delimiter '\n'))
-  array[$2]=$((array[$2]+1))
+  array[$2]=$((array[$2] + 1))
   if [ "$2" -lt 2 ]; then array[2]=0; fi
   if [ "$2" -lt 1 ]; then array[1]=0; fi
-  echo "$(local IFS=$delimiter; echo "${array[*]}")"
+  echo "$(
+    local IFS=$delimiter
+    echo "${array[*]}"
+  )"
 }
 
 ### Require main branch
 require_main_branch() {
   branch="$(git rev-parse --abbrev-ref HEAD)"
-  if [[ "$branch" != "main" ]]
-  then
+  if [[ "$branch" != "main" ]]; then
     echo "ERR: Please switch to main branch in order to run this script."
     exit 10
   else
@@ -27,8 +29,7 @@ require_main_branch() {
 }
 ### Require no uncommitted changes
 require_no_uncommitted_changes() {
-  if ! git diff-index --quiet HEAD --
-  then
+  if ! git diff-index --quiet HEAD --; then
     echo "ERR: Found uncommitted changes. Commit them in order to run this script."
     exit 11
   else
@@ -38,7 +39,7 @@ require_no_uncommitted_changes() {
 
 ### Retrieve current version for project
 get_current_version() {
-  version=$(grep -Po '(?<=__version__ = ")[^"]+' ./ensysmod/__init__.py)
+  version=$(sed -n '/^__version__/,//p' ./ensysmod/__init__.py | sed -e 's/__version__ = "\(.*\)"/\1/')
   echo "$version"
 }
 
@@ -53,25 +54,24 @@ update_version() {
 ## $1: bump option as string
 get_bump_option() {
   index=-1
-  for i in "${!BUMP_OPTIONS[@]}";
-  do
-      if [[ "${BUMP_OPTIONS[$i]}" = "$1" ]];
-      then
-          index=$i
-          break
-      fi
+  for i in "${!BUMP_OPTIONS[@]}"; do
+    if [[ "${BUMP_OPTIONS[$i]}" == "$1" ]]; then
+      index=$i
+      break
+    fi
   done
 
   echo "$index"
 }
 
-
 ### Main Script
-cd "$(git rev-parse --show-toplevel)" || (echo "Couldn't find project folder. Please check your working dir."; exit 1)
+cd "$(git rev-parse --show-toplevel)" || (
+  echo "Couldn't find project folder. Please check your working dir."
+  exit 1
+)
 
 BUMP=$(get_bump_option "$1")
-if [[ "$BUMP" == -1 ]];
-then
+if [[ "$BUMP" == -1 ]]; then
   echo "ERR: Please specify a correct bump option. Use$(printf " %s" "${BUMP_OPTIONS[@]}") as first parameter."
   exit 12
 fi
