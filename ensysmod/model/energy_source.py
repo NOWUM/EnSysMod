@@ -1,10 +1,18 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, ForeignKey
+from sqlalchemy.orm import relationship
 
 from ensysmod.database.base_class import Base
 
 
 class EnergySource(Base):
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, unique=True, index=True, nullable=False)
-    description = Column(String, nullable=True)
-    # Wirkungsgrad in %
+    """
+    EnergySource table definition
+
+    See https://vsa-fine.readthedocs.io/en/latest/sourceSinkClassDoc.html
+    """
+    ref_component = Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False, primary_key=True)
+    ref_commodity = Column(Integer, ForeignKey("energy_commodity.id"), index=True, nullable=False)
+
+    # Relationships
+    component = relationship("EnergyComponent")
+    commodity = relationship("EnergyCommodity", back_populates="energy_sources")

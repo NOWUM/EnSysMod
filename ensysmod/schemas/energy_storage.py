@@ -2,36 +2,38 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from ensysmod.model import EnergyComponentType
+from ensysmod.schemas import EnergyComponentCreate, EnergyComponent, EnergyComponentUpdate, EnergyCommodity
 
-# Shared properties
+
 class EnergyStorageBase(BaseModel):
-    name: Optional[str] = None
+    """
+    Shared properties for an energy storage. Used as a base class for all schemas.
+    """
+    commodity: str
+    type = EnergyComponentType.STORAGE
 
 
-# Properties to receive via API on creation
-class EnergyStorageCreate(EnergyStorageBase):
-    name: str
-    description: Optional[str] = None
-
-
-# Properties to receive via API on update
-class EnergyStorageUpdate(EnergyStorageBase):
-    name: Optional[str] = None
-    description: Optional[str] = None
-
-
-class EnergyStorageInDBBase(EnergyStorageBase):
-    id: Optional[int] = None
-
-    class Config:
-        orm_mode = True
-
-
-# Additional properties to return via API
-class EnergyStorage(EnergyStorageInDBBase):
+class EnergyStorageCreate(EnergyStorageBase, EnergyComponentCreate):
+    """
+    Properties to receive via API on creation of an energy storage.
+    """
     pass
 
 
-# Additional properties stored in DB
-class EnergyStorageInDB(EnergyStorageInDBBase):
-    description: Optional[str] = None
+class EnergyStorageUpdate(EnergyStorageBase, EnergyComponentUpdate):
+    """
+    Properties to receive via API on update of an energy storage.
+    """
+    commodity: Optional[str] = None
+
+
+class EnergyStorage(EnergyStorageBase):
+    """
+    Properties to return via API for an energy storage.
+    """
+    component: EnergyComponent
+    commodity: EnergyCommodity
+
+    class Config:
+        orm_mode = True

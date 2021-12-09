@@ -30,7 +30,7 @@ def test_register_twice_endpoint(client: TestClient):
     assert new_user['username'] == payload['username']
 
     r2 = client.post("/auth/register", json=payload)
-    assert r2.status_code == status.HTTP_400_BAD_REQUEST
+    assert r2.status_code == status.HTTP_409_CONFLICT
 
 
 def test_login_endpoint(client: TestClient, db: Session):

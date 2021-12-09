@@ -2,36 +2,36 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from ensysmod.schemas import Dataset
 
-# Shared properties
+
 class RegionBase(BaseModel):
-    name: Optional[str] = None
-
-
-# Properties to receive via API on creation
-class RegionCreate(RegionBase):
+    """
+    Shared properties for a region. Used as a base class for all schemas.
+    """
     name: str
-    parent_region: Optional[str] = None
 
 
-# Properties to receive via API on update
+class RegionCreate(RegionBase):
+    """
+    Properties to receive via API on creation of a region.
+    """
+    ref_dataset: int
+
+
 class RegionUpdate(RegionBase):
+    """
+    Properties to receive via API on update of a region.
+    """
     name: Optional[str] = None
-    parent_Region: Optional[str] = None
 
 
-class RegionInDBBase(RegionBase):
-    id: Optional[int] = None
+class Region(RegionBase):
+    """
+    Properties to return via API for a region.
+    """
+    id: int
+    dataset: Dataset
 
     class Config:
         orm_mode = True
-
-
-# Additional properties to return via API
-class Region(RegionInDBBase):
-    pass
-
-
-# Additional properties stored in DB
-class RegionInDB(RegionInDBBase):
-    parent_region: Optional[str] = None
