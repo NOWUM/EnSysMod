@@ -79,7 +79,8 @@ def upload_zip_archive(dataset_id: int,
                        file: UploadFile = File(...),
                        db: Session = Depends(deps.get_db),
                        current: model.User = Depends(deps.get_current_user)):
-    if file.content_type != "application/zip":
+    print(file.content_type)
+    if file.content_type != "application/x-zip-compressed":
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="File must be a zip archive.")
 
     # TODO Check if user has permission for dataset
