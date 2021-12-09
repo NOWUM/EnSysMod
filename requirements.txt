@@ -2,7 +2,7 @@
 
 fastapi~=0.70.0
 sqlalchemy~=1.4.27
-uvicorn~=0.15.0
+uvicorn~=0.16.0
 pydantic~=1.8.2
 pydantic[dotenv]
 
