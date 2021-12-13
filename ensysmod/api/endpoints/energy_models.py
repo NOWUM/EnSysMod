@@ -11,10 +11,10 @@ router = APIRouter()
 
 @router.get("/", response_model=List[schemas.EnergyModel])
 def all_models(db: Session = Depends(deps.get_db),
-                    current: model.User = Depends(deps.get_current_user),
-                    skip: int = 0,
-                    limit: int = 100,
-                    dataset: Union[None, int] = None) -> List[schemas.EnergyModel]:
+               current: model.User = Depends(deps.get_current_user),
+               skip: int = 0,
+               limit: int = 100,
+               dataset: Union[None, int] = None) -> List[schemas.EnergyModel]:
     """
     Retrieve all energy models.
     """
@@ -26,8 +26,8 @@ def all_models(db: Session = Depends(deps.get_db),
 
 @router.get("/{model_id}", response_model=schemas.EnergyModel)
 def get_model(model_id: int,
-                  db: Session = Depends(deps.get_db),
-                  current: model.User = Depends(deps.get_current_user)):
+              db: Session = Depends(deps.get_db),
+              current: model.User = Depends(deps.get_current_user)):
     """
     Retrieve a energy model.
     """
@@ -38,8 +38,8 @@ def get_model(model_id: int,
 @router.post("/", response_model=schemas.EnergyModel,
              responses={409: {"description": "EnergyModel with same name already exists."}})
 def create_model(request: schemas.EnergyModelCreate,
-                     db: Session = Depends(deps.get_db),
-                     current: model.User = Depends(deps.get_current_user)):
+                 db: Session = Depends(deps.get_db),
+                 current: model.User = Depends(deps.get_current_user)):
     """
     Create a new energy model.
     """
@@ -59,9 +59,9 @@ def create_model(request: schemas.EnergyModelCreate,
 
 @router.put("/{model_id}", response_model=schemas.EnergyModel)
 def update_model(model_id: int,
-                     request: schemas.EnergyModelUpdate,
-                     db: Session = Depends(deps.get_db),
-                     current: model.User = Depends(deps.get_current_user)):
+                 request: schemas.EnergyModelUpdate,
+                 db: Session = Depends(deps.get_db),
+                 current: model.User = Depends(deps.get_current_user)):
     """
     Update a energy model.
     """
@@ -74,8 +74,8 @@ def update_model(model_id: int,
 
 @router.delete("/{model_id}", response_model=schemas.EnergyModel)
 def remove_model(model_id: int,
-                     db: Session = Depends(deps.get_db),
-                     current: model.User = Depends(deps.get_current_user)):
+                 db: Session = Depends(deps.get_db),
+                 current: model.User = Depends(deps.get_current_user)):
     """
     Delete a energy model.
     """

@@ -10,3 +10,4 @@ from .energy_storages import random_existing_energy_storage, fixed_existing_ener
 from .energy_transmissions import random_existing_energy_transmission, fixed_existing_energy_transmission, \
     random_energy_transmission_create
 from .regions import random_existing_region, fixed_existing_region, random_region_create
+from .energy_models import random_energy_model_create, random_existing_energy_model
