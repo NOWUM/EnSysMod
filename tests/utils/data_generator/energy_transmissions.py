@@ -17,6 +17,7 @@ def random_energy_transmission_create(db: Session) -> EnergyTransmissionCreate:
         name=f"EnergyTransmission-{dataset.id}-{random_lower_string()}",
         description="Description",
         commodity=commodity.name,
+        loss_per_unit=0.000001,
     )
 
 

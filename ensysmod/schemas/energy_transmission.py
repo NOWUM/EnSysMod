@@ -12,6 +12,7 @@ class EnergyTransmissionBase(BaseModel):
     """
     commodity: str
     type = EnergyComponentType.TRANSMISSION
+    loss_per_unit: Optional[float] = None
 
 
 class EnergyTransmissionCreate(EnergyTransmissionBase, EnergyComponentCreate):
