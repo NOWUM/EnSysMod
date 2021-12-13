@@ -5,6 +5,7 @@ from .dataset import dataset
 from .energy_commodity import energy_commodity
 from .energy_component import energy_component
 from .energy_conversion import energy_conversion
+from .energy_conversion_factor import energy_conversion_factor
 from .energy_sink import energy_sink
 from .energy_source import energy_source
 from .energy_storage import energy_storage

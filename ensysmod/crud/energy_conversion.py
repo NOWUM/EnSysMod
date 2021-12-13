@@ -24,6 +24,7 @@ class CRUDEnergyConversion(CRUDBase[EnergyConversion, EnergyConversionCreate, En
         component = crud.energy_component.create(db, obj_in=obj_in)
         commodity = crud.energy_commodity.get_by_dataset_and_name(db, name=obj_in.commodity_unit,
                                                                   dataset_id=obj_in.ref_dataset)
+
         db_obj = EnergyConversion(
             ref_component=component.id,
             ref_commodity_unit=commodity.id,
@@ -31,6 +32,14 @@ class CRUDEnergyConversion(CRUDBase[EnergyConversion, EnergyConversionCreate, En
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
+
+        # save energy conversion factors
+        for factor_create in obj_in.conversion_factors:
+            factor_create.ref_dataset = obj_in.ref_dataset
+            factor_create.ref_component = component.id
+            print(factor_create)
+            crud.energy_conversion_factor.create(db, obj_in=factor_create)
+
         return db_obj
 
     def remove(self, db: Session, *, id: int) -> EnergyConversion:

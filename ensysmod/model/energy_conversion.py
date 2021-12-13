@@ -18,3 +18,4 @@ class EnergyConversion(Base):
     # Relationships
     component = relationship("EnergyComponent")
     commodity_unit = relationship("EnergyCommodity", back_populates="energy_conversions")
+    conversion_factors = relationship("EnergyConversionFactor", back_populates="conversion")

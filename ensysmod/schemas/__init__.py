@@ -4,6 +4,7 @@ This package contains every model that is returned from the Rest-API.
 from .dataset import Dataset, DatasetCreate, DatasetUpdate
 from .energy_commodity import EnergyCommodity, EnergyCommodityCreate, EnergyCommodityUpdate
 from .energy_component import EnergyComponent, EnergyComponentCreate, EnergyComponentUpdate
+from .energy_conversion_factor import EnergyConversionFactor, EnergyConversionFactorCreate, EnergyConversionFactorUpdate
 from .energy_conversion import EnergyConversion, EnergyConversionCreate, EnergyConversionUpdate
 from .energy_sink import EnergySink, EnergySinkCreate, EnergySinkUpdate
 from .energy_source import EnergySource, EnergySourceCreate, EnergySourceUpdate
