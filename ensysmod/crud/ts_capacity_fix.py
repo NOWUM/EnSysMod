@@ -18,9 +18,11 @@ class CRUDCapacityFix(CRUDBase[CapacityFix, CapacityFixCreate, CapacityFixUpdate
             .filter(CapacityFix.ref_component == component_id) \
             .all()
 
-    def get_by_component_and_region(self, db: Session, *, component_id: int, region_id: int) -> Optional[CapacityFix]:
+    def get_by_component_and_region(self, db: Session, *, component_id: int, region_id: int,
+                                    region_to: Optional[int] = None) -> Optional[CapacityFix]:
         return db.query(CapacityFix) \
             .filter(CapacityFix.ref_component == component_id and CapacityFix.ref_region == region_id) \
+            .filter(region_to is None or CapacityFix.ref_region_to == region_to) \
             .first()
 
 
