@@ -17,6 +17,7 @@ def random_energy_source_create(db: Session) -> EnergySourceCreate:
         name=f"EnergySource-{dataset.id}-{random_lower_string()}",
         description="Description",
         commodity=commodity.name,
+        commodity_cost=42.3
     )
 
 
