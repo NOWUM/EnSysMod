@@ -32,7 +32,7 @@ def get_model(model_id: int,
     Retrieve a energy model.
     """
     # TODO Check if user has permission for dataset and model
-    return crud.energy_model.get(db, model_id)
+    return crud.energy_model.get(db, id=model_id)
 
 
 @router.post("/", response_model=schemas.EnergyModel,

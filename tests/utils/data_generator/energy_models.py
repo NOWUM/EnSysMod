@@ -15,7 +15,8 @@ def random_energy_model_create(db: Session) -> EnergyModelCreate:
     return EnergyModelCreate(name=f"EnergyModel-{dataset.id}-" + random_lower_string(),
                              ref_dataset=dataset.id,
                              description="EnergyModel description",
-                             yearly_co2_limit=10)
+                             yearly_co2_limit=10.7
+                             )
 
 
 def random_existing_energy_model(db: Session) -> EnergyModel:
