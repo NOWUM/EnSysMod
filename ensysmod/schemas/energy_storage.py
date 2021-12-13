@@ -13,6 +13,15 @@ class EnergyStorageBase(BaseModel):
     commodity: str
     type = EnergyComponentType.STORAGE
 
+    charge_efficiency: Optional[float] = None
+    discharge_efficiency: Optional[float] = None
+    self_discharge: Optional[float] = None
+    cyclic_lifetime: Optional[int] = None
+    charge_rate: Optional[float] = None
+    discharge_rate: Optional[float] = None
+    state_of_charge_min: Optional[float] = None
+    state_of_charge_max: Optional[float] = None
+
 
 class EnergyStorageCreate(EnergyStorageBase, EnergyComponentCreate):
     """
