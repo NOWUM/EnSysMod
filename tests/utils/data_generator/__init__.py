@@ -7,6 +7,6 @@ from .energy_sinks import random_existing_energy_sink, fixed_existing_energy_sin
 from .energy_sources import random_existing_energy_source, fixed_existing_energy_source, random_energy_source_create
 from .energy_storages import random_existing_energy_storage, fixed_existing_energy_storage, \
     random_energy_storage_create
+from .regions import random_existing_region, fixed_existing_region, random_region_create
 from .energy_transmissions import random_existing_energy_transmission, fixed_existing_energy_transmission, \
     random_energy_transmission_create
-from .regions import random_existing_region, fixed_existing_region, random_region_create

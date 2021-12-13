@@ -10,6 +10,7 @@ from .energy_sink import EnergySink
 from .energy_source import EnergySource
 from .energy_storage import EnergyStorage
 from .energy_transmission import EnergyTransmission
+from .energy_transmission_distance import EnergyTransmissionDistance
 from .region import Region
 from .ts_capacity_fix import CapacityFix
 from .ts_capacity_max import CapacityMax

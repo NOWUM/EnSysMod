@@ -3,8 +3,9 @@ from typing import Optional, List
 from pydantic import BaseModel
 
 from ensysmod.model import EnergyComponentType
-from ensysmod.schemas import EnergyComponentCreate, EnergyComponent, EnergyComponentUpdate, EnergyCommodity, \
-    EnergyConversionFactor, EnergyConversionFactorCreate
+from ensysmod.schemas.energy_component import EnergyComponentCreate, EnergyComponent, EnergyComponentUpdate
+from ensysmod.schemas.energy_commodity import EnergyCommodity
+from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactorCreate, EnergyConversionFactor
 
 
 class EnergyConversionBase(BaseModel):

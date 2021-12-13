@@ -18,3 +18,5 @@ class EnergyTransmission(Base):
     # Relationships
     component = relationship("EnergyComponent")
     commodity = relationship("EnergyCommodity", back_populates="energy_transmissions")
+
+    distances = relationship("EnergyTransmissionDistance", back_populates="transmission")

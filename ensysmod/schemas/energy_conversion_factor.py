@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from ensysmod.schemas import EnergyCommodity
+from ensysmod.schemas.energy_commodity import EnergyCommodity
 
 
 class EnergyConversionFactorBase(BaseModel):
