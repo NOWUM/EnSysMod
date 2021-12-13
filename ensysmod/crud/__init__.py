@@ -10,6 +10,7 @@ from .energy_source import energy_source
 from .energy_storage import energy_storage
 from .energy_transmission import energy_transmission
 from .region import region
+from .ts_capacity_fix import capacity_fix
 from .ts_capacity_max import capacity_max
 from .ts_operation_rate_max import operation_rate_max
 from .ts_operation_rate_fix import operation_rate_fix

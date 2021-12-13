@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from .endpoints import users, authentication, energy_sources, datasets, energy_commodities, energy_sinks, \
     energy_storages, energy_transmissions, energy_conversions, regions, ts_capacity_max, ts_operation_rate_fix, \
-    ts_operation_rate_max
+    ts_operation_rate_max, ts_capacity_fix
 
 api_router = APIRouter()
 api_router.include_router(authentication.router, prefix="/auth", tags=["Authentication"])
@@ -16,6 +16,7 @@ api_router.include_router(energy_sources.router, prefix="/sources", tags=["Energ
 api_router.include_router(energy_storages.router, prefix="/storages", tags=["Energy Storages"])
 api_router.include_router(energy_transmissions.router, prefix="/transmissions", tags=["Energy Transmissions"])
 
+api_router.include_router(ts_capacity_fix.router, prefix="/fix-capacities", tags=["TS Capacities Fix"])
 api_router.include_router(ts_capacity_max.router, prefix="/max-capacities", tags=["TS Capacities Max"])
 api_router.include_router(ts_operation_rate_fix.router, prefix="/fix-operation-rates", tags=["TS Operation Rates Fix"])
 api_router.include_router(ts_operation_rate_max.router, prefix="/max-operation-rates", tags=["TS Operation Rates Max"])

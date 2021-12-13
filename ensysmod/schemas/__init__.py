@@ -11,6 +11,7 @@ from .energy_storage import EnergyStorage, EnergyStorageCreate, EnergyStorageUpd
 from .energy_transmission import EnergyTransmission, EnergyTransmissionCreate, EnergyTransmissionUpdate
 from .region import Region, RegionCreate, RegionUpdate
 from .token import Token, TokenPayload
+from .ts_capacity_fix import CapacityFix, CapacityFixCreate, CapacityFixUpdate
 from .ts_capacity_max import CapacityMax, CapacityMaxCreate, CapacityMaxUpdate
 from .ts_operation_rate_fix import OperationRateFix, OperationRateFixCreate, OperationRateFixUpdate
 from .ts_operation_rate_max import OperationRateMax, OperationRateMaxCreate, OperationRateMaxUpdate
