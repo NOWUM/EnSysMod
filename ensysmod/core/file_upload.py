@@ -1,9 +1,8 @@
 import json
 from tempfile import TemporaryFile
-from typing import List
+from typing import List, Dict
 from zipfile import ZipFile
 
-from pydantic.json import Dict
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
@@ -39,6 +38,8 @@ def process_dataset_zip_archive(zip_archive: ZipFile, dataset_id: int, db: Sessi
     # process region.json
     region_file = zip_archive.open("regions.json")
     process_regions_file(region_file, dataset_id, db)
+
+    # process commodities.json
     commodity_file = zip_archive.open("commodities.json")
     process_commodities_file(commodity_file, dataset_id, db)
 
@@ -49,17 +50,17 @@ def process_dataset_zip_archive(zip_archive: ZipFile, dataset_id: int, db: Sessi
 
 def process_regions_file(regions_file: TemporaryFile, dataset_id: int, db: Session):
     """
-        Processes a region file and adds the regions to the dataset in database.
+    Processes a region file and adds the regions to the dataset in database.
 
-        :param regions_file: File to process
-        :param dataset_id: ID of the dataset to add the regions to
-        :param db: Database session
-        """
+    :param regions_file: File to process
+    :param dataset_id: ID of the dataset to add the regions to
+    :param db: Database session
+    """
 
     def map_region(json_dict: Dict) -> RegionCreate:
         """
-            Maps a json dict to a RegionCreate object.
-            """
+        Maps a json dict to a RegionCreate object.
+        """
         json_dict["ref_dataset"] = dataset_id
         return RegionCreate.parse_obj(json_dict)
 
@@ -78,29 +79,29 @@ def process_regions_file(regions_file: TemporaryFile, dataset_id: int, db: Sessi
 
 def process_commodities_file(commodities_file: TemporaryFile, dataset_id: int, db: Session):
     """
-            Processes a commodities file and adds the commodities to the dataset in database.
+    Processes a commodities file and adds the commodities to the dataset in database.
 
-            :param commodities_file: File to process
-            :param dataset_id: ID of the dataset to add the regions to
-            :param db: Database session
-            """
+    :param commodities_file: File to process
+    :param dataset_id: ID of the dataset to add the regions to
+    :param db: Database session
+    """
 
-    def map_commodities(json_dict: Dict) -> EnergyCommodityCreate:
+    def map_commodity(json_dict: Dict) -> EnergyCommodityCreate:
         """
-            Maps a json dict to a EnergyCommodityCreate object.
-            """
+        Maps a json dict to a EnergyCommodityCreate object.
+        """
         json_dict["ref_dataset"] = dataset_id
         return EnergyCommodityCreate.parse_obj(json_dict)
 
     commodities: List[EnergyCommodityCreate] = json.load(commodities_file,
-                                                         object_hook=lambda d: map_commodities(d))
+                                                         object_hook=lambda d: map_commodity(d))
     for commodity in commodities:
-        existing_commodities = crud.energy_commodity.get_by_dataset_and_name(db, dataset_id=dataset_id,
-                                                                             name=commodity.name)
-        if existing_commodities is None:
+        existing_commodity = crud.energy_commodity.get_by_dataset_and_name(db, dataset_id=dataset_id,
+                                                                           name=commodity.name)
+        if existing_commodity is None:
             print(f"Commodity {commodity.name} doesn't exists in dataset {dataset_id}. Creating...")
             crud.energy_commodity.create(db, obj_in=commodity)
         else:
             print(f"Commodity {commodity.name} already exists in database. Updating...")
             update = EnergyCommodityUpdate(**commodity.dict())
-            crud.energy_commodity.update(db, obj_in=update, db_obj=existing_commodities)
+            crud.energy_commodity.update(db, obj_in=update, db_obj=existing_commodity)
