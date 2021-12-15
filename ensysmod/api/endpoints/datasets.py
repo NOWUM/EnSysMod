@@ -82,13 +82,13 @@ def upload_zip_archive(dataset_id: int,
                        file: UploadFile = File(...),
                        db: Session = Depends(deps.get_db),
                        current: model.User = Depends(deps.get_current_user)):
-    print(file.content_type)
-    if file.content_type != "application/x-zip-compressed":
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="File must be a zip archive.")
+    if file.content_type not in ["application/x-zip-compressed", "application/zip", "application/zip-compressed"]:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail=f"File must be a zip archive. You provided {file.content_type}!")
 
-    # dataset = crud.dataset.get(db=db, id=dataset_id)
-    # if dataset is None:
-    #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {dataset_id} not found!")
+    dataset = crud.dataset.get(db=db, id=dataset_id)
+    if dataset is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {dataset_id} not found!")
 
     # TODO Check if user has permission for dataset
 
