@@ -86,9 +86,9 @@ def upload_zip_archive(dataset_id: int,
     if file.content_type != "application/x-zip-compressed":
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="File must be a zip archive.")
 
-    dataset = crud.dataset.get(db=db, id=dataset_id)
-    if dataset is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {dataset_id} not found!")
+    # dataset = crud.dataset.get(db=db, id=dataset_id)
+    # if dataset is None:
+    #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {dataset_id} not found!")
 
     # TODO Check if user has permission for dataset
 
