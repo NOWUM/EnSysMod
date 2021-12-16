@@ -221,6 +221,7 @@ jobs:
   deploy_dev:
     needs: [ build_dev_image ]
     runs-on: ubuntu-latest
+    concurrency: ssh-connection # only one ssh connection at a time
     name: "Deploy dev image"
     if: ${{ success() && github.actor != 'dependabot[bot]' }}
     steps:
@@ -233,7 +234,7 @@ jobs:
           env: Development
           no_override: false
           desc: "Development deployment for main branch"
-          ref: ${{ github.ref }}
+          ref: "main" # dev deployment of main branch
           transient: true
 
       - name: Install VPN

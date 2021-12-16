@@ -2,8 +2,11 @@ name: CI/CD Pull Requests
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
-  
+    types: [ opened, synchronize, reopened ]
+
+concurrency:
+  group: ${{ github.head_ref }}
+
 jobs:
   # Inspect the information that is accessible in each context
   # https://docs.github.com/en/actions/learn-github-actions/contexts#example-printing-context-information-to-the-log-file
@@ -35,7 +38,7 @@ jobs:
         env:
           MATRIX_CONTEXT: ${{ toJSON(matrix) }}
         run: echo "$MATRIX_CONTEXT"
-     
+
   # Check linting
   lint:
     runs-on: ubuntu-latest
@@ -43,29 +46,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.4.0
-        
+
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x' 
-          architecture: 'x64' 
-                
+          python-version: '3.x'
+          architecture: 'x64'
+
       - name: Cache pip
         uses: actions/cache@v2
         with:
           path: ~/.cache/pip
           key: lint-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements**.txt') }}
-          
+
       - name: Install requirements
         run: |
           pip install --upgrade --upgrade-strategy eager -r requirements-dev.txt -e .
-      
+
       - name: flake8 Lint
         uses: reviewdog/action-flake8@v3
         with:
-          github_token: ${{ github.token }}   
-     
-     
+          github_token: ${{ github.token }}
+
+
   # Checks if all tests pass   
   test:
     runs-on: ubuntu-latest
@@ -73,19 +76,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.4.0
-        
+
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x' 
-          architecture: 'x64' 
-                
+          python-version: '3.x'
+          architecture: 'x64'
+
       - name: Cache pip
         uses: actions/cache@v2
         with:
           path: ~/.cache/pip
           key: test-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements**.txt') }}
-          
+
       - name: Install requirements
         run: |
           pip install --upgrade --upgrade-strategy eager -r requirements-dev.txt -e .
@@ -138,14 +141,14 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: test-results
-          
+
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         with:
           files: result.xml
-          report_individual_runs: true  
+          report_individual_runs: true
           comment_mode: "create new"
-        
+
 
   build_pr_image:
     needs: [ test, lint ]
@@ -184,6 +187,7 @@ jobs:
   deploy_pr:
     needs: [ build_pr_image ]
     runs-on: ubuntu-latest
+    concurrency: ssh-connection # only one ssh connection at a time
     name: "Deploy preview image"
     if: ${{ success() && github.actor != 'dependabot[bot]' }}
     steps:
