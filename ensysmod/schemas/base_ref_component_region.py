@@ -16,9 +16,10 @@ class RefCRBaseCreate(RefCRBaseBase):
     """
     Properties to receive via API on creation of a referenced component region model.
     """
-    ref_component: int
-    ref_region: int
-    ref_region_to: Optional[int] = None
+    ref_dataset: int
+    component: str
+    region: str
+    region_to: Optional[int] = None
 
 
 class RefCRBaseUpdate(RefCRBaseBase):

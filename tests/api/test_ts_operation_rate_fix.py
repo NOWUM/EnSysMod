@@ -13,8 +13,9 @@ def get_random_fix_operation_rate_create(db: Session) -> OperationRateFixCreate:
     source = data_gen.fixed_existing_energy_sink(db)
     region = data_gen.fixed_existing_region(db)
     return OperationRateFixCreate(
-        ref_component=source.component.id,
-        ref_region=region.id,
+        ref_dataset=region.ref_dataset,
+        component=source.component.name,
+        region=region.name,
         fix_operation_rates=random_float_numbers()
     )
 
@@ -28,6 +29,6 @@ def test_create_fix_operation_rate(client: TestClient, normal_user_headers: Dict
     assert response.status_code == status.HTTP_200_OK
 
     created_ts = response.json()
-    assert created_ts["component"]["id"] == create_request.ref_component
-    assert created_ts["region"]["id"] == create_request.ref_region
+    assert created_ts["component"]["name"] == create_request.component
+    assert created_ts["region"]["name"] == create_request.region
     assert created_ts["fix_operation_rates"] == create_request.fix_operation_rates

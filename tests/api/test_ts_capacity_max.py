@@ -13,8 +13,9 @@ def get_random_max_capacity_create(db: Session) -> CapacityMaxCreate:
     source = data_gen.fixed_existing_energy_sink(db)
     region = data_gen.fixed_existing_region(db)
     return CapacityMaxCreate(
-        ref_component=source.component.id,
-        ref_region=region.id,
+        ref_dataset=region.ref_dataset,
+        component=source.component.name,
+        region=region.name,
         max_capacities=random_float_numbers()
     )
 
@@ -28,6 +29,6 @@ def test_create_max_capacity(client: TestClient, normal_user_headers: Dict[str, 
     assert response.status_code == status.HTTP_200_OK
 
     created_ts = response.json()
-    assert created_ts["component"]["id"] == create_request.ref_component
-    assert created_ts["region"]["id"] == create_request.ref_region
+    assert created_ts["component"]["name"] == create_request.component
+    assert created_ts["region"]["name"] == create_request.region
     assert created_ts["max_capacities"] == create_request.max_capacities
