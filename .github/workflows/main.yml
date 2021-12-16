@@ -253,6 +253,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASS }}
           script: |
+            docker system prune -af
             docker pull ${{ needs.build_dev_image.outputs.image_tag }}
             docker ps --filter publish=9000
             docker rm -f $(docker ps --filter publish=9000 -aq)
