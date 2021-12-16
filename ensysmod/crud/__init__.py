@@ -14,3 +14,4 @@ from .ts_capacity_max import capacity_max
 from .ts_operation_rate_max import operation_rate_max
 from .ts_operation_rate_fix import operation_rate_fix
 from .user import user
+from .energy_model import energy_model

@@ -48,3 +48,7 @@ def test_table_operation_rate_max(db: Session):
 
 def test_table_region(db: Session):
     assert check_table_exists(db.bind.raw_connection().cursor(), 'region')
+
+
+def test_table_energy_model(db: Session):
+    assert check_table_exists(db.bind.raw_connection().cursor(), 'energy_model')
