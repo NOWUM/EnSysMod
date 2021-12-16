@@ -4,14 +4,12 @@ from ensysmod import crud
 from ensysmod.model import EnergyTransmission
 from ensysmod.schemas import EnergyTransmissionCreate
 from tests.utils.data_generator import fixed_existing_dataset, fixed_existing_energy_commodity
-from tests.utils.data_generator.datasets import random_existing_dataset
-from tests.utils.data_generator.energy_commodities import random_existing_energy_commodity
 from tests.utils.utils import random_lower_string
 
 
 def random_energy_transmission_create(db: Session) -> EnergyTransmissionCreate:
-    dataset = random_existing_dataset(db)
-    commodity = random_existing_energy_commodity(db)
+    dataset = fixed_existing_dataset(db)
+    commodity = fixed_existing_energy_commodity(db)
     return EnergyTransmissionCreate(
         ref_dataset=dataset.id,
         name=f"EnergyTransmission-{dataset.id}-{random_lower_string()}",
