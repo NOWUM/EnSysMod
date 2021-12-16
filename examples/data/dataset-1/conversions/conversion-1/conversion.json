@@ -1,0 +1,15 @@
+{
+    "name": "GuD-Turbine (Methan)",
+    "description": "Stellt Gas-und Dampfturbinen für Methan dar", 
+    "commodity_unit": "Methan",
+    "factors": [
+        {
+            "commodity": "strom",
+            "factor": 0.6
+        },
+        {
+            "commodity": "Methan",
+            "factor": 1
+        }
+    ]
+}

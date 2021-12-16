@@ -1,0 +1,19 @@
+{
+    "name": "Elektrolyseure",
+    "description": "Stellt Elektrolyseure dar", 
+    "commodity_unit": "Wasserstoff",
+    "factors": [
+        {
+            "commodity": "Elektrizität",
+            "factor": -1
+        },
+        {
+            "commodity": "Wasserstoff",
+            "factor": 0.7
+        }
+    ],
+    "invest_per_capacity":0.5, 
+    "opex_per_capacity":0.0125, 
+    "interest_rate":0.08,
+    "economic_lifetime":10
+}
