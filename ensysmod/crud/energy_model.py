@@ -1,7 +1,3 @@
-from typing import Optional, List
-
-from sqlalchemy.orm import Session
-
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
 from ensysmod.model import EnergyModel
 from ensysmod.schemas import EnergyModelCreate, EnergyModelUpdate
