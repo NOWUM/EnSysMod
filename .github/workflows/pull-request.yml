@@ -219,6 +219,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASS }}
           script: |
+            docker system prune -af
             docker pull ${{ needs.build_pr_image.outputs.image_tag }}
             docker ps --filter publish=$((9000 + ${{ github.event.number }}))
             docker rm -f $(docker ps --filter publish=$((9000 + ${{ github.event.number }})) -aq)
