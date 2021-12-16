@@ -39,33 +39,26 @@ def create_capacity_max(request: schemas.CapacityMaxCreate,
     """
     Create a new max capacity.
     """
-    component = crud.energy_component.get(db=db, id=request.ref_component)
+    component = crud.energy_component.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset,
+                                                              name=request.component)
     if component is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"Component {request.ref_component} not found!")
+                            detail=f"Component {request.component} not found in dataset {request.ref_dataset}!")
 
     # TODO Check if user has permission for dataset
 
-    region = crud.region.get(db=db, id=request.ref_region)
+    region = crud.region.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.region)
     if region is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"Region {request.ref_region} not found!")
+                            detail=f"Region {request.region} not found in dataset {request.ref_dataset}!")
 
-    if component.ref_dataset != region.ref_dataset:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                            detail=f"Component (id {request.ref_component}, dataset {component.ref_dataset}) and "
-                                   f"region (id {request.ref_region}, dataset {region.ref_dataset}) does not belong to "
-                                   f"same dataset!")
-
-    ts = crud.capacity_max.get_by_component_and_region(db=db, component_id=request.ref_component,
-                                                       region_id=request.ref_region)
+    ts = crud.capacity_max.get_by_component_and_region(db=db, component_id=component.id, region_id=region.id)
     if ts is not None:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT,
                             detail=f"CapacityMax for component {component.name} (id {component.id}) and "
                                    f"region {region.name} (id {region.id}) already exists with id {ts.id}!")
 
-    ts_in_base: Optional[List[CapacityMax]] = crud.capacity_max.get_by_component(db=db,
-                                                                                 component_id=request.ref_component)
+    ts_in_base: Optional[List[CapacityMax]] = crud.capacity_max.get_by_component(db=db, component_id=component.id)
     if ts_in_base is not None:
         # get maximum length max_capacities in ts_in_base
         max_length = 0
