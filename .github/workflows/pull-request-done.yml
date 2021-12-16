@@ -216,6 +216,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASS }}
           script: |
+            docker system prune -af
             docker pull ${{ needs.build_prod_image.outputs.image_tag }}
             docker ps --filter publish=8080
             docker rm -f $(docker ps --filter publish=8080 -aq)
