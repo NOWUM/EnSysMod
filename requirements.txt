@@ -13,4 +13,5 @@ bcrypt
 
 numpy
 pandas
+openpyxl
 

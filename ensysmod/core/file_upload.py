@@ -3,6 +3,7 @@ from tempfile import TemporaryFile
 from typing import List, Dict, Any, Type
 from zipfile import ZipFile
 
+import pandas as pd
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import crud
@@ -10,9 +11,10 @@ from sqlalchemy.sql import crud
 from ensysmod import crud, schemas
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
+from ensysmod.crud.base_depends_timeseries import CRUDBaseDependsTimeSeries
 
 
-def create_or_update(crud_repo: CRUDBaseDependsDataset, db: Session, request: Any):
+def create_or_update_named_entity(crud_repo: CRUDBaseDependsDataset, db: Session, request: Any):
     """
     This function creates or updates an object inside the given crud repository.
 
@@ -28,6 +30,19 @@ def create_or_update(crud_repo: CRUDBaseDependsDataset, db: Session, request: An
     else:
         print(f"{request.name} already exists in database. Updating...")
         return crud_repo.update(db, obj_in=request, db_obj=existing_object)
+
+
+def create_or_update_time_series(crud_repo: CRUDBaseDependsTimeSeries, db: Session, request: Any):
+    """
+    This function creates or updates an object inside the given crud repository.
+
+    :param crud_repo: The crud repository.
+    :param db: The database session.
+    :param request: The request.
+    :return: The created or updated object.
+    """
+    # TODO : Check if the time series already exists
+    return crud_repo.create(db, obj_in=request)
 
 
 def map_with_dataset_id(create_model: Type[BaseModel], json_dict: Dict, dataset_id: int):
@@ -102,7 +117,7 @@ def process_list_file(file: TemporaryFile, db: Session, dataset_id: int, crud_re
     """
     dicts: List[dict] = json.load(file)
     for single_dict in dicts:
-        create_or_update(crud_repo, db, map_with_dataset_id(create_model, single_dict, dataset_id))
+        create_or_update_named_entity(crud_repo, db, map_with_dataset_id(create_model, single_dict, dataset_id))
 
 
 def process_components_folder(zip_archive: ZipFile,
@@ -125,6 +140,33 @@ def process_components_folder(zip_archive: ZipFile,
 
     for sub_folder_name in sub_folder_names:
         json_dict = json.load(zip_archive.open(sub_folder_name + component_file_name))
-        create_or_update(crud_repo, db, map_with_dataset_id(create_model, json_dict, dataset_id))
+        create_or_update_named_entity(crud_repo, db, map_with_dataset_id(create_model, json_dict, dataset_id))
 
-        # TODO Process all xlsx files in sub_folder_name
+        # check if operationRateFix.xlsx exists in sub_folder_name
+        if sub_folder_name + "operationRateFix.xlsx" in zip_archive.namelist():
+            # process operationRateFix.xlsx
+            process_excel_file(zip_archive.open(sub_folder_name + "operationRateFix.xlsx"), db, dataset_id,
+                               json_dict["name"], "fix_operation_rates", crud_repo=crud.operation_rate_fix,
+                               create_model=schemas.OperationRateFixCreate)
+
+
+def process_excel_file(file: TemporaryFile, db: Session, dataset_id: int, component_name: str, data_key: str,
+                       crud_repo: CRUDBaseDependsTimeSeries, create_model: Type[BaseModel]):
+    """
+    Processes an excel file and adds the time series to the database.
+
+    :param file: File to process
+    :param db: Database session
+    :param dataset_id: ID of the dataset to add the components to
+    :param component_name: Name of the component to add the time series to
+    :param data_key: Key of the data to add the time series to
+    :param crud_repo: CRUD repository to use
+    :param create_model: Create model to use
+    """
+    df = pd.read_excel(file)
+
+    # for each column, create a time series
+    for column in df.columns:
+        request_dict = {data_key: df[column].tolist(), "region": column, "component": component_name}
+        create_request = map_with_dataset_id(create_model, request_dict, dataset_id)
+        create_or_update_time_series(crud_repo, db, create_request)
