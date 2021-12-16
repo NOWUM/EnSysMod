@@ -1,6 +1,5 @@
 from typing import List, Optional, Generic
 
-from sqlalchemy import and_
 from sqlalchemy.orm import Session
 
 from ensysmod.crud.base import CRUDBase, ModelType, CreateSchemaType, UpdateSchemaType
