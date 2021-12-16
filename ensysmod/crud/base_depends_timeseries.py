@@ -2,6 +2,7 @@ from typing import Optional, Generic, List
 
 from sqlalchemy.orm import Session
 
+from ensysmod import crud
 from ensysmod.crud.base import ModelType, CreateSchemaType, UpdateSchemaType
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
 
@@ -20,3 +21,13 @@ class CRUDBaseDependsTimeSeries(CRUDBaseDependsDataset, Generic[ModelType, Creat
         return db.query(self.model) \
             .filter(self.model.ref_component == component_id and self.model.ref_region == region_id) \
             .first()
+
+    def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
+
+        component = crud.energy_component.get_by_dataset_and_name(db, name=obj_in.component,
+                                                                  dataset_id=obj_in.ref_dataset)
+        region = crud.region.get_by_dataset_and_name(db, name=obj_in.region, dataset_id=obj_in.ref_dataset)
+        obj_in_dict = obj_in.dict()
+        obj_in_dict['ref_component'] = component.id
+        obj_in_dict['ref_region'] = region.id
+        return super().create(db=db, obj_in=obj_in_dict)
