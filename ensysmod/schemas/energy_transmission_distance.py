@@ -2,7 +2,6 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from ensysmod.schemas.energy_transmission import EnergyComponentCreate, EnergyComponentUpdate
 from ensysmod.schemas.region import Region
 
 
