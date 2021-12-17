@@ -19,3 +19,4 @@ from .ts_capacity_max import CapacityMax, CapacityMaxCreate, CapacityMaxUpdate
 from .ts_operation_rate_fix import OperationRateFix, OperationRateFixCreate, OperationRateFixUpdate
 from .ts_operation_rate_max import OperationRateMax, OperationRateMaxCreate, OperationRateMaxUpdate
 from .user import User, UserCreate, UserInDB, UserUpdate
+from .energy_model import EnergyModel, EnergyModelCreate, EnergyModelUpdate
