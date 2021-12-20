@@ -34,6 +34,10 @@ def test_table_energy_transmission(db: Session):
     assert check_table_exists(db.bind.raw_connection().cursor(), 'energy_transmission')
 
 
+def test_table_capacity_fix(db: Session):
+    assert check_table_exists(db.bind.raw_connection().cursor(), 'capacity_fix')
+
+
 def test_table_capacity_max(db: Session):
     assert check_table_exists(db.bind.raw_connection().cursor(), 'capacity_max')
 
@@ -48,3 +52,7 @@ def test_table_operation_rate_max(db: Session):
 
 def test_table_region(db: Session):
     assert check_table_exists(db.bind.raw_connection().cursor(), 'region')
+
+
+def test_table_energy_model(db: Session):
+    assert check_table_exists(db.bind.raw_connection().cursor(), 'energy_model')

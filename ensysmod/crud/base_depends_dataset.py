@@ -19,5 +19,6 @@ class CRUDBaseDependsDataset(CRUDBase, Generic[ModelType, CreateSchemaType, Upda
 
     def get_by_dataset_and_name(self, db: Session, *, dataset_id: int, name: str) -> Optional[ModelType]:
         return db.query(self.model) \
-            .filter(self.model.name == name and self.model.ref_dataset == dataset_id) \
+            .filter(self.model.name == name) \
+            .filter(self.model.ref_dataset == dataset_id) \
             .first()

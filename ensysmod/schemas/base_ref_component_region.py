@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 from ensysmod.schemas import EnergyComponent, Region
@@ -17,6 +19,7 @@ class RefCRBaseCreate(RefCRBaseBase):
     ref_dataset: int
     component: str
     region: str
+    region_to: Optional[int] = None
 
 
 class RefCRBaseUpdate(RefCRBaseBase):
@@ -33,6 +36,7 @@ class RefCRBase(RefCRBaseBase):
     id: int
     component: EnergyComponent
     region: Region
+    region_to: Optional[Region] = None
 
     class Config:
         orm_mode = True

@@ -4,19 +4,25 @@ from ensysmod import crud
 from ensysmod.model import EnergyStorage
 from ensysmod.schemas import EnergyStorageCreate
 from tests.utils.data_generator import fixed_existing_dataset, fixed_existing_energy_commodity
-from tests.utils.data_generator.datasets import random_existing_dataset
-from tests.utils.data_generator.energy_commodities import random_existing_energy_commodity
 from tests.utils.utils import random_lower_string
 
 
 def random_energy_storage_create(db: Session) -> EnergyStorageCreate:
-    dataset = random_existing_dataset(db)
-    commodity = random_existing_energy_commodity(db)
+    dataset = fixed_existing_dataset(db)
+    commodity = fixed_existing_energy_commodity(db)
     return EnergyStorageCreate(
         ref_dataset=dataset.id,
         name=f"EnergyStorage-{dataset.id}-{random_lower_string()}",
         description="Description",
         commodity=commodity.name,
+        charge_efficiency=0.9,
+        discharge_efficiency=0.9,
+        cyclic_lifetime=100_000,
+        charge_rate=1,
+        discharge_rate=1,
+        self_discharge=1 - (1 - 0.03) ** (1 / (30 * 24)),
+        stateOfChargeMin=0.33,
+        stateOfChargeMax=0.66,
     )
 
 

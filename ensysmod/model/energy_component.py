@@ -49,6 +49,8 @@ class EnergyComponent(Base):
     interest_rate = Column(DECIMAL, nullable=False, default=0.08)
     economic_lifetime = Column(Integer, nullable=False, default=10)
 
+    shared_potential_id = Column(String, nullable=True)
+
     # constraint capacityVariableDomain
 
     # table constraints

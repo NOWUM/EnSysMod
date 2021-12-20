@@ -17,7 +17,15 @@ class CRUDEnergyConversion(CRUDBaseDependsComponent[EnergyConversion, EnergyConv
                                                                   dataset_id=obj_in.ref_dataset)
         obj_in_dict = obj_in.dict()
         obj_in_dict['ref_commodity_unit'] = commodity.id
-        return super().create(db=db, obj_in=obj_in_dict)
+        db_obj = super().create(db=db, obj_in=obj_in_dict)
+
+        # save energy conversion factors
+        for factor_create in obj_in.conversion_factors:
+            factor_create.ref_dataset = obj_in.ref_dataset
+            factor_create.ref_component = db_obj.component.id
+            crud.energy_conversion_factor.create(db, obj_in=factor_create)
+
+        return db_obj
 
 
 energy_conversion = CRUDEnergyConversion(EnergyConversion)

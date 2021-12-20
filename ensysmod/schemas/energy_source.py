@@ -12,6 +12,7 @@ class EnergySourceBase(BaseModel):
     """
     commodity: str
     type = EnergyComponentType.SOURCE
+    commodity_cost: Optional[float] = None
 
 
 class EnergySourceCreate(EnergySourceBase, EnergyComponentCreate):

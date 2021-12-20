@@ -19,7 +19,14 @@ class CRUDEnergyTransmission(CRUDBaseDependsComponent[EnergyTransmission,
                                                                   dataset_id=obj_in.ref_dataset)
         obj_in_dict = obj_in.dict()
         obj_in_dict['ref_commodity'] = commodity.id
-        return super().create(db=db, obj_in=obj_in_dict)
+        db_obj = super().create(db=db, obj_in=obj_in_dict)
+
+        # also create distances
+        for distance_create in obj_in.distances:
+            distance_create.ref_component = db_obj.component.id
+            crud.energy_transmission_distance.create(db, obj_in=distance_create)
+
+        return db_obj
 
 
 energy_transmission = CRUDEnergyTransmission(EnergyTransmission)

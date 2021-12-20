@@ -19,11 +19,11 @@ class CRUDBaseDependsTimeSeries(CRUDBaseDependsDataset, Generic[ModelType, Creat
 
     def get_by_component_and_region(self, db: Session, *, component_id: int, region_id: int) -> Optional[ModelType]:
         return db.query(self.model) \
-            .filter(self.model.ref_component == component_id and self.model.ref_region == region_id) \
+            .filter(self.model.ref_component == component_id) \
+            .filter(self.model.ref_region == region_id) \
             .first()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
-
         component = crud.energy_component.get_by_dataset_and_name(db, name=obj_in.component,
                                                                   dataset_id=obj_in.ref_dataset)
         region = crud.region.get_by_dataset_and_name(db, name=obj_in.region, dataset_id=obj_in.ref_dataset)

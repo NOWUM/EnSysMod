@@ -2,10 +2,9 @@ from sqlalchemy.orm import Session
 
 from ensysmod import crud
 from ensysmod.model import EnergyConversion
-from ensysmod.schemas import EnergyConversionCreate
-from tests.utils.data_generator.datasets import random_existing_dataset, fixed_existing_dataset
-from tests.utils.data_generator.energy_commodities import random_existing_energy_commodity, \
-    fixed_existing_energy_commodity
+from ensysmod.schemas import EnergyConversionCreate, EnergyConversionFactorCreate
+from tests.utils.data_generator.datasets import fixed_existing_dataset
+from tests.utils.data_generator.energy_commodities import fixed_existing_energy_commodity
 from tests.utils.utils import random_lower_string
 
 
@@ -13,13 +12,14 @@ def random_energy_conversion_create(db: Session) -> EnergyConversionCreate:
     """
     Generate a random EnergyConversionCreate object.
     """
-    dataset = random_existing_dataset(db)
-    commodity = random_existing_energy_commodity(db)
+    dataset = fixed_existing_dataset(db)
+    commodity = fixed_existing_energy_commodity(db)
     return EnergyConversionCreate(
         ref_dataset=dataset.id,
         name=f"EnergyConversion-{dataset.id}-{random_lower_string()}",
         description="Description",
         commodity_unit=commodity.name,
+        conversion_factors=[EnergyConversionFactorCreate(commodity=commodity.name, conversion_factor=1.0)]
     )
 
 
@@ -43,6 +43,7 @@ def fixed_energy_conversion_create(db: Session) -> EnergyConversionCreate:
         name=f"EnergyConversion-{dataset.id}-Fixed",
         description="Description",
         commodity_unit=commodity.name,
+        conversion_factors=[EnergyConversionFactorCreate(commodity=commodity.name, conversion_factor=1.0)]
     )
 
 
