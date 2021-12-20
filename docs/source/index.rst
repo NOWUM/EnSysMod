@@ -8,7 +8,7 @@ Welcome to Python-Starter documentation!
    This project is under active development.
 
 Check out the :doc:`usage` section for further information, including how to
-:ref:`install <installation>` the project.
+install the project.
 
 Indices and tables
 ==================
@@ -22,6 +22,7 @@ Indices and tables
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   :hidden:
 
    usage
    endpoints
