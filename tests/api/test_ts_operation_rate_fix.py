@@ -5,8 +5,8 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from ensysmod.schemas import OperationRateFixCreate
-from tests.utils.utils import random_float_numbers
 from tests.utils import data_generator as data_gen
+from tests.utils.utils import random_float_numbers
 
 
 def get_random_fix_operation_rate_create(db: Session) -> OperationRateFixCreate:

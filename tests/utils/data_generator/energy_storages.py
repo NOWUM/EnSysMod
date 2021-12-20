@@ -20,7 +20,7 @@ def random_energy_storage_create(db: Session) -> EnergyStorageCreate:
         cyclic_lifetime=100_000,
         charge_rate=1,
         discharge_rate=1,
-        self_discharge=1-(1-0.03)**(1/(30*24)),
+        self_discharge=1 - (1 - 0.03) ** (1 / (30 * 24)),
         stateOfChargeMin=0.33,
         stateOfChargeMax=0.66,
     )
