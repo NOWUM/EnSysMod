@@ -3,14 +3,14 @@
     "description": "Stellt rSOEC dar",
     "commodity_unit": "Wasserstoff",
     "linked_conversion_capacity_id":"rSOC",
-    "factors": [
+    "conversion_factors": [
         {
             "commodity": "Elektrizität",
-            "factor": -1
+            "conversion_factor": -1
         },
         {
             "commodity": "Wasserstoff",
-            "factor": 0.6
+            "conversion_factor": 0.6
         }
     ],
     "invest_per_capacity":0.75, 
