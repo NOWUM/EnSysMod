@@ -4,7 +4,7 @@
     "commodity_unit": "Methan",
     "conversion_factors": [
         {
-            "commodity": "strom",
+            "commodity": "Elektrizität",
             "conversion_factor": 0.6
         },
         {
