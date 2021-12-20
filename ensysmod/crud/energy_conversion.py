@@ -23,7 +23,6 @@ class CRUDEnergyConversion(CRUDBaseDependsComponent[EnergyConversion, EnergyConv
         for factor_create in obj_in.conversion_factors:
             factor_create.ref_dataset = obj_in.ref_dataset
             factor_create.ref_component = db_obj.component.id
-            print(factor_create)
             crud.energy_conversion_factor.create(db, obj_in=factor_create)
 
         return db_obj
