@@ -20,7 +20,7 @@ class EnergyTransmissionCreate(EnergyTransmissionBase, EnergyComponentCreate):
     """
     Properties to receive via API on creation of an energy transmission.
     """
-    distances: List[EnergyTransmissionDistanceCreate] = None
+    distances: Optional[List[EnergyTransmissionDistanceCreate]] = None
 
 
 class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):
