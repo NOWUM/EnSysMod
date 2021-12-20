@@ -48,4 +48,6 @@ def create_conversion(request: schemas.EnergyConversionCreate,
                             detail=f"EnergyCommodity {request.commodity_unit} "
                                    f"in dataset {request.ref_dataset} not found!")
 
+    # TODO Check commodities for conversion factors
+
     return crud.energy_conversion.create(db=db, obj_in=request)

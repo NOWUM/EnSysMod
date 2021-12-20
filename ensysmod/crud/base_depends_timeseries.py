@@ -24,7 +24,6 @@ class CRUDBaseDependsTimeSeries(CRUDBaseDependsDataset, Generic[ModelType, Creat
             .first()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
-
         component = crud.energy_component.get_by_dataset_and_name(db, name=obj_in.component,
                                                                   dataset_id=obj_in.ref_dataset)
         region = crud.region.get_by_dataset_and_name(db, name=obj_in.region, dataset_id=obj_in.ref_dataset)

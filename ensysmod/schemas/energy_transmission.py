@@ -1,9 +1,10 @@
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
 
 from ensysmod.model import EnergyComponentType
 from ensysmod.schemas import EnergyComponentCreate, EnergyComponent, EnergyComponentUpdate, EnergyCommodity
+from ensysmod.schemas.energy_transmission_distance import EnergyTransmissionDistanceCreate, EnergyTransmissionDistance
 
 
 class EnergyTransmissionBase(BaseModel):
@@ -12,13 +13,14 @@ class EnergyTransmissionBase(BaseModel):
     """
     commodity: str
     type = EnergyComponentType.TRANSMISSION
+    loss_per_unit: Optional[float] = None
 
 
 class EnergyTransmissionCreate(EnergyTransmissionBase, EnergyComponentCreate):
     """
     Properties to receive via API on creation of an energy transmission.
     """
-    pass
+    distances: List[EnergyTransmissionDistanceCreate] = None
 
 
 class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):
@@ -34,6 +36,7 @@ class EnergyTransmission(EnergyTransmissionBase):
     """
     component: EnergyComponent
     commodity: EnergyCommodity
+    distances: List[EnergyTransmissionDistance]
 
     class Config:
         orm_mode = True

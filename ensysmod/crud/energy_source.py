@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
-from ensysmod.crud.base import CRUDBase
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.model import EnergySource
 from ensysmod.schemas import EnergySourceCreate, EnergySourceUpdate

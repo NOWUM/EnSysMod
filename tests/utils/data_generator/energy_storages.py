@@ -15,6 +15,14 @@ def random_energy_storage_create(db: Session) -> EnergyStorageCreate:
         name=f"EnergyStorage-{dataset.id}-{random_lower_string()}",
         description="Description",
         commodity=commodity.name,
+        charge_efficiency=0.9,
+        discharge_efficiency=0.9,
+        cyclic_lifetime=100_000,
+        charge_rate=1,
+        discharge_rate=1,
+        self_discharge=1 - (1 - 0.03) ** (1 / (30 * 24)),
+        stateOfChargeMin=0.33,
+        stateOfChargeMax=0.66,
     )
 
 

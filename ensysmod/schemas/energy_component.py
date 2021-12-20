@@ -22,6 +22,8 @@ class EnergyComponentBase(BaseModel):
     interest_rate: Optional[float] = None
     economic_lifetime: Optional[int] = None
 
+    shared_potential_id: Optional[str] = None
+
 
 class EnergyComponentCreate(EnergyComponentBase):
     """

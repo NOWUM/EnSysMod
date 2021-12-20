@@ -1,9 +1,11 @@
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
 
 from ensysmod.model import EnergyComponentType
-from ensysmod.schemas import EnergyComponentCreate, EnergyComponent, EnergyComponentUpdate, EnergyCommodity
+from ensysmod.schemas.energy_commodity import EnergyCommodity
+from ensysmod.schemas.energy_component import EnergyComponentCreate, EnergyComponent, EnergyComponentUpdate
+from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactorCreate, EnergyConversionFactor
 
 
 class EnergyConversionBase(BaseModel):
@@ -18,7 +20,7 @@ class EnergyConversionCreate(EnergyConversionBase, EnergyComponentCreate):
     """
     Properties to receive via API on creation of an energy conversion.
     """
-    pass
+    conversion_factors: List[EnergyConversionFactorCreate]
 
 
 class EnergyConversionUpdate(EnergyConversionBase, EnergyComponentUpdate):
@@ -26,6 +28,7 @@ class EnergyConversionUpdate(EnergyConversionBase, EnergyComponentUpdate):
     Properties to receive via API on update of an energy conversion.
     """
     commodity_unit: Optional[str] = None
+    conversion_factors: Optional[List[EnergyConversionFactorCreate]] = None  # update = delete and recreate
 
 
 class EnergyConversion(EnergyConversionBase):
@@ -34,6 +37,7 @@ class EnergyConversion(EnergyConversionBase):
     """
     component: EnergyComponent
     commodity_unit: EnergyCommodity
+    conversion_factors: List[EnergyConversionFactor]
 
     class Config:
         orm_mode = True
