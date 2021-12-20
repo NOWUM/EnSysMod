@@ -3,11 +3,14 @@ from io import BytesIO
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
+from fastapi.responses import JSONResponse
 
 from ensysmod import schemas, model, crud
 from ensysmod.api import deps
 from ensysmod.core.file_upload import process_dataset_zip_archive
+from ensysmod.schemas import FileStatus
 
 router = APIRouter()
 
@@ -77,7 +80,7 @@ def remove_dataset(dataset_id: int,
     return crud.dataset.remove(db=db, id=dataset_id)
 
 
-@router.post("/{dataset_id}/upload")
+@router.post("/{dataset_id}/upload", response_model=schemas.ZipArchiveUploadResult)
 def upload_zip_archive(dataset_id: int,
                        file: UploadFile = File(...),
                        db: Session = Depends(deps.get_db),
@@ -93,4 +96,9 @@ def upload_zip_archive(dataset_id: int,
     # TODO Check if user has permission for dataset
 
     with zipfile.ZipFile(BytesIO(file.file.read()), 'r') as zip_archive:
-        process_dataset_zip_archive(zip_archive, dataset_id, db)
+        result = process_dataset_zip_archive(zip_archive, dataset_id, db)
+
+        if result.status == FileStatus.ERROR:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=jsonable_encoder(result))
+
+        return result

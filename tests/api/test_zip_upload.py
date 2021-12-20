@@ -19,8 +19,8 @@ def get_dataset_1_zip() -> str:
     # create a zip file from the directory
     zip_file_path = os.path.join(temp_dir, "dataset-1.zip")
     with zipfile.ZipFile(zip_file_path, 'w') as zip_file:
-        for root, dirs, files in os.walk("../../examples/data/dataset-1/"):
-            acr_path = os.path.relpath(root, "../../examples/data/dataset-1/")
+        for root, dirs, files in os.walk("../examples/data/dataset-1/"):
+            acr_path = os.path.relpath(root, "../examples/data/dataset-1/")
             zip_file.write(root, acr_path)
             for file in files:
                 zip_file.write(os.path.join(root, file), arcname=os.path.join(acr_path, file))
@@ -38,6 +38,7 @@ def test_upload_dataset(client: TestClient, db: Session, normal_user_headers: Di
     zip_file_path = get_dataset_1_zip()
 
     # print all the contents of the zip file
+    print(f"Zip file contents of {zip_file_path}:")
     with ZipFile(zip_file_path, 'r') as zip_file:
         for file in zip_file.namelist():
             print(file)
