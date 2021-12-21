@@ -24,10 +24,17 @@ class CRUDBaseDependsTimeSeries(CRUDBaseDependsDataset, Generic[ModelType, Creat
             .first()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
+        obj_in_dict = obj_in.dict()
+
         component = crud.energy_component.get_by_dataset_and_name(db, name=obj_in.component,
                                                                   dataset_id=obj_in.ref_dataset)
-        region = crud.region.get_by_dataset_and_name(db, name=obj_in.region, dataset_id=obj_in.ref_dataset)
-        obj_in_dict = obj_in.dict()
         obj_in_dict['ref_component'] = component.id
+
+        region = crud.region.get_by_dataset_and_name(db, name=obj_in.region, dataset_id=obj_in.ref_dataset)
         obj_in_dict['ref_region'] = region.id
+
+        if obj_in.region_to is not None:
+            region_to = crud.region.get_by_dataset_and_name(db, name=obj_in.region_to, dataset_id=obj_in.ref_dataset)
+            obj_in_dict['ref_region_to'] = region_to.id
+
         return super().create(db=db, obj_in=obj_in_dict)
