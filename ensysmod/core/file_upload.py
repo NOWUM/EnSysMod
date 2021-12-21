@@ -6,7 +6,6 @@ from zipfile import ZipFile
 import pandas as pd
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from sqlalchemy.sql import crud
 
 from ensysmod import crud, schemas
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent

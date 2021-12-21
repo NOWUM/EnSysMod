@@ -52,5 +52,3 @@ def test_upload_dataset(client: TestClient, db: Session, normal_user_headers: Di
     assert response.status_code == 200
 
     # TODO Check that the dataset has been updated
-
-

@@ -5,7 +5,6 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
-from fastapi.responses import JSONResponse
 
 from ensysmod import schemas, model, crud
 from ensysmod.api import deps
