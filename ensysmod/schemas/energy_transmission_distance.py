@@ -17,9 +17,15 @@ class EnergyTransmissionDistanceCreate(EnergyTransmissionDistanceBase):
     Properties to receive via API on creation of an energy transmission distance.
     """
     ref_dataset: Optional[int] = None
+
     ref_component: Optional[int] = None
-    ref_region_from: int
-    ref_region_to: int
+    component: Optional[str] = None
+
+    ref_region_from: Optional[int] = None
+    region_from: Optional[str] = None
+
+    ref_region_to: Optional[int] = None
+    region_to: Optional[str] = None
 
 
 class EnergyTransmissionDistanceUpdate(EnergyTransmissionDistanceBase):

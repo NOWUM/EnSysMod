@@ -13,6 +13,9 @@ class CRUDBaseDependsComponent(CRUDBaseDependsDataset, Generic[ModelType, Create
     Base class for all CRUD classes that depend on a dataset and component.
     """
 
+    def get(self, db: Session, component_id: int) -> Optional[ModelType]:
+        return db.query(self.model).filter(self.model.ref_component == component_id).first()
+
     def get_by_dataset_and_name(self, db: Session, *, dataset_id: int, name: str) -> Optional[ModelType]:
         """
         Get an energy component based object by dataset and name.
