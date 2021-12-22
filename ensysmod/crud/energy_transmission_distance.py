@@ -41,7 +41,8 @@ class CRUDEnergyTransmissionDistance(CRUDBase[EnergyTransmissionDistance,
         if obj_in.ref_component is not None:
             transmission = crud.energy_transmission.get(db, obj_in.ref_component)
         else:
-            transmission = crud.energy_transmission.get_by_dataset_and_name(db, obj_in.ref_dataset, obj_in.component)
+            transmission = crud.energy_transmission.get_by_dataset_and_name(db, dataset_id=obj_in.ref_dataset,
+                                                                            name=obj_in.component)
 
         if transmission is None or transmission.component.ref_dataset != obj_in.ref_dataset:
             raise ValueError("Component not found or from different dataset.")
@@ -50,7 +51,8 @@ class CRUDEnergyTransmissionDistance(CRUDBase[EnergyTransmissionDistance,
         if obj_in.ref_region_from is not None:
             region_from = crud.region.get(db, obj_in.ref_region_from)
         else:
-            region_from = crud.region.get_by_dataset_and_name(db, obj_in.ref_dataset, obj_in.region_from)
+            region_from = crud.region.get_by_dataset_and_name(db, dataset_id=obj_in.ref_dataset,
+                                                              name=obj_in.region_from)
 
         if region_from is None or region_from.ref_dataset != obj_in.ref_dataset:
             raise ValueError("Region from not found or from different dataset.")
@@ -59,7 +61,7 @@ class CRUDEnergyTransmissionDistance(CRUDBase[EnergyTransmissionDistance,
         if obj_in.ref_region_to is not None:
             region_to = crud.region.get(db, obj_in.ref_region_to)
         else:
-            region_to = crud.region.get_by_dataset_and_name(db, obj_in.ref_dataset, obj_in.region_to)
+            region_to = crud.region.get_by_dataset_and_name(db, dataset_id=obj_in.ref_dataset, name=obj_in.region_to)
 
         if region_to is None or region_to.ref_dataset != obj_in.ref_dataset:
             raise ValueError("Region to not found or from different dataset.")
