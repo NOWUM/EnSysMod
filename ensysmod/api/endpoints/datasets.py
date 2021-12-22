@@ -1,13 +1,17 @@
+import os
+import tempfile
 import zipfile
 from io import BytesIO
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
 from ensysmod import schemas, model, crud
 from ensysmod.api import deps
+from ensysmod.core.file_download import export_data
 from ensysmod.core.file_upload import process_dataset_zip_archive
 from ensysmod.schemas import FileStatus
 
@@ -101,3 +105,25 @@ def upload_zip_archive(dataset_id: int,
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=jsonable_encoder(result))
 
         return result
+
+
+@router.get("/{dataset_id}/download")
+def upload_zip_archive(dataset_id: int,
+                       db: Session = Depends(deps.get_db),
+                       current: model.User = Depends(deps.get_current_user)):
+    """
+    Downloads the dataset as zip
+    """
+    dataset = crud.dataset.get(db=db, id=dataset_id)
+    if dataset is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {dataset_id} not found!")
+
+    # TODO Check if user has permission for dataset
+
+    # create a temporary directory
+    temp_dir = f"./tmp/download_{dataset_id}"
+    os.makedirs(temp_dir, exist_ok=True)
+
+    zip_file_path = export_data(db, dataset.id, temp_dir)
+
+    return FileResponse(zip_file_path, media_type="application/zip", filename=f"{dataset.name}.zip")
