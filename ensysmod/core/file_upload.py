@@ -248,16 +248,15 @@ def process_sub_folder_matrix_files(zip_archive: ZipFile, sub_folder_name: str, 
                                                       crud_repo=crud.capacity_max,
                                                       create_model=schemas.CapacityMaxCreate))
 
-    # TODO fix crud for transmission distances first
-    # # check if distances.xlsx exists in sub_folder_name
-    # if sub_folder_name + "distances.xlsx" in zip_archive.namelist():
-    #     # process operationRateFix.xlsx
-    #     file_results.append(process_matrix_excel_file(zip_archive.open(sub_folder_name + "distances.xlsx"),
-    #                                                   db, dataset_id,
-    #                                                   component_name, "distance",
-    #                                                   crud_repo=crud.energy_transmission_distance,
-    #                                                   create_model=schemas.EnergyTransmissionDistanceCreate,
-    #                                                   as_list=False))
+    # check if distances.xlsx exists in sub_folder_name
+    if sub_folder_name + "distances.xlsx" in zip_archive.namelist():
+        # process operationRateFix.xlsx
+        file_results.append(process_matrix_excel_file(zip_archive.open(sub_folder_name + "distances.xlsx"),
+                                                      db, dataset_id,
+                                                      component_name, "distance",
+                                                      crud_repo=crud.energy_transmission_distance,
+                                                      create_model=schemas.EnergyTransmissionDistanceCreate,
+                                                      as_list=False, region_key="region_from"))
     return file_results
 
 
@@ -289,7 +288,7 @@ def process_excel_file(file: TemporaryFile, db: Session, dataset_id: int, compon
 
 def process_matrix_excel_file(file: TemporaryFile, db: Session, dataset_id: int, component_name: str, data_key: str,
                               crud_repo: CRUDBaseDependsTimeSeries, create_model: Type[BaseModel],
-                              as_list: bool = True) -> FileUploadResult:
+                              as_list: bool = True, region_key: str = "region") -> FileUploadResult:
     """
     Processes an excel file and adds the matrix data (region_from / region_to) to the database.
 
@@ -301,6 +300,7 @@ def process_matrix_excel_file(file: TemporaryFile, db: Session, dataset_id: int,
     :param crud_repo: CRUD repository to use
     :param create_model: Create model to use
     :param as_list: If true, the data is returned as a list, otherwise as a single float
+    :param region_key: Key of the region to use
     """
     try:
         df: pd.DataFrame = pd.read_excel(file)
@@ -313,7 +313,7 @@ def process_matrix_excel_file(file: TemporaryFile, db: Session, dataset_id: int,
         # for each element of matrix
         for i in range(0, len(df.values)):
             for j in range(0, len(df.values[i])):
-                request_dict = {"region": regions[i], "region_to": regions_to[j], "component": component_name}
+                request_dict = {region_key: regions[i], "region_to": regions_to[j], "component": component_name}
                 if as_list:
                     request_dict[data_key] = [df.values[i][j]]
                 else:
