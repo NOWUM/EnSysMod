@@ -39,6 +39,7 @@ class EnergyTransmissionDistance(EnergyTransmissionDistanceBase):
     """
     Properties to return via API for an energy transmission distance.
     """
+    id: int
     region_from: Region
     region_to: Region
 
