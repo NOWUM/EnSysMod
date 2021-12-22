@@ -5,15 +5,17 @@ from ensysmod.model import EnergyTransmission
 from ensysmod.schemas import EnergyTransmissionCreate
 from ensysmod.schemas.energy_transmission_distance import EnergyTransmissionDistanceCreate
 from tests.utils.data_generator import fixed_existing_dataset, fixed_existing_energy_commodity
-from tests.utils.data_generator.regions import random_existing_region, fixed_existing_region
+from tests.utils.data_generator.regions import fixed_existing_region, fixed_alternative_existing_region, \
+    fixed_alternative_alternative_existing_region
 from tests.utils.utils import random_lower_string
 
 
 def random_energy_transmission_create(db: Session) -> EnergyTransmissionCreate:
     dataset = fixed_existing_dataset(db)
     commodity = fixed_existing_energy_commodity(db)
-    region = random_existing_region(db)
-    region_to = random_existing_region(db)
+    region = fixed_existing_region(db)
+    region_to = fixed_alternative_existing_region(db)
+    region_to_alt = fixed_alternative_alternative_existing_region(db)
     return EnergyTransmissionCreate(
         ref_dataset=dataset.id,
         name=f"EnergyTransmission-{dataset.id}-{random_lower_string()}",
@@ -24,7 +26,12 @@ def random_energy_transmission_create(db: Session) -> EnergyTransmissionCreate:
             EnergyTransmissionDistanceCreate(
                 distance=42.3,
                 ref_region_from=region.id,
-                ref_region_to=region_to.id,
+                region_to=region_to.name,
+            ),
+            EnergyTransmissionDistanceCreate(
+                distance=44.3,
+                region_from=region.name,
+                ref_region_to=region_to_alt.id,
             )
         ]
     )

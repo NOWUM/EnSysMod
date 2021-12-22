@@ -10,8 +10,8 @@ class EnergyTransmissionDistance(Base):
 
     See https://vsa-fine.readthedocs.io/en/latest/storageClassDoc.html
     """
-    ref_component = Column(Integer, ForeignKey("energy_transmission.ref_component"), index=True, nullable=False,
-                           primary_key=True)
+    id = Column(Integer, primary_key=True)
+    ref_component = Column(Integer, ForeignKey("energy_transmission.ref_component"), index=True, nullable=False)
     ref_region_from = Column(Integer, ForeignKey("region.id"), index=True, nullable=False)
     ref_region_to = Column(Integer, ForeignKey("region.id"), index=True, nullable=False)
 
