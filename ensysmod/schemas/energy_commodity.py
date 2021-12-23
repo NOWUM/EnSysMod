@@ -1,8 +1,9 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 from ensysmod.schemas import Dataset
+from ensysmod.util import validators
 
 
 class EnergyCommodityBase(BaseModel):
@@ -12,6 +13,10 @@ class EnergyCommodityBase(BaseModel):
     name: str
     unit: str
     description: Optional[str] = None
+
+    # validators
+    _valid_name = validator("name", allow_reuse=True)(validators.validate_name)
+    _valid_description = validator("description", allow_reuse=True)(validators.validate_description)
 
 
 class EnergyCommodityCreate(EnergyCommodityBase):

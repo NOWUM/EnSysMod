@@ -1,8 +1,9 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 from ensysmod.model import EnergyComponentType, CapacityVariableDomain
+from ensysmod.util import validators
 
 
 class EnergyComponentBase(BaseModel):
@@ -23,6 +24,10 @@ class EnergyComponentBase(BaseModel):
     economic_lifetime: Optional[int] = None
 
     shared_potential_id: Optional[str] = None
+
+    # validators
+    _valid_name = validator("name", allow_reuse=True)(validators.validate_name)
+    _valid_description = validator("description", allow_reuse=True)(validators.validate_description)
 
 
 class EnergyComponentCreate(EnergyComponentBase):

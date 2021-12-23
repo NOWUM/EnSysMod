@@ -1,8 +1,9 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 from ensysmod.schemas import Dataset
+from ensysmod.util import validators
 
 
 class RegionBase(BaseModel):
@@ -10,6 +11,9 @@ class RegionBase(BaseModel):
     Shared properties for a region. Used as a base class for all schemas.
     """
     name: str
+
+    # validators
+    _valid_name = validator("name", allow_reuse=True)(validators.validate_name)
 
 
 class RegionCreate(RegionBase):
