@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HTTP Routing Table &mdash; EnSysMod 0.0.1 documentation</title>
+  <title>HTTP Routing Table &mdash; EnSysMod 0.0.2 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -79,9 +79,11 @@
    <a href="#cap-/commodities"><strong>/commodities</strong></a> | 
    <a href="#cap-/conversions"><strong>/conversions</strong></a> | 
    <a href="#cap-/datasets"><strong>/datasets</strong></a> | 
+   <a href="#cap-/fix-capacities"><strong>/fix-capacities</strong></a> | 
    <a href="#cap-/fix-operation-rates"><strong>/fix-operation-rates</strong></a> | 
    <a href="#cap-/max-capacities"><strong>/max-capacities</strong></a> | 
    <a href="#cap-/max-operation-rates"><strong>/max-operation-rates</strong></a> | 
+   <a href="#cap-/models"><strong>/models</strong></a> | 
    <a href="#cap-/regions"><strong>/regions</strong></a> | 
    <a href="#cap-/sinks"><strong>/sinks</strong></a> | 
    <a href="#cap-/sources"><strong>/sources</strong></a> | 
@@ -156,7 +158,7 @@
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#get--datasets-"><code class="xref">GET /datasets/</code></a></td><td>
+       <a href="usage/2_dataset.html#get--datasets-"><code class="xref">GET /datasets/</code></a></td><td>
        <em>All Datasets</em></td></tr>
      <tr>
        <td></td>
@@ -166,8 +168,13 @@
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#post--datasets-"><code class="xref">POST /datasets/</code></a></td><td>
+       <a href="usage/2_dataset.html#post--datasets-"><code class="xref">POST /datasets/</code></a></td><td>
        <em>Create Dataset</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--datasets-dataset_id-upload"><code class="xref">POST /datasets/{dataset_id}/upload</code></a></td><td>
+       <em>Upload Zip Archive</em></td></tr>
      <tr>
        <td></td>
        <td>
@@ -178,6 +185,34 @@
        <td>
        <a href="endpoints.html#delete--datasets-dataset_id"><code class="xref">DELETE /datasets/{dataset_id}</code></a></td><td>
        <em>Remove Dataset</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/fix-capacities"><td></td><td>
+       <strong>/fix-capacities</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--fix-capacities-"><code class="xref">GET /fix-capacities/</code></a></td><td>
+       <em>All Fix Capacities</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--fix-capacities-ts_id"><code class="xref">GET /fix-capacities/{ts_id}</code></a></td><td>
+       <em>Get Capacity Fix</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--fix-capacities-"><code class="xref">POST /fix-capacities/</code></a></td><td>
+       <em>Create Capacity Fix</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#put--fix-capacities-ts_id"><code class="xref">PUT /fix-capacities/{ts_id}</code></a></td><td>
+       <em>Update Capacity Fix</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--fix-capacities-ts_id"><code class="xref">DELETE /fix-capacities/{ts_id}</code></a></td><td>
+       <em>Remove Capacity Fix</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-/fix-operation-rates"><td></td><td>
        <strong>/fix-operation-rates</strong></td><td></td></tr>
@@ -262,6 +297,34 @@
        <td>
        <a href="endpoints.html#delete--max-operation-rates-ts_id"><code class="xref">DELETE /max-operation-rates/{ts_id}</code></a></td><td>
        <em>Remove Operation Rate Max</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/models"><td></td><td>
+       <strong>/models</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--models-"><code class="xref">GET /models/</code></a></td><td>
+       <em>All Models</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--models-model_id"><code class="xref">GET /models/{model_id}</code></a></td><td>
+       <em>Get Model</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--models-"><code class="xref">POST /models/</code></a></td><td>
+       <em>Create Model</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#put--models-model_id"><code class="xref">PUT /models/{model_id}</code></a></td><td>
+       <em>Update Model</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--models-model_id"><code class="xref">DELETE /models/{model_id}</code></a></td><td>
+       <em>Remove Model</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-/regions"><td></td><td>
        <strong>/regions</strong></td><td></td></tr>

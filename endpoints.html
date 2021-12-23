@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Endpoints of REST-API &mdash; EnSysMod 0.0.1 documentation</title>
+  <title>Endpoints of REST-API &mdash; EnSysMod 0.0.2 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Project structure" href="projectStructure.html" />
-    <link rel="prev" title="Usage" href="usage.html" /> 
+    <link rel="prev" title="Ergebnisse abrufen" href="usage/output.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -72,7 +72,7 @@
            <div itemprop="articleBody">
              
   <section id="endpoints-of-rest-api">
-<h1>Endpoints of REST-API<a class="headerlink" href="#endpoints-of-rest-api" title="Permalink to this headline"></a></h1>
+<span id="rest-endpoints"></span><h1>Endpoints of REST-API<a class="headerlink" href="#endpoints-of-rest-api" title="Permalink to this headline"></a></h1>
 <p>You can test the endpoints by running this app locally and visit <a class="reference external" href="http://localhost:8080/docs">http://localhost:8080/docs</a>.</p>
 <section id="description">
 <span id="id1"></span><h2>Description<a class="headerlink" href="#description" title="Permalink to this headline"></a></h2>
@@ -224,6 +224,25 @@
 <span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/datasets/{dataset_id}</span></span><a class="headerlink" href="#delete--datasets-dataset_id" title="Permalink to this definition"></a></dt>
 <dd><p><strong>Remove Dataset</strong></p>
 <p>Delete a dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--datasets-dataset_id-upload">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/datasets/{dataset_id}/upload</span></span><a class="headerlink" href="#post--datasets-dataset_id-upload" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Upload Zip Archive</strong></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -621,6 +640,200 @@
 </dd></dl>
 
 <dl class="http get">
+<dt class="sig sig-object http" id="get--models-">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/</span></span><a class="headerlink" href="#get--models-" title="Permalink to this definition"></a></dt>
+<dd><p><strong>All Models</strong></p>
+<p>Retrieve all energy models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Query Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>dataset</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--models-">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/models/</span></span><a class="headerlink" href="#post--models-" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Create Model</strong></p>
+<p>Create a new energy model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – EnergyModel with same name already exists.</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--models-model_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}</span></span><a class="headerlink" href="#get--models-model_id" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Get Model</strong></p>
+<p>Retrieve a energy model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http put">
+<dt class="sig sig-object http" id="put--models-model_id">
+<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}</span></span><a class="headerlink" href="#put--models-model_id" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Update Model</strong></p>
+<p>Update a energy model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--models-model_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}</span></span><a class="headerlink" href="#delete--models-model_id" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Remove Model</strong></p>
+<p>Delete a energy model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--fix-capacities-">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/</span></span><a class="headerlink" href="#get--fix-capacities-" title="Permalink to this definition"></a></dt>
+<dd><p><strong>All Fix Capacities</strong></p>
+<p>Retrieve all fix capacities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Query Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--fix-capacities-">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/</span></span><a class="headerlink" href="#post--fix-capacities-" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Create Capacity Fix</strong></p>
+<p>Create a new fix capacity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--fix-capacities-ts_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/{ts_id}</span></span><a class="headerlink" href="#get--fix-capacities-ts_id" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Get Capacity Fix</strong></p>
+<p>Retrieve a fix capacity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ts_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http put">
+<dt class="sig sig-object http" id="put--fix-capacities-ts_id">
+<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/{ts_id}</span></span><a class="headerlink" href="#put--fix-capacities-ts_id" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Update Capacity Fix</strong></p>
+<p>Update a fix capacity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ts_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--fix-capacities-ts_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/{ts_id}</span></span><a class="headerlink" href="#delete--fix-capacities-ts_id" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Remove Capacity Fix</strong></p>
+<p>Delete a fix capacity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ts_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
 <dt class="sig sig-object http" id="get--max-capacities-">
 <span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-capacities/</span></span><a class="headerlink" href="#get--max-capacities-" title="Permalink to this definition"></a></dt>
 <dd><p><strong>All Max Capacities</strong></p>
@@ -915,7 +1128,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="usage.html" class="btn btn-neutral float-left" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="usage/output.html" class="btn btn-neutral float-left" title="Ergebnisse abrufen" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="projectStructure.html" class="btn btn-neutral float-right" title="Project structure" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
