@@ -19,7 +19,7 @@ class RefCRBaseCreate(RefCRBaseBase):
     ref_dataset: int
     component: str
     region: str
-    region_to: Optional[int] = None
+    region_to: Optional[str] = None
 
 
 class RefCRBaseUpdate(RefCRBaseBase):

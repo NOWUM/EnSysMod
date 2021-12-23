@@ -1,10 +1,15 @@
+import zipfile
+from io import BytesIO
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from ensysmod import schemas, model, crud
 from ensysmod.api import deps
+from ensysmod.core.file_upload import process_dataset_zip_archive
+from ensysmod.schemas import FileStatus
 
 router = APIRouter()
 
@@ -72,3 +77,27 @@ def remove_dataset(dataset_id: int,
     # TODO Check if user has permission for dataset
     # TODO remove all components, commodities, regions, etc.
     return crud.dataset.remove(db=db, id=dataset_id)
+
+
+@router.post("/{dataset_id}/upload", response_model=schemas.ZipArchiveUploadResult)
+def upload_zip_archive(dataset_id: int,
+                       file: UploadFile = File(...),
+                       db: Session = Depends(deps.get_db),
+                       current: model.User = Depends(deps.get_current_user)):
+    if file.content_type not in ["application/x-zip-compressed", "application/zip", "application/zip-compressed"]:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail=f"File must be a zip archive. You provided {file.content_type}!")
+
+    dataset = crud.dataset.get(db=db, id=dataset_id)
+    if dataset is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {dataset_id} not found!")
+
+    # TODO Check if user has permission for dataset
+
+    with zipfile.ZipFile(BytesIO(file.file.read()), 'r') as zip_archive:
+        result = process_dataset_zip_archive(zip_archive, dataset_id, db)
+
+        if result.status == FileStatus.ERROR:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=jsonable_encoder(result))
+
+        return result

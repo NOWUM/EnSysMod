@@ -1,0 +1,12 @@
+{
+    "name": "Pipeline (Wasserstoff)",
+    "description": "Stellt die Pipeline (Wasserstoff) dar", 
+    "commodity": "Wasserstoff",
+    "has_is_built_binary_variable":"True", 
+    "big_m":300,
+    "shared_potential_id":"pipelines",
+    "invest_per_capacity":0.000177, 
+    "invest_if_built":0.00033,
+    "interest_rate":0.08, 
+    "economic_lifetime":40
+}

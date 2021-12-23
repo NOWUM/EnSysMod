@@ -1,0 +1,19 @@
+{
+    "name": "GuD-Turbine (Biogas)",
+    "description": "Stellt Gas-und Dampfturbinen für Biogas dar", 
+    "commodity_unit": "Biogas",
+    "conversion_factors": [
+        {
+            "commodity": "Elektrizität",
+            "conversion_factor": 1
+        },
+        {
+            "commodity": "Biogas",
+            "conversion_factor": -1.5873
+        }
+    ],
+    "invest_per_capacity":0.7, 
+    "opex_per_capacity":0.021, 
+    "interest_rate":0.08,
+    "economic_lifetime":33
+}
