@@ -22,10 +22,11 @@ class CRUDEnergyTransmission(CRUDBaseDependsComponent[EnergyTransmission,
         db_obj = super().create(db=db, obj_in=obj_in_dict)
 
         # also create distances
-        for distance_create in obj_in.distances:
-            distance_create.ref_dataset = obj_in.ref_dataset
-            distance_create.ref_component = db_obj.component.id
-            crud.energy_transmission_distance.create(db, obj_in=distance_create)
+        if obj_in.distances is not None:
+            for distance_create in obj_in.distances:
+                distance_create.ref_dataset = obj_in.ref_dataset
+                distance_create.ref_component = db_obj.component.id
+                crud.energy_transmission_distance.create(db, obj_in=distance_create)
 
         return db_obj
 
