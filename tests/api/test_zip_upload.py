@@ -19,8 +19,10 @@ def get_dataset_1_zip() -> str:
     # create a zip file from the directory
     zip_file_path = os.path.join(temp_dir, "dataset-1.zip")
     with zipfile.ZipFile(zip_file_path, 'w') as zip_file:
-        for root, dirs, files in os.walk("../examples/data/dataset-1/"):
-            acr_path = os.path.relpath(root, "../examples/data/dataset-1/")
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+        print(f"Project root: {project_root}")
+        for root, dirs, files in os.walk(f"{project_root}/examples/data/dataset-1/"):
+            acr_path = os.path.relpath(root, f"{project_root}/examples/data/dataset-1/")
             zip_file.write(root, acr_path)
             for file in files:
                 zip_file.write(os.path.join(root, file), arcname=os.path.join(acr_path, file))
