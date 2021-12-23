@@ -1,3 +1,5 @@
+.. _rest_endpoints:
+
 Endpoints of REST-API
 =====================
 
