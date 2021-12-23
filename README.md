@@ -12,6 +12,8 @@ It allows you to store multiple datasets in a database and generate multiple sim
 Unfortunately, there is no frontend yet. Feel free to contribute! ... or use [Postman](https://www.postman.com/) 
 instead.
 
+Our documentation is available [here](https://nowum.github.io/EnSysMod/).
+
 ## Installation
 ### Using Docker
 Requirements:
