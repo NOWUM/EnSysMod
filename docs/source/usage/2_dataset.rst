@@ -62,7 +62,7 @@ are described. The zip archive is structured as follows:
     ├───storages/
     └───transmissions/
 
-The ```commodities.json`` contains all commodities, which are used in the energy system.
+The ``commodities.json`` contains all commodities, which are used in the energy system.
 The json file is structured as a list of commodities with name, unit and description.
 The unit is used for all values in the energy system with that specific commodity.
 Example:
