@@ -17,14 +17,14 @@ With one dataset several modeling runs can be performed.
 
 Create a new dataset
 ====================
-To create a new dataset, the API REST interface ``POST /datasets/`` is addressed. You can provide the following
-parameters:
+To create a new dataset, the API REST interface ``POST /datasets/`` is addressed. The following parameters should be
+provided:
 
 - `name`: name of the dataset
 
 - `description`: description of the dataset
 
-The endpoint returns the id of the new dataset. That will be needed in the following steps.
+The endpoint returns the id of the new dataset. The id will be needed in the following steps.
 
 A full documentation of the API is available `as redoc documentation <https://http://10.13.10.51:9000/redoc>`_.
 
