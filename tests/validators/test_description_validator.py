@@ -1,7 +1,7 @@
 from typing import Type, List, Tuple, Dict, Any
 
 import pytest
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from ensysmod.model import EnergyComponentType
 from ensysmod.schemas import DatasetCreate, DatasetUpdate, EnergyCommodityCreate, EnergyCommodityUpdate, \
@@ -26,7 +26,7 @@ def test_error_empty_description(schema: Type[BaseModel], data: Dict[str, Any]):
     """
     Test that a description is required for a schema
     """
-    with pytest.raises(ValueError):
+    with pytest.raises(ValidationError) as exc_info:
         schema(**data)
 
 
@@ -43,7 +43,7 @@ def test_error_long_description(schema: Type[BaseModel], data: Dict[str, Any]):
     """
     Test that a description is not longer than 1024 characters
     """
-    with pytest.raises(ValueError):
+    with pytest.raises(ValidationError) as exc_info:
         schema(description="a" * 1025, **data)
 
 
