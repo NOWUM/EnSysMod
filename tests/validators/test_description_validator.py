@@ -21,15 +21,6 @@ schemas_with_description_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] 
 schemas_with_description = schemas_with_description_required + schemas_with_description_optional
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_description_required)
-def test_error_empty_description(schema: Type[BaseModel], data: Dict[str, Any]):
-    """
-    Test that a description is required for a schema
-    """
-    with pytest.raises(ValidationError) as exc_info:
-        schema(**data)
-
-
 @pytest.mark.parametrize("schema,data", schemas_with_description_optional)
 def test_ok_empty_description(schema: Type[BaseModel], data: Dict[str, Any]):
     """

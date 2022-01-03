@@ -6,13 +6,14 @@ from pydantic import BaseModel, ValidationError
 from ensysmod.model import EnergyComponentType
 from ensysmod.schemas import EnergyComponentCreate, EnergyConversionCreate, EnergySourceCreate, EnergySinkCreate, \
     EnergyStorageCreate, EnergyTransmissionCreate
+from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactorCreate
 
 schemas_with_type_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
     (EnergyComponentCreate, {"name": "foo", "ref_dataset": 42}),
 ]
 
 schemas_with_implicit_type: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
-    (EnergyConversionCreate, {"name": "foo", "commodity_unit": "bar", "ref_dataset": 42, "conversion_factors": []}),
+    (EnergyConversionCreate, {"name": "foo", "commodity_unit": "bar", "ref_dataset": 42, "conversion_factors": [EnergyConversionFactorCreate(commodity="foo", conversion_factor=0.42)]}),
     (EnergySourceCreate, {"name": "foo", "ref_dataset": 42, "commodity": "bar"}),
     (EnergySinkCreate, {"name": "foo", "ref_dataset": 42, "commodity": "bar"}),
     (EnergyStorageCreate, {"name": "foo", "ref_dataset": 42, "commodity": "bar"}),

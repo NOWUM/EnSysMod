@@ -1,8 +1,9 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 from ensysmod.schemas import Dataset
+from ensysmod.util import validators
 
 
 class EnergyModelBase(BaseModel):
@@ -13,12 +14,20 @@ class EnergyModelBase(BaseModel):
     yearly_co2_limit: Optional[float] = None
     description: Optional[str] = None
 
+    # validators
+    _valid_name = validator("name", allow_reuse=True)(validators.validate_name)
+    _valid_yearly_co2_limit = validator("yearly_co2_limit", allow_reuse=True)(validators.validate_yearly_co2_limit)
+    _valid_description = validator("description", allow_reuse=True)(validators.validate_description)
+
 
 class EnergyModelCreate(EnergyModelBase):
     """
     Properties to receive via API on creation of an energy model.
     """
     ref_dataset: int
+
+    # validators
+    _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset)
 
 
 class EnergyModelUpdate(EnergyModelBase):

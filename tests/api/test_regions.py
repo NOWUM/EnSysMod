@@ -37,7 +37,7 @@ def test_create_region_unknown_dataset(client: TestClient, normal_user_headers: 
     Test creating a region.
     """
     create_request = data_gen.random_region_create(db)
-    create_request.ref_dataset = 0  # ungültige Anfrage
+    create_request.ref_dataset = 123456  # ungültige Anfrage
     response = client.post("/regions/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 

@@ -1,19 +1,22 @@
 from typing import Optional, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 from ensysmod.model import EnergyComponentType
 from ensysmod.schemas.energy_commodity import EnergyCommodity
 from ensysmod.schemas.energy_component import EnergyComponentCreate, EnergyComponent, EnergyComponentUpdate
 from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactorCreate, EnergyConversionFactor
+from ensysmod.util import validators
 
 
 class EnergyConversionBase(BaseModel):
     """
     Shared properties for an energy conversion. Used as a base class for all schemas.
     """
-    commodity_unit: str
     type = EnergyComponentType.CONVERSION
+
+    # validators
+    _valid_type = validator("type", allow_reuse=True)(validators.validate_energy_component_type)
 
 
 class EnergyConversionCreate(EnergyConversionBase, EnergyComponentCreate):
@@ -21,6 +24,11 @@ class EnergyConversionCreate(EnergyConversionBase, EnergyComponentCreate):
     Properties to receive via API on creation of an energy conversion.
     """
     conversion_factors: List[EnergyConversionFactorCreate]
+    commodity_unit: str
+    
+    # validators
+    _valid_conversion_factors = validator("conversion_factors", allow_reuse=True)(validators.validate_conversion_factors)
+    _valid_commodity_unit = validator("commodity_unit", allow_reuse=True)(validators.validate_unit)
 
 
 class EnergyConversionUpdate(EnergyConversionBase, EnergyComponentUpdate):
@@ -29,6 +37,9 @@ class EnergyConversionUpdate(EnergyConversionBase, EnergyComponentUpdate):
     """
     commodity_unit: Optional[str] = None
     conversion_factors: Optional[List[EnergyConversionFactorCreate]] = None  # update = delete and recreate
+
+    # validators
+    _valid_commodity_unit = validator("commodity_unit", allow_reuse=True)(validators.validate_unit)
 
 
 class EnergyConversion(EnergyConversionBase):

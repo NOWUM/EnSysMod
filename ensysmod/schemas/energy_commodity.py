@@ -16,6 +16,7 @@ class EnergyCommodityBase(BaseModel):
 
     # validators
     _valid_name = validator("name", allow_reuse=True)(validators.validate_name)
+    _valid_unit = validator("unit", allow_reuse=True)(validators.validate_unit)
     _valid_description = validator("description", allow_reuse=True)(validators.validate_description)
 
 
@@ -25,6 +26,8 @@ class EnergyCommodityCreate(EnergyCommodityBase):
     """
     ref_dataset: int
 
+    # validators
+    _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset)
 
 class EnergyCommodityUpdate(EnergyCommodityBase):
     """

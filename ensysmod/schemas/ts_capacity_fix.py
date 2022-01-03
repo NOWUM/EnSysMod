@@ -1,8 +1,9 @@
 from typing import List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 from ensysmod.schemas.base_ref_component_region import RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate, RefCRBase
+from ensysmod.util import validators
 
 
 class CapacityFixBase(RefCRBaseBase, BaseModel):
@@ -10,6 +11,9 @@ class CapacityFixBase(RefCRBaseBase, BaseModel):
     Shared properties for a max capacity. Used as a base class for all schemas.
     """
     fix_capacities: List[float]
+
+    # validators
+    _valid_fix_capacities = validator("fix_capacities", allow_reuse=True)(validators.validate_fix_capacities)
 
 
 class CapacityFixCreate(CapacityFixBase, RefCRBaseCreate):

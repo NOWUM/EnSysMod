@@ -38,7 +38,7 @@ def test_create_energy_source_unknown_dataset(client: TestClient, normal_user_he
     Test creating a energy source.
     """
     create_request = data_gen.random_energy_source_create(db)
-    create_request.ref_dataset = 0  # ungültige Anfrage
+    create_request.ref_dataset = 123456  # ungültige Anfrage
     response = client.post("/sources/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
