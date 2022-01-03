@@ -11,7 +11,6 @@ class EnergyComponentBase(BaseModel):
     Shared properties for an energy component. Used as a base class for all schemas.
     """
     name: str
-    type: EnergyComponentType
     description: Optional[str] = None
 
     capacity_variable: Optional[bool] = None
@@ -35,13 +34,17 @@ class EnergyComponentCreate(EnergyComponentBase):
     Properties to receive via API on creation of an energy component.
     """
     ref_dataset: int
+    type: EnergyComponentType
+
+    # validators
+    _valid_type = validator("type", allow_reuse=True)(validators.validate_energy_component_type)
 
 
 class EnergyComponentUpdate(EnergyComponentBase):
     """
     Properties to receive via API on update of an energy component.
     """
-    pass
+    name: Optional[str] = None
 
 
 class EnergyComponent(EnergyComponentBase):
@@ -49,6 +52,7 @@ class EnergyComponent(EnergyComponentBase):
     Properties to return via API for an energy component.
     """
     id: int
+    type: EnergyComponentType
 
     class Config:
         orm_mode = True
