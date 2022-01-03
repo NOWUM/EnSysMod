@@ -11,7 +11,7 @@ schemas_with_name_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
     (DatasetCreate, {"description": "foo"}),
     (EnergyCommodityCreate, {"description": "foo", "unit": "bar", "ref_dataset": 42}),
     (EnergyComponentCreate, {"type": EnergyComponentType.SOURCE, "ref_dataset": 42}),
-    (RegionCreate, {}),
+    (RegionCreate, {"ref_dataset": 42}),
 ]
 
 schemas_with_name_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
