@@ -22,7 +22,7 @@ schemas_with_description = schemas_with_description_required + schemas_with_desc
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_description_required)
-def test_error_empty_description(schema: Type, data: dict):
+def test_error_empty_description(schema: Type[BaseModel], data: Dict[str, Any]):
     """
     Test that a description is required for a schema
     """
@@ -31,7 +31,7 @@ def test_error_empty_description(schema: Type, data: dict):
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_description_optional)
-def test_ok_empty_description(schema: Type, data: dict):
+def test_ok_empty_description(schema: Type[BaseModel], data: Dict[str, Any]):
     """
     Test that a description is optional for a schema
     """
@@ -39,7 +39,7 @@ def test_ok_empty_description(schema: Type, data: dict):
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_description)
-def test_error_long_description(schema: Type, data: dict):
+def test_error_long_description(schema: Type[BaseModel], data: Dict[str, Any]):
     """
     Test that a description is not longer than 1024 characters
     """
@@ -48,7 +48,7 @@ def test_error_long_description(schema: Type, data: dict):
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_description)
-def test_ok_descriptions(schema: Type, data: dict):
+def test_ok_descriptions(schema: Type[BaseModel], data: Dict[str, Any]):
     """
     Test that a description with everything between 1 and 1024 characters is valid
     """

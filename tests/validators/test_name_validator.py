@@ -25,7 +25,7 @@ schemas_with_name = schemas_with_name_required + schemas_with_name_optional
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_name_required)
-def test_error_empty_name(schema: Type, data: dict):
+def test_error_empty_name(schema: Type[BaseModel], data: Dict[str, Any]):
     """
     Test that a name is required for a schema
     """
@@ -34,7 +34,7 @@ def test_error_empty_name(schema: Type, data: dict):
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_name_optional)
-def test_ok_empty_name(schema: Type, data: dict):
+def test_ok_empty_name(schema: Type[BaseModel], data: Dict[str, Any]):
     """
     Test that a name is optional for a schema
     """
@@ -42,7 +42,7 @@ def test_ok_empty_name(schema: Type, data: dict):
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_name)
-def test_error_long_name(schema: Type, data: dict):
+def test_error_long_name(schema: Type[BaseModel], data: Dict[str, Any]):
     """
     Test that a name is not longer than 255 characters
     """
@@ -51,7 +51,7 @@ def test_error_long_name(schema: Type, data: dict):
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_name)
-def test_ok_names(schema: Type, data: dict):
+def test_ok_names(schema: Type[BaseModel], data: Dict[str, Any]):
     """
     Test that a name with everything between 1 and 255 characters is valid
     """
