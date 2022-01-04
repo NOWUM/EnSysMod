@@ -1,3 +1,6 @@
+from typing import List
+
+import pandas as pd
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
@@ -68,6 +71,22 @@ class CRUDEnergyTransmissionDistance(CRUDBase[EnergyTransmissionDistance,
         obj_in.ref_region_to = region_to.id
 
         return super().create(db=db, obj_in=obj_in)
+
+    def get_dataframe(self, db: Session, component_id: int, region_ids: List[int]) -> pd.DataFrame:
+        """
+        Returns the distances for the provided regions as matrix.
+        """
+        data = db.query(self.model) \
+            .filter(self.model.ref_component == component_id) \
+            .filter(self.model.ref_region_from.in_(region_ids)) \
+            .filter(self.model.ref_region_to.in_(region_ids)) \
+            .all()
+
+        region_names = [crud.region.get(db, id=r_id).name for r_id in region_ids]
+        df = pd.DataFrame(0.0, index=region_names, columns=region_names)
+        for d in data:
+            df[d.region_to.name][d.region_from.name] = d.distance
+        return df
 
 
 energy_transmission_distance = CRUDEnergyTransmissionDistance(EnergyTransmissionDistance)
