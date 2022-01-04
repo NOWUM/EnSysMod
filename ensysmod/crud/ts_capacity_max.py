@@ -11,4 +11,4 @@ class CRUDCapacityMax(CRUDBaseDependsTimeSeries[CapacityMax, CapacityMaxCreate, 
     pass
 
 
-capacity_max = CRUDCapacityMax(CapacityMax)
+capacity_max = CRUDCapacityMax(CapacityMax, "max_capacities")

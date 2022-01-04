@@ -11,4 +11,4 @@ class CRUDOperationRateMax(CRUDBaseDependsTimeSeries[OperationRateMax, Operation
     pass
 
 
-operation_rate_max = CRUDOperationRateMax(OperationRateMax)
+operation_rate_max = CRUDOperationRateMax(OperationRateMax, "max_operation_rates")
