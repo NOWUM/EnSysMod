@@ -11,6 +11,7 @@ passlib~=1.7.4
 python-multipart
 bcrypt
 
+simplejson~=3.17.6
 numpy
 pandas
 openpyxl
