@@ -1,6 +1,6 @@
 import os
-import tempfile
 import zipfile
+from datetime import datetime
 from io import BytesIO
 from typing import List
 
@@ -121,8 +121,14 @@ def upload_zip_archive(dataset_id: int,
     # TODO Check if user has permission for dataset
 
     # create a temporary directory
-    temp_dir = f"./tmp/download_{dataset_id}"
-    os.makedirs(temp_dir, exist_ok=True)
+    time_str = datetime.now().strftime("%Y%m%d%H%M%S")
+    temp_dir = f"./tmp/download-{dataset_id}-{time_str}/"
+    if not os.path.exists(temp_dir):
+        os.makedirs(temp_dir)
+    else:
+        # remove all files in temp dir
+        for file in os.listdir(temp_dir):
+            os.remove(os.path.join(temp_dir, file))
 
     zip_file_path = export_data(db, dataset.id, temp_dir)
 
