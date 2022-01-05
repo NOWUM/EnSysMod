@@ -1,8 +1,6 @@
-from typing import Any, List
+from typing import Any, List, Optional
 
 from ensysmod.model import EnergyComponentType
-# from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactorCreate
-# from ensysmod.schemas.energy_transmission import EnergyTransmissionCreate
 
 
 def validate_name(name: str) -> str:
@@ -57,7 +55,23 @@ def validate_unit(unit: str) -> str:
     return unit
 
 
-def validate_ref_dataset(ref_dataset: int) -> int:
+def validate_ref_dataset_required(ref_dataset: int) -> int:
+    """
+    Validates the referenz to a dataset of an object.
+
+    :param ref_dataset: The referenz to a dataset of the object.
+    :return: The validated referenz to a dataset.
+    """
+    if ref_dataset is None:
+        raise ValueError("Referenz to a dataset must not be empty.")
+
+    if ref_dataset <= 0:
+        raise ValueError("Referenz to a dataset must be positive.")
+
+    return ref_dataset
+
+
+def validate_ref_dataset_optional(ref_dataset: Optional[int]) -> Optional[int]:
     """
     Validates the referenz to a dataset of an object.
 
@@ -65,16 +79,18 @@ def validate_ref_dataset(ref_dataset: int) -> int:
     :return: The validated referenz to a dataset.
     """
     if not ref_dataset:
-        raise ValueError("Referenz to a dataset must not be empty.")
+        return None
+
     if ref_dataset <= 0:
-        raise ValueError("Referenz to a dataset must be positiv.")
+        raise ValueError("Referenz to a dataset must be positive.")
 
     return ref_dataset
 
 
-def validate_capacity_per_plant_unit(capacity_per_plant_unit: float) -> float:
+def validate_capacity_per_plant_unit(capacity_per_plant_unit: Optional[float]) -> Optional[float]:
     """
     Validates the capacity per plant per unit of an object.
+    Capacity per plant per unit is always optional.
 
     :param capacity_per_plant_unit: The capacity per plant per unit of the object.
     :return: The validated capacity per plant per unit.
@@ -82,15 +98,17 @@ def validate_capacity_per_plant_unit(capacity_per_plant_unit: float) -> float:
     if capacity_per_plant_unit is None:
         # Skip validation if no value provided
         return None
+
     if capacity_per_plant_unit <= 0:
-        raise ValueError("Capacity per plant per unit must be positiv.")
+        raise ValueError("Capacity per plant per unit must be positive.")
 
     return capacity_per_plant_unit
 
 
-def validate_invest_per_capacity(invest_per_capacity: float) -> float:
+def validate_invest_per_capacity(invest_per_capacity: Optional[float]) -> Optional[float]:
     """
     Validates the invest per capacity of an object.
+    Invest per capacity is always optional.
 
     :param invest_per_capacity: The invest per capacity of the object.
     :return: The validated invest per capacity.
@@ -98,15 +116,17 @@ def validate_invest_per_capacity(invest_per_capacity: float) -> float:
     if invest_per_capacity is None:
         # Skip validation if no value provided
         return None
-    if invest_per_capacity and invest_per_capacity < 0:
-        raise ValueError("Invest per capacity must be zero or positiv.")
+
+    if invest_per_capacity < 0:
+        raise ValueError("Invest per capacity must be zero or positive.")
 
     return invest_per_capacity
 
 
-def validate_opex_per_capacity(opex_per_capacity: float) -> float:
+def validate_opex_per_capacity(opex_per_capacity: Optional[float]) -> Optional[float]:
     """
     Validates the opex per capacity of an object.
+    Opex per capacity is always optional.
 
     :param opex_per_capacity: The opex per capacity of the object.
     :return: The validated opex per capacity.
@@ -114,15 +134,17 @@ def validate_opex_per_capacity(opex_per_capacity: float) -> float:
     if opex_per_capacity is None:
         # Skip validation if no value provided
         return None
+
     if opex_per_capacity < 0:
-        raise ValueError("Opex per capacity must be zero or positiv.")
+        raise ValueError("Opex per capacity must be zero or positive.")
 
     return opex_per_capacity
 
 
-def validate_interest_rate(interest_rate: float) -> float:
+def validate_interest_rate(interest_rate: Optional[float]) -> Optional[float]:
     """
     Validates the interest rate of an object.
+    Interest rate is always optional.
 
     :param interest_rate: The interest rate of the object.
     :return: The validated interest rate.
@@ -130,15 +152,17 @@ def validate_interest_rate(interest_rate: float) -> float:
     if interest_rate is None:
         # Skip validation if no value provided
         return None
-    if (interest_rate < 0 or interest_rate > 1):
+
+    if interest_rate < 0 or interest_rate > 1:
         raise ValueError("Interest rate must be between 0 and 1.")
 
     return interest_rate
 
 
-def validate_economic_lifetime(economic_lifetime: int) -> int:
+def validate_economic_lifetime(economic_lifetime: Optional[int]) -> Optional[int]:
     """
     Validates the economic lifetime of an object.
+    Economic lifetime is always optional.
 
     :param economic_lifetime: The economic lifetime of the object.
     :return: The validated economic lifetime.
@@ -146,15 +170,17 @@ def validate_economic_lifetime(economic_lifetime: int) -> int:
     if economic_lifetime is None:
         # Skip validation if no value provided
         return None
+
     if economic_lifetime <= 0:
-        raise ValueError("Economic lifetime must be positiv.")
+        raise ValueError("Economic lifetime must be positive.")
 
     return economic_lifetime
 
 
-def validate_shared_potential_id(shared_potential_id: str) -> str:
+def validate_shared_potential_id(shared_potential_id: Optional[str]) -> Optional[str]:
     """
     Validates the shared potential id of an object.
+    Shared potential id is always optional.
 
     :param shared_potential_id: The shared potential id of the object.
     :return: The validated shared potential id.
@@ -162,14 +188,17 @@ def validate_shared_potential_id(shared_potential_id: str) -> str:
     if shared_potential_id is None:
         # Skip validation if no value provided
         return None
+
     if len(shared_potential_id) > 100:
         raise ValueError("Shared potential id must not be longer than 100 characters.")
+
     return shared_potential_id
 
 
-def validate_conversion_factor(conversion_factor: float) -> float:
+def validate_conversion_factor(conversion_factor: Optional[float]) -> Optional[float]:
     """
     Validates the conversion factor of an object.
+    Conversion factor is always optional.
 
     :param conversion_factor: The conversion factor of the object.
     :return: The validated conversion factor.
@@ -177,13 +206,14 @@ def validate_conversion_factor(conversion_factor: float) -> float:
     if conversion_factor is None:
         # Skip validation if no value provided
         return None
-    if (conversion_factor < 0 or conversion_factor > 1):
-        raise ValueError("Conversion factor must be between 0 and 1.")
+
+    if conversion_factor < -5 or conversion_factor > 5:
+        raise ValueError("Conversion factor must be between 5 and 5.")
 
     return conversion_factor
 
 
-def validate_commodity(commodity: str) -> str:
+def validate_commodity(commodity: Optional[str]) -> Optional[str]:
     """
     Validates the commodity of an object.
 
@@ -193,12 +223,14 @@ def validate_commodity(commodity: str) -> str:
     if commodity is None:
         # Skip validation if no value provided
         return None
-    if len(commodity) > 100:
-        raise ValueError("commodity must not be longer than 100 characters.")
+
+    if len(commodity) > 255:
+        raise ValueError("Commodity must not be longer than 255 characters.")
+
     return commodity
 
 
-def validate_ref_component(ref_component: int) -> int:
+def validate_ref_component_required(ref_component: int) -> int:
     """
     Validates the referenz to a component of an object.
 
@@ -206,16 +238,32 @@ def validate_ref_component(ref_component: int) -> int:
     :return: The validated referenz to a component.
     """
     if ref_component <= 0:
-        raise ValueError("Referenz to a component must be positiv.")
+        raise ValueError("Reference to a component must be positive.")
+
+    return ref_component
+
+
+def validate_ref_component_optional(ref_component: Optional[int]) -> Optional[int]:
+    """
+    Validates the referenz to a component of an object.
+
+    :param ref_component: The referenz to a component of the object.
+    :return: The validated referenz to a component.
+    """
+    if ref_component is None:
+        return None
+
+    if ref_component <= 0:
+        raise ValueError("Reference to a component must be positive.")
 
     return ref_component
 
 
 def validate_conversion_factors(conversion_factors: List[Any]) -> List[Any]:
     """
-    Validates the conversion_factor of an object.
+    Validates the conversion factors of an object.
 
-    :param conversion_factor: The conversion_factor of the object.
+    :param conversion_factors: The conversion_factor of the object.
     :return: The validated conversion_factor.
     """
     if not conversion_factors:
@@ -250,105 +298,137 @@ def validate_commodity_cost(commodity_cost: float) -> float:
     return commodity_cost
 
 
-def validate_charge_efficiency(charge_efficiency: float) -> float:
+def validate_charge_efficiency(charge_efficiency: Optional[float]) -> Optional[float]:
     """
     Validates the charge_efficiency of an object.
+    Charge efficiency is always optional.
 
     :param charge_efficiency: The charge_efficiency of the object.
     :return: The validated charge_efficiency.
     """
-    if (charge_efficiency < 0 or charge_efficiency > 1):
+    if charge_efficiency is None:
+        return None
+
+    if charge_efficiency < 0 or charge_efficiency > 1:
         raise ValueError("charge_efficiency must be between 0 and 1.")
 
     return charge_efficiency
 
 
-def validate_discharge_efficiency(discharge_efficiency: float) -> float:
+def validate_discharge_efficiency(discharge_efficiency: Optional[float]) -> Optional[float]:
     """
     Validates the discharge_efficiency of an object.
+    Discharge efficiency is always optional.
 
     :param discharge_efficiency: The discharge_efficiency of the object.
     :return: The validated discharge_efficiency.
     """
-    if (discharge_efficiency < 0 or discharge_efficiency > 1):
+    if discharge_efficiency is None:
+        return None
+
+    if discharge_efficiency < 0 or discharge_efficiency > 1:
         raise ValueError("discharge_efficiency must be between 0 and 1.")
 
     return discharge_efficiency
 
 
-def validate_self_discharge(self_discharge: float) -> float:
+def validate_self_discharge(self_discharge: Optional[float]) -> Optional[float]:
     """
     Validates the self_discharge of an object.
+    Self discharge is always optional.
 
     :param self_discharge: The self_discharge of the object.
     :return: The validated self_discharge.
     """
-    if (self_discharge < 0 or self_discharge > 1):
-        raise ValueError("self_discharge must be between 0 and 1.")
+    if self_discharge is None:
+        return None
+
+    if self_discharge < 0 or self_discharge > 1:
+        raise ValueError("Self discharge must be between 0 and 1.")
 
     return self_discharge
 
 
-def validate_cyclic_lifetime(cyclic_lifetime: int) -> int:
+def validate_cyclic_lifetime(cyclic_lifetime: Optional[int]) -> Optional[int]:
     """
-    Validates the cyclic_lifetime of an object.
+    Validates the cyclic lifetime of an object.
+    Cyclic lifetime is always optional.
 
     :param cyclic_lifetime: The cyclic_lifetime of the object.
     :return: The validated cyclic_lifetime.
     """
+    if cyclic_lifetime is None:
+        return None
+
     if cyclic_lifetime <= 0:
-        raise ValueError("self_discharge must be positive.")
+        raise ValueError("Cyclic lifetime must be positive.")
 
     return cyclic_lifetime
 
 
-def validate_charge_rate(charge_rate: float) -> float:
+def validate_charge_rate(charge_rate: Optional[float]) -> Optional[float]:
     """
-    Validates the charge_rate of an object.
+    Validates the charge rate of an object.
+    Charge rate is always optional.
 
     :param charge_rate: The charge_rate of the object.
     :return: The validated charge_rate.
     """
-    if (charge_rate < 0 or charge_rate > 1):
+    if charge_rate is None:
+        return None
+
+    if charge_rate < 0 or charge_rate > 1:
         raise ValueError("charge_rate must be between 0 and 1.")
 
     return charge_rate
 
 
-def validate_discharge_rate(discharge_rate: float) -> float:
+def validate_discharge_rate(discharge_rate: Optional[float]) -> Optional[float]:
     """
-    Validates the discharge_rate of an object.
+    Validates the discharge rate of an object.
+    Discharge rate is always optional.
 
     :param discharge_rate: The discharge_rate of the object.
     :return: The validated discharge_rate.
     """
-    if (discharge_rate < 0 or discharge_rate > 1):
+    if discharge_rate is None:
+        return None
+
+    if discharge_rate < 0 or discharge_rate > 1:
         raise ValueError("discharge_rate must be between 0 and 1.")
 
     return discharge_rate
 
 
-def validate_state_of_charge_min(state_of_charge_min: float) -> float:
+def validate_state_of_charge_min(state_of_charge_min: Optional[float]) -> Optional[float]:
     """
-    Validates the state_of_charge_min of an object.
+    Validates the state of charge min of an object.
+    State of charge min is always optional.
 
     :param state_of_charge_min: The state_of_charge_min of the object.
     :return: The validated state_of_charge_min.
     """
-    if (state_of_charge_min < 0 or state_of_charge_min > 1):
+    if state_of_charge_min is None:
+        return None
+
+    if state_of_charge_min < 0 or state_of_charge_min > 1:
         raise ValueError("state_of_charge_min must be between 0 and 1.")
 
     return state_of_charge_min
 
 
-def validate_state_of_charge_max(state_of_charge_max: float) -> float:
+def validate_state_of_charge_max(state_of_charge_max: Optional[float]) -> Optional[float]:
     """
-    Validates the state_of_charge_max of an object.
+    Validates the state of charge max of an object.
+    State of charge max is always optional.
 
     :param state_of_charge_max: The state_of_charge_max of the object.
     :return: The validated state_of_charge_max.
     """
-    if (state_of_charge_max < 0 or state_of_charge_max > 1):
+    if state_of_charge_max is None:
+        return None
+
+    if state_of_charge_max < 0 or state_of_charge_max > 1:
         raise ValueError("state_of_charge_max must be between 0 and 1.")
 
     return state_of_charge_max
@@ -367,67 +447,87 @@ def validate_distance(distance: float) -> float:
     return distance
 
 
-def validate_component(component: str) -> str:
+def validate_component(component: Optional[str]) -> Optional[str]:
     """
     Validates the component of an object.
+    Component is always optional.
 
     :param component: The component of the object.
     :return: The validated component.
     """
+    if component is None:
+        return None
+
     if len(component) > 100:
         raise ValueError("component must not be longer than 100 characters.")
 
     return component
 
 
-def validate_region_from(region_from: str) -> str:
+def validate_region_from(region_from: Optional[str]) -> Optional[str]:
     """
     Validates the region_from of an object.
+    Region from is always optional.
 
     :param region_from: The region_from of the object.
     :return: The validated region_from.
     """
+    if region_from is None:
+        return None
+
     if len(region_from) > 100:
         raise ValueError("region_from must not be longer than 100 characters.")
 
     return region_from
 
 
-def validate_region_to(region_to: str) -> str:
+def validate_region_to(region_to: Optional[str]) -> Optional[str]:
     """
     Validates the region_to of an object.
+    Region to is always optional.
 
     :param region_to: The region_to of the object.
     :return: The validated region_to.
     """
+    if region_to is None:
+        return None
+
     if len(region_to) > 100:
         raise ValueError("region_to must not be longer than 100 characters.")
 
     return region_to
 
 
-def validate_ref_region_from(ref_region_from: int) -> int:
+def validate_ref_region_from(ref_region_from: Optional[int]) -> Optional[int]:
     """
     Validates the ref_region_from of an object.
+    Ref region from is always optional.
 
     :param ref_region_from: The ref_region_from of the object.
     :return: The validated ref_region_from.
     """
+    if ref_region_from is None:
+        return None
+
     if ref_region_from <= 0:
-        raise ValueError("ref_region_from must be positiv.")
+        raise ValueError("ref_region_from must be positive.")
 
     return ref_region_from
 
 
-def validate_ref_region_to(ref_region_to: int) -> int:
+def validate_ref_region_to(ref_region_to: Optional[int]) -> Optional[int]:
     """
     Validates the ref_region_to of an object.
+    Ref region to is always optional.
 
     :param ref_region_to: The ref_region_to of the object.
     :return: The validated ref_region_to.
     """
+    if ref_region_to is None:
+        return None
+
     if ref_region_to <= 0:
-        raise ValueError("ref_region_to must be positiv.")
+        raise ValueError("ref_region_to must be positive.")
 
     return ref_region_to
 
@@ -439,7 +539,7 @@ def validate_loss_per_unit(loss_per_unit: float) -> float:
     :param loss_per_unit: The loss_per_unit of the object.
     :return: The validated loss_per_unit.
     """
-    if (loss_per_unit < 0 or loss_per_unit > 1):
+    if loss_per_unit < 0 or loss_per_unit > 1:
         raise ValueError("loss_per_unit must be zero or positive.")
 
     return loss_per_unit

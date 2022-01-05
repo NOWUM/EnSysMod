@@ -42,7 +42,7 @@ class EnergyComponentCreate(EnergyComponentBase):
     type: EnergyComponentType
 
     # validators
-    _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset)
+    _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_required)
     _valid_type = validator("type", allow_reuse=True)(validators.validate_energy_component_type)
 
 

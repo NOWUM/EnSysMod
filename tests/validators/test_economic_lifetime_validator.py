@@ -1,5 +1,4 @@
 from typing import Type, List, Tuple, Dict, Any
-from typing import Type, List, Tuple, Dict, Any
 
 import pytest
 from pydantic import BaseModel, ValidationError
@@ -11,12 +10,11 @@ schemas_with_economic_lifetime_required: List[Tuple[Type[BaseModel], Dict[str, A
 
 schemas_with_economic_lifetime_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
     (EnergyComponentUpdate, {}),
-    (EnergyComponentCreate, {"name": "test", "description": "foo", "ref_dataset": 42, "type": EnergyComponentType.SOURCE})
+    (EnergyComponentCreate,
+     {"name": "test", "description": "foo", "ref_dataset": 42, "type": EnergyComponentType.SOURCE})
 ]
 
 schemas_with_economic_lifetime = schemas_with_economic_lifetime_required + schemas_with_economic_lifetime_optional
-
-
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_economic_lifetime_optional)
@@ -45,7 +43,7 @@ def test_error_on_zero_economic_lifetime(schema: Type[BaseModel], data: Dict[str
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("economic_lifetime",)
-    assert exc_info.value.errors()[0]["msg"] == "Economic lifetime must be positiv."
+    assert exc_info.value.errors()[0]["msg"] == "Economic lifetime must be positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -59,7 +57,7 @@ def test_error_on_negativ_economic_lifetime(schema: Type[BaseModel], data: Dict[
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("economic_lifetime",)
-    assert exc_info.value.errors()[0]["msg"] == "Economic lifetime must be positiv."
+    assert exc_info.value.errors()[0]["msg"] == "Economic lifetime must be positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

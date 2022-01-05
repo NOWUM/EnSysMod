@@ -26,8 +26,8 @@ class EnergyConversionFactorCreate(EnergyConversionFactorBase):
     commodity: str
 
     # validators
-    _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset)
-    _valid_ref_component = validator("ref_component", allow_reuse=True)(validators.validate_ref_component)
+    _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_optional)
+    _valid_ref_component = validator("ref_component", allow_reuse=True)(validators.validate_ref_component_optional)
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
 
 

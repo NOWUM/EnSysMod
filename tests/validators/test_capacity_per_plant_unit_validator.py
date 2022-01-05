@@ -10,7 +10,8 @@ schemas_with_capacity_per_plant_unit_required: List[Tuple[Type[BaseModel], Dict[
 
 schemas_with_capacity_per_plant_unit_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
     (EnergyComponentUpdate, {}),
-    (EnergyComponentCreate, {"name": "test", "description": "foo", "ref_dataset": 42, "type": EnergyComponentType.SOURCE})
+    (EnergyComponentCreate,
+     {"name": "test", "description": "foo", "ref_dataset": 42, "type": EnergyComponentType.SOURCE})
 ]
 
 schemas_with_capacity_per_plant_unit = schemas_with_capacity_per_plant_unit_required + schemas_with_capacity_per_plant_unit_optional
@@ -32,6 +33,7 @@ def test_ok_missing_capacity_per_plant_unit(schema: Type[BaseModel], data: Dict[
     """
     schema(**data)
 
+
 @pytest.mark.parametrize("schema,data", schemas_with_capacity_per_plant_unit_optional)
 def test_ok_none_capacity_per_plant_unit(schema: Type[BaseModel], data: Dict[str, Any]):
     """
@@ -50,7 +52,7 @@ def test_error_on_zero_capacity_per_plant_unit(schema: Type[BaseModel], data: Di
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("capacity_per_plant_unit",)
-    assert exc_info.value.errors()[0]["msg"] == "Capacity per plant per unit must be positiv."
+    assert exc_info.value.errors()[0]["msg"] == "Capacity per plant per unit must be positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -64,9 +66,8 @@ def test_error_on_negativ_capacity_per_plant_unit(schema: Type[BaseModel], data:
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("capacity_per_plant_unit",)
-    assert exc_info.value.errors()[0]["msg"] == "Capacity per plant per unit must be positiv."
+    assert exc_info.value.errors()[0]["msg"] == "Capacity per plant per unit must be positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
-
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_capacity_per_plant_unit)

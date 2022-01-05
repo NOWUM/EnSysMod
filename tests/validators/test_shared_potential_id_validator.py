@@ -10,7 +10,8 @@ schemas_with_shared_potential_id_required: List[Tuple[Type[BaseModel], Dict[str,
 
 schemas_with_shared_potential_id_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
     (EnergyComponentUpdate, {}),
-    (EnergyComponentCreate, {"name": "test", "description": "foo", "ref_dataset": 42, "type": EnergyComponentType.SOURCE})
+    (EnergyComponentCreate,
+     {"name": "test", "description": "foo", "ref_dataset": 42, "type": EnergyComponentType.SOURCE})
 ]
 
 schemas_with_shared_potential_id = schemas_with_shared_potential_id_required + schemas_with_shared_potential_id_optional
@@ -22,6 +23,7 @@ def test_ok_missing_shared_potential_id(schema: Type[BaseModel], data: Dict[str,
     Test that a shared potential id is optional for a schema
     """
     schema(**data)
+
 
 @pytest.mark.parametrize("schema,data", schemas_with_shared_potential_id_optional)
 def test_ok_none_shared_potential_id(schema: Type[BaseModel], data: Dict[str, Any]):

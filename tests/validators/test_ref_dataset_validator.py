@@ -2,20 +2,16 @@ from typing import Type, List, Tuple, Dict, Any
 
 import pytest
 from pydantic import BaseModel, ValidationError
-from ensysmod.model.energy_component import EnergyComponentType
 
-from ensysmod.schemas import EnergyCommodityCreate, EnergyCommodityUpdate, \
-    EnergyComponentCreate, EnergyComponentUpdate
+from ensysmod.model.energy_component import EnergyComponentType
+from ensysmod.schemas import EnergyCommodityCreate, EnergyComponentCreate
 
 schemas_with_ref_dataset_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
     (EnergyCommodityCreate, {"name": "test", "description": "foo", "unit": "bar"}),
     (EnergyComponentCreate, {"name": "test", "description": "foo", "type": EnergyComponentType.SOURCE})
 ]
 
-schemas_with_ref_dataset_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
-    (EnergyCommodityUpdate, {}),
-    (EnergyComponentUpdate, {})
-]
+schemas_with_ref_dataset_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = []
 
 schemas_with_ref_dataset = schemas_with_ref_dataset_required + schemas_with_ref_dataset_optional
 
@@ -52,8 +48,9 @@ def test_error_on_zero_ref_dataset(schema: Type[BaseModel], data: Dict[str, Any]
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("ref_dataset",)
-    assert exc_info.value.errors()[0]["msg"] == "Referenz to a dataset must be positiv."
+    assert exc_info.value.errors()[0]["msg"] == "Referenz to a dataset must be positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
+
 
 @pytest.mark.parametrize("schema,data", schemas_with_ref_dataset)
 def test_error_on_negative_ref_dataset(schema: Type[BaseModel], data: Dict[str, Any]):
@@ -65,7 +62,7 @@ def test_error_on_negative_ref_dataset(schema: Type[BaseModel], data: Dict[str, 
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("ref_dataset",)
-    assert exc_info.value.errors()[0]["msg"] == "Referenz to a dataset must be positiv."
+    assert exc_info.value.errors()[0]["msg"] == "Referenz to a dataset must be positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

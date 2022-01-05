@@ -1,5 +1,4 @@
 from typing import Type, List, Tuple, Dict, Any
-from typing import Type, List, Tuple, Dict, Any
 
 import pytest
 from pydantic import BaseModel, ValidationError
@@ -11,7 +10,8 @@ schemas_with_opex_per_capacity_required: List[Tuple[Type[BaseModel], Dict[str, A
 
 schemas_with_opex_per_capacity_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
     (EnergyComponentUpdate, {}),
-    (EnergyComponentCreate, {"name": "test", "description": "foo", "ref_dataset": 42, "type": EnergyComponentType.SOURCE})
+    (EnergyComponentCreate,
+     {"name": "test", "description": "foo", "ref_dataset": 42, "type": EnergyComponentType.SOURCE})
 ]
 
 schemas_with_opex_per_capacity = schemas_with_opex_per_capacity_required + schemas_with_opex_per_capacity_optional
@@ -23,6 +23,7 @@ def test_ok_missing_opex_per_capacity(schema: Type[BaseModel], data: Dict[str, A
     Test that a opex per capacity is optional for a schema
     """
     schema(**data)
+
 
 @pytest.mark.parametrize("schema,data", schemas_with_opex_per_capacity_optional)
 def test_ok_none_opex_per_capacity(schema: Type[BaseModel], data: Dict[str, Any]):
@@ -42,9 +43,8 @@ def test_error_on_negative_opex_per_capacity(schema: Type[BaseModel], data: Dict
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("opex_per_capacity",)
-    assert exc_info.value.errors()[0]["msg"] == "Opex per capacity must be zero or positiv."
+    assert exc_info.value.errors()[0]["msg"] == "Opex per capacity must be zero or positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
-
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_opex_per_capacity)

@@ -27,7 +27,7 @@ class EnergyModelCreate(EnergyModelBase):
     ref_dataset: int
 
     # validators
-    _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset)
+    _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_required)
 
 
 class EnergyModelUpdate(EnergyModelBase):

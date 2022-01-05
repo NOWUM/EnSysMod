@@ -5,7 +5,6 @@ from pydantic import BaseModel, ValidationError
 
 from ensysmod.schemas import EnergyCommodityCreate, EnergyCommodityUpdate
 
-
 schemas_with_unit_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
     (EnergyCommodityCreate, {"name": "test", "description": "foo", "ref_dataset": 42})
 ]
