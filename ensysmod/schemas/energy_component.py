@@ -27,12 +27,16 @@ class EnergyComponentBase(BaseModel):
     # validators
     _valid_name = validator("name", allow_reuse=True)(validators.validate_name)
     _valid_description = validator("description", allow_reuse=True)(validators.validate_description)
-    _valid_capacity_per_plant_unit = validator("capacity_per_plant_unit", allow_reuse=True)(validators.validate_capacity_per_plant_unit)
-    _valid_invest_per_capacity = validator("invest_per_capacity", allow_reuse=True)(validators.validate_invest_per_capacity)
+    _valid_capacity_per_plant_unit = validator("capacity_per_plant_unit", allow_reuse=True)(
+        validators.validate_capacity_per_plant_unit)
+    _valid_invest_per_capacity = validator("invest_per_capacity", allow_reuse=True)(
+        validators.validate_invest_per_capacity)
     _valid_opex_per_capacity = validator("opex_per_capacity", allow_reuse=True)(validators.validate_opex_per_capacity)
     _valid_interest_rate = validator("interest_rate", allow_reuse=True)(validators.validate_interest_rate)
     _valid_economic_lifetime = validator("economic_lifetime", allow_reuse=True)(validators.validate_economic_lifetime)
-    _valid_shared_potential_id = validator("shared_potential_id", allow_reuse=True)(validators.validate_shared_potential_id)
+    _valid_shared_potential_id = validator("shared_potential_id", allow_reuse=True)(
+        validators.validate_shared_potential_id)
+
 
 class EnergyComponentCreate(EnergyComponentBase):
     """

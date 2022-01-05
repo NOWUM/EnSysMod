@@ -3,7 +3,6 @@ from typing import Optional
 from pydantic import BaseModel, validator
 
 from ensysmod.schemas.energy_commodity import EnergyCommodity
-
 from ensysmod.util import validators
 
 

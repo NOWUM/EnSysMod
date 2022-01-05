@@ -14,7 +14,8 @@ class OperationRateMaxBase(RefCRBaseBase, BaseModel):
     max_operation_rates: List[float]
 
     # validators
-    _valid_max_operation_rates = validator("max_operation_rates", allow_reuse=True)(validators.validate_max_operation_rates)
+    _valid_max_operation_rates = validator("max_operation_rates", allow_reuse=True)(
+        validators.validate_max_operation_rates)
 
 
 class OperationRateMaxCreate(OperationRateMaxBase, RefCRBaseCreate):

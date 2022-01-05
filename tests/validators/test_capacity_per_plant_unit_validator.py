@@ -25,6 +25,11 @@ def test_error_missing_capacity_per_plant_unit(schema: Type[BaseModel], data: Di
     with pytest.raises(ValidationError) as exc_info:
         schema(**data)
 
+    assert len(exc_info.value.errors()) == 1
+    assert exc_info.value.errors()[0]["loc"] == ("capacity_per_plant_unit",)
+    assert exc_info.value.errors()[0]["msg"] == "field required"
+    assert exc_info.value.errors()[0]["type"] == "value_error.missing"
+
 
 @pytest.mark.parametrize("schema,data", schemas_with_capacity_per_plant_unit_optional)
 def test_ok_missing_capacity_per_plant_unit(schema: Type[BaseModel], data: Dict[str, Any]):

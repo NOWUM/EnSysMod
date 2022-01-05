@@ -29,6 +29,7 @@ class EnergyCommodityCreate(EnergyCommodityBase):
     # validators
     _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_required)
 
+
 class EnergyCommodityUpdate(EnergyCommodityBase):
     """
     Properties to receive via API on update of an energy commodity.

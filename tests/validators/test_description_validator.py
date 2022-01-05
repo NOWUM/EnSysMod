@@ -37,6 +37,11 @@ def test_error_long_description(schema: Type[BaseModel], data: Dict[str, Any]):
     with pytest.raises(ValidationError) as exc_info:
         schema(description="a" * 1025, **data)
 
+    assert len(exc_info.value.errors()) == 1
+    assert exc_info.value.errors()[0]["loc"] == ("description",)
+    assert exc_info.value.errors()[0]["msg"] == "Description must not be longer than 1024 characters."
+    assert exc_info.value.errors()[0]["type"] == "value_error"
+
 
 @pytest.mark.parametrize("schema,data", schemas_with_description)
 def test_ok_descriptions(schema: Type[BaseModel], data: Dict[str, Any]):

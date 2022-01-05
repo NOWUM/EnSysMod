@@ -22,7 +22,7 @@ class EnergySinkCreate(EnergySinkBase, EnergyComponentCreate):
     Properties to receive via API on creation of an energy sink.
     """
     commodity: str
-    
+
     # validators
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
 
@@ -32,7 +32,7 @@ class EnergySinkUpdate(EnergySinkBase, EnergyComponentUpdate):
     Properties to receive via API on update of an energy sink.
     """
     commodity: Optional[str] = None
-    
+
     # validators
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
 

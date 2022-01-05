@@ -42,6 +42,7 @@ class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):
     # validators
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
 
+
 class EnergyTransmission(EnergyTransmissionBase):
     """
     Properties to return via API for an energy transmission.

@@ -13,7 +13,8 @@ class OperationRateFixBase(RefCRBaseBase, BaseModel):
     fix_operation_rates: List[float]
 
     # validators
-    _valid_fix_operation_rates = validator("fix_operation_rates", allow_reuse=True)(validators.validate_fix_operation_rates)
+    _valid_fix_operation_rates = validator("fix_operation_rates", allow_reuse=True)(
+        validators.validate_fix_operation_rates)
 
 
 class OperationRateFixCreate(OperationRateFixBase, RefCRBaseCreate):

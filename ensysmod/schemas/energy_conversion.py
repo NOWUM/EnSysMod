@@ -25,9 +25,10 @@ class EnergyConversionCreate(EnergyConversionBase, EnergyComponentCreate):
     """
     conversion_factors: List[EnergyConversionFactorCreate]
     commodity_unit: str
-    
+
     # validators
-    _valid_conversion_factors = validator("conversion_factors", allow_reuse=True)(validators.validate_conversion_factors)
+    _valid_conversion_factors = validator("conversion_factors", allow_reuse=True)(
+        validators.validate_conversion_factors)
     _valid_commodity_unit = validator("commodity_unit", allow_reuse=True)(validators.validate_unit)
 
 
