@@ -86,7 +86,8 @@ def dump_energy_components(db: Session, dataset_id: int, temp_folder: str, crud_
     fields.remove("type")
 
     for obj in crud_repo.get_multi_by_dataset(db, dataset_id=dataset_id):
-        obj_folder = os.path.join(temp_folder, f"{file_name}-{obj.ref_component}")
+        save_folder_name = obj.component.name.lower().replace(" ", "-")[:50]
+        obj_folder = os.path.join(temp_folder, save_folder_name)
         os.makedirs(obj_folder)
 
         dump_dict: Dict[str, Any] = obj.component.__dict__.copy()
