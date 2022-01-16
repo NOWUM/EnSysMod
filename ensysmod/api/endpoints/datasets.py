@@ -108,9 +108,9 @@ def upload_zip_archive(dataset_id: int,
 
 
 @router.get("/{dataset_id}/download")
-def upload_zip_archive(dataset_id: int,
-                       db: Session = Depends(deps.get_db),
-                       current: model.User = Depends(deps.get_current_user)):
+def download_zip_archive(dataset_id: int,
+                         db: Session = Depends(deps.get_db),
+                         current: model.User = Depends(deps.get_current_user)):
     """
     Downloads the dataset as zip
     """
