@@ -1,13 +1,28 @@
 Usage
 =====
 
-.. _installation:
 
+
+Kurze Einleitung:
+Daten einlesen bzw. eingelesene nutzen
+Daten sind in unterschiedliche Bereiche aufgeteilt
+
+
+
+Verweis auf:
 Installation
-------------
+Daten einlesen bzw. Aufbau der Daten in Datensatz + Modell
+Modell starten bzw. Optimierung durchführen
+Ergebnisse auslesen
 
-See the `installation instructions on Github <https://github.com/NOWUM/EnSysMod#installation>`_.
 
+.. toctree::
+    :maxdepth: 1
+    :caption: Contents:
+    :glob:
+    :hidden:
+
+    usage/*
 
 
 
