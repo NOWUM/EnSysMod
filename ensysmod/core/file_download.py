@@ -97,6 +97,10 @@ def dump_energy_components(db: Session, dataset_id: int, temp_folder: str, crud_
         if hasattr(obj, "commodity"):
             dump_dict["commodity"] = obj.commodity.name
 
+        # if obj has attribute commodity_unit, set it with commodity.name
+        if hasattr(obj, "commodity_unit"):
+            dump_dict["commodity_unit"] = obj.commodity_unit.name
+
         # if obj has attribute conversion factors, set it with conversion factors
         if hasattr(obj, "conversion_factors"):
             factor_list = [jsonable_encoder(dict(schemas.EnergyConversionFactor.from_orm(factor)),
