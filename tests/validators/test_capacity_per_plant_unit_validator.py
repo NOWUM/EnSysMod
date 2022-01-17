@@ -62,9 +62,9 @@ def test_error_on_zero_capacity_per_plant_unit(schema: Type[BaseModel], data: Di
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_capacity_per_plant_unit)
-def test_error_on_negativ_capacity_per_plant_unit(schema: Type[BaseModel], data: Dict[str, Any]):
+def test_error_on_negative_capacity_per_plant_unit(schema: Type[BaseModel], data: Dict[str, Any]):
     """
-    Test that a capacity per plant unit is not negativ
+    Test that a capacity per plant unit is not negative
     """
     with pytest.raises(ValidationError) as exc_info:
         schema(capacity_per_plant_unit=-0.5, **data)

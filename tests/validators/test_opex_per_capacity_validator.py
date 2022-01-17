@@ -36,7 +36,7 @@ def test_ok_none_opex_per_capacity(schema: Type[BaseModel], data: Dict[str, Any]
 @pytest.mark.parametrize("schema,data", schemas_with_opex_per_capacity)
 def test_error_on_negative_opex_per_capacity(schema: Type[BaseModel], data: Dict[str, Any]):
     """
-    Test that a opex per capacity is not negativ
+    Test that a opex per capacity is not negative
     """
     with pytest.raises(ValidationError) as exc_info:
         schema(opex_per_capacity=-0.5, **data)

@@ -33,7 +33,7 @@ def test_ok_none_invest_per_capacity(schema: Type[BaseModel], data: Dict[str, An
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_invest_per_capacity)
-def test_error_on_negativ_invest_per_capacity(schema: Type[BaseModel], data: Dict[str, Any]):
+def test_error_on_negative_invest_per_capacity(schema: Type[BaseModel], data: Dict[str, Any]):
     """
     Test that a invest per capacity is not negative
     """

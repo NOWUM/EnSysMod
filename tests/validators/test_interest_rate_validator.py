@@ -34,7 +34,7 @@ def test_ok_none_interest_rate(schema: Type[BaseModel], data: Dict[str, Any]):
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_interest_rate)
-def test_error_on_negativ_interest_rate(schema: Type[BaseModel], data: Dict[str, Any]):
+def test_error_on_negative_interest_rate(schema: Type[BaseModel], data: Dict[str, Any]):
     """
     Test that a interest rate is not under zero
     """
@@ -48,7 +48,7 @@ def test_error_on_negativ_interest_rate(schema: Type[BaseModel], data: Dict[str,
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_interest_rate)
-def test_error_on_positiv_interest_rate(schema: Type[BaseModel], data: Dict[str, Any]):
+def test_error_on_positive_interest_rate(schema: Type[BaseModel], data: Dict[str, Any]):
     """
     Test that a interest rate is not over 1
     """

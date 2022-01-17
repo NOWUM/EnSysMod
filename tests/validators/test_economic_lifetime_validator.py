@@ -28,7 +28,7 @@ def test_ok_missing_economic_lifetime(schema: Type[BaseModel], data: Dict[str, A
 @pytest.mark.parametrize("schema,data", schemas_with_economic_lifetime_optional)
 def test_ok_none_economic_lifetime(schema: Type[BaseModel], data: Dict[str, Any]):
     """
-    Test that a capacity per plant unit is optional for a schema
+    Test that a economic lifetime unit is optional for a schema
     """
     schema(economic_lifetime=None, **data)
 
@@ -48,9 +48,9 @@ def test_error_on_zero_economic_lifetime(schema: Type[BaseModel], data: Dict[str
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_economic_lifetime)
-def test_error_on_negativ_economic_lifetime(schema: Type[BaseModel], data: Dict[str, Any]):
+def test_error_on_negative_economic_lifetime(schema: Type[BaseModel], data: Dict[str, Any]):
     """
-    Test that a economic lifetime is not negativ
+    Test that a economic lifetime is not negative
     """
     with pytest.raises(ValidationError) as exc_info:
         schema(economic_lifetime=-1, **data)

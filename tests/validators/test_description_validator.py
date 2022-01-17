@@ -6,6 +6,7 @@ from pydantic import BaseModel, ValidationError
 from ensysmod.model import EnergyComponentType
 from ensysmod.schemas import DatasetCreate, DatasetUpdate, EnergyCommodityCreate, EnergyCommodityUpdate, \
     EnergyComponentCreate
+from ensysmod.schemas.energy_model import EnergyModelCreate, EnergyModelUpdate
 
 schemas_with_description_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = []
 
@@ -13,9 +14,11 @@ schemas_with_description_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] 
     (DatasetCreate, {"name": "foo"}),
     (EnergyCommodityCreate, {"name": "foo", "unit": "bar", "ref_dataset": 42}),
     (EnergyComponentCreate, {"name": "foo", "type": EnergyComponentType.SOURCE, "ref_dataset": 42}),
+    (EnergyModelCreate, {"name": "foo", "ref_dataset": 42}),
     (DatasetUpdate, {}),
     (EnergyCommodityUpdate, {}),
-    (EnergyCommodityUpdate, {})
+    (EnergyCommodityUpdate, {}),
+    (EnergyModelUpdate, {})
 ]
 
 schemas_with_description = schemas_with_description_required + schemas_with_description_optional

@@ -57,32 +57,32 @@ def validate_unit(unit: str) -> str:
 
 def validate_ref_dataset_required(ref_dataset: int) -> int:
     """
-    Validates the referenz to a dataset of an object.
+    Validates the reference to a dataset of an object.
 
-    :param ref_dataset: The referenz to a dataset of the object.
-    :return: The validated referenz to a dataset.
+    :param ref_dataset: The reference to a dataset of the object.
+    :return: The validated reference to a dataset.
     """
     if ref_dataset is None:
-        raise ValueError("Referenz to a dataset must not be empty.")
+        raise ValueError("Reference to a dataset must not be empty.")
 
     if ref_dataset <= 0:
-        raise ValueError("Referenz to a dataset must be positive.")
+        raise ValueError("Reference to a dataset must be positive.")
 
     return ref_dataset
 
 
 def validate_ref_dataset_optional(ref_dataset: Optional[int]) -> Optional[int]:
     """
-    Validates the referenz to a dataset of an object.
+    Validates the reference to a dataset of an object.
 
-    :param ref_dataset: The referenz to a dataset of the object.
-    :return: The validated referenz to a dataset.
+    :param ref_dataset: The reference to a dataset of the object.
+    :return: The validated reference to a dataset.
     """
     if not ref_dataset:
         return None
 
     if ref_dataset <= 0:
-        raise ValueError("Referenz to a dataset must be positive.")
+        raise ValueError("Reference to a dataset must be positive.")
 
     return ref_dataset
 
@@ -206,9 +206,8 @@ def validate_conversion_factor(conversion_factor: Optional[float]) -> Optional[f
     if conversion_factor is None:
         # Skip validation if no value provided
         return None
-
     if conversion_factor < -5 or conversion_factor > 5:
-        raise ValueError("Conversion factor must be between 5 and 5.")
+        raise ValueError("Conversion factor must be between -5 and 5.")
 
     return conversion_factor
 
@@ -223,7 +222,8 @@ def validate_commodity(commodity: Optional[str]) -> Optional[str]:
     if commodity is None:
         # Skip validation if no value provided
         return None
-
+    if not commodity:
+        raise ValueError("Commodity must not be empty.")
     if len(commodity) > 255:
         raise ValueError("Commodity must not be longer than 255 characters.")
 
@@ -232,10 +232,10 @@ def validate_commodity(commodity: Optional[str]) -> Optional[str]:
 
 def validate_ref_component_required(ref_component: int) -> int:
     """
-    Validates the referenz to a component of an object.
+    Validates the reference to a component of an object.
 
-    :param ref_component: The referenz to a component of the object.
-    :return: The validated referenz to a component.
+    :param ref_component: The reference to a component of the object.
+    :return: The validated reference to a component.
     """
     if ref_component <= 0:
         raise ValueError("Reference to a component must be positive.")
@@ -245,10 +245,10 @@ def validate_ref_component_required(ref_component: int) -> int:
 
 def validate_ref_component_optional(ref_component: Optional[int]) -> Optional[int]:
     """
-    Validates the referenz to a component of an object.
+    Validates the reference to a component of an object.
 
-    :param ref_component: The referenz to a component of the object.
-    :return: The validated referenz to a component.
+    :param ref_component: The reference to a component of the object.
+    :return: The validated reference to a component.
     """
     if ref_component is None:
         return None
@@ -267,78 +267,82 @@ def validate_conversion_factors(conversion_factors: List[Any]) -> List[Any]:
     :return: The validated conversion_factor.
     """
     if not conversion_factors:
-        raise ValueError("List must not be empty.")
+        raise ValueError("List of conversion factors must not be empty.")
 
     return conversion_factors
 
 
 def validate_yearly_co2_limit(yearly_co2_limit: float) -> float:
     """
-    Validates the yearly_co2_limit of an object.
+    Validates the yearly co2-limit of an object.
 
-    :param yearly_co2_limit: The yearly_co2_limit of the object.
-    :return: The validated yearly_co2_limit.
+    :param yearly_co2_limit: The yearly co2-limit of the object.
+    :return: The validated yearly co2-limit.
     """
+    if yearly_co2_limit is None:
+        return None
     if yearly_co2_limit <= 0:
-        raise ValueError("yearly_co2_limit must be positiv.")
+        raise ValueError("The yearly co2-limit must be positive.")
 
     return yearly_co2_limit
 
 
 def validate_commodity_cost(commodity_cost: float) -> float:
     """
-    Validates the commodity_cost of an object.
+    Validates the commodity cost of an object.
 
-    :param commodity_cost: The commodity_cost of the object.
-    :return: The validated commodity_cost.
+    :param commodity_cost: The commodity cost of the object.
+    :return: The validated commodity cost.
     """
+    if commodity_cost is None:
+        return None
     if commodity_cost < 0:
-        raise ValueError("commodity_cost must be zero or positiv.")
+        raise ValueError("Commodity cost must be zero or positive.")
 
     return commodity_cost
 
 
 def validate_charge_efficiency(charge_efficiency: Optional[float]) -> Optional[float]:
     """
-    Validates the charge_efficiency of an object.
+    Validates the charge efficiency of an object.
     Charge efficiency is always optional.
 
-    :param charge_efficiency: The charge_efficiency of the object.
-    :return: The validated charge_efficiency.
+    :param charge_efficiency: The charge efficiency of the object.
+    :return: The validated charge efficiency.
     """
     if charge_efficiency is None:
         return None
 
     if charge_efficiency < 0 or charge_efficiency > 1:
-        raise ValueError("charge_efficiency must be between 0 and 1.")
+        raise ValueError("Charge efficiency must be between 0 and 1.")
 
     return charge_efficiency
 
 
 def validate_discharge_efficiency(discharge_efficiency: Optional[float]) -> Optional[float]:
     """
-    Validates the discharge_efficiency of an object.
+    Validates the discharge efficiency of an object.
     Discharge efficiency is always optional.
 
-    :param discharge_efficiency: The discharge_efficiency of the object.
-    :return: The validated discharge_efficiency.
+    :param discharge_efficiency: The discharge efficiency of the object.
+    :return: The validated discharge efficiency.
     """
     if discharge_efficiency is None:
         return None
 
     if discharge_efficiency < 0 or discharge_efficiency > 1:
-        raise ValueError("discharge_efficiency must be between 0 and 1.")
+        raise ValueError("Disharge efficiency must be between 0 and 1.")
 
     return discharge_efficiency
 
 
 def validate_self_discharge(self_discharge: Optional[float]) -> Optional[float]:
     """
-    Validates the self_discharge of an object.
+    Validates the self discharge of an object.
     Self discharge is always optional.
 
-    :param self_discharge: The self_discharge of the object.
-    :return: The validated self_discharge.
+    :param self_discharge: The self discharge of the object.
+    :return: The validated self discharge.
     """
     if self_discharge is None:
         return None
@@ -355,7 +359,7 @@ def validate_cyclic_lifetime(cyclic_lifetime: Optional[int]) -> Optional[int]:
     Cyclic lifetime is always optional.
 
     :param cyclic_lifetime: The cyclic_lifetime of the object.
-    :return: The validated cyclic_lifetime.
+    :return: The validated cyclic lifetime.
     """
     if cyclic_lifetime is None:
         return None
@@ -371,14 +375,14 @@ def validate_charge_rate(charge_rate: Optional[float]) -> Optional[float]:
     Validates the charge rate of an object.
     Charge rate is always optional.
 
-    :param charge_rate: The charge_rate of the object.
-    :return: The validated charge_rate.
+    :param charge_rate: The charge rate of the object.
+    :return: The validated charge rate.
     """
     if charge_rate is None:
         return None
 
     if charge_rate < 0 or charge_rate > 1:
-        raise ValueError("charge_rate must be between 0 and 1.")
+        raise ValueError("Charge rate must be between 0 and 1.")
 
     return charge_rate
 
@@ -388,14 +392,14 @@ def validate_discharge_rate(discharge_rate: Optional[float]) -> Optional[float]:
     Validates the discharge rate of an object.
     Discharge rate is always optional.
 
-    :param discharge_rate: The discharge_rate of the object.
-    :return: The validated discharge_rate.
+    :param discharge_rate: The discharge rate of the object.
+    :return: The validated discharge rate.
     """
     if discharge_rate is None:
         return None
 
     if discharge_rate < 0 or discharge_rate > 1:
-        raise ValueError("discharge_rate must be between 0 and 1.")
+        raise ValueError("Discharge rate must be between 0 and 1.")
 
     return discharge_rate
 
@@ -405,14 +409,14 @@ def validate_state_of_charge_min(state_of_charge_min: Optional[float]) -> Option
     Validates the state of charge min of an object.
     State of charge min is always optional.
 
-    :param state_of_charge_min: The state_of_charge_min of the object.
-    :return: The validated state_of_charge_min.
+    :param state_of_charge_min: The state of charge min of the object.
+    :return: The validated state of charge min.
     """
     if state_of_charge_min is None:
         return None
 
     if state_of_charge_min < 0 or state_of_charge_min > 1:
-        raise ValueError("state_of_charge_min must be between 0 and 1.")
+        raise ValueError("State of charge min must be between 0 and 1.")
 
     return state_of_charge_min
 
@@ -422,14 +426,13 @@ def validate_state_of_charge_max(state_of_charge_max: Optional[float]) -> Option
     Validates the state of charge max of an object.
     State of charge max is always optional.
 
-    :param state_of_charge_max: The state_of_charge_max of the object.
-    :return: The validated state_of_charge_max.
+    :param state_of_charge_max: The state of charge max of the object.
+    :return: The validated state of charge max.
     """
     if state_of_charge_max is None:
         return None
-
     if state_of_charge_max < 0 or state_of_charge_max > 1:
-        raise ValueError("state_of_charge_max must be between 0 and 1.")
+        raise ValueError("State of charge max must be between 0 and 1.")
 
     return state_of_charge_max
 
@@ -442,7 +445,7 @@ def validate_distance(distance: float) -> float:
     :return: The validated distance.
     """
     if distance < 0:
-        raise ValueError("distance must be zero or positive.")
+        raise ValueError("The distance must be zero or positive.")
 
     return distance
 
@@ -459,7 +462,7 @@ def validate_component(component: Optional[str]) -> Optional[str]:
         return None
 
     if len(component) > 100:
-        raise ValueError("component must not be longer than 100 characters.")
+        raise ValueError("The component must not be longer than 100 characters.")
 
     return component
 
@@ -476,7 +479,7 @@ def validate_region_from(region_from: Optional[str]) -> Optional[str]:
         return None
 
     if len(region_from) > 100:
-        raise ValueError("region_from must not be longer than 100 characters.")
+        raise ValueError("The region_from must not be longer than 100 characters.")
 
     return region_from
 
@@ -493,54 +496,56 @@ def validate_region_to(region_to: Optional[str]) -> Optional[str]:
         return None
 
     if len(region_to) > 100:
-        raise ValueError("region_to must not be longer than 100 characters.")
+        raise ValueError("The region_to must not be longer than 100 characters.")
 
     return region_to
 
 
 def validate_ref_region_from(ref_region_from: Optional[int]) -> Optional[int]:
     """
-    Validates the ref_region_from of an object.
+    Validates the reference to the region_from of an object.
     Ref region from is always optional.
 
-    :param ref_region_from: The ref_region_from of the object.
-    :return: The validated ref_region_from.
+    :param ref_region_from: The reference to the region_from of the object.
+    :return: The validated reference to the region_from.
     """
     if ref_region_from is None:
         return None
 
     if ref_region_from <= 0:
-        raise ValueError("ref_region_from must be positive.")
+        raise ValueError("The reference to the region_from must be positive.")
 
     return ref_region_from
 
 
 def validate_ref_region_to(ref_region_to: Optional[int]) -> Optional[int]:
     """
-    Validates the ref_region_to of an object.
+    Validates the reference of the region_to of an object.
     Ref region to is always optional.
 
-    :param ref_region_to: The ref_region_to of the object.
-    :return: The validated ref_region_to.
+    :param ref_region_to: The referecnce to the region_to of the object.
+    :return: The validated reference to the region_to.
     """
     if ref_region_to is None:
         return None
 
     if ref_region_to <= 0:
-        raise ValueError("ref_region_to must be positive.")
+        raise ValueError("The reference of the region_to must be positive.")
 
     return ref_region_to
 
 
 def validate_loss_per_unit(loss_per_unit: float) -> float:
     """
-    Validates the loss_per_unit of an object.
+    Validates the loss per unit of an object.
 
-    :param loss_per_unit: The loss_per_unit of the object.
-    :return: The validated loss_per_unit.
+    :param loss_per_unit: The loss per unit of the object.
+    :return: The validated loss per unit.
     """
+    if loss_per_unit is None:
+        return None
     if loss_per_unit < 0 or loss_per_unit > 1:
-        raise ValueError("loss_per_unit must be zero or positive.")
+        raise ValueError("The loss per unit must be zero or positive.")
 
     return loss_per_unit
 
@@ -553,58 +558,58 @@ def validate_distances(distances: List[Any]) -> List[Any]:
     :return: The validated distances.
     """
     if not distances:
-        raise ValueError("List must not be empty.")
+        raise ValueError("List of distances must not be empty.")
 
     return distances
 
 
 def validate_fix_capacities(fix_capacities: List[float]) -> List[float]:
     """
-    Validates the fix_capacities of an object.
+    Validates the fix capacities of an object.
 
-    :param fix_capacities: The fix_capacities of the object.
-    :return: The validated fix_capacities.
+    :param fix_capacities: The fix capacities of the object.
+    :return: The validated fix capacities.
     """
     if not fix_capacities:
-        raise ValueError("List must not be empty.")
+        raise ValueError("List of fix capacities must not be empty.")
 
     return fix_capacities
 
 
 def validate_max_capacities(max_capacities: List[float]) -> List[float]:
     """
-    Validates the max_capacities of an object.
+    Validates the max capacities of an object.
 
-    :param max_capacities: The max_capacities of the object.
-    :return: The validated max_capacities.
+    :param max_capacities: The max capacities of the object.
+    :return: The validated max capacities.
     """
     if not max_capacities:
-        raise ValueError("List must not be empty.")
+        raise ValueError("List of max capacities must not be empty.")
 
     return max_capacities
 
 
 def validate_fix_operation_rates(fix_operation_rates: List[float]) -> List[float]:
     """
-    Validates the fix_operation_rates of an object.
+    Validates the fix operation rates of an object.
 
-    :param fix_operation_rates: The fix_operation_rates of the object.
-    :return: The validated fix_operation_rates.
+    :param fix_operation_rates: The fix operation rates of the object.
+    :return: The validated fix operation rates.
     """
     if not fix_operation_rates:
-        raise ValueError("List must not be empty.")
+        raise ValueError("List of fix operation rates must not be empty.")
 
     return fix_operation_rates
 
 
 def validate_max_operation_rates(max_operation_rates: List[float]) -> List[float]:
     """
-    Validates the max_operation_rates of an object.
+    Validates the max operation rates of an object.
 
-    :param max_operation_rates: The max_operation_rates of the object.
-    :return: The validated max_operation_rates.
+    :param max_operation_rates: The max operation rates of the object.
+    :return: The validated max operation rates.
     """
     if not max_operation_rates:
-        raise ValueError("List must not be empty.")
+        raise ValueError("List of max operation rates must not be empty.")
 
     return max_operation_rates
