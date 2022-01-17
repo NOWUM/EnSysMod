@@ -1,0 +1,12 @@
+{
+    "name": "PV",
+    "description": "Stellt die PV-Anlagen dar",
+    "capacity_variable_domain": "CONTINUOUS",
+    "invest_per_capacity": 0.65,
+    "interest_rate": 0.08,
+    "capacity_variable": false,
+    "capacity_per_plant_unit": 1.0,
+    "opex_per_capacity": 0.013,
+    "economic_lifetime": 25,
+    "commodity": "Elektrizität"
+}

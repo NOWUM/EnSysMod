@@ -1,0 +1,17 @@
+{
+    "name": "Salzkavernen (Bio Gas)",
+    "description": "Stellt Salzkavernen (Bio Gas) dar",
+    "capacity_variable_domain": "CONTINUOUS",
+    "invest_per_capacity": 4e-05,
+    "interest_rate": 0.08,
+    "shared_potential_id": "Existing salt caverns",
+    "capacity_variable": false,
+    "capacity_per_plant_unit": 443.0,
+    "opex_per_capacity": 1e-05,
+    "economic_lifetime": 30,
+    "state_of_charge_max": 1.0,
+    "charge_rate": 0.007124,
+    "state_of_charge_min": 0.33,
+    "discharge_rate": 0.007124,
+    "commodity": "Biogas"
+}
