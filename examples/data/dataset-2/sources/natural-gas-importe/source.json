@@ -1,0 +1,13 @@
+{
+    "name": "Natural Gas Importe",
+    "description": "Stellt die Natural Gas-Importe dar",
+    "capacity_variable_domain": "CONTINUOUS",
+    "invest_per_capacity": 0.0,
+    "interest_rate": 0.08,
+    "capacity_variable": false,
+    "capacity_per_plant_unit": 1.0,
+    "opex_per_capacity": 0.0,
+    "economic_lifetime": 10,
+    "commodity_cost": 3.31e-05,
+    "commodity": "Methan"
+}

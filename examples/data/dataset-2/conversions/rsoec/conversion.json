@@ -1,0 +1,22 @@
+{
+    "name": "rSOEC",
+    "description": "Stellt rSOEC dar",
+    "capacity_variable_domain": "CONTINUOUS",
+    "invest_per_capacity": 0.75,
+    "interest_rate": 0.08,
+    "capacity_variable": false,
+    "capacity_per_plant_unit": 1.0,
+    "opex_per_capacity": 0.015,
+    "economic_lifetime": 10,
+    "commodity_unit": "Wasserstoff",
+    "conversion_factors": [
+        {
+            "conversion_factor": -1.0,
+            "commodity": "Elektrizität"
+        },
+        {
+            "conversion_factor": 0.6,
+            "commodity": "Wasserstoff"
+        }
+    ]
+}
