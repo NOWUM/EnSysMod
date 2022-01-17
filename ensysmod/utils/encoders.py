@@ -13,7 +13,7 @@ DictIntStrAny = Dict[Union[int, str], Any]
 
 
 def generate_encoders_by_class_tuples(
-    type_encoder_map: Dict[Any, Callable[[Any], Any]]
+        type_encoder_map: Dict[Any, Callable[[Any], Any]]
 ) -> Dict[Callable[[Any], Any], Tuple[Any, ...]]:
     encoders_by_class_tuples: Dict[Callable[[Any], Any], Tuple[Any, ...]] = defaultdict(
         tuple
@@ -26,16 +26,17 @@ def generate_encoders_by_class_tuples(
 encoders_by_class_tuples = generate_encoders_by_class_tuples(ENCODERS_BY_TYPE)
 
 
+# flake8: noqa: C901
 def jsonable_encoder(
-    obj: Any,
-    include: Optional[Union[SetIntStr, DictIntStrAny]] = None,
-    exclude: Optional[Union[SetIntStr, DictIntStrAny]] = None,
-    by_alias: bool = True,
-    exclude_unset: bool = False,
-    exclude_defaults: bool = False,
-    exclude_none: bool = False,
-    custom_encoder: Dict[Any, Callable[[Any], Any]] = None,
-    sqlalchemy_safe: bool = True,
+        obj: Any,
+        include: Optional[Union[SetIntStr, DictIntStrAny]] = None,
+        exclude: Optional[Union[SetIntStr, DictIntStrAny]] = None,
+        by_alias: bool = True,
+        exclude_unset: bool = False,
+        exclude_defaults: bool = False,
+        exclude_none: bool = False,
+        custom_encoder: Dict[Any, Callable[[Any], Any]] = None,
+        sqlalchemy_safe: bool = True,
 ) -> Any:
     if include is not None and not isinstance(include, (set, dict)):
         include = set(include)
@@ -88,13 +89,13 @@ def jsonable_encoder(
             allowed_keys -= exclude
         for key, value in obj.items():
             if (
-                (
-                    not sqlalchemy_safe
-                    or (not isinstance(key, str))
-                    or (not key.startswith("_sa"))
-                )
-                and (value is not None or not exclude_none)
-                and key in allowed_keys
+                    (
+                            not sqlalchemy_safe
+                            or (not isinstance(key, str))
+                            or (not key.startswith("_sa"))
+                    )
+                    and (value is not None or not exclude_none)
+                    and key in allowed_keys
             ):
                 encoded_key = jsonable_encoder(
                     key,
