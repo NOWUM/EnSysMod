@@ -130,7 +130,7 @@ def dump_json(file: str, fields: Set[str], obj: Any):
     :param obj: The object that will be converted to a json.
     :return:
     """
-    with open(file, "w") as f:
+    with open(file, "w", encoding='utf8') as f:
         json_obj = create_json(obj, fields)
         json.dump(json_obj, f, ensure_ascii=False, indent=4)
 
