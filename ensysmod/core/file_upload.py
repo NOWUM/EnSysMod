@@ -278,8 +278,8 @@ def process_excel_file(file: TemporaryFile, db: Session, dataset_id: int, compon
 
         # for each column, create a time series
         for column in df.columns:
-            if column == "":
-                # Skip columns without name
+            if column == "Unnamed: 0":
+                # Skip first unnamed column, because this is might be the index
                 continue
             request_dict = {data_key: df[column].tolist(), "region": column, "component": component_name}
             create_request = map_with_dataset_id(create_model, request_dict, dataset_id)
