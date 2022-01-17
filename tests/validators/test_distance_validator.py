@@ -41,7 +41,7 @@ def test_ok_missing_distance(schema: Type[BaseModel], data: Dict[str, Any]):
 @pytest.mark.parametrize("schema,data", schemas_with_distance)
 def test_error_on_negative_distance(schema: Type[BaseModel], data: Dict[str, Any]):
     """
-    Test that a charge efficiency is not under zero
+    Test that a distance is not under zero
     """
     with pytest.raises(ValidationError) as exc_info:
         schema(distance=-0.5, **data)
@@ -55,7 +55,7 @@ def test_error_on_negative_distance(schema: Type[BaseModel], data: Dict[str, Any
 @pytest.mark.parametrize("schema,data", schemas_with_distance)
 def test_ok_distance(schema: Type[BaseModel], data: Dict[str, Any]):
     """
-    Test that a charge efficiency with everything over 0 is valid
+    Test that a distance with everything over 0 is valid
     """
     schema(distance=0, **data)
     schema(distance=1, **data)

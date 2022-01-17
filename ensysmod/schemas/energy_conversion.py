@@ -29,7 +29,7 @@ class EnergyConversionCreate(EnergyConversionBase, EnergyComponentCreate):
     # validators
     _valid_conversion_factors = validator("conversion_factors", allow_reuse=True)(
         validators.validate_conversion_factors)
-    _valid_commodity_unit = validator("commodity_unit", allow_reuse=True)(validators.validate_unit)
+    _valid_commodity_unit = validator("commodity_unit", allow_reuse=True)(validators.validate_commodity) 
 
 
 class EnergyConversionUpdate(EnergyConversionBase, EnergyComponentUpdate):

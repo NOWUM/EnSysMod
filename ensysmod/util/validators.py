@@ -1,5 +1,7 @@
 from typing import Any, List, Optional
 
+from pydantic.errors import MissingError
+
 from ensysmod.model import EnergyComponentType
 
 
@@ -78,9 +80,8 @@ def validate_ref_dataset_optional(ref_dataset: Optional[int]) -> Optional[int]:
     :param ref_dataset: The reference to a dataset of the object.
     :return: The validated reference to a dataset.
     """
-    if not ref_dataset:
+    if ref_dataset is None:
         return None
-
     if ref_dataset <= 0:
         raise ValueError("Reference to a dataset must be positive.")
 
@@ -266,7 +267,9 @@ def validate_conversion_factors(conversion_factors: List[Any]) -> List[Any]:
     :param conversion_factors: The conversion_factor of the object.
     :return: The validated conversion_factor.
     """
-    if not conversion_factors:
+    if conversion_factors is None:
+        return MissingError("List of conversion factors is None.")
+    if len(conversion_factors) == 0:
         raise ValueError("List of conversion factors must not be empty.")
 
     return conversion_factors
@@ -557,7 +560,9 @@ def validate_distances(distances: List[Any]) -> List[Any]:
     :param distances: The distances of the object.
     :return: The validated distances.
     """
-    if not distances:
+    if distances is None:
+        return MissingError("List of distances is None.")
+    if len(distances) == 0:
         raise ValueError("List of distances must not be empty.")
 
     return distances
