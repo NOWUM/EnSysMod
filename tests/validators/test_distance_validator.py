@@ -3,7 +3,6 @@ from typing import Type, List, Tuple, Dict, Any
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from ensysmod.model import EnergyComponentType
 from ensysmod.schemas.energy_transmission_distance import EnergyTransmissionDistanceCreate, EnergyTransmissionDistanceUpdate
 
 schemas_with_distance_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
@@ -15,6 +14,7 @@ schemas_with_distance_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
 ]
 
 schemas_with_distance = schemas_with_distance_required + schemas_with_distance_optional
+
 
 @pytest.mark.parametrize("schema,data", schemas_with_distance_required)
 def test_error_missing_distance(schema: Type[BaseModel], data: Dict[str, Any]):

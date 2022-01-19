@@ -4,11 +4,12 @@ import pytest
 from pydantic import BaseModel, ValidationError
 
 from ensysmod.model import EnergyComponentType
-from ensysmod.schemas.energy_transmission import EnergyTransmissionCreate, EnergyTransmissionUpdate
+from ensysmod.schemas.energy_transmission import EnergyTransmissionCreate
 from ensysmod.schemas.energy_transmission_distance import EnergyTransmissionDistanceCreate
 
 schemas_with_distances_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
-    (EnergyTransmissionCreate, {"name": "test", "description": "bar", "ref_dataset": 42, "type": EnergyComponentType.TRANSMISSION, "commodity": "bar"})
+    (EnergyTransmissionCreate, {"name": "test", "description": "bar",
+     "ref_dataset": 42, "type": EnergyComponentType.TRANSMISSION, "commodity": "bar"})
 ]
 
 schemas_with_distances_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = []

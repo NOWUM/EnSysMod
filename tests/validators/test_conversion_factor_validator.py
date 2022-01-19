@@ -3,8 +3,6 @@ from typing import Type, List, Tuple, Dict, Any
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from ensysmod.model import EnergyComponentType
-from ensysmod.schemas import EnergyComponentUpdate, EnergyComponentCreate
 from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactorCreate, EnergyConversionFactorUpdate
 
 schemas_with_conversion_factor_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
@@ -33,6 +31,7 @@ def test_ok_none_conversion_factor(schema: Type[BaseModel], data: Dict[str, Any]
     """
     schema(conversion_factor=None, **data)
 
+
 @pytest.mark.parametrize("schema,data", schemas_with_conversion_factor_required)
 def test_error_missing_conversion_factor(schema: Type[BaseModel], data: Dict[str, Any]):
     """
@@ -45,6 +44,7 @@ def test_error_missing_conversion_factor(schema: Type[BaseModel], data: Dict[str
     assert exc_info.value.errors()[0]["loc"] == ("conversion_factor",)
     assert exc_info.value.errors()[0]["msg"] == "field required"
     assert exc_info.value.errors()[0]["type"] == "value_error.missing"
+
 
 @pytest.mark.parametrize("schema,data", schemas_with_conversion_factor)
 def test_error_too_high_conversion_factor(schema: Type[BaseModel], data: Dict[str, Any]):
@@ -59,6 +59,7 @@ def test_error_too_high_conversion_factor(schema: Type[BaseModel], data: Dict[st
     assert exc_info.value.errors()[0]["msg"] == "Conversion factor must be between -5 and 5."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
+
 @pytest.mark.parametrize("schema,data", schemas_with_conversion_factor)
 def test_error_too_low_conversion_factor(schema: Type[BaseModel], data: Dict[str, Any]):
     """
@@ -71,6 +72,7 @@ def test_error_too_low_conversion_factor(schema: Type[BaseModel], data: Dict[str
     assert exc_info.value.errors()[0]["loc"] == ("conversion_factor",)
     assert exc_info.value.errors()[0]["msg"] == "Conversion factor must be between -5 and 5."
     assert exc_info.value.errors()[0]["type"] == "value_error"
+
 
 @pytest.mark.parametrize("schema,data", schemas_with_conversion_factor)
 def test_ok_conversion_factors(schema: Type[BaseModel], data: Dict[str, Any]):

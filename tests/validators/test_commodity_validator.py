@@ -3,7 +3,7 @@ from typing import Type, List, Tuple, Dict, Any
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from ensysmod.schemas import EnergyConversionFactorCreate, EnergyCommodityUpdate
+from ensysmod.schemas import EnergyConversionFactorCreate
 from ensysmod.schemas.energy_sink import EnergySinkCreate
 from ensysmod.schemas.energy_source import EnergySourceCreate
 from ensysmod.schemas.energy_storage import EnergyStorageCreate
@@ -14,7 +14,7 @@ schemas_with_commodity_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = 
     (EnergySinkCreate, {"name": "foo", "ref_dataset": 42}),
     (EnergySourceCreate, {"name": "foo", "ref_dataset": 42}),
     (EnergyStorageCreate, {"name": "foo", "ref_dataset": 42}),
-    (EnergyTransmissionCreate, {"name": "foo", "ref_dataset": 42,})
+    (EnergyTransmissionCreate, {"name": "foo", "ref_dataset": 42, })
 ]
 
 schemas_with_commodity_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [

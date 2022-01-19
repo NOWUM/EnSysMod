@@ -3,11 +3,8 @@ from typing import Type, List, Tuple, Dict, Any
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from ensysmod.schemas import EnergyConversionFactorCreate, EnergyCommodityUpdate
-from ensysmod.schemas.energy_sink import EnergySinkCreate
-from ensysmod.schemas.energy_source import EnergySourceCreate
+from ensysmod.schemas import EnergyConversionFactorCreate
 from ensysmod.schemas.energy_conversion import EnergyConversionCreate
-from ensysmod.schemas.energy_transmission import EnergyTransmissionCreate
 
 schemas_with_commodity_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
     (EnergyConversionCreate, {"name": "foo", "ref_dataset": 42, "conversion_factors": [

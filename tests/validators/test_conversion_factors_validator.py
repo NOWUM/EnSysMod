@@ -4,11 +4,12 @@ import pytest
 from pydantic import BaseModel, ValidationError
 
 from ensysmod.model import EnergyComponentType
-from ensysmod.schemas.energy_conversion import EnergyConversionCreate, EnergyConversionUpdate
+from ensysmod.schemas.energy_conversion import EnergyConversionCreate
 from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactorCreate
 
 schemas_with_conversion_factors_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
-    (EnergyConversionCreate, {"name": "test", "description": "bar", "ref_dataset": 42, "type": EnergyComponentType.CONVERSION, "commodity_unit": "bar"})
+    (EnergyConversionCreate, {"name": "test", "description": "bar", "ref_dataset": 42,
+     "type": EnergyComponentType.CONVERSION, "commodity_unit": "bar"})
 ]
 
 schemas_with_conversion_factors_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = []

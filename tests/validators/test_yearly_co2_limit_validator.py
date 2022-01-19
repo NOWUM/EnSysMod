@@ -3,7 +3,6 @@ from typing import Type, List, Tuple, Dict, Any
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from ensysmod.model import EnergyComponentType
 from ensysmod.schemas.energy_model import EnergyModelCreate, EnergyModelUpdate
 
 schemas_with_yearly_co2_limit_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = []
