@@ -1,6 +1,7 @@
 from typing import Optional
 
 from pydantic import BaseModel, validator
+from pydantic.class_validators import root_validator
 
 from ensysmod.schemas.region import Region
 from ensysmod.util import validators
@@ -33,16 +34,11 @@ class EnergyTransmissionDistanceCreate(EnergyTransmissionDistanceBase):
 
     # validators
     _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_optional)
-    _valid_ref_component = validator("ref_component", allow_reuse=True)(validators.validate_ref_component_optional)
-    _valid_component = validator("component", allow_reuse=True)(validators.validate_component)
-    _valid_ref_region_from = validator("ref_region_from", allow_reuse=True)(validators.validate_ref_region_from)
-    _valid_region_from = validator("region_from", allow_reuse=True)(validators.validate_region_from)
-    _valid_ref_region_to = validator("ref_region_to", allow_reuse=True)(validators.validate_ref_region_to)
-    _valid_region_to = validator("region_to", allow_reuse=True)(validators.validate_region_to)
 
-    # TODO validate that ref_component or component is set
-    # TODO validate that ref_region_from or region_from is set
-    # TODO validate that ref_region_to or region_to is set
+    _valid_ref_component = root_validator(allow_reuse=True)(validators.validate_component_or_ref)
+    _valid_ref_region_from = root_validator(allow_reuse=True)(validators.validate_region_from_or_ref)
+    _valid_ref_region_to = root_validator(allow_reuse=True)(validators.validate_region_to_or_ref)
+
 
 
 class EnergyTransmissionDistanceUpdate(EnergyTransmissionDistanceBase):

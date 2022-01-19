@@ -1,6 +1,7 @@
 from typing import Any, List, Optional
 
 from pydantic.errors import MissingError
+from pydantic import root_validator
 
 from ensysmod.model import EnergyComponentType
 
@@ -453,89 +454,42 @@ def validate_distance(distance: float) -> float:
     return distance
 
 
-def validate_component(component: Optional[str]) -> Optional[str]:
-    """
-    Validates the component of an object.
-    Component is always optional.
+@root_validator
+def validate_component_or_ref(cls, values):
+    component, ref_component = values.get('component'), values.get('ref_component')
 
-    :param component: The component of the object.
-    :return: The validated component.
-    """
-    if component is None:
-        return None
-
-    if len(component) > 100:
+    if ref_component is None and component and len(component) > 100:
         raise ValueError("The component must not be longer than 100 characters.")
+    if component is None and ref_component and ref_component <= 0:
+        raise ValueError("Reference to a component must be positive.")
 
-    return component
-
-
-def validate_region_from(region_from: Optional[str]) -> Optional[str]:
-    """
-    Validates the region_from of an object.
-    Region from is always optional.
-
-    :param region_from: The region_from of the object.
-    :return: The validated region_from.
-    """
-    if region_from is None:
-        return None
-
-    if len(region_from) > 100:
-        raise ValueError("The region_from must not be longer than 100 characters.")
-
-    return region_from
+    return values
 
 
-def validate_region_to(region_to: Optional[str]) -> Optional[str]:
-    """
-    Validates the region_to of an object.
-    Region to is always optional.
+@root_validator
+def validate_region_to_or_ref(cls, values):
+    region_to, ref_region_to = values.get('region_to'), values.get('ref_region_to')
 
-    :param region_to: The region_to of the object.
-    :return: The validated region_to.
-    """
-    if region_to is None:
-        return None
-
-    if len(region_to) > 100:
+    if ref_region_to is None and region_to and len(region_to) > 100:
         raise ValueError("The region_to must not be longer than 100 characters.")
 
-    return region_to
+    if region_to is None and ref_region_to and ref_region_to <= 0:
+        raise ValueError("Reference to the region_to must be positive.")
+
+    return values
 
 
-def validate_ref_region_from(ref_region_from: Optional[int]) -> Optional[int]:
-    """
-    Validates the reference to the region_from of an object.
-    Ref region from is always optional.
+@root_validator
+def validate_region_from_or_ref(cls, values):
+    region_from, ref_region_from = values.get('region_from'), values.get('ref_region_from')
 
-    :param ref_region_from: The reference to the region_from of the object.
-    :return: The validated reference to the region_from.
-    """
-    if ref_region_from is None:
-        return None
+    if ref_region_from is None and region_from and len(region_from) > 100:
+        raise ValueError("The region_from must not be longer than 100 characters.")
 
-    if ref_region_from <= 0:
-        raise ValueError("The reference to the region_from must be positive.")
+    if region_from is None and ref_region_from and ref_region_from <= 0:
+        raise ValueError("Reference to the region_from must be positive.")
 
-    return ref_region_from
-
-
-def validate_ref_region_to(ref_region_to: Optional[int]) -> Optional[int]:
-    """
-    Validates the reference of the region_to of an object.
-    Ref region to is always optional.
-
-    :param ref_region_to: The referecnce to the region_to of the object.
-    :return: The validated reference to the region_to.
-    """
-    if ref_region_to is None:
-        return None
-
-    if ref_region_to <= 0:
-        raise ValueError("The reference of the region_to must be positive.")
-
-    return ref_region_to
+    return values
 
 
 def validate_loss_per_unit(loss_per_unit: float) -> float:
