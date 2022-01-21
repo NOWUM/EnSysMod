@@ -46,15 +46,23 @@ class CRUDBaseDependsTimeSeries(CRUDBaseDependsDataset, Generic[ModelType, Creat
 
         return super().create(db=db, obj_in=obj_in_dict)
 
-    def get_dataframe(self, db: Session, *, component_id: int, region_ids: List[id]) -> pd.DataFrame:
-        """
-        Get dataframe for component and multiple regions.
-        """
-        data = db.query(self.model) \
+    def get_multi_by_regions(self, db: Session, *,
+                             component_id: int, region_ids: List[id]) -> Optional[List[ModelType]]:
+        return db.query(self.model) \
             .filter(self.model.ref_component == component_id) \
             .filter(self.model.ref_region.in_(region_ids)) \
             .filter(or_(self.model.ref_region_to.is_(None), self.model.ref_region_to.in_(region_ids))) \
             .all()
+
+    def has_data(self, db: Session, *, component_id: int, region_ids: List[id]) -> bool:
+        result = self.get_multi_by_regions(db=db, component_id=component_id, region_ids=region_ids)
+        return result is not None and len(result) > 0
+
+    def get_dataframe(self, db: Session, *, component_id: int, region_ids: List[id]) -> pd.DataFrame:
+        """
+        Get dataframe for component and multiple regions.
+        """
+        data = self.get_multi_by_regions(db=db, component_id=component_id, region_ids=region_ids)
 
         matrix_mode = any(d.ref_region_to is not None for d in data)
 
