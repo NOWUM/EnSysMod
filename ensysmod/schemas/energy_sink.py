@@ -12,6 +12,7 @@ class EnergySinkBase(BaseModel):
     """
     commodity: str
     type = EnergyComponentType.SINK
+    yearly_limit: Optional[float] = None
 
 
 class EnergySinkCreate(EnergySinkBase, EnergyComponentCreate):
