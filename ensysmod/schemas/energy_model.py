@@ -12,7 +12,6 @@ class EnergyModelBase(BaseModel):
     Shared properties for an energy model. Used as a base class for all schemas.
     """
     name: str
-    yearly_co2_limit: Optional[float] = None
     description: Optional[str] = None
 
 

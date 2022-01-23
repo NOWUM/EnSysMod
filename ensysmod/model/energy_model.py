@@ -9,7 +9,6 @@ class EnergyModel(Base):
     ref_dataset = Column(Integer, ForeignKey("dataset.id"), index=True, nullable=False)
     name = Column(String, index=True, nullable=False)
     description = Column(String, nullable=True)
-    yearly_co2_limit = Column(DECIMAL, nullable=True)
 
     # relationships
     dataset = relationship("Dataset")

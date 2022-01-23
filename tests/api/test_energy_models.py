@@ -21,7 +21,6 @@ def test_create_energy_model(client: TestClient, normal_user_headers: Dict[str, 
     assert created_model["name"] == create_request.name
     assert created_model["dataset"]["id"] == create_request.ref_dataset
     assert created_model["description"] == create_request.description
-    assert created_model["yearly_co2_limit"] == create_request.yearly_co2_limit
 
 
 def test_create_existing_energy_model(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
