@@ -13,6 +13,7 @@ class EnergyModel(Base):
 
     # relationships
     dataset = relationship("Dataset")
+    parameters = relationship("EnergyModelParameter", back_populates="model")
 
     # table constraints
     __table_args__ = (

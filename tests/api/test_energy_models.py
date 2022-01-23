@@ -29,6 +29,7 @@ def test_create_existing_energy_model(client: TestClient, normal_user_headers: D
     Test creating a existing energy model.
     """
     existing_model = data_gen.random_existing_energy_model(db)
+    existing_model.parameters = []
     create_request = EnergyModelCreate(**jsonable_encoder(existing_model))
     response = client.post("/models/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
