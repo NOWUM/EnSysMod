@@ -25,6 +25,10 @@ class Dataset(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True, index=True, nullable=False)
     description = Column(String, nullable=True)
+    hours_per_time_step = Column(Integer, nullable=False, default=1)
+    number_of_time_steps = Column(Integer, nullable=False, default=8760)
+    cost_unit = Column(String, nullable=False, default='1e9 Euro')
+    length_unit = Column(String, nullable=False, default='km')
 
     regions: List[Region] = relationship("Region", back_populates="dataset")
     commodities: List[EnergyCommodity] = relationship("EnergyCommodity", back_populates="dataset")

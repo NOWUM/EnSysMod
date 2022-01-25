@@ -33,6 +33,14 @@ class CRUDBaseDependsTimeSeries(CRUDBaseDependsDataset, Generic[ModelType, Creat
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
         obj_in_dict = obj_in.dict()
 
+        # Check number of elements in list data_column.
+        # If only one element: Okay. If more than the length must match dataset number_of_time_steps
+        if len(obj_in_dict[self.data_column]) != 1:
+            allowed_len = crud.dataset.get(db, id=obj_in_dict['ref_dataset']).number_of_time_steps
+            if len(obj_in_dict[self.data_column]) != allowed_len:
+                raise ValueError(f"Number of elements in {self.data_column} must match "
+                                 f"number of time steps in dataset ({allowed_len}) or be 1.")
+
         component = crud.energy_component.get_by_dataset_and_name(db, name=obj_in.component,
                                                                   dataset_id=obj_in.ref_dataset)
         obj_in_dict['ref_component'] = component.id

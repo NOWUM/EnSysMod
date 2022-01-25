@@ -16,7 +16,7 @@ def get_random_fix_operation_rate_create(db: Session) -> OperationRateFixCreate:
         ref_dataset=region.ref_dataset,
         component=source.component.name,
         region=region.name,
-        fix_operation_rates=random_float_numbers()
+        fix_operation_rates=random_float_numbers(8760)
     )
 
 

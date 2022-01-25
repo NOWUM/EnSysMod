@@ -16,7 +16,7 @@ def get_random_max_capacity_create(db: Session) -> CapacityMaxCreate:
         ref_dataset=region.ref_dataset,
         component=source.component.name,
         region=region.name,
-        max_capacities=random_float_numbers()
+        max_capacities=random_float_numbers(8760)
     )
 
 
