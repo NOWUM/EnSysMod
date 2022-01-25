@@ -21,10 +21,10 @@ def generate_esm_from_model(db: Session, model: EnergyModel) -> EnergySystemMode
     region_ids = [region.id for region in regions]
     commodities = model.dataset.commodities
     esm_data = {
-        # "hoursPerTimeStep": model.dataset.hours_per_time_step,
-        # "numberOfTimeSteps": model.dataset.number_of_time_steps,
-        # "costUnit": model.dataset.cost_unit,
-        # "lengthUnit": model.dataset.length_unit,
+        "hoursPerTimeStep": model.dataset.hours_per_time_step,
+        "numberOfTimeSteps": model.dataset.number_of_time_steps,
+        "costUnit": model.dataset.cost_unit,
+        "lengthUnit": model.dataset.length_unit,
         "locations": set(region.name for region in regions),
         "commodities": set(commodity.name for commodity in commodities),
         "commodityUnitsDict": {commodity.name: commodity.unit for commodity in model.dataset.commodities},
