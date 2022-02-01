@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Session
-from sqlalchemy.sql import crud
 
 from ensysmod import crud
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
