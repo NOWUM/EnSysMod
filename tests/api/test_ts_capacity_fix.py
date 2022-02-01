@@ -16,7 +16,7 @@ def get_random_fix_capacity_create(db: Session) -> CapacityFixCreate:
         ref_dataset=region.ref_dataset,
         component=source.component.name,
         region=region.name,
-        fix_capacities=random_float_numbers()
+        fix_capacities=random_float_numbers(8760)
     )
 
 

@@ -16,6 +16,7 @@ def random_energy_sink_create(db: Session) -> EnergySinkCreate:
         name=f"EnergySink-{dataset.id}-{random_lower_string()}",
         description="Description",
         commodity=commodity.name,
+        yearly_limit=1000,
     )
 
 
