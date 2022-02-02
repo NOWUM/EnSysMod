@@ -7,6 +7,7 @@ from .energy_component import EnergyComponent, EnergyComponentType, CapacityVari
 from .energy_conversion import EnergyConversion
 from .energy_conversion_factor import EnergyConversionFactor
 from .energy_model import EnergyModel
+from .energy_model_parameter import EnergyModelParameterOperation, EnergyModelParameterAttribute, EnergyModelParameter
 from .energy_sink import EnergySink
 from .energy_source import EnergySource
 from .energy_storage import EnergyStorage

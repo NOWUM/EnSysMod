@@ -10,10 +10,10 @@ class EnergyModel(Base):
     ref_dataset = Column(Integer, ForeignKey("dataset.id"), index=True, nullable=False)
     name = Column(String, index=True, nullable=False)
     description = Column(String, nullable=True)
-    yearly_co2_limit = Column(Float, nullable=True)
 
     # relationships
     dataset: Dataset = relationship("Dataset")
+    parameters = relationship("EnergyModelParameter", back_populates="model")
 
     # table constraints
     __table_args__ = (
