@@ -6,10 +6,10 @@ from sqlalchemy.orm import Session
 
 from ensysmod import crud
 from ensysmod.crud.base import ModelType, CreateSchemaType, UpdateSchemaType
-from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
+from ensysmod.crud.base_depends_component_region import CRUDBaseDependsComponentRegion
 
 
-class CRUDBaseDependsTimeSeries(CRUDBaseDependsDataset, Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
+class CRUDBaseDependsTimeSeries(CRUDBaseDependsComponentRegion, Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     """
     Base class for all CRUD classes that depend on a time series for component and region.
     """
