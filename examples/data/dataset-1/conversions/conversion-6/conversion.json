@@ -1,8 +1,9 @@
 {
     "name": "rSOFC",
-    "description": "Stellt rSOFC dar", 
+    "description": "Stellt rSOFC dar",
     "commodity_unit": "Wasserstoff",
-    "linked_conversion_capacity_id":"rSOC",
+    "capacity_variable": true,
+    "linked_conversion_capacity_id": "rSOC",
     "conversion_factors": [
         {
             "commodity": "Elektrizität",

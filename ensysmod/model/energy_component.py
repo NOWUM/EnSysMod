@@ -1,6 +1,6 @@
 import enum
 
-from sqlalchemy import Column, Integer, String, Boolean, DECIMAL, ForeignKey, Enum, UniqueConstraint
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Enum, UniqueConstraint, Float
 
 from ensysmod.database.base_class import Base
 
@@ -42,11 +42,11 @@ class EnergyComponent(Base):
     capacity_variable_domain = Column(Enum(CapacityVariableDomain),
                                       default=CapacityVariableDomain.CONTINUOUS,
                                       nullable=False)
-    capacity_per_plant_unit = Column(DECIMAL, nullable=True, default=1.0)
+    capacity_per_plant_unit = Column(Integer, nullable=True, default=1.0)
 
-    invest_per_capacity = Column(DECIMAL, nullable=False, default=0.0)
-    opex_per_capacity = Column(DECIMAL, nullable=False, default=0.0)
-    interest_rate = Column(DECIMAL, nullable=False, default=0.08)
+    invest_per_capacity = Column(Float, nullable=False, default=0.0)
+    opex_per_capacity = Column(Float, nullable=False, default=0.0)
+    interest_rate = Column(Float, nullable=False, default=0.08)
     economic_lifetime = Column(Integer, nullable=False, default=10)
 
     shared_potential_id = Column(String, nullable=True)

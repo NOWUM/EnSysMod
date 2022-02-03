@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from ensysmod.database.base_class import Base
+from ensysmod.model import Dataset
 
 
 class EnergyModel(Base):
@@ -11,7 +12,7 @@ class EnergyModel(Base):
     description = Column(String, nullable=True)
 
     # relationships
-    dataset = relationship("Dataset")
+    dataset: Dataset = relationship("Dataset")
     parameters = relationship("EnergyModelParameter", back_populates="model")
 
     # table constraints

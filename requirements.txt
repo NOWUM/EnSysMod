@@ -16,3 +16,4 @@ numpy
 pandas
 openpyxl
 
+FINE~=2.2.1
