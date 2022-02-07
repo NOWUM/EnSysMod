@@ -11,5 +11,5 @@ sphinxcontrib-openapi
 flake8
 
 MarkupSafe~=2.0.1
-setuptools~=60.7.1
+setuptools~=60.8.1
 mistune==0.8.4
