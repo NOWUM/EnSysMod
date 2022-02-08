@@ -2,6 +2,7 @@
 This package contains all models in database
 """
 from .dataset import Dataset
+from .dataset_permission import DatasetPermission
 from .energy_commodity import EnergyCommodity
 from .energy_component import EnergyComponent, EnergyComponentType, CapacityVariableDomain
 from .energy_conversion import EnergyConversion

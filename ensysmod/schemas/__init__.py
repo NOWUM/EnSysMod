@@ -2,6 +2,7 @@
 This package contains every model that is returned from the Rest-API.
 """
 from .dataset import Dataset, DatasetCreate, DatasetUpdate
+from .dataset_permission import DatasetPermission, DatasetPermissionCreate, DatasetPermissionUpdate
 from .energy_commodity import EnergyCommodity, EnergyCommodityCreate, EnergyCommodityUpdate
 from .energy_component import EnergyComponent, EnergyComponentCreate, EnergyComponentUpdate
 from .energy_conversion import EnergyConversion, EnergyConversionCreate, EnergyConversionUpdate

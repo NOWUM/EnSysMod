@@ -5,7 +5,7 @@ from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
 from ensysmod import schemas, model, crud
-from ensysmod.api import deps
+from ensysmod.api import deps, permissions
 from ensysmod.core.fine_esm import generate_esm_from_model, optimize_esm
 
 router = APIRouter()
@@ -33,7 +33,6 @@ def get_model(model_id: int,
     """
     Retrieve a energy model.
     """
-    # TODO Check if user has permission for dataset and model
     return crud.energy_model.get(db, id=model_id)
 
 
@@ -49,7 +48,7 @@ def create_model(request: schemas.EnergyModelCreate,
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {request.ref_dataset} not found!")
 
-    # TODO Check if user has permission for dataset
+    permissions.check_usage_permission(db, user=current, dataset_id=request.ref_dataset)
 
     existing = crud.energy_model.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.name)
     if existing is not None:
@@ -67,10 +66,10 @@ def update_model(model_id: int,
     """
     Update a energy model.
     """
-    # TODO Check if user has permission for model
     energy_model = crud.energy_model.get(db=db, id=model_id)
     if energy_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyModel {model_id} not found!")
+    permissions.check_usage_permission(db, user=current, dataset_id=energy_model.ref_dataset)
     return crud.energy_model.update(db=db, db_obj=energy_model, obj_in=request)
 
 
@@ -81,7 +80,10 @@ def remove_model(model_id: int,
     """
     Delete a energy model.
     """
-    # TODO Check if user has permission for dataset
+    energy_model = crud.energy_model.get(db=db, id=model_id)
+    if energy_model is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyModel {model_id} not found!")
+    permissions.check_usage_permission(db, user=current, dataset_id=energy_model.ref_dataset)
     return crud.energy_model.remove(db=db, id=model_id)
 
 
@@ -95,12 +97,11 @@ def validate_model(model_id: int,
     Might take a while.
     And return errors if dataset is not valid.
     """
-    # TODO Check if user has permission for dataset
     energy_model = crud.energy_model.get(db=db, id=model_id)
     if energy_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyModel {model_id} not found!")
 
-    # TODO Check if user has permission for dataset
+    permissions.check_usage_permission(db, user=current, dataset_id=energy_model.ref_dataset)
 
     generate_esm_from_model(db=db, model=energy_model)
     return energy_model
@@ -116,12 +117,11 @@ def optimize_model(model_id: int,
     Might take a while.
     And return errors if dataset is not valid.
     """
-    # TODO Check if user has permission for dataset
     energy_model = crud.energy_model.get(db=db, id=model_id)
     if energy_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyModel {model_id} not found!")
 
-    # TODO Check if user has permission for dataset
+    permissions.check_usage_permission(db, user=current, dataset_id=energy_model.ref_dataset)
 
     esM = generate_esm_from_model(db=db, model=energy_model)
     result_file_path = optimize_esm(esM=esM)

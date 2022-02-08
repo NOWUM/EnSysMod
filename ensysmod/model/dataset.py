@@ -1,9 +1,10 @@
 from typing import List
 
-from sqlalchemy import Column, Integer, String, and_
+from sqlalchemy import Column, Integer, String, and_, ForeignKey
 from sqlalchemy.orm import relationship, Session
 
 from ensysmod.database.base_class import Base
+from ensysmod.model.user import User
 from ensysmod.model.energy_commodity import EnergyCommodity
 from ensysmod.model.energy_component import EnergyComponent
 from ensysmod.model.energy_conversion import EnergyConversion
@@ -23,6 +24,7 @@ class Dataset(Base):
     It is the basis for a energy model.
     """
     id = Column(Integer, primary_key=True)
+    ref_created_by = Column(Integer, ForeignKey("user.id"), index=True, nullable=False)
     name = Column(String, unique=True, index=True, nullable=False)
     description = Column(String, nullable=True)
     hours_per_time_step = Column(Integer, nullable=False, default=1)
@@ -32,6 +34,7 @@ class Dataset(Base):
 
     regions: List[Region] = relationship("Region", back_populates="dataset")
     commodities: List[EnergyCommodity] = relationship("EnergyCommodity", back_populates="dataset")
+    created_by: User = relationship("User")
 
     @property
     def sources(self) -> List[EnergySource]:
@@ -72,3 +75,4 @@ class Dataset(Base):
             .filter(and_(EnergyComponent.ref_dataset == self.id,
                          EnergyComponent.id == EnergyTransmission.ref_component)) \
             .all()
+

@@ -34,6 +34,7 @@ def test_create_existing_dataset(db: Session, client: TestClient, normal_user_he
     Test creating an existing dataset.
     """
     existing_dataset = data_gen.random_existing_dataset(db)
+    print(existing_dataset.name)
     create_request = DatasetCreate(**jsonable_encoder(existing_dataset))
     response = client.post(
         "/datasets/",
@@ -48,6 +49,7 @@ def test_update_existing_dataset(db: Session, client: TestClient, normal_user_he
     Test updating an existing dataset.
     """
     existing_dataset = data_gen.random_existing_dataset(db)
+    print(existing_dataset.name)
     update_request = DatasetUpdate(**jsonable_encoder(existing_dataset))
     new_description = random_lower_string()
     update_request.description = new_description
