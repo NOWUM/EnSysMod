@@ -3,7 +3,7 @@ from typing import Optional
 from sqlalchemy.orm import Session
 
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
-from ensysmod.model import Dataset, DatasetPermission
+from ensysmod.model import DatasetPermission
 from ensysmod.schemas import DatasetCreate, DatasetUpdate
 
 

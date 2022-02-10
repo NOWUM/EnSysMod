@@ -6,7 +6,6 @@ from fastapi.testclient import TestClient
 from ensysmod import crud
 from ensysmod.app import app
 from ensysmod.database.session import SessionLocal
-from ensysmod.model import User
 from tests.utils.utils import authentication_token_from_username, create_random_user
 
 

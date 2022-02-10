@@ -2,8 +2,8 @@ from typing import Optional, Union, Any
 
 from sqlalchemy.orm import Session
 
-from ensysmod.crud.dataset_permission import dataset_permission
 from ensysmod.crud.base import CRUDBase
+from ensysmod.crud.dataset_permission import dataset_permission
 from ensysmod.model import Dataset
 from ensysmod.schemas import DatasetCreate, DatasetUpdate, DatasetPermissionCreate
 
@@ -13,6 +13,7 @@ class CRUDDataset(CRUDBase[Dataset, DatasetCreate, DatasetUpdate]):
     """
     CRUD operations for Dataset
     """
+
     def create(self, db: Session, *, obj_in: Union[DatasetCreate, Dataset, dict]) -> Dataset:
         new_dataset: Dataset = super().create(db, obj_in=obj_in)
 
@@ -35,7 +36,6 @@ class CRUDDataset(CRUDBase[Dataset, DatasetCreate, DatasetUpdate]):
     def remove(self, db: Session, *, id: Any) -> Dataset:
         dataset_permission.remove_by_dataset(db, dataset_id=id)
         return super().remove(db, id=id)
-
 
 
 dataset = CRUDDataset(Dataset)

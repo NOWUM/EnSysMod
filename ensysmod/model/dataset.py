@@ -4,7 +4,6 @@ from sqlalchemy import Column, Integer, String, and_, ForeignKey
 from sqlalchemy.orm import relationship, Session
 
 from ensysmod.database.base_class import Base
-from ensysmod.model.user import User
 from ensysmod.model.energy_commodity import EnergyCommodity
 from ensysmod.model.energy_component import EnergyComponent
 from ensysmod.model.energy_conversion import EnergyConversion
@@ -13,6 +12,7 @@ from ensysmod.model.energy_source import EnergySource
 from ensysmod.model.energy_storage import EnergyStorage
 from ensysmod.model.energy_transmission import EnergyTransmission
 from ensysmod.model.region import Region
+from ensysmod.model.user import User
 
 
 class Dataset(Base):
@@ -75,4 +75,3 @@ class Dataset(Base):
             .filter(and_(EnergyComponent.ref_dataset == self.id,
                          EnergyComponent.id == EnergyTransmission.ref_component)) \
             .all()
-
