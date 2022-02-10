@@ -3,11 +3,7 @@ from typing import Type, List, Tuple, Dict, Any
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from ensysmod.schemas.energy_transmission_distance import EnergyTransmissionDistanceCreate, EnergyTransmissionDistanceUpdate
-
-schemas_with_component_or_ref_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
-    (EnergyTransmissionDistanceCreate, {"distance":4})
-]
+schemas_with_component_or_ref_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = []
 
 schemas_with_component_or_ref_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = []
 
@@ -49,6 +45,7 @@ def test_error_on_negative_ref(schema: Type[BaseModel], data: Dict[str, Any]):
     assert exc_info.value.errors()[0]["msg"] == "Reference to a component must be positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
+
 @pytest.mark.parametrize("schema,data", schemas_with_component_or_ref)
 def test_error_on_zero_ref(schema: Type[BaseModel], data: Dict[str, Any]):
     """
@@ -69,7 +66,7 @@ def test_error_on_long_component(schema: Type[BaseModel], data: Dict[str, Any]):
     Test that a component_or_ref is not under zero
     """
     with pytest.raises(ValidationError) as exc_info:
-        schema(component='a'*101, **data)
+        schema(component='a' * 101, **data)
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("__root__",)
@@ -83,5 +80,5 @@ def test_ok_component_or_ref(schema: Type[BaseModel], data: Dict[str, Any]):
     Test that a component_or_ref with everything over 0 is valid
     """
     schema(component='a', **data)
-    schema(component='a'*100, **data)
+    schema(component='a' * 100, **data)
     schema(ref_component=1, **data)

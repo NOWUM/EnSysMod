@@ -18,7 +18,7 @@ schemas_with_ref_dataset_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] 
 
 schemas_with_ref_dataset_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
     (EnergyConversionFactorCreate, {"conversion_factor": 4.2, "commodity": "bar"}),
-    (EnergyTransmissionDistanceCreate, {"distance": 5})
+    (EnergyTransmissionDistanceCreate, {"distance": 5, "ref_region_from": 42, "ref_region_to": 1337})
 ]
 
 schemas_with_ref_dataset = schemas_with_ref_dataset_required + schemas_with_ref_dataset_optional

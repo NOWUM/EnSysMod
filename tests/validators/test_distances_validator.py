@@ -8,8 +8,8 @@ from ensysmod.schemas.energy_transmission import EnergyTransmissionCreate
 from ensysmod.schemas.energy_transmission_distance import EnergyTransmissionDistanceCreate
 
 schemas_with_distances_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
-    (EnergyTransmissionCreate, {"name": "test", "description": "bar",
-     "ref_dataset": 42, "type": EnergyComponentType.TRANSMISSION, "commodity": "bar"})
+    (EnergyTransmissionCreate, {"name": "test", "description": "bar", "ref_region_from": 42, "ref_region_to": 1337,
+                                "ref_dataset": 42, "type": EnergyComponentType.TRANSMISSION, "commodity": "bar"})
 ]
 
 schemas_with_distances_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = []
@@ -44,4 +44,4 @@ def test_ok_distances(schema: Type[BaseModel], data: Dict[str, Any]):
     """
     Test that a distances with everything over 0 is valid
     """
-    schema(distances=[EnergyTransmissionDistanceCreate(distance=5)], **data)
+    schema(distances=[EnergyTransmissionDistanceCreate(distance=5, ref_region_to=4, ref_region_from=3)], **data)

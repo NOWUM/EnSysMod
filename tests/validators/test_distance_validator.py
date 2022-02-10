@@ -3,10 +3,11 @@ from typing import Type, List, Tuple, Dict, Any
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from ensysmod.schemas.energy_transmission_distance import EnergyTransmissionDistanceCreate, EnergyTransmissionDistanceUpdate
+from ensysmod.schemas.energy_transmission_distance import EnergyTransmissionDistanceCreate, \
+    EnergyTransmissionDistanceUpdate
 
 schemas_with_distance_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
-    (EnergyTransmissionDistanceCreate, {})
+    (EnergyTransmissionDistanceCreate, {"ref_region_from": 42, "ref_region_to": 1337})
 ]
 
 schemas_with_distance_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [

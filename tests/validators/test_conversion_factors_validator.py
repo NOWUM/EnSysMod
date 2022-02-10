@@ -9,7 +9,7 @@ from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactorCrea
 
 schemas_with_conversion_factors_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
     (EnergyConversionCreate, {"name": "test", "description": "bar", "ref_dataset": 42,
-     "type": EnergyComponentType.CONVERSION, "commodity_unit": "bar"})
+                              "type": EnergyComponentType.CONVERSION, "commodity_unit": "bar"})
 ]
 
 schemas_with_conversion_factors_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = []

@@ -269,14 +269,14 @@ def validate_conversion_factors(conversion_factors: List[Any]) -> List[Any]:
     :return: The validated conversion_factor.
     """
     if conversion_factors is None:
-        return MissingError("List of conversion factors is None.")
+        raise MissingError()
     if len(conversion_factors) == 0:
         raise ValueError("List of conversion factors must not be empty.")
 
     return conversion_factors
 
 
-def validate_commodity_cost(commodity_cost: float) -> float:
+def validate_commodity_cost(commodity_cost: float) -> Optional[float]:
     """
     Validates the commodity cost of an object.
 
@@ -320,7 +320,7 @@ def validate_discharge_efficiency(discharge_efficiency: Optional[float]) -> Opti
         return None
 
     if discharge_efficiency < 0 or discharge_efficiency > 1:
-        raise ValueError("Disharge efficiency must be between 0 and 1.")
+        raise ValueError("Discharge efficiency must be between 0 and 1.")
 
     return discharge_efficiency
 
@@ -443,10 +443,13 @@ def validate_distance(distance: float) -> float:
 def validate_component_or_ref(cls, values):
     component, ref_component = values.get('component'), values.get('ref_component')
 
-    if ref_component is None and component and len(component) > 100:
+    if component is None and ref_component is None:
+        raise ValueError("Either component or ref_component must be provided.")
+
+    validate_ref_component_optional(ref_component)
+
+    if component is not None and len(component) > 100:
         raise ValueError("The component must not be longer than 100 characters.")
-    if component is None and ref_component and ref_component <= 0:
-        raise ValueError("Reference to a component must be positive.")
 
     return values
 
@@ -455,10 +458,13 @@ def validate_component_or_ref(cls, values):
 def validate_region_to_or_ref(cls, values):
     region_to, ref_region_to = values.get('region_to'), values.get('ref_region_to')
 
-    if ref_region_to is None and region_to and len(region_to) > 100:
+    if region_to is None and ref_region_to is None:
+        raise ValueError("Either region_to or ref_region_to must be provided.")
+
+    if region_to is not None and len(region_to) > 100:
         raise ValueError("The region_to must not be longer than 100 characters.")
 
-    if region_to is None and ref_region_to and ref_region_to <= 0:
+    if ref_region_to is not None and ref_region_to <= 0:
         raise ValueError("Reference to the region_to must be positive.")
 
     return values
@@ -468,16 +474,19 @@ def validate_region_to_or_ref(cls, values):
 def validate_region_from_or_ref(cls, values):
     region_from, ref_region_from = values.get('region_from'), values.get('ref_region_from')
 
-    if ref_region_from is None and region_from and len(region_from) > 100:
+    if region_from is None and ref_region_from is None:
+        raise ValueError("Either region_from or ref_region_from must be provided.")
+
+    if region_from is not None and len(region_from) > 100:
         raise ValueError("The region_from must not be longer than 100 characters.")
 
-    if region_from is None and ref_region_from and ref_region_from <= 0:
+    if ref_region_from is not None and ref_region_from <= 0:
         raise ValueError("Reference to the region_from must be positive.")
 
     return values
 
 
-def validate_loss_per_unit(loss_per_unit: float) -> float:
+def validate_loss_per_unit(loss_per_unit: float) -> Optional[float]:
     """
     Validates the loss per unit of an object.
 
@@ -500,7 +509,7 @@ def validate_distances(distances: List[Any]) -> List[Any]:
     :return: The validated distances.
     """
     if distances is None:
-        return MissingError("List of distances is None.")
+        raise MissingError()
     if len(distances) == 0:
         raise ValueError("List of distances must not be empty.")
 

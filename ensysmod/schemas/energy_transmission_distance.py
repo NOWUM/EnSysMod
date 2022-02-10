@@ -35,10 +35,9 @@ class EnergyTransmissionDistanceCreate(EnergyTransmissionDistanceBase):
     # validators
     _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_optional)
 
-    _valid_ref_component = root_validator(allow_reuse=True)(validators.validate_component_or_ref)
+    # _valid_ref_component = root_validator(allow_reuse=True)(validators.validate_component_or_ref)
     _valid_ref_region_from = root_validator(allow_reuse=True)(validators.validate_region_from_or_ref)
     _valid_ref_region_to = root_validator(allow_reuse=True)(validators.validate_region_to_or_ref)
-
 
 
 class EnergyTransmissionDistanceUpdate(EnergyTransmissionDistanceBase):
