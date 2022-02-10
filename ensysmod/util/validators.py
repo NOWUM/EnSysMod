@@ -276,21 +276,6 @@ def validate_conversion_factors(conversion_factors: List[Any]) -> List[Any]:
     return conversion_factors
 
 
-def validate_yearly_co2_limit(yearly_co2_limit: float) -> float:
-    """
-    Validates the yearly co2-limit of an object.
-
-    :param yearly_co2_limit: The yearly co2-limit of the object.
-    :return: The validated yearly co2-limit.
-    """
-    if yearly_co2_limit is None:
-        return None
-    if yearly_co2_limit <= 0:
-        raise ValueError("The yearly co2-limit must be positive.")
-
-    return yearly_co2_limit
-
-
 def validate_commodity_cost(commodity_cost: float) -> float:
     """
     Validates the commodity cost of an object.

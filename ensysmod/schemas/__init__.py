@@ -7,6 +7,7 @@ from .energy_component import EnergyComponent, EnergyComponentCreate, EnergyComp
 from .energy_conversion import EnergyConversion, EnergyConversionCreate, EnergyConversionUpdate
 from .energy_conversion_factor import EnergyConversionFactor, EnergyConversionFactorCreate, EnergyConversionFactorUpdate
 from .energy_model import EnergyModel, EnergyModelCreate, EnergyModelUpdate
+from .energy_model_parameter import EnergyModelParameter, EnergyModelParameterCreate, EnergyModelParameterUpdate
 from .energy_sink import EnergySink, EnergySinkCreate, EnergySinkUpdate
 from .energy_source import EnergySource, EnergySourceCreate, EnergySourceUpdate
 from .energy_storage import EnergyStorage, EnergyStorageCreate, EnergyStorageUpdate

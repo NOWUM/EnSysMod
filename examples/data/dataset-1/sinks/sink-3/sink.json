@@ -1,5 +1,6 @@
 {
     "name": "CO2-Verbrauch",
     "description": "Stellt den CO2-Verbrauch dar", 
-    "commodity": "CO2"
+    "commodity": "CO2",
+    "yearly_limit": 366
 }

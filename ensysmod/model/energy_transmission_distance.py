@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, ForeignKey, DECIMAL, UniqueConstraint
+from sqlalchemy import Column, Integer, ForeignKey, UniqueConstraint, Float
 from sqlalchemy.orm import relationship
 
 from ensysmod.database.base_class import Base
@@ -15,7 +15,7 @@ class EnergyTransmissionDistance(Base):
     ref_region_from = Column(Integer, ForeignKey("region.id"), index=True, nullable=False)
     ref_region_to = Column(Integer, ForeignKey("region.id"), index=True, nullable=False)
 
-    distance = Column(DECIMAL, nullable=True)
+    distance = Column(Float, nullable=True)
 
     # Relationships
     transmission = relationship("EnergyTransmission", back_populates="distances")

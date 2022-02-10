@@ -11,6 +11,10 @@ class DatasetBase(BaseModel):
     """
     name: str
     description: Optional[str] = None
+    hours_per_time_step: Optional[int] = None
+    number_of_time_steps: Optional[int] = None
+    cost_unit: Optional[str] = None
+    length_unit: Optional[str] = None
 
     # validators
     _valid_name = validator("name", allow_reuse=True)(validators.validate_name)

@@ -11,4 +11,4 @@ class CRUDCapacityFix(CRUDBaseDependsTimeSeries[CapacityFix, CapacityFixCreate, 
     pass
 
 
-capacity_fix = CRUDCapacityFix(CapacityFix)
+capacity_fix = CRUDCapacityFix(CapacityFix, "fix_capacities")

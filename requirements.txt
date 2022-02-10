@@ -1,8 +1,8 @@
 # Requirements for EnSysMod
 
-fastapi~=0.71.0
-sqlalchemy~=1.4.29
-uvicorn~=0.17.0
+fastapi~=0.73.0
+sqlalchemy~=1.4.31
+uvicorn~=0.17.4
 pydantic~=1.9.0
 pydantic[dotenv]
 
@@ -11,7 +11,9 @@ passlib~=1.7.4
 python-multipart
 bcrypt
 
+simplejson~=3.17.6
 numpy
 pandas
 openpyxl
 
+FINE~=2.2.1

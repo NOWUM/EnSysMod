@@ -12,6 +12,7 @@ class EnergySinkBase(BaseModel):
     Shared properties for an energy sink. Used as a base class for all schemas.
     """
     type = EnergyComponentType.SINK
+    yearly_limit: Optional[float] = None
 
     # validators
     _valid_type = validator("type", allow_reuse=True)(validators.validate_energy_component_type)

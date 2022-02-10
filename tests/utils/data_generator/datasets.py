@@ -12,7 +12,9 @@ def random_dataset_create() -> DatasetCreate:
     """
     dataset_name = "DS " + random_lower_string()
     dataset_description = "DS desc " + random_lower_string()
-    return DatasetCreate(name=dataset_name, description=dataset_description)
+    return DatasetCreate(name=dataset_name, description=dataset_description,
+                         hours_per_time_step=1, number_of_time_steps=8760,
+                         cost_unit='1e9 Euro', length_unit='km')
 
 
 def random_existing_dataset(db: Session) -> Dataset:

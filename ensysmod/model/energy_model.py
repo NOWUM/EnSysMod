@@ -1,7 +1,8 @@
-from sqlalchemy import Column, Integer, String, DECIMAL, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from ensysmod.database.base_class import Base
+from ensysmod.model import Dataset
 
 
 class EnergyModel(Base):
@@ -9,10 +10,10 @@ class EnergyModel(Base):
     ref_dataset = Column(Integer, ForeignKey("dataset.id"), index=True, nullable=False)
     name = Column(String, index=True, nullable=False)
     description = Column(String, nullable=True)
-    yearly_co2_limit = Column(DECIMAL, nullable=True)
 
     # relationships
-    dataset = relationship("Dataset")
+    dataset: Dataset = relationship("Dataset")
+    parameters = relationship("EnergyModelParameter", back_populates="model")
 
     # table constraints
     __table_args__ = (

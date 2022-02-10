@@ -2,7 +2,7 @@
 -r requirements.txt
 
 # Dev dependencies for EnSysMod
-pytest~=6.2.5
+pytest~=7.0.0
 pytest-cov
 codecov
 sphinx
@@ -11,5 +11,5 @@ sphinxcontrib-openapi
 flake8
 
 MarkupSafe~=2.0.1
-setuptools~=60.5.0
+setuptools~=60.8.1
 mistune==0.8.4

@@ -1,15 +1,16 @@
 {
     "name": "Li-ion Batterien",
-    "description": "Stellt Batterien dar", 
+    "description": "Stellt Batterien dar",
     "commodity": "Elektrizität",
-    "charge_efficiency":0.95,
-    "cyclic_lifetime":10000, 
-    "discharge_efficiency":0.95, 
-    "self_discharge":0.0000423036,
-    "charge_rate":1, 
-    "discharge_rate":1,
-    "invest_per_capacity":0.151, 
-    "opex_per_capacity":0.002, 
-    "interest_rate":0.08,
-    "economic_lifetime":22
+    "capacity_variable": true,
+    "charge_efficiency": 0.95,
+    "cyclic_lifetime": 10000,
+    "discharge_efficiency": 0.95,
+    "self_discharge": 0.0000423036,
+    "charge_rate": 1,
+    "discharge_rate": 1,
+    "invest_per_capacity": 0.151,
+    "opex_per_capacity": 0.002,
+    "interest_rate": 0.08,
+    "economic_lifetime": 22
 }

@@ -2,6 +2,7 @@
   "name": "Salzkavernen (Wasserstoff)",
   "description": "Stellt Salzkavernen (Wasserstoff) dar",
   "commodity": "Wasserstoff",
+  "capacity_variable": true,
   "capacity_variable_domain": "CONTINUOUS",
   "capacity_per_plant_unit": 133,
   "charge_rate": 0.007124,

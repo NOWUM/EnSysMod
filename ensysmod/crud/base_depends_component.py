@@ -1,4 +1,4 @@
-from typing import Optional, Generic, Any, Union
+from typing import Optional, Generic, Any, Union, List
 
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from ensysmod import crud
 from ensysmod.crud.base import ModelType, CreateSchemaType, UpdateSchemaType
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
+from ensysmod.model import EnergyComponent
 
 
 class CRUDBaseDependsComponent(CRUDBaseDependsDataset, Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
@@ -24,6 +25,14 @@ class CRUDBaseDependsComponent(CRUDBaseDependsDataset, Generic[ModelType, Create
         if component is None:
             return None
         return db.query(self.model).filter(self.model.ref_component == component.id).first()
+
+    def get_multi_by_dataset(
+            self, db: Session, *, skip: int = 0, limit: int = 100, dataset_id: int
+    ) -> List[ModelType]:
+        """
+        Get a list of energy component based objects based on dataset.
+        """
+        return db.query(self.model).join(EnergyComponent).filter(EnergyComponent.ref_dataset == dataset_id).all()
 
     def create(self, db: Session, *, obj_in: Union[CreateSchemaType, ModelType, dict]) -> ModelType:
         """
