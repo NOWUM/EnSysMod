@@ -2,7 +2,7 @@
 -r requirements.txt
 
 # Dev dependencies for EnSysMod
-pytest~=7.0.0
+pytest~=7.0.1
 pytest-cov
 codecov
 sphinx
