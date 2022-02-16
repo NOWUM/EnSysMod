@@ -1,6 +1,8 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
+
+from ensysmod.util import validators
 
 
 class DatasetBase(BaseModel):
@@ -13,6 +15,10 @@ class DatasetBase(BaseModel):
     number_of_time_steps: Optional[int] = None
     cost_unit: Optional[str] = None
     length_unit: Optional[str] = None
+
+    # validators
+    _valid_name = validator("name", allow_reuse=True)(validators.validate_name)
+    _valid_description = validator("description", allow_reuse=True)(validators.validate_description)
 
 
 class DatasetCreate(DatasetBase):

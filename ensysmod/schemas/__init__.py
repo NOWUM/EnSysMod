@@ -12,9 +12,9 @@ from .energy_sink import EnergySink, EnergySinkCreate, EnergySinkUpdate
 from .energy_source import EnergySource, EnergySourceCreate, EnergySourceUpdate
 from .energy_storage import EnergyStorage, EnergyStorageCreate, EnergyStorageUpdate
 from .energy_transmission import EnergyTransmission, EnergyTransmissionCreate, EnergyTransmissionUpdate
-from .file_upload import FileStatus, FileUploadResult, ZipArchiveUploadResult
 from .energy_transmission_distance import EnergyTransmissionDistance, EnergyTransmissionDistanceCreate, \
     EnergyTransmissionDistanceUpdate
+from .file_upload import FileStatus, FileUploadResult, ZipArchiveUploadResult
 from .region import Region, RegionCreate, RegionUpdate
 from .token import Token, TokenPayload
 from .ts_capacity_fix import CapacityFix, CapacityFixCreate, CapacityFixUpdate
