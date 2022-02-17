@@ -10,7 +10,7 @@ from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
 from ensysmod import schemas, model, crud
-from ensysmod.api import deps
+from ensysmod.api import deps, permissions
 from ensysmod.core.file_download import export_data
 from ensysmod.core.file_upload import process_dataset_zip_archive
 from ensysmod.schemas import FileStatus
@@ -36,7 +36,6 @@ def get_dataset(dataset_id: int,
     """
     Retrieve a dataset.
     """
-    # TODO Check if user has permission for dataset
     return crud.dataset.get(db, dataset_id)
 
 
@@ -48,11 +47,11 @@ def create_dataset(request: schemas.DatasetCreate,
     """
     Create a new dataset.
     """
-    # TODO Check if user has permission for dataset
     existing_ds = crud.dataset.get_by_name(db=db, name=request.name)
     if existing_ds is not None:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Dataset {request.name} already exists!")
-
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Dataset {request.name} already exists!"
+                                                                         f"Please choose a different name.")
+    request.ref_created_by = current.id
     return crud.dataset.create(db=db, obj_in=request)
 
 
@@ -64,10 +63,10 @@ def update_dataset(dataset_id: int,
     """
     Update a dataset.
     """
-    # TODO Check if user has permission for dataset
     dataset = crud.dataset.get(db=db, id=dataset_id)
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {dataset_id} not found!")
+    permissions.check_modification_permission(db=db, user=current, dataset_id=dataset_id)
     return crud.dataset.update(db=db, db_obj=dataset, obj_in=request)
 
 
@@ -78,7 +77,7 @@ def remove_dataset(dataset_id: int,
     """
     Delete a dataset.
     """
-    # TODO Check if user has permission for dataset
+    permissions.check_modification_permission(db=db, user=current, dataset_id=dataset_id)
     # TODO remove all components, commodities, regions, etc.
     return crud.dataset.remove(db=db, id=dataset_id)
 
@@ -96,7 +95,7 @@ def upload_zip_archive(dataset_id: int,
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {dataset_id} not found!")
 
-    # TODO Check if user has permission for dataset
+    permissions.check_modification_permission(db=db, user=current, dataset_id=dataset_id)
 
     with zipfile.ZipFile(BytesIO(file.file.read()), 'r') as zip_archive:
         result = process_dataset_zip_archive(zip_archive, dataset_id, db)
@@ -118,7 +117,7 @@ def download_zip_archive(dataset_id: int,
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {dataset_id} not found!")
 
-    # TODO Check if user has permission for dataset
+    permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
 
     # create a temporary directory
     time_str = datetime.now().strftime("%Y%m%d%H%M%S")

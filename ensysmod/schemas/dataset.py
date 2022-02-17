@@ -4,6 +4,8 @@ from pydantic import BaseModel, validator
 
 from ensysmod.util import validators
 
+from ensysmod.schemas.user import User
+
 
 class DatasetBase(BaseModel):
     """
@@ -25,7 +27,7 @@ class DatasetCreate(DatasetBase):
     """
     Properties to receive via API on creation of a dataset.
     """
-    pass
+    ref_created_by: Optional[int] = None
 
 
 class DatasetUpdate(DatasetBase):
@@ -40,6 +42,7 @@ class Dataset(DatasetBase):
     Properties to return via API for a dataset.
     """
     id: int
+    created_by: User
 
     class Config:
         orm_mode = True

@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from ensysmod import schemas, model, crud
-from ensysmod.api import deps
+from ensysmod.api import deps, permissions
 
 router = APIRouter()
 
@@ -31,7 +31,6 @@ def get_commodity(commodity_id: int,
     """
     Retrieve a energy commodity.
     """
-    # TODO Check if user has permission for dataset and commodity
     return crud.energy_commodity.get(db, commodity_id)
 
 
@@ -47,7 +46,7 @@ def create_commodity(request: schemas.EnergyCommodityCreate,
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {request.ref_dataset} not found!")
 
-    # TODO Check if user has permission for dataset
+    permissions.check_modification_permission(db, user=current, dataset_id=request.ref_dataset)
 
     existing = crud.energy_commodity.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.name)
     if existing is not None:
@@ -65,10 +64,10 @@ def update_commodity(commodity_id: int,
     """
     Update a energy commodity.
     """
-    # TODO Check if user has permission for commodity
     commodity = crud.energy_commodity.get(db=db, id=commodity_id)
     if commodity is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyCommodity {commodity_id} not found!")
+    permissions.check_modification_permission(db, user=current, dataset_id=commodity.ref_dataset)
     return crud.energy_commodity.update(db=db, db_obj=commodity, obj_in=request)
 
 
@@ -79,5 +78,8 @@ def remove_commodity(commodity_id: int,
     """
     Delete a energy commodity.
     """
-    # TODO Check if user has permission for dataset
+    commodity = crud.energy_commodity.get(db=db, id=commodity_id)
+    if commodity is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyCommodity {commodity_id} not found!")
+    permissions.check_modification_permission(db, user=current, dataset_id=commodity.ref_dataset)
     return crud.energy_commodity.remove(db=db, id=commodity_id)

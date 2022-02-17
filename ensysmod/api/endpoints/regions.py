@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from ensysmod import schemas, model, crud
-from ensysmod.api import deps
+from ensysmod.api import deps, permissions
 
 router = APIRouter()
 
@@ -31,7 +31,6 @@ def get_region(region_id: int,
     """
     Retrieve a region.
     """
-    # TODO Check if user has permission for dataset and region
     return crud.region.get(db, region_id)
 
 
@@ -47,7 +46,7 @@ def create_region(request: schemas.RegionCreate,
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {request.ref_dataset} not found!")
 
-    # TODO Check if user has permission for dataset
+    permissions.check_modification_permission(db, user=current, dataset_id=request.ref_dataset)
 
     existing = crud.region.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.name)
     if existing is not None:
@@ -65,10 +64,10 @@ def update_region(region_id: int,
     """
     Update a region.
     """
-    # TODO Check if user has permission for region
     region = crud.region.get(db=db, id=region_id)
     if region is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Region {region_id} not found!")
+    permissions.check_modification_permission(db, user=current, dataset_id=region.ref_dataset)
     return crud.region.update(db=db, db_obj=region, obj_in=request)
 
 
@@ -79,5 +78,8 @@ def remove_region(region_id: int,
     """
     Delete a region.
     """
-    # TODO Check if user has permission for dataset
+    region = crud.region.get(db=db, id=region_id)
+    if region is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Region {region_id} not found!")
+    permissions.check_modification_permission(db, user=current, dataset_id=region.ref_dataset)
     return crud.region.remove(db=db, id=region_id)

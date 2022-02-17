@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from ensysmod import schemas, model, crud
-from ensysmod.api import deps
+from ensysmod.api import deps, permissions
 from ensysmod.schemas import CapacityFix
 
 router = APIRouter()
@@ -45,7 +45,7 @@ def create_capacity_fix(request: schemas.CapacityFixCreate,
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Component {request.component} not found in dataset {request.ref_dataset}!")
 
-    # TODO Check if user has permission for dataset
+    permissions.check_modification_permission(db, user=current, dataset_id=request.ref_dataset)
 
     region = crud.region.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.region)
     if region is None:
@@ -84,10 +84,11 @@ def update_capacity_fix(ts_id: int,
     """
     Update a fix capacity.
     """
-    # TODO Check if user has permission for CapacityFix
     ts = crud.capacity_fix.get(db=db, id=ts_id)
     if ts is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"CapacityFix {ts_id} not found!")
+
+    permissions.check_modification_permission(db, user=current, dataset_id=ts.component.ref_dataset)
     return crud.capacity_fix.update(db=db, db_obj=ts, obj_in=request)
 
 
@@ -101,5 +102,5 @@ def remove_capacity_fix(ts_id: int,
     ts = crud.capacity_fix.get(db=db, id=ts_id)
     if ts is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"CapacityFix {ts_id} not found!")
-    # TODO Check if user has permission for dataset
+    permissions.check_modification_permission(db, user=current, dataset_id=ts.component.ref_dataset)
     return crud.capacity_fix.remove(db=db, id=ts_id)
