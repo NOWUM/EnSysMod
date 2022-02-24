@@ -12,8 +12,8 @@ python-multipart
 bcrypt
 
 simplejson~=3.17.6
-numpy
-pandas
+numpy==1.17.3
+pandas==1.3.5
 openpyxl
 
-FINE~=2.2.1
+FINE~=2.1.1
