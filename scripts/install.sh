@@ -5,4 +5,10 @@ cd "$(git rev-parse --show-toplevel)" || (
   exit 1
 )
 
-pip install --upgrade --upgrade-strategy eager -r requirements-dev.txt -e .
+conda --version || (echo "Conda not found. Exiting..." && exit 1)
+
+conda env create -f requirements.yml -n EnSysMod-env || echo "Conda environment already exists. Activating..."
+conda activate EnSysMod-env
+
+# Update dependencies
+conda env update --file requirements.yml --prune
