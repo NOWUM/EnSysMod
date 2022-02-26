@@ -1,5 +1,6 @@
 {
     "name": "Elektrizität-Verbrauch",
     "description": "Stellt den Elektrizität-Verbrauch dar", 
-    "commodity": "Elektrizität"
+    "commodity": "Elektrizität",
+    "capacity_variable": false
 }
