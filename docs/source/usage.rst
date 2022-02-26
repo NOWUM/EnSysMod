@@ -1,19 +1,17 @@
 Usage
 =====
 
+This chapter describes how to use the EnSysMod tool.
 
+This tool allows you to create a new EnSysMod model and optimize it for lowest costs.
 
-Kurze Einleitung:
-Daten einlesen bzw. eingelesene nutzen
-Daten sind in unterschiedliche Bereiche aufgeteilt
+In order to run multiple simulations for one dataset the tool is divided into two parts:
 
+    1. The **dataset** allows you to create an abstract model for your scenario.
+    2. The **model** allows you to prepare and optimize based on a dataset with individual simulation parameters.
 
-
-Verweis auf:
-Installation
-Daten einlesen bzw. Aufbau der Daten in Datensatz + Modell
-Modell starten bzw. Optimierung durchführen
-Ergebnisse auslesen
+On the following pages you will find more detailed information about the different parts of the tool and how to use
+them. Click on **next** to continue.
 
 
 .. toctree::
