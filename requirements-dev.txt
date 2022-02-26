@@ -2,14 +2,14 @@
 -r requirements.txt
 
 # Dev dependencies for EnSysMod
-pytest~=6.2.5
-pytest-cov
-codecov
-sphinx
-sphinx-rtd-theme
-sphinxcontrib-openapi
-flake8
+pytest==7.0.1
+pytest-cov==3.0.0
+codecov==2.1.12
+sphinx==4.4.0
+sphinx-rtd-theme==1.0.0
+sphinxcontrib-openapi==0.7.0
+flake8==3.9.2
 
-MarkupSafe~=2.0.1
-setuptools~=60.0.3
+MarkupSafe==2.1.0
+setuptools==60.9.3
 mistune==0.8.4

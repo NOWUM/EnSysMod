@@ -2,7 +2,8 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from ensysmod.schemas import EnergyComponent, Region
+from ensysmod.schemas.energy_component import EnergyComponent
+from ensysmod.schemas.region import Region
 
 
 class RefCRBaseBase(BaseModel):

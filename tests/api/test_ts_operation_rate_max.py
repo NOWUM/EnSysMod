@@ -16,7 +16,7 @@ def get_random_max_operation_rate_create(db: Session) -> OperationRateMaxCreate:
         ref_dataset=region.ref_dataset,
         component=source.component.name,
         region=region.name,
-        max_operation_rates=random_float_numbers()
+        max_operation_rates=random_float_numbers(8760)
     )
 
 

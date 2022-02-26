@@ -11,4 +11,4 @@ class CRUDOperationRateFix(CRUDBaseDependsTimeSeries[OperationRateFix, Operation
     pass
 
 
-operation_rate_fix = CRUDOperationRateFix(OperationRateFix)
+operation_rate_fix = CRUDOperationRateFix(OperationRateFix, "fix_operation_rates")

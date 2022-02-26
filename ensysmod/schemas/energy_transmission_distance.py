@@ -1,8 +1,10 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
+from pydantic.class_validators import root_validator
 
 from ensysmod.schemas.region import Region
+from ensysmod.util import validators
 
 
 class EnergyTransmissionDistanceBase(BaseModel):
@@ -10,6 +12,9 @@ class EnergyTransmissionDistanceBase(BaseModel):
     Shared properties for an energy transmission distance. Used as a base class for all schemas.
     """
     distance: float
+
+    # validators
+    _valid_distance = validator("distance", allow_reuse=True)(validators.validate_distance)
 
 
 class EnergyTransmissionDistanceCreate(EnergyTransmissionDistanceBase):
@@ -26,6 +31,13 @@ class EnergyTransmissionDistanceCreate(EnergyTransmissionDistanceBase):
 
     ref_region_to: Optional[int] = None
     region_to: Optional[str] = None
+
+    # validators
+    _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_optional)
+
+    # _valid_ref_component = root_validator(allow_reuse=True)(validators.validate_component_or_ref)
+    _valid_ref_region_from = root_validator(allow_reuse=True)(validators.validate_region_from_or_ref)
+    _valid_ref_region_to = root_validator(allow_reuse=True)(validators.validate_region_to_or_ref)
 
 
 class EnergyTransmissionDistanceUpdate(EnergyTransmissionDistanceBase):

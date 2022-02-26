@@ -1,5 +1,6 @@
 {
-    "name": "AC Leitungen",
-    "description": "Stellt die AC-Leitungen dar", 
-    "commodity": "Elektrizität"
+  "name": "AC Leitungen",
+  "description": "Stellt die AC-Leitungen dar",
+  "commodity": "Elektrizität",
+  "capacity_variable": true
 }

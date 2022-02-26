@@ -1,6 +1,10 @@
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
+
+from ensysmod.util import validators
+
+from ensysmod.schemas.user import User
 
 
 class DatasetBase(BaseModel):
@@ -10,13 +14,21 @@ class DatasetBase(BaseModel):
     name: str = Field(..., description="Name of the dataset", example="2050 Worldwide")
     description: Optional[str] = Field(None, description="Description of the dataset",
                                        example="Modeling year 2050 with all countries")
+    hours_per_time_step: Optional[int] = None
+    number_of_time_steps: Optional[int] = None
+    cost_unit: Optional[str] = None
+    length_unit: Optional[str] = None
+
+    # validators
+    _valid_name = validator("name", allow_reuse=True)(validators.validate_name)
+    _valid_description = validator("description", allow_reuse=True)(validators.validate_description)
 
 
 class DatasetCreate(DatasetBase):
     """
     Properties to receive via API on creation of a dataset.
     """
-    pass
+    ref_created_by: Optional[int] = None
 
 
 class DatasetUpdate(DatasetBase):
@@ -31,6 +43,7 @@ class Dataset(DatasetBase):
     Properties to return via API for a dataset.
     """
     id: int = Field(..., description="Id of the dataset", example=1)
+    created_by: User
 
     class Config:
         orm_mode = True

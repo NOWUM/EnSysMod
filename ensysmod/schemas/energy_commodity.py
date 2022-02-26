@@ -1,8 +1,9 @@
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 
 from ensysmod.schemas import Dataset
+from ensysmod.util import validators
 
 
 class EnergyCommodityBase(BaseModel):
@@ -13,12 +14,20 @@ class EnergyCommodityBase(BaseModel):
     unit: str = Field(..., description="Unit of the energy commodity", example="GW")
     description: Optional[str] = Field(None, description="Description of the energy commodity", example="Electricity")
 
+    # validators
+    _valid_name = validator("name", allow_reuse=True)(validators.validate_name)
+    _valid_unit = validator("unit", allow_reuse=True)(validators.validate_unit)
+    _valid_description = validator("description", allow_reuse=True)(validators.validate_description)
+
 
 class EnergyCommodityCreate(EnergyCommodityBase):
     """
     Properties to receive via API on creation of an energy commodity.
     """
     ref_dataset: int = Field(..., description="Reference to the dataset", example=1)
+
+    # validators
+    _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_required)
 
 
 class EnergyCommodityUpdate(EnergyCommodityBase):

@@ -1,7 +1,10 @@
+from typing import List
+
 from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 
 from ensysmod.database.base_class import Base
+from ensysmod.model.energy_conversion_factor import EnergyConversionFactor
 
 
 class EnergyConversion(Base):
@@ -18,4 +21,5 @@ class EnergyConversion(Base):
     # Relationships
     component = relationship("EnergyComponent")
     commodity_unit = relationship("EnergyCommodity", back_populates="energy_conversions")
-    conversion_factors = relationship("EnergyConversionFactor", back_populates="conversion")
+    conversion_factors: List[EnergyConversionFactor] = relationship("EnergyConversionFactor",
+                                                                    back_populates="conversion")

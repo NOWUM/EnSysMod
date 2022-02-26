@@ -1,0 +1,27 @@
+[
+    {
+        "description": "Commodity zu Strom. Die Werte werden in elektrischen GW angegeben.",
+        "name": "Elektrizität",
+        "unit": "GW"
+    },
+    {
+        "description": "Commodity zu Wasserstoff. Die Werte werden in GW H2 (zum Heizwert) angegeben.",
+        "name": "Wasserstoff",
+        "unit": "GW"
+    },
+    {
+        "description": "Commodity zu Methan. Die Werte werden in GW CH4 (zum Heizwert) angegeben.",
+        "name": "Methan",
+        "unit": "GW"
+    },
+    {
+        "description": "Commodity zu Bio Gas. Die Werte werden in GW Bio Gas (zum Heizwert) angegeben.",
+        "name": "Biogas",
+        "unit": "GW"
+    },
+    {
+        "description": "Commodity zu CO2. Die Werte werden in Mio. t CO2 pro Stunde angegeben.",
+        "name": "CO2",
+        "unit": "Mio. t CO2/h"
+    }
+]
