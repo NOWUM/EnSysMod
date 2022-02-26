@@ -1,6 +1,6 @@
 from typing import Optional, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from pydantic.class_validators import validator
 
 from ensysmod.model import EnergyComponentType
@@ -14,7 +14,7 @@ class EnergyTransmissionBase(BaseModel):
     Shared properties for an energy transmission. Used as a base class for all schemas.
     """
     type = EnergyComponentType.TRANSMISSION
-    loss_per_unit: Optional[float] = None
+    loss_per_unit: Optional[float] = Field(None, description="Loss per unit of energy transmission", example=0.002)
 
     # validators
     _valid_type = validator("type", allow_reuse=True)(validators.validate_energy_component_type)
@@ -25,12 +25,28 @@ class EnergyTransmissionCreate(EnergyTransmissionBase, EnergyComponentCreate):
     """
     Properties to receive via API on creation of an energy transmission.
     """
-    commodity: str
-    distances: Optional[List[EnergyTransmissionDistanceCreate]] = None
+    commodity: str = Field(..., description="Commodity of energy transmission", example="electricity")
+    distances: Optional[List[EnergyTransmissionDistanceCreate]] = Field(None,
+                                                                        description="Distances of energy transmission")
 
     # validators
     _valid_distances = validator("distances", allow_reuse=True)(validators.validate_distances)
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "loss_per_unit": 0.002,
+                "commodity": "electricity",
+                "distances": [
+                    {
+                        "region_from": "germany",
+                        "region_to": "france",
+                        "distance": 135.4
+                    }
+                ]
+            }
+        }
 
 
 class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):

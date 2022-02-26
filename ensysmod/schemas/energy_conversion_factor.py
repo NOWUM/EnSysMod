@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
 
 from ensysmod.schemas.energy_commodity import EnergyCommodity
 from ensysmod.util import validators
@@ -10,7 +10,7 @@ class EnergyConversionFactorBase(BaseModel):
     """
     Shared properties for a energy conversion factor. Used as a base class for all schemas.
     """
-    conversion_factor: float
+    conversion_factor: float = Field(..., description="The conversion factor", example=0.9)
 
     # validators
     _valid_conversion_factor = validator("conversion_factor", allow_reuse=True)(validators.validate_conversion_factor)
@@ -22,7 +22,7 @@ class EnergyConversionFactorCreate(EnergyConversionFactorBase):
     """
     ref_dataset: Optional[int] = None
     ref_component: Optional[int] = None
-    commodity: str
+    commodity: str = Field(..., description="The commodity", example="electricity")
 
     # validators
     _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_optional)

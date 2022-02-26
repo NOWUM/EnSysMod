@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from pydantic.class_validators import validator
 
 from ensysmod.model import EnergyComponentType
@@ -14,14 +14,22 @@ class EnergyStorageBase(BaseModel):
     """
     type = EnergyComponentType.STORAGE
 
-    charge_efficiency: Optional[float] = None
-    discharge_efficiency: Optional[float] = None
-    self_discharge: Optional[float] = None
-    cyclic_lifetime: Optional[int] = None
-    charge_rate: Optional[float] = None
-    discharge_rate: Optional[float] = None
-    state_of_charge_min: Optional[float] = None
-    state_of_charge_max: Optional[float] = None
+    charge_efficiency: Optional[float] = Field(None, ge=0.0, le=1.0,
+                                               description="The efficiency of charging the storage.", example=0.9)
+    discharge_efficiency: Optional[float] = Field(None, ge=0.0, le=1.0,
+                                                  description="The efficiency of discharging the storage.", example=0.9)
+    self_discharge: Optional[float] = Field(None, ge=0.0, le=1.0,
+                                            description="The self-discharge of the storage.", example=0.00009)
+    cyclic_lifetime: Optional[int] = Field(None, ge=0,
+                                           description="The cyclic lifetime of the storage.", example=100)
+    charge_rate: Optional[float] = Field(None, ge=0.0,
+                                         description="The charge rate of the storage.", example=0.3)
+    discharge_rate: Optional[float] = Field(None, ge=0.0,
+                                            description="The discharge rate of the storage.", example=0.2)
+    state_of_charge_min: Optional[float] = Field(None, ge=0.0, le=1.0,
+                                                 description="The minimum state of charge of the storage.", example=0.1)
+    state_of_charge_max: Optional[float] = Field(None, ge=0.0, le=1.0,
+                                                 description="The maximum state of charge of the storage.", example=0.9)
 
     # validators
     _valid_type = validator("type", allow_reuse=True)(validators.validate_energy_component_type)
@@ -43,7 +51,7 @@ class EnergyStorageCreate(EnergyStorageBase, EnergyComponentCreate):
     """
     Properties to receive via API on creation of an energy storage.
     """
-    commodity: str
+    commodity: str = Field(..., description="The commodity to be stored in the energy storage.", example="electricity")
 
     # validators
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)

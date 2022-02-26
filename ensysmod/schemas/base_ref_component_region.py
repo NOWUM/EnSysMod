@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from ensysmod.schemas.energy_component import EnergyComponent
 from ensysmod.schemas.region import Region
@@ -17,10 +17,10 @@ class RefCRBaseCreate(RefCRBaseBase):
     """
     Properties to receive via API on creation of a referenced component region model.
     """
-    ref_dataset: int
-    component: str
-    region: str
-    region_to: Optional[str] = None
+    ref_dataset: int = Field(..., description="The ID of the referenced dataset. Current dataset is used as default.")
+    component: str = Field(..., description="The name of the component.", example="heat_pump")
+    region: str = Field(..., description="The name of the region.", example="germany")
+    region_to: Optional[str] = Field(None, description="Optional region to name, if needed.", example="france")
 
 
 class RefCRBaseUpdate(RefCRBaseBase):

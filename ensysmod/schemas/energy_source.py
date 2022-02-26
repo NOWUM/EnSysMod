@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
 
 from ensysmod.model import EnergyComponentType
 from ensysmod.schemas import EnergyComponentCreate, EnergyComponent, EnergyComponentUpdate, EnergyCommodity
@@ -12,7 +12,8 @@ class EnergySourceBase(BaseModel):
     Shared properties for an energy source. Used as a base class for all schemas.
     """
     type = EnergyComponentType.SOURCE
-    commodity_cost: Optional[float] = None
+    commodity_cost: Optional[float] = Field(None, description="Cost of the energy source per unit of energy",
+                                            example=42.2)
 
     # validators
     _valid_type = validator("type", allow_reuse=True)(validators.validate_energy_component_type)
@@ -23,7 +24,8 @@ class EnergySourceCreate(EnergySourceBase, EnergyComponentCreate):
     """
     Properties to receive via API on creation of an energy source.
     """
-    commodity: str
+    commodity: str = Field(..., description="Energy commodity consumed by the energy source",
+                           example="electricity")
 
     # validators
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)

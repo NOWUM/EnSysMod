@@ -1,6 +1,6 @@
 from typing import Optional, List
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
 
 from ensysmod.model import EnergyComponentType
 from ensysmod.schemas.energy_commodity import EnergyCommodity
@@ -23,8 +23,17 @@ class EnergyConversionCreate(EnergyConversionBase, EnergyComponentCreate):
     """
     Properties to receive via API on creation of an energy conversion.
     """
-    conversion_factors: List[EnergyConversionFactorCreate]
-    commodity_unit: str
+    conversion_factors: List[EnergyConversionFactorCreate] = Field(..., description="List of conversion factors",
+                                                                   example=[
+                                                                       EnergyConversionFactorCreate(
+                                                                           commodity="electricity",
+                                                                           conversion_factor=1),
+                                                                       EnergyConversionFactorCreate(
+                                                                           commodity="coal",
+                                                                           conversion_factor=-1.6)
+                                                                   ])
+    commodity_unit: str = Field(..., description="Commodity the conversion component is based on.",
+                                example="electricity")
 
     # validators
     _valid_conversion_factors = validator("conversion_factors", allow_reuse=True)(
@@ -47,9 +56,9 @@ class EnergyConversion(EnergyConversionBase):
     """
     Properties to return via API for an energy conversion.
     """
-    component: EnergyComponent
-    commodity_unit: EnergyCommodity
-    conversion_factors: List[EnergyConversionFactor]
+    component: EnergyComponent = Field(..., description="The energy component")
+    commodity_unit: EnergyCommodity = Field(..., description="Commodity the conversion component is based on.")
+    conversion_factors: List[EnergyConversionFactor] = Field(..., description="List of conversion factors")
 
     class Config:
         orm_mode = True

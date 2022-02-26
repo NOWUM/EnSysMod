@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from ensysmod.model.energy_model_parameter import EnergyModelParameterAttribute, EnergyModelParameterOperation
 from ensysmod.schemas.base_ref_component_region import RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate, RefCRBase
@@ -11,9 +11,11 @@ class EnergyModelParameterBase(RefCRBaseBase, BaseModel):
     """
     Shared properties for a model parameter. Used as a base class for all schemas.
     """
-    attribute: EnergyModelParameterAttribute
-    operation: EnergyModelParameterOperation
-    value: float
+    attribute: EnergyModelParameterAttribute = Field(..., description="The attribute of the parameter.",
+                                                     example=EnergyModelParameterAttribute.yearly_limit)
+    operation: EnergyModelParameterOperation = Field(..., description="The operation of the parameter.",
+                                                     example=EnergyModelParameterOperation.add)
+    value: float = Field(..., description="The value of the parameter.", example=-5.5)
 
 
 class EnergyModelParameterCreate(EnergyModelParameterBase, RefCRBaseCreate):
