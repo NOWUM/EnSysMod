@@ -49,7 +49,8 @@ extensions = [
     'sphinx.ext.githubpages',
     'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode',
-    'sphinxcontrib.openapi'
+    'sphinxcontrib.openapi',
+    'sphinxcontrib.autodoc_pydantic',
 ]
 
 # configure for edit_on_github-Button
@@ -92,3 +93,8 @@ with open(f"{generated_dir}/openapi.json", 'w') as f:
         description=app.description,
         routes=app.routes,
     ), f)
+
+# Pydantic schema generation configuration
+# see https://autodoc-pydantic.readthedocs.io/en/stable/users/configuration.html#model
+autodoc_pydantic_model_show_config_summary = False
+autodoc_pydantic_model_show_validator_members = False

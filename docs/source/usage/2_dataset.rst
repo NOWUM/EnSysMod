@@ -126,4 +126,4 @@ To show the structure of the zip file, we have created an example. This can be f
 
 Upload data per REST API interfaces individually
 ------------------------------------------------
-Another way is to upload the data in small pieces via the individual REST interfaces. A list of the interfaces can be found :ref:`here. <rest_endpoints>`..
+Another way is to upload the data in small pieces via the individual REST interfaces. A list of the interfaces can be found :ref:`here. <rest_endpoints>`
