@@ -1,0 +1,34 @@
+name: EnSysMod-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.7
+  - pip
+  - fastapi
+  - sqlalchemy
+  - uvicorn
+  - pydantic
+  - pydantic[dotenv]
+  - python-jose
+  - passlib
+  - python-multipart
+  - bcrypt
+  - simplejson
+  - numpy
+  - pandas
+  - openpyxl
+  - geopandas
+  - rasterio
+  - pytest=7.0.1
+  - pytest-cov
+  - codecov
+  - sphinx
+  - sphinxcontrib-openapi
+  - flake8
+  - MarkupSafe=2.0.1
+  - setuptools=60.9.1
+  - mistune=0.8.4
+  - pip:
+    - FINE==2.2.2
+    - sphinx-rtd-theme

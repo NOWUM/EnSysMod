@@ -49,13 +49,19 @@ git clone https://github.com/NOWUM/EnSysMod.git
 cd EnSysMod
 ```
 
-Install requirements:
+Install requirements using conda:
 ```bash
-sh scripts/install.sh
+# First time installation
+conda env create -f requirements.yml -n EnSysMod-env
+
+# Update conda environment
+conda activate EnSysMod-env
+conda env update --file requirements.yml --prune
 ```
 
 Run the server:
 ```bash
+conda activate EnSysMod-env
 sh scripts/run.sh
 ```
 

@@ -57,11 +57,14 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.cache/pip
-          key: lint-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements**.txt') }}
+          key: lint-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements**.yml') }}
 
       - name: Install requirements
         run: |
-          pip install --upgrade --upgrade-strategy eager -r requirements-dev.txt -e .
+          # $CONDA is an environment variable pointing to the root of the miniconda directory
+          $CONDA/bin/conda env create -f requirements.yml -n EnSysMod-env
+          $CONDA/bin/conda activate EnSysMod-env
+          $CONDA/bin/conda env update --file requirements.yml --prune
 
       - name: flake8 Lint
         uses: reviewdog/action-flake8@v3
@@ -91,7 +94,10 @@ jobs:
 
       - name: Install requirements
         run: |
-          pip install --upgrade --upgrade-strategy eager -r requirements-dev.txt -e .
+          # $CONDA is an environment variable pointing to the root of the miniconda directory
+          $CONDA/bin/conda env create -f requirements.yml -n EnSysMod-env
+          $CONDA/bin/conda activate EnSysMod-env
+          $CONDA/bin/conda env update --file requirements.yml --prune
 
       - name: Run tests
         run: |
@@ -224,8 +230,7 @@ jobs:
             docker pull ${{ needs.build_pr_image.outputs.image_tag }}
             docker ps --filter publish=$((9000 + ${{ github.event.number }}))
             docker rm -f $(docker ps --filter publish=$((9000 + ${{ github.event.number }})) -aq)
-            docker run -d -p $((9000 + ${{ github.event.number }})):8080 --name "pr-preview-$((9000 + ${{ github
-            .event.number }}))" ${{ needs.build_pr_image.outputs.image_tag }}
+            docker run -d -p $((9000 + ${{ github.event.number }})):8080 --name "pr-preview-$((9000 + ${{ github.event.number }}))" ${{ needs.build_pr_image.outputs.image_tag }}
 
       - name: Disconnect VPN
         if: ${{ always() }}

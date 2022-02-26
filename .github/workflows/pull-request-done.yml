@@ -129,7 +129,10 @@ jobs:
 
       - name: Install requirements
         run: |
-          pip install --upgrade --upgrade-strategy eager -r requirements-dev.txt -e .
+          # $CONDA is an environment variable pointing to the root of the miniconda directory
+          $CONDA/bin/conda env create -f requirements.yml -n EnSysMod-env
+          $CONDA/bin/conda activate EnSysMod-env
+          $CONDA/bin/conda env update --file requirements.yml --prune
 
       - name: Generate docs
         run: |
