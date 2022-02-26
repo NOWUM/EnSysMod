@@ -5,7 +5,7 @@ from fastapi import status
 from sqlalchemy.orm import Session
 
 from ensysmod import schemas, model, crud
-from ensysmod.api import deps
+from ensysmod.api import deps, permissions
 
 router = APIRouter()
 
@@ -33,7 +33,7 @@ def create_conversion(request: schemas.EnergyConversionCreate,
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {request.ref_dataset} not found!")
 
-    # TODO Check if user has permission for dataset
+    permissions.check_modification_permission(db, user=current, dataset_id=request.ref_dataset)
 
     existing = crud.energy_conversion.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.name)
     if existing is not None:

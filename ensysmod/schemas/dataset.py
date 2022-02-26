@@ -1,6 +1,10 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
+
+from ensysmod.util import validators
+
+from ensysmod.schemas.user import User
 
 
 class DatasetBase(BaseModel):
@@ -14,12 +18,16 @@ class DatasetBase(BaseModel):
     cost_unit: Optional[str] = None
     length_unit: Optional[str] = None
 
+    # validators
+    _valid_name = validator("name", allow_reuse=True)(validators.validate_name)
+    _valid_description = validator("description", allow_reuse=True)(validators.validate_description)
+
 
 class DatasetCreate(DatasetBase):
     """
     Properties to receive via API on creation of a dataset.
     """
-    pass
+    ref_created_by: Optional[int] = None
 
 
 class DatasetUpdate(DatasetBase):
@@ -34,6 +42,7 @@ class Dataset(DatasetBase):
     Properties to return via API for a dataset.
     """
     id: int
+    created_by: User
 
     class Config:
         orm_mode = True

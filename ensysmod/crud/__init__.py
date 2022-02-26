@@ -2,6 +2,7 @@
 This package contains the CRUD operations (CREATE, READ, UPDATE, DELETE) for each repository/table in database.
 """
 from .dataset import dataset
+from .dataset_permission import dataset_permission
 from .energy_commodity import energy_commodity
 from .energy_component import energy_component
 from .energy_conversion import energy_conversion

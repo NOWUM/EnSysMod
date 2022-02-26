@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from ensysmod import schemas, model, crud
-from ensysmod.api import deps
+from ensysmod.api import deps, permissions
 from ensysmod.schemas import CapacityMax
 
 router = APIRouter()
@@ -28,7 +28,6 @@ def get_capacity_max(ts_id: int,
     """
     Retrieve a max capacity.
     """
-    # TODO Check if user has permission for dataset and CapacityMax
     return crud.capacity_max.get(db, ts_id)
 
 
@@ -45,7 +44,7 @@ def create_capacity_max(request: schemas.CapacityMaxCreate,
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Component {request.component} not found in dataset {request.ref_dataset}!")
 
-    # TODO Check if user has permission for dataset
+    permissions.check_modification_permission(db, user=current, dataset_id=request.ref_dataset)
 
     region = crud.region.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.region)
     if region is None:
@@ -83,10 +82,10 @@ def update_capacity_max(ts_id: int,
     """
     Update a max capacity.
     """
-    # TODO Check if user has permission for CapacityMax
     ts = crud.capacity_max.get(db=db, id=ts_id)
     if ts is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"CapacityMax {ts_id} not found!")
+    permissions.check_modification_permission(db, user=current, dataset_id=ts.component.ref_dataset)
     return crud.capacity_max.update(db=db, db_obj=ts, obj_in=request)
 
 
@@ -100,5 +99,5 @@ def remove_capacity_max(ts_id: int,
     ts = crud.capacity_max.get(db=db, id=ts_id)
     if ts is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"CapacityMax {ts_id} not found!")
-    # TODO Check if user has permission for dataset
+    permissions.check_modification_permission(db, user=current, dataset_id=ts.component.ref_dataset)
     return crud.capacity_max.remove(db=db, id=ts_id)

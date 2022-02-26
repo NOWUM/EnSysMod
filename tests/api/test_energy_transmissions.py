@@ -39,7 +39,7 @@ def test_create_energy_transmission_unknown_dataset(client: TestClient, normal_u
     Test creating a energy transmission.
     """
     create_request = data_gen.random_energy_transmission_create(db)
-    create_request.ref_dataset = 0  # ungültige Anfrage
+    create_request.ref_dataset = 123456  # ungültige Anfrage
     response = client.post("/transmissions/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 

@@ -38,7 +38,7 @@ def test_create_energy_conversion_unknown_dataset(client: TestClient, normal_use
     Test creating a energy conversion.
     """
     create_request = data_gen.random_energy_conversion_create(db)
-    create_request.ref_dataset = 0  # ungültige Anfrage
+    create_request.ref_dataset = 132456  # ungültige Anfrage
     response = client.post("/conversions/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
