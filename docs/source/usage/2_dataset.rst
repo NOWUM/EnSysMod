@@ -32,13 +32,13 @@ A full documentation of the API is available `as redoc documentation <https://ht
    :paths:
       /datasets/
 
-.. _readData:
+.. _provideData:
 
-Read data
-=========
+Provide data
+============
 There are two ways to add data to a dataset. For both ways you need to provide the id of the dataset.
 
-Zip-Upload 
+ZIP-Upload
 ----------
 With the Zip-Upload, we've created a way to enter the data in the database with only one use of a API REST interface.
 Once a zip archive is created in a certain format and with certain files, it can be uploaded with the API REST interface.
@@ -127,3 +127,43 @@ To show the structure of the zip file, we have created an example. This can be f
 Upload data per REST API interfaces individually
 ------------------------------------------------
 Another way is to upload the data in small pieces via the individual REST interfaces. A list of the interfaces can be found :ref:`here. <rest_endpoints>`
+
+
+
+Retrieve data
+=============
+After adding some data to the database, you can retrieve the data. You can use the zip download or the REST API.
+
+ZIP-Download
+------------
+The zip download allows you to download the data in a zip archive for a dataset.
+Therefore you need to provide the dataset id.
+
+.. openapi:: ./../generated/openapi.json
+   :include:
+      /datasets/*/download
+
+The zip archive contains files and folders in which the regions, commodities and components of the energy system are
+stored. The zip archive is structured as follows:
+
+
+.. code-block:: bash
+
+   dataset.zip
+    │   commodities.json
+    │   regions.json
+    ├───conversions/
+    ├───sinks/
+    ├───sources/
+    ├───storages/
+    └───transmissions/
+
+You can modify the data inside the zip archive locally and use the zip upload (again) to commit your changes.
+
+To show the structure of the zip file, we have created an example.
+This can be found `here <https://github.com/NOWUM/EnSysMod/tree/main/examples/data/dataset-2/>`_.
+
+Access data per REST API interfaces individually
+------------------------------------------------
+Another way is to access the data in small pieces via the individual REST interfaces. A list of the interfaces
+can be found :ref:`here. <rest_endpoints>`

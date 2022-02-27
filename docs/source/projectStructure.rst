@@ -8,7 +8,7 @@ This documentation should help developers understanding the project structure.
     project       
     ├── docs/
     │   └── source/  
-    ├── project-name/
+    ├── EnSysMod/
     │   ├── api/
     │   ├── core/
     │   ├── crud/
@@ -28,7 +28,7 @@ This documentation should help developers understanding the project structure.
 Repository structure
 --------------------
 * ``docs/`` contains everything needed for documentation. The subfolder ``source/`` contains ``.rst`` files containing the documentation. A rst-cheatsheet can be found here https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst.
-* ``project-name/`` contains the actual python project. 
+* ``EnSysMod/`` contains the actual python project.
 * ``scripts/`` contains multiple scripts to install, test and run the project.
 * ``tests/`` contains the pytest tests to test the python project.
 * ``requirements.txt`` contains the required python dependencies in order to run the project in production mode.

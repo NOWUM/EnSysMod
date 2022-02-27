@@ -7,8 +7,7 @@ Welcome to Python-Starter documentation!
 
    This project is under active development.
 
-Check out the :doc:`usage` section for further information, including how to
-install the project.
+Check out the :doc:`usage` section for further information, including how to install the project.
 
 Indices and tables
 ==================
@@ -25,5 +24,6 @@ Indices and tables
    :hidden:
 
    usage
+   datamodel
    endpoints
    projectStructure
