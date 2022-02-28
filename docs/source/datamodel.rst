@@ -8,10 +8,11 @@ The data model is devided into two parts:
     1. The **dataset** holds a required data for an energy system model.
     2. The **model** holds the model specific data for a single optimization. It is based on the dataset.
 
-The following diagram shows the data model of the application.
 
-TODO:
-    - Add diagram
+
+
+.. image:: ./images/datastructure.PNG
+    :alt: Data structure of the application.
 
 .. toctree::
     :maxdepth: 1
@@ -19,4 +20,5 @@ TODO:
     :glob:
     :hidden:
 
-    datamodel/*
+    datamodel/dataset.rst
+    datamodel/energy_model.rst

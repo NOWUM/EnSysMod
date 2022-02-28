@@ -8,4 +8,5 @@ Energy Model
     :glob:
     :hidden:
 
-    energymodel/*
+    energymodel/energy_model.rst
+    energymodel/energy_model_parameters.rst

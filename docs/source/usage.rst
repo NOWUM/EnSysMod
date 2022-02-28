@@ -20,7 +20,11 @@ them. Click on **next** to continue.
     :glob:
     :hidden:
 
-    usage/*
+    usage/how_to_use.rst
+    usage/authentication.rst
+    usage/dataset.rst
+    usage/model.rst
+    usage/optimization.rst
 
 
 
