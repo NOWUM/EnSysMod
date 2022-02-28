@@ -8,9 +8,11 @@ from ensysmod.util import validators
 
 class EnergyConversionFactorBase(BaseModel):
     """
-    Shared properties for a energy conversion factor. Used as a base class for all schemas.
+    Shared attributes for a energy conversion factor. Used as a base class for all schemas.
     """
-    conversion_factor: float = Field(..., description="The conversion factor", example=0.9)
+    conversion_factor: float = Field(...,
+                                     description="The conversion factor.",
+                                     example=0.9)
 
     # validators
     _valid_conversion_factor = validator("conversion_factor", allow_reuse=True)(validators.validate_conversion_factor)
@@ -18,11 +20,19 @@ class EnergyConversionFactorBase(BaseModel):
 
 class EnergyConversionFactorCreate(EnergyConversionFactorBase):
     """
-    Properties to receive via API on creation of a energy conversion factor.
+    Attributes to receive via API on creation of a energy conversion factor.
     """
-    ref_dataset: Optional[int] = None
-    ref_component: Optional[int] = None
-    commodity: str = Field(..., description="The commodity", example="electricity")
+    ref_dataset: Optional[int] = Field(None,
+                                       description="The reference dataset. The dataset id of the energy conversion "
+                                                   "component is used.")
+
+    ref_component: Optional[int] = Field(None,
+                                         description="The reference component. The component id of the energy "
+                                                     "conversion component is used.")
+
+    commodity: str = Field(...,
+                           description="Commodity name for this conversion factor.",
+                           example="electricity")
 
     # validators
     _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_optional)
@@ -32,14 +42,14 @@ class EnergyConversionFactorCreate(EnergyConversionFactorBase):
 
 class EnergyConversionFactorUpdate(EnergyConversionFactorBase):
     """
-    Properties to receive via API on update of a energy conversion factor.
+    Attributes to receive via API on update of a energy conversion factor.
     """
     conversion_factor: Optional[float] = None
 
 
 class EnergyConversionFactor(EnergyConversionFactorBase):
     """
-    Properties to return via API for a energy conversion factor.
+    Attributes to return via API for a energy conversion factor.
     """
     id: int
 

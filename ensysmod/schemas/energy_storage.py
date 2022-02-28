@@ -10,7 +10,7 @@ from ensysmod.util import validators
 
 class EnergyStorageBase(BaseModel):
     """
-    Shared properties for an energy storage. Used as a base class for all schemas.
+    Shared attributes for an energy storage. Used as a base class for all schemas.
     """
     type = EnergyComponentType.STORAGE
 
@@ -49,9 +49,11 @@ class EnergyStorageBase(BaseModel):
 
 class EnergyStorageCreate(EnergyStorageBase, EnergyComponentCreate):
     """
-    Properties to receive via API on creation of an energy storage.
+    Attributes to receive via API on creation of an energy storage.
     """
-    commodity: str = Field(..., description="The commodity to be stored in the energy storage.", example="electricity")
+    commodity: str = Field(...,
+                           description="Commodity to be stored in the energy storage.",
+                           example="electricity")
 
     # validators
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
@@ -59,7 +61,7 @@ class EnergyStorageCreate(EnergyStorageBase, EnergyComponentCreate):
 
 class EnergyStorageUpdate(EnergyStorageBase, EnergyComponentUpdate):
     """
-    Properties to receive via API on update of an energy storage.
+    Attributes to receive via API on update of an energy storage.
     """
     commodity: Optional[str] = None
 
@@ -69,7 +71,7 @@ class EnergyStorageUpdate(EnergyStorageBase, EnergyComponentUpdate):
 
 class EnergyStorage(EnergyStorageBase):
     """
-    Properties to return via API for an energy storage.
+    Attributes to return via API for an energy storage.
     """
     component: EnergyComponent
     commodity: EnergyCommodity

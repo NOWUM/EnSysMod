@@ -9,10 +9,11 @@ from ensysmod.util import validators
 
 class EnergySinkBase(BaseModel):
     """
-    Shared properties for an energy sink. Used as a base class for all schemas.
+    Shared attributes for an energy sink. Used as a base class for all schemas.
     """
     type = EnergyComponentType.SINK
-    yearly_limit: Optional[float] = Field(None, description="The yearly limit of the energy sink",
+    yearly_limit: Optional[float] = Field(None,
+                                          description="The yearly limit of the energy sink.",
                                           example=366.5)
 
     # validators
@@ -21,9 +22,10 @@ class EnergySinkBase(BaseModel):
 
 class EnergySinkCreate(EnergySinkBase, EnergyComponentCreate):
     """
-    Properties to receive via API on creation of an energy sink.
+    Attributes to receive via API on creation of an energy sink.
     """
-    commodity: str = Field(..., description="The commodity of the energy sink",
+    commodity: str = Field(...,
+                           description="Commodity the energy sink is based on.",
                            example="electricity")
 
     # validators
@@ -32,7 +34,7 @@ class EnergySinkCreate(EnergySinkBase, EnergyComponentCreate):
 
 class EnergySinkUpdate(EnergySinkBase, EnergyComponentUpdate):
     """
-    Properties to receive via API on update of an energy sink.
+    Attributes to receive via API on update of an energy sink.
     """
     commodity: Optional[str] = None
 
@@ -42,7 +44,7 @@ class EnergySinkUpdate(EnergySinkBase, EnergyComponentUpdate):
 
 class EnergySink(EnergySinkBase):
     """
-    Properties to return via API for an energy sink.
+    Attributes to return via API for an energy sink.
     """
     component: EnergyComponent
     commodity: EnergyCommodity
