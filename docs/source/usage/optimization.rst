@@ -3,17 +3,33 @@ Optimize model
 **************
 
 The following article describes how to optimize the model based on a dataset.
-This function uses the FINE framework to optimize the model for lowest total costs.
+The EnSysMod uses the FINE framework inside to optimize the model for lowest total costs.
 
 All restrictions (like CO2 limit) are taken into account.
 
 Model validation
 ================
+The validation endpoint allows to validate the dataset and model parameters. All energy components are transformed to
+a energy system model (esm) from FINE. If any parameters are missing or invalid, the validation endpoint returns an
+error.
 
+.. openapi:: ./../generated/openapi.json
+   :paths:
+      /models/{model_id}/esm
 
 Model optimization
 ==================
 
+When the model is validated you can use the optimization endpoint to optimize the model.
+
+After transforming the dataset to an energy system model by FINE, the model is optimized with the GUROBI solver (or
+a free solver alternative).
+
+.. openapi:: ./../generated/openapi.json
+   :paths:
+      /models/{model_id}/optimize
+
+The optimization endpoint returns the optimized model as excel file. The output is described below.
 
 Result of optimization
 ======================

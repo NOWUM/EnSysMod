@@ -1,8 +1,10 @@
+.. _usage_dataset:
+
 *******
 Dataset
 *******
 
-.. _introduction:
+.. _introduction_dataset:
 
 Introduction
 ============
