@@ -1,13 +1,13 @@
 {
-    "name": "Biogas Importe",
+    "capacity_variable": false,
+    "capacity_per_plant_unit": 1,
+    "opex_per_capacity": 0.0,
+    "economic_lifetime": 10,
     "description": "Stellt die Biogas-Importe dar",
+    "name": "Biogas Importe",
     "capacity_variable_domain": "CONTINUOUS",
     "invest_per_capacity": 0.0,
     "interest_rate": 0.08,
-    "capacity_variable": false,
-    "capacity_per_plant_unit": 1.0,
-    "opex_per_capacity": 0.0,
-    "economic_lifetime": 10,
     "commodity_cost": 5.409e-05,
     "commodity": "Biogas"
 }

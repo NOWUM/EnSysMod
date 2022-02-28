@@ -1,13 +1,13 @@
 {
-    "name": "Pipeline (Wasserstoff)",
+    "capacity_variable": true,
+    "capacity_per_plant_unit": 1,
+    "opex_per_capacity": 0.0,
+    "economic_lifetime": 40,
     "description": "Stellt die Pipeline (Wasserstoff) dar",
+    "name": "Pipeline (Wasserstoff)",
     "capacity_variable_domain": "CONTINUOUS",
     "invest_per_capacity": 0.000177,
     "interest_rate": 0.08,
     "shared_potential_id": "pipelines",
-    "capacity_variable": false,
-    "capacity_per_plant_unit": 1.0,
-    "opex_per_capacity": 0.0,
-    "economic_lifetime": 40,
     "commodity": "Wasserstoff"
 }
