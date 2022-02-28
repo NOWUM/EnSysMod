@@ -4,6 +4,11 @@
 How to use EnSysMod
 *******************
 
+The EnSysMod tool provides an easy to access REST api for all functions.
+All endpoints can be seen and consumed with the **/docs** or **/redoc** endpoint of the server.
+
+Currently there is no visual frontend by now.
+
 Online version
 ==============
 If you want to use the EnSysMod tool, you can simply do so by accessing the deployed version inside the FH Aachen

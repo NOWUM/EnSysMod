@@ -32,6 +32,10 @@ A full documentation of the API is available `as redoc documentation <https://ht
    :paths:
       /datasets/
 
+By default only you have access to this dataset.
+If you want to share the dataset with other users,
+you have to grant permissions to them as described :ref:`here <dataset_permissions>`.
+
 .. _provideData:
 
 Provide data

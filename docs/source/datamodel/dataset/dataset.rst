@@ -20,6 +20,8 @@ The following attributes are available:
    :inherited-members: BaseModel
 
 
+.. _dataset_permissions:
+
 Dataset permissions
 ===================
 

@@ -25,8 +25,7 @@ After creating an account, you can log in by executing the following REST API ca
 
 As response you get an access token. All further requests must be authenticated with this token.
 
-Authenticate on API docs
-========================
+Authenticate for using API docs
+===============================
 Use the authentication button on the top right corner of the documentation page.
-
 
