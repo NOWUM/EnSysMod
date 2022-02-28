@@ -1,3 +1,5 @@
+.. _dataset_description:
+
 *******
 Dataset
 *******
@@ -8,4 +10,12 @@ Dataset
     :glob:
     :hidden:
 
-    dataset/*
+    dataset/dataset.rst
+    dataset/region.rst
+    dataset/energy_commodity.rst
+    dataset/energy_source.rst
+    dataset/energy_sink.rst
+    dataset/energy_conversion.rst
+    dataset/energy_storage.rst
+    dataset/energy_transmission.rst
+    dataset/time_series_data.rst

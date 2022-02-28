@@ -9,7 +9,7 @@ from ensysmod.util import validators
 
 class EnergyTransmissionDistanceBase(BaseModel):
     """
-    Shared properties for an energy transmission distance. Used as a base class for all schemas.
+    Shared attributes for an energy transmission distance. Used as a base class for all schemas.
     """
     distance: float = Field(..., ge=0.0, description="Distance between two regions in unit of dataset.", example=133.4)
 
@@ -19,7 +19,7 @@ class EnergyTransmissionDistanceBase(BaseModel):
 
 class EnergyTransmissionDistanceCreate(EnergyTransmissionDistanceBase):
     """
-    Properties to receive via API on creation of an energy transmission distance.
+    Attributes to receive via API on creation of an energy transmission distance.
     """
     ref_dataset: Optional[int] = Field(None, description="Reference dataset ID. The current dataset will be used.")
 
@@ -46,14 +46,14 @@ class EnergyTransmissionDistanceCreate(EnergyTransmissionDistanceBase):
 
 class EnergyTransmissionDistanceUpdate(EnergyTransmissionDistanceBase):
     """
-    Properties to receive via API on update of an energy transmission distance.
+    Attributes to receive via API on update of an energy transmission distance.
     """
     distance: Optional[float] = None
 
 
 class EnergyTransmissionDistance(EnergyTransmissionDistanceBase):
     """
-    Properties to return via API for an energy transmission distance.
+    Attributes to return via API for an energy transmission distance.
     """
     id: int
     region_from: Region

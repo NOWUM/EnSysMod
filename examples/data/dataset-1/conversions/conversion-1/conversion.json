@@ -14,7 +14,7 @@
         },
         {
             "commodity": "CO2",
-            "conversion_factor": 0.000335
+            "conversion_factor": 0.000001666666
         }
     ],
     "invest_per_capacity":0.65,

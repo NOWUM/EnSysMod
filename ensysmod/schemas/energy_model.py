@@ -11,7 +11,7 @@ from ensysmod.model import EnergyModelParameterAttribute, EnergyModelParameterOp
 
 class EnergyModelBase(BaseModel):
     """
-    Shared properties for an energy model. Used as a base class for all schemas.
+    Shared attributes for an energy model. Used as a base class for all schemas.
     """
     name: str = Field(..., description="Name of the energy model", example="100% CO2 reduction")
     description: Optional[str] = Field(None, description="Description of the energy model",
@@ -24,7 +24,7 @@ class EnergyModelBase(BaseModel):
 
 class EnergyModelCreate(EnergyModelBase):
     """
-    Properties to receive via API on creation of an energy model.
+    Attributes to receive via API on creation of an energy model.
     """
     ref_dataset: int
     parameters: Optional[List[EnergyModelParameterCreate]] = Field(None, description="Parameters of the energy model",
@@ -42,7 +42,7 @@ class EnergyModelCreate(EnergyModelBase):
 
 class EnergyModelUpdate(EnergyModelBase):
     """
-    Properties to receive via API on update of an energy model.
+    Attributes to receive via API on update of an energy model.
     """
     name: Optional[str] = None
     parameters: Optional[List[EnergyModelParameterUpdate]] = None
@@ -50,7 +50,7 @@ class EnergyModelUpdate(EnergyModelBase):
 
 class EnergyModel(EnergyModelBase):
     """
-    Properties to return via API for an energy model.
+    Attributes to return via API for an energy model.
     """
     id: int
     dataset: Dataset

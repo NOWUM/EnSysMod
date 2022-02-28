@@ -11,5 +11,6 @@ It contains the following data:
 - 4 energy storages
 - 4 transmission lines
 
-TODO units
-TODO how to upload (register or login, create dataset, upload data to dataset)
+The commodities cover electricity (in GW), hydrogen (in GW), methane (in GW), biogas (in GW) and CO2 (in million t CO2/h). This can be read in the commodities.json.
+
+To use this example and optimize the energy system which is modeled in this, you need to acced the tool. How to create and optimize a datasets is explained [here](https://nowum.github.io/EnSysMod/usage.html).

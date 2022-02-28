@@ -11,10 +11,12 @@ from ensysmod.util import validators
 
 class EnergyTransmissionBase(BaseModel):
     """
-    Shared properties for an energy transmission. Used as a base class for all schemas.
+    Shared attributes for an energy transmission. Used as a base class for all schemas.
     """
     type = EnergyComponentType.TRANSMISSION
-    loss_per_unit: Optional[float] = Field(None, description="Loss per unit of energy transmission", example=0.002)
+    loss_per_unit: Optional[float] = Field(None,
+                                           description="Loss per length unit of energy transmission.",
+                                           example=0.002)
 
     # validators
     _valid_type = validator("type", allow_reuse=True)(validators.validate_energy_component_type)
@@ -23,11 +25,14 @@ class EnergyTransmissionBase(BaseModel):
 
 class EnergyTransmissionCreate(EnergyTransmissionBase, EnergyComponentCreate):
     """
-    Properties to receive via API on creation of an energy transmission.
+    Attributes to receive via API on creation of an energy transmission.
     """
-    commodity: str = Field(..., description="Commodity of energy transmission", example="electricity")
-    distances: Optional[List[EnergyTransmissionDistanceCreate]] = Field(None,
-                                                                        description="Distances of energy transmission")
+    commodity: str = Field(...,
+                           description="Commodity of energy transmission.",
+                           example="electricity")
+    distances: Optional[List[EnergyTransmissionDistanceCreate]] \
+        = Field(None,
+                description="Distances of energy transmission in the length unit provided with the dataset.")
 
     # validators
     _valid_distances = validator("distances", allow_reuse=True)(validators.validate_distances)
@@ -51,7 +56,7 @@ class EnergyTransmissionCreate(EnergyTransmissionBase, EnergyComponentCreate):
 
 class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):
     """
-    Properties to receive via API on update of an energy transmission.
+    Attributes to receive via API on update of an energy transmission.
     """
     commodity: Optional[str] = None
 
@@ -61,7 +66,7 @@ class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):
 
 class EnergyTransmission(EnergyTransmissionBase):
     """
-    Properties to return via API for an energy transmission.
+    Attributes to return via API for an energy transmission.
     """
     component: EnergyComponent
     commodity: EnergyCommodity

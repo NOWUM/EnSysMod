@@ -9,10 +9,11 @@ from ensysmod.util import validators
 
 class EnergySourceBase(BaseModel):
     """
-    Shared properties for an energy source. Used as a base class for all schemas.
+    Shared attributes for an energy source. Used as a base class for all schemas.
     """
     type = EnergyComponentType.SOURCE
-    commodity_cost: Optional[float] = Field(None, description="Cost of the energy source per unit of energy",
+    commodity_cost: Optional[float] = Field(None,
+                                            description="Cost of the energy source per unit of energy.",
                                             example=42.2)
 
     # validators
@@ -22,9 +23,10 @@ class EnergySourceBase(BaseModel):
 
 class EnergySourceCreate(EnergySourceBase, EnergyComponentCreate):
     """
-    Properties to receive via API on creation of an energy source.
+    Attributes to receive via API on creation of an energy source.
     """
-    commodity: str = Field(..., description="Energy commodity consumed by the energy source",
+    commodity: str = Field(...,
+                           description="Commodity the energy source is associated with.",
                            example="electricity")
 
     # validators
@@ -33,7 +35,7 @@ class EnergySourceCreate(EnergySourceBase, EnergyComponentCreate):
 
 class EnergySourceUpdate(EnergySourceBase, EnergyComponentUpdate):
     """
-    Properties to receive via API on update of an energy source.
+    Attributes to receive via API on update of an energy source.
     """
     commodity: Optional[str] = None
 
@@ -43,7 +45,7 @@ class EnergySourceUpdate(EnergySourceBase, EnergyComponentUpdate):
 
 class EnergySource(EnergySourceBase):
     """
-    Properties to return via API for an energy source.
+    Attributes to return via API for an energy source.
     """
     component: EnergyComponent
     commodity: EnergyCommodity

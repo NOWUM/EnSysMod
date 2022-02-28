@@ -140,7 +140,8 @@ Here is an part of such an excel file which contains a time series for a region.
 .. image:: ./../images/BSP_excel.PNG
     :alt: Part of an Excel file that contains time series
 
-The parameter that are needed for each object are documented `here. Try it out! <http://10.13.10.51:8080/docs>`_ All of the parameters can be set, but not all of them have to.
+The parameter that are needed for each object are documented :ref:`here. <dataset_description>`.
+All of the parameters can be set, but not all of them have to.
 
 To show the structure of the zip file, we have created an example. This can be found `here <https://github.com/NOWUM/EnSysMod/tree/main/examples/data/dataset-1/>`_.
 

@@ -9,7 +9,7 @@ from ensysmod.schemas.region import Region
 
 class EnergyModelParameterBase(RefCRBaseBase, BaseModel):
     """
-    Shared properties for a model parameter. Used as a base class for all schemas.
+    Shared attributes for a model parameter. Used as a base class for all schemas.
     """
     attribute: EnergyModelParameterAttribute = Field(..., description="The attribute of the parameter.",
                                                      example=EnergyModelParameterAttribute.yearly_limit)
@@ -20,7 +20,7 @@ class EnergyModelParameterBase(RefCRBaseBase, BaseModel):
 
 class EnergyModelParameterCreate(EnergyModelParameterBase, RefCRBaseCreate):
     """
-    Properties to receive via API on creation of a model parameter.
+    Attributes to receive via API on creation of a model parameter.
 
     ref_model and ref_dataset are overridden on create.
 
@@ -33,7 +33,7 @@ class EnergyModelParameterCreate(EnergyModelParameterBase, RefCRBaseCreate):
 
 class EnergyModelParameterUpdate(EnergyModelParameterBase, RefCRBaseUpdate):
     """
-    Properties to receive via API on update of a model parameter.
+    Attributes to receive via API on update of a model parameter.
     """
     attribute: Optional[EnergyModelParameterAttribute] = None
     operation: Optional[EnergyModelParameterOperation] = None
@@ -42,7 +42,7 @@ class EnergyModelParameterUpdate(EnergyModelParameterBase, RefCRBaseUpdate):
 
 class EnergyModelParameter(EnergyModelParameterBase, RefCRBase):
     """
-    Properties to return via API for a model parameter.
+    Attributes to return via API for a model parameter.
     """
     id: int
 

@@ -1,12 +1,12 @@
 {
-    "name": "DC-Leitungen",
+    "capacity_variable": true,
+    "capacity_per_plant_unit": 1,
+    "opex_per_capacity": 0.0,
+    "economic_lifetime": 10,
     "description": "Stellt die DC-Leitungen dar",
+    "name": "DC-Leitungen",
     "capacity_variable_domain": "CONTINUOUS",
     "invest_per_capacity": 0.0,
     "interest_rate": 0.08,
-    "capacity_variable": false,
-    "capacity_per_plant_unit": 1.0,
-    "opex_per_capacity": 0.0,
-    "economic_lifetime": 10,
     "commodity": "Elektrizität"
 }

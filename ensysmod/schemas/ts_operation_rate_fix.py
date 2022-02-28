@@ -8,7 +8,7 @@ from ensysmod.util import validators
 
 class OperationRateFixBase(RefCRBaseBase, BaseModel):
     """
-    Shared properties for a fix operation rate. Used as a base class for all schemas.
+    Shared attributes for a fix operation rate. Used as a base class for all schemas.
     """
     fix_operation_rates: List[float] = Field(..., description="Fix operation rate for a component in a specific "
                                                               "region. Provide single value or a list of values for "
@@ -22,21 +22,21 @@ class OperationRateFixBase(RefCRBaseBase, BaseModel):
 
 class OperationRateFixCreate(OperationRateFixBase, RefCRBaseCreate):
     """
-    Properties to receive via API on creation of a fix operation rate.
+    Attributes to receive via API on creation of a fix operation rate.
     """
     pass
 
 
 class OperationRateFixUpdate(OperationRateFixBase, RefCRBaseUpdate):
     """
-    Properties to receive via API on update of a fix operation rate.
+    Attributes to receive via API on update of a fix operation rate.
     """
     pass
 
 
 class OperationRateFix(OperationRateFixBase, RefCRBase):
     """
-    Properties to return via API for a fix operation rate.
+    Attributes to return via API for a fix operation rate.
     """
 
     class Config:
