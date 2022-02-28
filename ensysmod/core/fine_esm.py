@@ -181,7 +181,7 @@ def optimize_esm(esM: EnergySystemModel):
     Optimize the energy system model.
     """
     esM.cluster(numberOfTypicalPeriods=7)
-    esM.optimize(timeSeriesAggregation=True, optimizationSpecs='OptimalityTol=1e-3 method=2 cuts=0', solver='gurobi')
+    esM.optimize(timeSeriesAggregation=True, optimizationSpecs='OptimalityTol=1e-3 method=2 cuts=0')
 
     time_str = datetime.now().strftime("%Y%m%d%H%M%S")
     result_file_path = f"./tmp/result-{time_str}"
