@@ -120,7 +120,8 @@ across all regions. If there are parameters that are different for each region, 
 capacity per region, operation rates, ...) are stored in one Excel file each.
 Each region is mapped as a column and the value (or values as a time series) is stored in the column according to the region.
 
-The parameter that are needed for each object are documented here (TODO Link). All of the parameters can be set, but not all of them have to.
+The parameter that are needed for each object are documented :ref:`here. <dataset_description>`.
+All of the parameters can be set, but not all of them have to.
 
 To show the structure of the zip file, we have created an example. This can be found `here <https://github.com/NOWUM/EnSysMod/tree/main/examples/data/dataset-1/>`_.
 

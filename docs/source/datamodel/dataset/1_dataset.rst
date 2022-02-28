@@ -4,7 +4,7 @@ Dataset
 
 This class is the main class of the dataset. It contains general information about the dataset.
 
-Follow :ref:`this <newDataset>` guide to create a new dataset and learn how to provide the data of the energy
+Follow :ref:`this <newDataset>` guide to create a new dataset and learn how to provide the data of an energy
 system model.
 
 The following attributes are available:
