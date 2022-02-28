@@ -1,5 +1,5 @@
 ****************
-Energy Commodity
+Energy commodity
 ****************
 
 An energy system model is based on one or multiple energy commodities. Therefore you can add energy commodities to
