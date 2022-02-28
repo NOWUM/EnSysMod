@@ -115,12 +115,32 @@ These folders contain other folders that are used as a listing of the various ob
                 source.json
 
 For example, there are two folders in the source folder that contains data for two different energy sources.
-A folder that maps an object contains a .json file that contains the parameters for the object, which are the same
-across all regions. If there are parameters that are different for each region, these parameters (for example
+A folder that maps an object contains a .json file that contains the parameters for the object, which are the same across all regions.
+
+.. code-block:: json
+
+   [
+       {
+           "name": "wind onshore",
+           "description": "source for the wind onshore plants",
+           "commodity": "electricity",
+           "capacity_variable": true,
+           "invest_per_capacity": 1.1,
+           "opex_per_capacity": 0.022,
+           "interest_rate": 0.08,
+           "economic_lifetime": 20
+        }
+   ]
+
+If there are parameters that are different for each region, these parameters (for example
 capacity per region, operation rates, ...) are stored in one Excel file each.
 Each region is mapped as a column and the value (or values as a time series) is stored in the column according to the region.
+Here is an part of such an excel file which contains a time series for a region.
 
-The parameter that are needed for each object are documented here (TODO Link). All of the parameters can be set, but not all of them have to.
+.. image:: ./../images/BSP_excel.PNG
+    :alt: Part of an Excel file that contains time series
+
+The parameter that are needed for each object are documented `here. Try it out! <http://10.13.10.51:8080/docs>`_ All of the parameters can be set, but not all of them have to.
 
 To show the structure of the zip file, we have created an example. This can be found `here <https://github.com/NOWUM/EnSysMod/tree/main/examples/data/dataset-1/>`_.
 
@@ -143,8 +163,7 @@ Therefore you need to provide the dataset id.
    :include:
       /datasets/*/download
 
-The zip archive contains files and folders in which the regions, commodities and components of the energy system are
-stored. The zip archive is structured as follows:
+The zip archive contains files and folders in which the regions, commodities and components of the energy system are stored. The zip archive is structured as follows:
 
 
 .. code-block:: bash
@@ -165,5 +184,4 @@ This can be found `here <https://github.com/NOWUM/EnSysMod/tree/main/examples/da
 
 Access data per REST API interfaces individually
 ------------------------------------------------
-Another way is to access the data in small pieces via the individual REST interfaces. A list of the interfaces
-can be found :ref:`here. <rest_endpoints>`
+Another way is to access the data in small pieces via the individual REST interfaces. A list of the interfaces can be found :ref:`here. <rest_endpoints>`
