@@ -1,8 +1,8 @@
 FROM python:3.9
 
-RUN sudo apt-get update
-RUN sudo apt-get install -y coinor-cbc
-RUN sudo apt-get install glpk-utils libglpk-dev glpk-doc python-glpk
+RUN apt-get update
+RUN apt-get install -y coinor-cbc
+RUN apt-get install glpk-utils libglpk-dev glpk-doc python-glpk
 
 WORKDIR /code
 
