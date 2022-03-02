@@ -1,10 +1,6 @@
-import os
-import tempfile
-import zipfile
-import pytest
 from typing import Dict
-from zipfile import ZipFile
 
+import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 

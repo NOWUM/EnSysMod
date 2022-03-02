@@ -4,8 +4,9 @@ from pathlib import PurePath, PurePosixPath, PureWindowsPath
 from typing import Optional
 
 import pytest
-from ensysmod.utils.encoders import jsonable_encoder
 from pydantic import BaseModel, Field, ValidationError, create_model
+
+from ensysmod.utils.encoders import jsonable_encoder
 
 
 class Person:
