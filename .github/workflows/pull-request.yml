@@ -45,7 +45,7 @@ jobs:
     name: "Lint"
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -75,7 +75,7 @@ jobs:
     name: "Test"
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -114,7 +114,7 @@ jobs:
     if: ${{ always() && github.actor != 'dependabot[bot]' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Download tests results
         uses: actions/download-artifact@v2
@@ -160,7 +160,7 @@ jobs:
       image_tag: ${{ steps.get_tag.outputs.DOCKER_TAG }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
