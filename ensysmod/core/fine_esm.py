@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from typing import Any, Dict, List, Union
 
@@ -181,10 +182,13 @@ def optimize_esm(esM: EnergySystemModel):
     Optimize the energy system model.
     """
     esM.cluster(numberOfTypicalPeriods=7)
-    esM.optimize(timeSeriesAggregation=True, optimizationSpecs='OptimalityTol=1e-3 method=2 cuts=0', solver='gurobi')
+    esM.optimize(timeSeriesAggregation=True)
 
     time_str = datetime.now().strftime("%Y%m%d%H%M%S")
     result_file_path = f"./tmp/result-{time_str}"
+    # create folder ./tmp if it does not exist
+    if not os.path.exists("./tmp"):
+        os.makedirs("./tmp")
     writeOptimizationOutputToExcel(esM=esM,
                                    outputFileName=result_file_path,
                                    optSumOutputLevel=2, optValOutputLevel=1)
