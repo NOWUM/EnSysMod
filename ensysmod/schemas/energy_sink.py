@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
 
 from ensysmod.model import EnergyComponentType
 from ensysmod.schemas import EnergyComponentCreate, EnergyComponentUpdate, EnergyComponent, EnergyCommodity
@@ -9,10 +9,12 @@ from ensysmod.util import validators
 
 class EnergySinkBase(BaseModel):
     """
-    Shared properties for an energy sink. Used as a base class for all schemas.
+    Shared attributes for an energy sink. Used as a base class for all schemas.
     """
     type = EnergyComponentType.SINK
-    yearly_limit: Optional[float] = None
+    yearly_limit: Optional[float] = Field(None,
+                                          description="The yearly limit of the energy sink.",
+                                          example=366.5)
 
     # validators
     _valid_type = validator("type", allow_reuse=True)(validators.validate_energy_component_type)
@@ -20,9 +22,11 @@ class EnergySinkBase(BaseModel):
 
 class EnergySinkCreate(EnergySinkBase, EnergyComponentCreate):
     """
-    Properties to receive via API on creation of an energy sink.
+    Attributes to receive via API on creation of an energy sink.
     """
-    commodity: str
+    commodity: str = Field(...,
+                           description="Commodity the energy sink is based on.",
+                           example="electricity")
 
     # validators
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
@@ -30,7 +34,7 @@ class EnergySinkCreate(EnergySinkBase, EnergyComponentCreate):
 
 class EnergySinkUpdate(EnergySinkBase, EnergyComponentUpdate):
     """
-    Properties to receive via API on update of an energy sink.
+    Attributes to receive via API on update of an energy sink.
     """
     commodity: Optional[str] = None
 
@@ -40,7 +44,7 @@ class EnergySinkUpdate(EnergySinkBase, EnergyComponentUpdate):
 
 class EnergySink(EnergySinkBase):
     """
-    Properties to return via API for an energy sink.
+    Attributes to return via API for an energy sink.
     """
     component: EnergyComponent
     commodity: EnergyCommodity

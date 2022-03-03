@@ -1,6 +1,6 @@
 from typing import Optional, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from pydantic.class_validators import validator
 
 from ensysmod.model import EnergyComponentType
@@ -11,10 +11,12 @@ from ensysmod.util import validators
 
 class EnergyTransmissionBase(BaseModel):
     """
-    Shared properties for an energy transmission. Used as a base class for all schemas.
+    Shared attributes for an energy transmission. Used as a base class for all schemas.
     """
     type = EnergyComponentType.TRANSMISSION
-    loss_per_unit: Optional[float] = None
+    loss_per_unit: Optional[float] = Field(None,
+                                           description="Loss per length unit of energy transmission.",
+                                           example=0.002)
 
     # validators
     _valid_type = validator("type", allow_reuse=True)(validators.validate_energy_component_type)
@@ -23,19 +25,38 @@ class EnergyTransmissionBase(BaseModel):
 
 class EnergyTransmissionCreate(EnergyTransmissionBase, EnergyComponentCreate):
     """
-    Properties to receive via API on creation of an energy transmission.
+    Attributes to receive via API on creation of an energy transmission.
     """
-    commodity: str
-    distances: Optional[List[EnergyTransmissionDistanceCreate]] = None
+    commodity: str = Field(...,
+                           description="Commodity of energy transmission.",
+                           example="electricity")
+    distances: Optional[List[EnergyTransmissionDistanceCreate]] \
+        = Field(None,
+                description="Distances of energy transmission in the length unit provided with the dataset.")
 
     # validators
     _valid_distances = validator("distances", allow_reuse=True)(validators.validate_distances)
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
 
+    class Config:
+        schema_extra = {
+            "example": {
+                "loss_per_unit": 0.002,
+                "commodity": "electricity",
+                "distances": [
+                    {
+                        "region_from": "germany",
+                        "region_to": "france",
+                        "distance": 135.4
+                    }
+                ]
+            }
+        }
+
 
 class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):
     """
-    Properties to receive via API on update of an energy transmission.
+    Attributes to receive via API on update of an energy transmission.
     """
     commodity: Optional[str] = None
 
@@ -45,7 +66,7 @@ class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):
 
 class EnergyTransmission(EnergyTransmissionBase):
     """
-    Properties to return via API for an energy transmission.
+    Attributes to return via API for an energy transmission.
     """
     component: EnergyComponent
     commodity: EnergyCommodity
