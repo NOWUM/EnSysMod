@@ -1,5 +1,8 @@
 FROM python:3.9
 
+RUN apt-get update
+RUN apt-get install -y glpk-utils python3-swiglpk
+
 WORKDIR /code
 
 COPY ./requirements.txt /code/requirements.txt
