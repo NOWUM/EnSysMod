@@ -1,7 +1,6 @@
 FROM python:3.9
 
 RUN apt-get update
-RUN apt-get install -y coinor-cbc
 RUN apt-get install -y glpk-utils python3-swiglpk
 
 WORKDIR /code
