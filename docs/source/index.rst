@@ -1,13 +1,12 @@
-Welcome to Python-Starter documentation!
-========================================
+Welcome to EnSysMod documentation!
+==================================
 
-**Counter is a Python programm, which simulates a counter.**
+Just another energy system modeling tool made by Institut NOWUM-Energy - FH Aachen.
 
-.. note::
+This project provides a REST API for modeling an energy system.
+It allows you to store multiple datasets in a database and generate multiple simulations from each dataset.
 
-   This project is under active development.
-
-Check out the :doc:`usage` section for further information, including how to install the project.
+Check out the :doc:`userguide` section for further information, including how to install the project.
 
 Indices and tables
 ==================
@@ -23,7 +22,7 @@ Indices and tables
    :caption: Contents:
    :hidden:
 
-   usage
+   userguide
    datamodel
    endpoints
    projectStructure

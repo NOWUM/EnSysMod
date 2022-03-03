@@ -44,6 +44,7 @@ Requirements:
 - [Git](https://git-scm.com/downloads)
 - [Python 3.6+](https://www.python.org/downloads/)
 - [pip](https://pip.pypa.io/en/stable/)
+- [GUROBI](https://www.gurobi.com/downloads) or [GLPK](https://www.gnu.org/software/glpk/glpk.html)
 
 Clone this repository:
 ```bash
@@ -63,10 +64,16 @@ sh scripts/run.sh
 
 Start using the REST API by visiting http://localhost:8080/docs/
 
+If you want to run an optimization, you need to install a solver like [Gurobi](https://www.gurobi.com/) or [GLPK]
+(https://www.gnu.org/software/glpk/glpk.html).
+
+
 ## Usage
 No user interface for now, sorry!
 
 You might use Postman to consume the API.
+
+A detailed documentation is available [here](https://nowum.github.io/EnSysMod/).
 
 ## Contributing
 Contributors are always welcome! 

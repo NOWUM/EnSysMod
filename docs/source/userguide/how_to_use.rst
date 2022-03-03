@@ -30,7 +30,3 @@ If you do not want to use the online version of EnSysMod, you can run it on your
     - Download the source code from GitHub.
 
 Both ways are described in the `installation instructions on Github <https://github.com/NOWUM/EnSysMod#installation>`_.
-
-
-
-

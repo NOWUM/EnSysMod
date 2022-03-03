@@ -1,5 +1,5 @@
-Usage
-=====
+User Guide
+==========
 
 This chapter describes how to use the EnSysMod tool.
 
@@ -20,11 +20,11 @@ them. Click on **next** to continue.
     :glob:
     :hidden:
 
-    usage/how_to_use.rst
-    usage/authentication.rst
-    usage/dataset.rst
-    usage/model.rst
-    usage/optimization.rst
+    userguide/how_to_use.rst
+    userguide/authentication.rst
+    userguide/dataset.rst
+    userguide/model.rst
+    userguide/optimization.rst
 
 
 
