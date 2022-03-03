@@ -39,7 +39,7 @@ def test_upload_dataset(client: TestClient, db: Session, normal_user_headers: Di
     dataset = data_generator.random_existing_dataset(db)
 
     # Upload a zip file
-    zip_file_path = get_dataset_zip("dataset-1")
+    zip_file_path = get_dataset_zip(data_folder)
 
     # print all the contents of the zip file
     print(f"Zip file contents of {zip_file_path}:")
