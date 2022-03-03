@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Endpoints of REST-API &mdash; EnSysMod 0.0.2 documentation</title>
+  <title>Endpoints of REST-API &mdash; EnSysMod 0.0.3 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -19,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Project structure" href="projectStructure.html" />
-    <link rel="prev" title="Ergebnisse abrufen" href="usage/output.html" /> 
+    <link rel="prev" title="Energy model parameter" href="datamodel/energymodel/energy_model_parameters.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -39,9 +40,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="userguide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datamodel.html">Datamodel</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Endpoints of REST-API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#description">Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#openapi-description">OpenAPI description</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="projectStructure.html">Project structure</a></li>
@@ -73,9 +75,12 @@
              
   <section id="endpoints-of-rest-api">
 <span id="rest-endpoints"></span><h1>Endpoints of REST-API<a class="headerlink" href="#endpoints-of-rest-api" title="Permalink to this headline"></a></h1>
-<p>You can test the endpoints by running this app locally and visit <a class="reference external" href="http://localhost:8080/docs">http://localhost:8080/docs</a>.</p>
-<section id="description">
-<span id="id1"></span><h2>Description<a class="headerlink" href="#description" title="Permalink to this headline"></a></h2>
+<p>You can test the endpoints by running this app locally and visit <a class="reference external" href="http://localhost:8080/docs">the docs page http://localhost:8080/docs</a>.</p>
+<p>Or you can use access the <a class="reference external" href="http://10.13.10.51:9000/docs">development deployment</a>
+or the <a class="reference external" href="http://10.13.10.51:8080/docs">production deployment</a>.
+For more information visit <a class="reference internal" href="userguide/how_to_use.html#how-to-use"><span class="std std-ref">this page.</span></a></p>
+<section id="openapi-description">
+<span id="description"></span><h2>OpenAPI description<a class="headerlink" href="#openapi-description" title="Permalink to this headline"></a></h2>
 <dl class="http post">
 <dt class="sig sig-object http" id="post--auth-login">
 <span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/auth/login</span></span><a class="headerlink" href="#post--auth-login" title="Permalink to this definition"></a></dt>
@@ -247,6 +252,131 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--datasets-dataset_id-download">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/{dataset_id}/download</span></span><a class="headerlink" href="#get--datasets-dataset_id-download" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Download Zip Archive</strong></p>
+<p>Downloads the dataset as zip</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--datasets-permissions-">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/</span></span><a class="headerlink" href="#get--datasets-permissions-" title="Permalink to this definition"></a></dt>
+<dd><p><strong>All Dataset Permission</strong></p>
+<p>Retrieve all dataset permissions.</p>
+<p>If you provide a dataset_id, only the permissions for that dataset will be returned.</p>
+<p>If you provide a user_id, only the permissions for that user will be returned.</p>
+<p>Otherwise, all of your personal permissions will be returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Query Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>user_id</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--datasets-permissions-">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/</span></span><a class="headerlink" href="#post--datasets-permissions-" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Create Dataset Permission</strong></p>
+<p>Create a new dataset_permission.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – Dataset permission for same user already exists.</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--datasets-permissions-permission_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/{permission_id}</span></span><a class="headerlink" href="#get--datasets-permissions-permission_id" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Get Dataset Permission</strong></p>
+<p>Retrieve a dataset-user permission.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>permission_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http put">
+<dt class="sig sig-object http" id="put--datasets-permissions-permission_id">
+<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/{permission_id}</span></span><a class="headerlink" href="#put--datasets-permissions-permission_id" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Update Dataset Permission</strong></p>
+<p>Update a dataset-user permission.</p>
+<p>You can not edit your own permissions.</p>
+<p>For editing other permissions, you need grant and revoke permissions.
+(Might change in future.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>permission_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--datasets-permissions-permission_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/{permission_id}</span></span><a class="headerlink" href="#delete--datasets-permissions-permission_id" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Remove Dataset Permission</strong></p>
+<p>Delete a dataset-user permission.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>permission_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Status Codes</dt>
@@ -738,6 +868,50 @@
 </dd></dl>
 
 <dl class="http get">
+<dt class="sig sig-object http" id="get--models-model_id-esm">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}/esm</span></span><a class="headerlink" href="#get--models-model_id-esm" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Validate Model</strong></p>
+<p>Create FINE energy system model from model.</p>
+<p>Might take a while.
+And return errors if dataset is not valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--models-model_id-optimize">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}/optimize</span></span><a class="headerlink" href="#get--models-model_id-optimize" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Optimize Model</strong></p>
+<p>Create FINE energy system model from model and optimizes it.</p>
+<p>Might take a while.
+And return errors if dataset is not valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
 <dt class="sig sig-object http" id="get--fix-capacities-">
 <span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/</span></span><a class="headerlink" href="#get--fix-capacities-" title="Permalink to this definition"></a></dt>
 <dd><p><strong>All Fix Capacities</strong></p>
@@ -1128,7 +1302,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="usage/output.html" class="btn btn-neutral float-left" title="Ergebnisse abrufen" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="datamodel/energymodel/energy_model_parameters.html" class="btn btn-neutral float-left" title="Energy model parameter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="projectStructure.html" class="btn btn-neutral float-right" title="Project structure" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

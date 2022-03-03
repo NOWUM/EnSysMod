@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Optimize model &mdash; EnSysMod 0.0.3 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Datamodel" href="../datamodel.html" />
+    <link rel="prev" title="Modell" href="model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> EnSysMod
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../userguide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="how_to_use.html">How to use EnSysMod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="authentication.html">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html">Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html">Modell</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Optimize model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-validation">Model validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-optimization">Model optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#result-of-optimization">Result of optimization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodel.html">Datamodel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../endpoints.html">Endpoints of REST-API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../projectStructure.html">Project structure</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">EnSysMod</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../userguide.html">User Guide</a> &raquo;</li>
+      <li>Optimize model</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/NOWUM/ensysmod/blob/main/docs/source/userguide/optimization.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="optimize-model">
+<h1>Optimize model<a class="headerlink" href="#optimize-model" title="Permalink to this headline"></a></h1>
+<p>The following article describes how to optimize the model based on a dataset.
+The EnSysMod uses the FINE framework inside to optimize the model for lowest total costs.</p>
+<p>All restrictions (like CO2 limit) are taken into account.</p>
+<section id="model-validation">
+<h2>Model validation<a class="headerlink" href="#model-validation" title="Permalink to this headline"></a></h2>
+<p>The validation endpoint allows to validate the dataset and model parameters. All energy components are transformed to
+a energy system model (esm) from FINE. If any parameters are missing or invalid, the validation endpoint returns an
+error.</p>
+<dl class="http get">
+<dt class="sig sig-object http" id="get--models-model_id-esm">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}/esm</span></span><a class="headerlink" href="#get--models-model_id-esm" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Validate Model</strong></p>
+<p>Create FINE energy system model from model.</p>
+<p>Might take a while.
+And return errors if dataset is not valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="model-optimization">
+<h2>Model optimization<a class="headerlink" href="#model-optimization" title="Permalink to this headline"></a></h2>
+<p>When the model is validated you can use the optimization endpoint to optimize the model.</p>
+<p>After transforming the dataset to an energy system model by FINE, the model is optimized with the GUROBI solver (or
+a free solver alternative).</p>
+<dl class="http get">
+<dt class="sig sig-object http" id="get--models-model_id-optimize">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}/optimize</span></span><a class="headerlink" href="#get--models-model_id-optimize" title="Permalink to this definition"></a></dt>
+<dd><p><strong>Optimize Model</strong></p>
+<p>Create FINE energy system model from model and optimizes it.</p>
+<p>Might take a while.
+And return errors if dataset is not valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p>The optimization endpoint returns the optimized model as excel file. The output is described below.</p>
+</section>
+<section id="result-of-optimization">
+<h2>Result of optimization<a class="headerlink" href="#result-of-optimization" title="Permalink to this headline"></a></h2>
+<p>The Excel file that you receive as a result contains several spreadsheets. A spreadsheet refers to one of the categories Sink &amp; Source, Conversion, Storage and Transmission.
+Currently, each of the categories has three spreadsheets. The structure of these three sheets is the same, but the contained values have to be considered in a different context.</p>
+<p>Of particular interest are the spreadsheets “&lt;category&gt;OptSummary_1dim”. The rest can be neglected.</p>
+<p>All spreadsheets are structured as one kind of table.</p>
+<p>One spreadsheet is called “&lt;category&gt;OptSummary_1dim”.
+This is the summary of the category. It lists the various components that were specified in the dataset, with the respective parameters to them that were determined as part of the optimization.
+The structure looks roughly like this:</p>
+<img alt="structure of the spreadsheet &quot;&lt;category&gt;OptSummary_1dim&quot;" src="../_images/optSummary_1dim_example.PNG" />
+<p>The first 3 columns contain the component (e.g. source-1, source-2, ..), the corresponding parameters and the unit of the parameter. The following columns contain the values for the corresponding regions.
+These data are broken down for the different regions. I.e. there is no direct data for the entire system, but for the individual regions or countries.</p>
+<p>The following data are output for sources:</p>
+<ul class="simple">
+<li><p><cite>TAC</cite>: total costs, i.e. investment and operating costs</p></li>
+<li><p><cite>capacity</cite>: installed capacity</p></li>
+<li><p><cite>capexCap</cite>: investment costs</p></li>
+<li><p><cite>invest</cite></p></li>
+<li><p><cite>operation</cite>: generation per specified period and per year</p></li>
+<li><p><cite>opexCap</cite>: operating costs</p></li>
+<li><p><cite>commodCosts</cite> (only specified for imports): cost of imports</p></li>
+</ul>
+<p>Sinks have listed the following data:</p>
+<ul class="simple">
+<li><p><cite>operation</cite>: consumption per specified period and per year.</p></li>
+</ul>
+<p>A conversion has the same data as a source, but commodCosts are omitted.</p>
+<p>A storage has the same data as a conversion. Instead of operation, however, a storage has data on operationCharge and operationDischarge (i.e. how much the storage injects and withdraws).</p>
+<p>A transmission, like a conversion, has the same data, without the commodCosts, as a source.</p>
+<p>If you are interested in data for the whole system, you have to calculate it yourself.</p>
+<p>The next spreadsheet is called “&lt;category&gt;_TDoptVar_1dim”.
+In this the optimal values for the operation per region and per time step is indicated. As an exception, the operationCharge and operationDischarge are listed for Storage instead of the operation.
+The first two columns contain the operation that were optimized and the component to which the values belong. In the 3rd column then per component, the names of the regions are listed, to which then in the following columns for the time steps the values stand.
+The table structure to the transmissions has as 3rd and also as 4th column the regions listed, however these are the regions between which there is a connection to the transmission of the commodities. From the 5th column on, the values per time step are entered.</p>
+<img alt="structure of the spreadsheet &quot;&lt;category&gt;_TDoptVar_1dim&quot;" src="../_images/TDoptVar_1dim_example.PNG" />
+<p>The last of the 3 spreadsheets is called “&lt;category&gt;TIoptVar_1dim”.
+This is like the spreadsheet “&lt;category&gt;_TDoptVar_1dim”, only that not the operation is shown, but the capacity. But since the capacity remains the same over all time steps, the 3rd column is omitted and the regions with the corresponding capacity are listed in the following columns.
+Also in this table the structure for transmission has a different structure. In the 3rd column the regions are listed. Together with the following columns a matrix is formed.</p>
+<img alt="structure of the spreadsheet &quot;&lt;category&gt;TIoptVar_1dim&quot;" src="../_images/TIoptVar_1dim_example.PNG" />
+<p>The last table sheet concerns Other things.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="model.html" class="btn btn-neutral float-left" title="Modell" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../datamodel.html" class="btn btn-neutral float-right" title="Datamodel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, NOWUM.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,5 +1,0 @@
-*******************
-Optimierung starten
-*******************
-
-Optimierung

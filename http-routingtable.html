@@ -3,9 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HTTP Routing Table &mdash; EnSysMod 0.0.2 documentation</title>
+  <title>HTTP Routing Table &mdash; EnSysMod 0.0.3 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -43,7 +44,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="userguide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datamodel.html">Datamodel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="endpoints.html">Endpoints of REST-API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="projectStructure.html">Project structure</a></li>
 </ul>
@@ -104,12 +106,12 @@
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#post--auth-login"><code class="xref">POST /auth/login</code></a></td><td>
+       <a href="userguide/authentication.html#post--auth-login"><code class="xref">POST /auth/login</code></a></td><td>
        <em>Login</em></td></tr>
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#post--auth-register"><code class="xref">POST /auth/register</code></a></td><td>
+       <a href="userguide/authentication.html#post--auth-register"><code class="xref">POST /auth/register</code></a></td><td>
        <em>Register</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-/commodities"><td></td><td>
@@ -158,8 +160,18 @@
      <tr>
        <td></td>
        <td>
-       <a href="usage/2_dataset.html#get--datasets-"><code class="xref">GET /datasets/</code></a></td><td>
+       <a href="userguide/dataset.html#get--datasets-"><code class="xref">GET /datasets/</code></a></td><td>
        <em>All Datasets</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--datasets-permissions-"><code class="xref">GET /datasets/permissions/</code></a></td><td>
+       <em>All Dataset Permission</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--datasets-permissions-permission_id"><code class="xref">GET /datasets/permissions/{permission_id}</code></a></td><td>
+       <em>Get Dataset Permission</em></td></tr>
      <tr>
        <td></td>
        <td>
@@ -168,8 +180,18 @@
      <tr>
        <td></td>
        <td>
-       <a href="usage/2_dataset.html#post--datasets-"><code class="xref">POST /datasets/</code></a></td><td>
+       <a href="endpoints.html#get--datasets-dataset_id-download"><code class="xref">GET /datasets/{dataset_id}/download</code></a></td><td>
+       <em>Download Zip Archive</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="userguide/dataset.html#post--datasets-"><code class="xref">POST /datasets/</code></a></td><td>
        <em>Create Dataset</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--datasets-permissions-"><code class="xref">POST /datasets/permissions/</code></a></td><td>
+       <em>Create Dataset Permission</em></td></tr>
      <tr>
        <td></td>
        <td>
@@ -178,8 +200,18 @@
      <tr>
        <td></td>
        <td>
+       <a href="endpoints.html#put--datasets-permissions-permission_id"><code class="xref">PUT /datasets/permissions/{permission_id}</code></a></td><td>
+       <em>Update Dataset Permission</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
        <a href="endpoints.html#put--datasets-dataset_id"><code class="xref">PUT /datasets/{dataset_id}</code></a></td><td>
        <em>Update Dataset</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--datasets-permissions-permission_id"><code class="xref">DELETE /datasets/permissions/{permission_id}</code></a></td><td>
+       <em>Remove Dataset Permission</em></td></tr>
      <tr>
        <td></td>
        <td>
@@ -303,7 +335,7 @@
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#get--models-"><code class="xref">GET /models/</code></a></td><td>
+       <a href="userguide/model.html#get--models-"><code class="xref">GET /models/</code></a></td><td>
        <em>All Models</em></td></tr>
      <tr>
        <td></td>
@@ -313,7 +345,17 @@
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#post--models-"><code class="xref">POST /models/</code></a></td><td>
+       <a href="userguide/optimization.html#get--models-model_id-esm"><code class="xref">GET /models/{model_id}/esm</code></a></td><td>
+       <em>Validate Model</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="userguide/optimization.html#get--models-model_id-optimize"><code class="xref">GET /models/{model_id}/optimize</code></a></td><td>
+       <em>Optimize Model</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="userguide/model.html#post--models-"><code class="xref">POST /models/</code></a></td><td>
        <em>Create Model</em></td></tr>
      <tr>
        <td></td>
