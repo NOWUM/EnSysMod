@@ -14,21 +14,21 @@ class EnergyStorageBase(BaseModel):
     """
     type = EnergyComponentType.STORAGE
 
-    charge_efficiency: Optional[float] = Field(None, ge=0.0, le=1.0,
+    charge_efficiency: Optional[float] = Field(None,
                                                description="The efficiency of charging the storage.", example=0.9)
-    discharge_efficiency: Optional[float] = Field(None, ge=0.0, le=1.0,
+    discharge_efficiency: Optional[float] = Field(None,
                                                   description="The efficiency of discharging the storage.", example=0.9)
-    self_discharge: Optional[float] = Field(None, ge=0.0, le=1.0,
+    self_discharge: Optional[float] = Field(None,
                                             description="The self-discharge of the storage.", example=0.00009)
-    cyclic_lifetime: Optional[int] = Field(None, ge=0,
+    cyclic_lifetime: Optional[int] = Field(None,
                                            description="The cyclic lifetime of the storage.", example=100)
-    charge_rate: Optional[float] = Field(None, ge=0.0,
+    charge_rate: Optional[float] = Field(None,
                                          description="The charge rate of the storage.", example=0.3)
-    discharge_rate: Optional[float] = Field(None, ge=0.0,
+    discharge_rate: Optional[float] = Field(None,
                                             description="The discharge rate of the storage.", example=0.2)
-    state_of_charge_min: Optional[float] = Field(None, ge=0.0, le=1.0,
+    state_of_charge_min: Optional[float] = Field(None,
                                                  description="The minimum state of charge of the storage.", example=0.1)
-    state_of_charge_max: Optional[float] = Field(None, ge=0.0, le=1.0,
+    state_of_charge_max: Optional[float] = Field(None,
                                                  description="The maximum state of charge of the storage.", example=0.9)
 
     # validators

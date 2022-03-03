@@ -11,7 +11,7 @@ class EnergyTransmissionDistanceBase(BaseModel):
     """
     Shared attributes for an energy transmission distance. Used as a base class for all schemas.
     """
-    distance: float = Field(..., ge=0.0, description="Distance between two regions in unit of dataset.", example=133.4)
+    distance: float = Field(..., description="Distance between two regions in unit of dataset.", example=133.4)
 
     # validators
     _valid_distance = validator("distance", allow_reuse=True)(validators.validate_distance)
