@@ -47,7 +47,7 @@ jobs:
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - name: Update deployment status - deactivate
-        uses: bobheadxi/deployments@v0.6.2
+        uses: bobheadxi/deployments@v1.1.0
         id: deactivate
         with:
           step: deactivate-env
@@ -189,7 +189,7 @@ jobs:
     if: ${{ success() && github.actor != 'dependabot[bot]' }}
     steps:
       - name: Update deployment status - start
-        uses: bobheadxi/deployments@v0.6.2
+        uses: bobheadxi/deployments@v1.1.0
         id: deployment
         with:
           step: start
@@ -234,7 +234,7 @@ jobs:
           echo ::set-output name=ENV_URL::"${ENV_URL}"
 
       - name: Update deployment status - finish
-        uses: bobheadxi/deployments@v0.6.2
+        uses: bobheadxi/deployments@v1.1.0
         if: always()
         with:
           step: finish
