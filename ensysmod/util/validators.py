@@ -1,9 +1,8 @@
 from typing import Any, List, Optional
 
-from pydantic.errors import MissingError
-from pydantic import root_validator
-
 from ensysmod.model import EnergyComponentType
+from pydantic import root_validator
+from pydantic.errors import MissingError
 
 
 def validate_name(name: str) -> str:
@@ -289,6 +288,32 @@ def validate_commodity_cost(commodity_cost: float) -> Optional[float]:
         raise ValueError("Commodity cost must be zero or positive.")
 
     return commodity_cost
+
+
+def validate_yearly_limit_and_commodity_limit_id(cls, values):
+    """
+    Validates the yearly limit and the commodity limit ID of an object.
+
+    :param yearly_limit: The yearly limit of the object.
+    :param commodity_limit_id: The commodity limit id of the object.
+    :return: The validated yearly limit and commodity limit id.
+    """
+    yearly_limit, commodity_limit_id = values.get('yearly_limit'), values.get('commodity_limit_id')
+
+    if yearly_limit is None and commodity_limit_id is None:
+        # Skip validation if no value provided
+        return values
+    if yearly_limit is not None and commodity_limit_id is None:
+        raise ValueError("If yearly_limit is specified, commodity_limit_id must be specified as well.")
+    if commodity_limit_id is not None and yearly_limit is None:
+        raise ValueError("If commodity_limit_id is specified, yearly_limit must be specified as well.")
+
+    if yearly_limit < 0:
+        raise ValueError("Yearly limit must be zero or positive.")
+    if len(commodity_limit_id) > 100:
+        raise ValueError("Commodity limit ID must not be longer than 100 characters.")
+
+    return values
 
 
 def validate_charge_efficiency(charge_efficiency: Optional[float]) -> Optional[float]:

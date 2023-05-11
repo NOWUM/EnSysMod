@@ -3,12 +3,30 @@ from datetime import datetime
 from typing import Any, Dict, List, Union
 
 import pandas as pd
-from FINE import EnergySystemModel, Storage, Sink, Transmission, Conversion, Source, writeOptimizationOutputToExcel
+from FINE import (
+    Conversion,
+    EnergySystemModel,
+    Sink,
+    Source,
+    Storage,
+    Transmission,
+    writeOptimizationOutputToExcel,
+)
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
-from ensysmod.model import EnergyModel, EnergyComponent, EnergySource, EnergySink, EnergyConversion, EnergyStorage, \
-    EnergyTransmission, EnergyModelParameter, EnergyModelParameterOperation, EnergyModelParameterAttribute
+from ensysmod.model import (
+    EnergyComponent,
+    EnergyConversion,
+    EnergyModel,
+    EnergyModelParameter,
+    EnergyModelParameterAttribute,
+    EnergyModelParameterOperation,
+    EnergySink,
+    EnergySource,
+    EnergyStorage,
+    EnergyTransmission,
+)
 
 # Dictionary that contains internal and fine model parameter names
 param_mapper: Dict[str, str] = {
@@ -76,6 +94,10 @@ def add_sink(esM: EnergySystemModel, db: Session, sink: EnergySink, region_ids: 
              custom_parameters: List[EnergyModelParameter]) -> None:
     esm_sink = component_to_dict(db, sink.component, region_ids)
     esm_sink["commodity"] = sink.commodity.name
+    if sink.yearly_limit is not None:
+        esm_sink["yearlyLimit"] = sink.yearly_limit
+    if sink.commodity_limit_id is not None:
+        esm_sink["commodityLimitID"] = sink.commodity_limit_id
     esm_sink = override_parameters(esm_sink, custom_parameters)
     esM.add(Sink(esM=esM, **esm_sink))
 
@@ -172,8 +194,6 @@ def override_parameters(component_dict: Dict, custom_parameters: List[EnergyMode
             component_dict[attribute_name] = custom_parameter.value
         else:
             raise ValueError("Unknown operation: {}".format(custom_parameter.operation))
-        if custom_parameter.attribute == EnergyModelParameterAttribute.yearly_limit:
-            component_dict["commodityLimitID"] = "CO2"  # TODO: should be configurable
     return component_dict
 
 
