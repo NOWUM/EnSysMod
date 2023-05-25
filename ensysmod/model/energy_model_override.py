@@ -1,23 +1,23 @@
 import enum
 
-from sqlalchemy import Column, Integer, ForeignKey, Float, UniqueConstraint, Enum
+from sqlalchemy import Column, Enum, Float, ForeignKey, Integer, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from ensysmod.database.base_class import Base
 from ensysmod.database.ref_base_class import RefCRBase
 
 
-class EnergyModelParameterAttribute(enum.Enum):
+class EnergyModelOverrideAttribute(enum.Enum):
     yearly_limit = 'yearly_limit'
 
 
-class EnergyModelParameterOperation(enum.Enum):
+class EnergyModelOverrideOperation(enum.Enum):
     add = 'add'
     multiply = 'multiply'
     set = 'set'
 
 
-class EnergyModelParameter(RefCRBase, Base):
+class EnergyModelOverride(RefCRBase, Base):
     """
     A energy model parameter is referenced to a model and a component.
 
@@ -28,8 +28,8 @@ class EnergyModelParameter(RefCRBase, Base):
     # The region reference is optional.
     ref_region = Column(Integer, ForeignKey('region.id'), nullable=True)
 
-    attribute = Column(Enum(EnergyModelParameterAttribute), nullable=False)
-    operation = Column(Enum(EnergyModelParameterOperation), nullable=False)
+    attribute = Column(Enum(EnergyModelOverrideAttribute), nullable=False)
+    operation = Column(Enum(EnergyModelOverrideOperation), nullable=False)
     value = Column(Float, nullable=False)
 
     # relationships

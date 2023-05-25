@@ -19,19 +19,14 @@ from ensysmod.model import (
     EnergyComponent,
     EnergyConversion,
     EnergyModel,
-    EnergyModelParameter,
-    EnergyModelParameterAttribute,
-    EnergyModelParameterOperation,
+    EnergyModelOverride,
+    EnergyModelOverrideAttribute,
+    EnergyModelOverrideOperation,
     EnergySink,
     EnergySource,
     EnergyStorage,
     EnergyTransmission,
 )
-
-# Dictionary that contains internal and fine model parameter names
-param_mapper: Dict[str, str] = {
-    'yearly_limit': 'yearlyLimit',
-}
 
 
 def generate_esm_from_model(db: Session, model: EnergyModel) -> EnergySystemModel:
@@ -59,29 +54,29 @@ def generate_esm_from_model(db: Session, model: EnergyModel) -> EnergySystemMode
 
     # Add all sources
     for source in model.dataset.sources:
-        add_source(esM, db, source, region_ids, model.parameters)
+        add_source(esM, db, source, region_ids, model.override_parameters)
 
     # Add all sinks
     for sink in model.dataset.sinks:
-        add_sink(esM, db, sink, region_ids, model.parameters)
+        add_sink(esM, db, sink, region_ids, model.override_parameters)
 
     # Add all conversions
     for conversion in model.dataset.conversions:
-        add_conversion(esM, db, conversion, region_ids, model.parameters)
+        add_conversion(esM, db, conversion, region_ids, model.override_parameters)
 
     # Add all storages
     for storage in model.dataset.storages:
-        add_storage(esM, db, storage, region_ids, model.parameters)
+        add_storage(esM, db, storage, region_ids, model.override_parameters)
 
     # Add all transmissions
     for transmission in model.dataset.transmissions:
-        add_transmission(esM, db, transmission, region_ids, model.parameters)
+        add_transmission(esM, db, transmission, region_ids, model.override_parameters)
 
     return esM
 
 
 def add_source(esM: EnergySystemModel, db: Session, source: EnergySource, region_ids: List[int],
-               custom_parameters: List[EnergyModelParameter]) -> None:
+               custom_parameters: List[EnergyModelOverride]) -> None:
     esm_source = component_to_dict(db, source.component, region_ids)
     esm_source["commodity"] = source.commodity.name
     if source.commodity_cost is not None:
@@ -91,7 +86,7 @@ def add_source(esM: EnergySystemModel, db: Session, source: EnergySource, region
 
 
 def add_sink(esM: EnergySystemModel, db: Session, sink: EnergySink, region_ids: List[int],
-             custom_parameters: List[EnergyModelParameter]) -> None:
+             custom_parameters: List[EnergyModelOverride]) -> None:
     esm_sink = component_to_dict(db, sink.component, region_ids)
     esm_sink["commodity"] = sink.commodity.name
     if sink.yearly_limit is not None:
@@ -103,7 +98,7 @@ def add_sink(esM: EnergySystemModel, db: Session, sink: EnergySink, region_ids: 
 
 
 def add_conversion(esM: EnergySystemModel, db: Session, conversion: EnergyConversion, region_ids: List[int],
-                   custom_parameters: List[EnergyModelParameter]) -> None:
+                   custom_parameters: List[EnergyModelOverride]) -> None:
     esm_conversion = component_to_dict(db, conversion.component, region_ids)
     esm_conversion["physicalUnit"] = conversion.commodity_unit.unit
     esm_conversion["commodityConversionFactors"] = {x.commodity.name: x.conversion_factor for x in
@@ -113,7 +108,7 @@ def add_conversion(esM: EnergySystemModel, db: Session, conversion: EnergyConver
 
 
 def add_storage(esM: EnergySystemModel, db: Session, storage: EnergyStorage, region_ids: List[int],
-                custom_parameters: List[EnergyModelParameter]) -> None:
+                custom_parameters: List[EnergyModelOverride]) -> None:
     esm_storage = component_to_dict(db, storage.component, region_ids)
     esm_storage["commodity"] = storage.commodity.name
     if storage.charge_efficiency is not None:
@@ -137,7 +132,7 @@ def add_storage(esM: EnergySystemModel, db: Session, storage: EnergyStorage, reg
 
 
 def add_transmission(esM: EnergySystemModel, db: Session, transmission: EnergyTransmission,
-                     region_ids: List[int], custom_parameters: List[EnergyModelParameter]) -> None:
+                     region_ids: List[int], custom_parameters: List[EnergyModelOverride]) -> None:
     esm_transmission = component_to_dict(db, transmission.component, region_ids)
     esm_transmission["commodity"] = transmission.commodity.name
     esm_transmission["distances"] = crud.energy_transmission_distance.get_dataframe(db, transmission.ref_component,
@@ -181,16 +176,16 @@ def component_to_dict(db: Session, component: EnergyComponent, region_ids: List[
     return component_data
 
 
-def override_parameters(component_dict: Dict, custom_parameters: List[EnergyModelParameter]) -> Dict:
+def override_parameters(component_dict: Dict, custom_parameters: List[EnergyModelOverride]) -> Dict:
     for custom_parameter in custom_parameters:
         if custom_parameter.component.name != component_dict["name"]:
             continue
-        attribute_name = param_mapper[custom_parameter.attribute.name]
-        if custom_parameter.operation == EnergyModelParameterOperation.add:
+        attribute_name = custom_parameter.attribute
+        if custom_parameter.operation == EnergyModelOverrideOperation.add:
             component_dict[attribute_name] += custom_parameter.value
-        elif custom_parameter.operation == EnergyModelParameterOperation.multiply:
+        elif custom_parameter.operation == EnergyModelOverrideOperation.multiply:
             component_dict[attribute_name] *= custom_parameter.value
-        elif custom_parameter.operation == EnergyModelParameterOperation.set:
+        elif custom_parameter.operation == EnergyModelOverrideOperation.set:
             component_dict[attribute_name] = custom_parameter.value
         else:
             raise ValueError("Unknown operation: {}".format(custom_parameter.operation))

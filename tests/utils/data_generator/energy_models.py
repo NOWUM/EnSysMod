@@ -1,11 +1,15 @@
 from sqlalchemy.orm import Session
-
-from ensysmod import crud
-from ensysmod.model import EnergyModel, EnergyModelParameterAttribute, EnergyModelParameterOperation
-from ensysmod.schemas import EnergyModelCreate, EnergyModelParameterCreate
 from tests.utils.data_generator import fixed_existing_energy_source
 from tests.utils.data_generator.datasets import fixed_existing_dataset
 from tests.utils.utils import random_lower_string
+
+from ensysmod import crud
+from ensysmod.model import (
+    EnergyModel,
+    EnergyModelOverrideAttribute,
+    EnergyModelOverrideOperation,
+)
+from ensysmod.schemas import EnergyModelCreate, EnergyModelOverrideCreate
 
 
 def random_energy_model_create(db: Session) -> EnergyModelCreate:
@@ -18,9 +22,9 @@ def random_energy_model_create(db: Session) -> EnergyModelCreate:
                              ref_dataset=dataset.id,
                              description="EnergyModel description",
                              parameters=[
-                                 EnergyModelParameterCreate(component=component_1.component.name,
-                                                            attribute=EnergyModelParameterAttribute.yearly_limit,
-                                                            operation=EnergyModelParameterOperation.set,
+                                 EnergyModelOverrideCreate(component=component_1.component.name,
+                                                            attribute=EnergyModelOverrideAttribute.yearly_limit,
+                                                            operation=EnergyModelOverrideOperation.set,
                                                             value=366.6),
                              ]
                              )

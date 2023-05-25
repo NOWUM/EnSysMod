@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from ensysmod.database.base_class import Base
@@ -13,7 +13,7 @@ class EnergyModel(Base):
 
     # relationships
     dataset: Dataset = relationship("Dataset")
-    parameters = relationship("EnergyModelParameter", back_populates="model")
+    override_parameters = relationship("EnergyModelOverride", back_populates="model")
 
     # table constraints
     __table_args__ = (

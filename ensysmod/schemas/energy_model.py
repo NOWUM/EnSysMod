@@ -1,11 +1,14 @@
-from typing import Optional, List
+from typing import List, Optional
 
-from pydantic import BaseModel, validator, Field
+from pydantic import BaseModel, Field, validator
 
-from ensysmod.model import EnergyModelParameterAttribute, EnergyModelParameterOperation
+from ensysmod.model import EnergyModelOverrideAttribute, EnergyModelOverrideOperation
 from ensysmod.schemas import Dataset
-from ensysmod.schemas.energy_model_parameter import EnergyModelParameter, EnergyModelParameterCreate, \
-    EnergyModelParameterUpdate
+from ensysmod.schemas.energy_model_override import (
+    EnergyModelOverride,
+    EnergyModelOverrideCreate,
+    EnergyModelOverrideUpdate,
+)
 from ensysmod.util import validators
 
 
@@ -34,15 +37,14 @@ class EnergyModelCreate(EnergyModelBase):
                              description="ID of the dataset that the energy model is based on.",
                              example=1)
 
-    parameters: Optional[List[EnergyModelParameterCreate]] \
+    override_parameters: Optional[List[EnergyModelOverrideCreate]] \
         = Field(None,
-                description="Parameters of the energy model. "
-                            "The parameters override the values of the referenced dataset.",
+                description="Override parameters of the energy model. If given, overrides the values of the referenced dataset.",
                 examples=[
-                    EnergyModelParameterCreate(
+                    EnergyModelOverrideCreate(
                         component="CO2 to environment",
-                        attribute=EnergyModelParameterAttribute.yearly_limit,
-                        operation=EnergyModelParameterOperation.set,
+                        attribute=EnergyModelOverrideAttribute.yearly_limit,
+                        operation=EnergyModelOverrideOperation.set,
                         value=0)
                 ])
 
@@ -55,7 +57,7 @@ class EnergyModelUpdate(EnergyModelBase):
     Attributes to receive via API on update of an energy model.
     """
     name: Optional[str] = None
-    parameters: Optional[List[EnergyModelParameterUpdate]] = None
+    parameters: Optional[List[EnergyModelOverrideUpdate]] = None
 
 
 class EnergyModel(EnergyModelBase):
@@ -64,7 +66,7 @@ class EnergyModel(EnergyModelBase):
     """
     id: int
     dataset: Dataset
-    parameters: List[EnergyModelParameter]
+    parameters: List[EnergyModelOverride]
 
     class Config:
         orm_mode = True
