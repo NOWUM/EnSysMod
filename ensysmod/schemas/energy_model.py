@@ -57,7 +57,7 @@ class EnergyModelUpdate(EnergyModelBase):
     Attributes to receive via API on update of an energy model.
     """
     name: Optional[str] = None
-    parameters: Optional[List[EnergyModelOverrideUpdate]] = None
+    override_parameters: Optional[List[EnergyModelOverrideUpdate]] = None
 
 
 class EnergyModel(EnergyModelBase):
@@ -66,7 +66,7 @@ class EnergyModel(EnergyModelBase):
     """
     id: int
     dataset: Dataset
-    parameters: List[EnergyModelOverride]
+    override_parameters: List[EnergyModelOverride]
 
     class Config:
         orm_mode = True
