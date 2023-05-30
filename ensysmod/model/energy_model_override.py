@@ -34,7 +34,7 @@ class EnergyModelOverride(RefCRBase, Base):
 
     # relationships
     component = relationship('EnergyComponent')
-    model = relationship('EnergyModel', back_populates='parameters')
+    model = relationship('EnergyModel', back_populates='override_parameters')
 
     # table constraints
     __table_args__ = (
