@@ -28,6 +28,11 @@ from .energy_conversion_factor import (
     EnergyConversionFactorUpdate,
 )
 from .energy_model import EnergyModel, EnergyModelCreate, EnergyModelUpdate
+from .energy_model_optimization import (
+    EnergyModelOptimization,
+    EnergyModelOptimizationCreate,
+    EnergyModelOptimizationUpdate,
+)
 from .energy_model_override import (
     EnergyModelOverride,
     EnergyModelOverrideCreate,

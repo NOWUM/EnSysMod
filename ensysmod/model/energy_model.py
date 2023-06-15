@@ -14,6 +14,7 @@ class EnergyModel(Base):
     # relationships
     dataset: Dataset = relationship("Dataset")
     override_parameters = relationship("EnergyModelOverride", back_populates="model")
+    optimization_parameters = relationship("EnergyModelOptimization", back_populates="model")
 
     # table constraints
     __table_args__ = (

@@ -12,6 +12,7 @@ from .energy_component import (
 from .energy_conversion import EnergyConversion
 from .energy_conversion_factor import EnergyConversionFactor
 from .energy_model import EnergyModel
+from .energy_model_optimization import EnergyModelOptimization
 from .energy_model_override import (
     EnergyModelOverride,
     EnergyModelOverrideAttribute,

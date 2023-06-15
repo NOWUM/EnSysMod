@@ -1,8 +1,9 @@
 from typing import Any, List, Optional
 
-from ensysmod.model import EnergyComponentType
 from pydantic import root_validator
 from pydantic.errors import MissingError
+
+from ensysmod.model import EnergyComponentType
 
 
 def validate_name(name: str) -> str:
@@ -591,3 +592,81 @@ def validate_max_operation_rates(max_operation_rates: List[float]) -> List[float
         raise ValueError("List of max operation rates must not be empty.")
 
     return max_operation_rates
+
+
+def validate_optimization_timeframe(cls, values):
+    """
+    Validates the optimization timeframe of an object.
+
+    :param start_year: Year of the first optimization.
+    :param end_year: Year of the last optimization.
+    :param number_of_steps: Number of optimization runs excluding the start year.
+    :param years_per_step: Number of years represented by one optimization run.
+
+    :return: the validated optimization timeframe parameters.
+    """
+    start_year = values.get('start_year')
+    end_year = values.get('end_year')
+    number_of_steps = values.get('number_of_steps')
+    years_per_step = values.get('years_per_step')
+
+    if start_year is None:
+        raise ValueError("start_year must be specified.")
+    if (end_year is None) & (number_of_steps is None) & (years_per_step is None):
+        raise ValueError("At least two of the parameters end_year, number_of_steps or years_per_step must be specified.")
+
+    if (end_year is not None) & (number_of_steps is None) & (years_per_step is None):
+        raise ValueError("At least one of the parameters number_of_steps or years_per_step must also be specified.")
+    if (end_year is None) & (number_of_steps is not None) & (years_per_step is None):
+        raise ValueError("At least one of the parameters end_year or years_per_step must also be specified.")
+    if (end_year is None) & (number_of_steps is None) & (years_per_step is not None):
+        raise ValueError("At least one of the parameters end_year or number_of_steps must also be specified.")
+
+    if (end_year is None) & (number_of_steps is not None) & (years_per_step is not None):
+        end_year = start_year + number_of_steps * years_per_step
+    elif (end_year is not None) & (number_of_steps is None) & (years_per_step is not None):
+        number_of_steps = (end_year - start_year)/years_per_step
+    elif (end_year is not None) & (number_of_steps is not None) & (years_per_step is None):
+        years_per_step = (end_year - start_year)/number_of_steps
+
+    if (end_year - start_year) != number_of_steps * years_per_step:
+        raise ValueError("The parameters must satisfy the equation: (end_year - start_year) = number_of_steps * years_per_step.")
+
+    values['start_year'] = start_year
+    values['end_year'] = end_year
+    values['number_of_steps'] = number_of_steps
+    values['years_per_step'] = years_per_step
+
+    return values
+
+
+def validate_CO2_optimization(cls, values):
+    """
+    Validates the CO2 optimization.
+
+    :param CO2_reference: CO2 emission reference value to which the reduction should be applied to.
+    :param CO2_reduction_targets: CO2 reduction targets for all optimization periods, in percentages. If specified, the length of the list must equal the number of optimization steps.
+
+    :return: The validated CO2 optimization parameters.
+    """
+    CO2_reference = values.get('CO2_reference')
+    CO2_reduction_targets = values.get('CO2_reduction_targets')
+    number_of_steps = values.get('number_of_steps')
+
+    if (CO2_reference is None) & (CO2_reduction_targets is None):
+        return values
+    if (CO2_reference is not None) & (CO2_reduction_targets is None):
+        raise ValueError("If CO2_reference is specified, CO2_reduction_targets must also be specified.")
+    if (CO2_reference is None) & (CO2_reduction_targets is not None):
+        raise ValueError("If CO2_reduction_targets is specified, CO2_reference must also be specified.")
+
+    if CO2_reference < 0:
+        raise ValueError("CO2_reference must be zero or positive.")
+    for target in CO2_reduction_targets:
+        if target < 0 or target > 100:
+            raise ValueError("Values of CO2_reduction_targets must be between 0 and 100.")
+
+    if len(CO2_reduction_targets) != number_of_steps+1:
+        raise ValueError(f"The number of values given in CO2_reduction_targets must match the number of optimization runs. Expected: {number_of_steps+1}, given: {len(CO2_reduction_targets)}.")
+
+    return values

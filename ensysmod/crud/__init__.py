@@ -8,6 +8,7 @@ from .energy_component import energy_component
 from .energy_conversion import energy_conversion
 from .energy_conversion_factor import energy_conversion_factor
 from .energy_model import energy_model
+from .energy_model_optimization import energy_model_optimization
 from .energy_model_override import energy_model_override
 from .energy_sink import energy_sink
 from .energy_source import energy_source

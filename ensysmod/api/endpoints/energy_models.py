@@ -4,9 +4,13 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
-from ensysmod import schemas, model, crud
+from ensysmod import crud, model, schemas
 from ensysmod.api import deps, permissions
-from ensysmod.core.fine_esm import generate_esm_from_model, optimize_esm
+from ensysmod.core.fine_esm import (
+    generate_esm_from_model,
+    myopic_optimize_esm,
+    optimize_esm,
+)
 
 router = APIRouter()
 
@@ -129,3 +133,27 @@ def optimize_model(model_id: int,
     return FileResponse(result_file_path,
                         media_type="application/vnd.openxmlformats-officedocument. spreadsheetml.sheet",
                         filename=f"{energy_model.name}.xlsx")
+
+
+@router.get("/{model_id}/myopic_optimize")
+def myopic_optimize_model(model_id: int,
+                          db: Session = Depends(deps.get_db),
+                          current: model.User = Depends(deps.get_current_user)):
+    """
+    Create FINE energy system model from model and optimizes it based on myopic approach.
+    """
+    energy_model = crud.energy_model.get(db=db, id=model_id)
+    if energy_model is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyModel {model_id} not found!")
+    energy_model_optimization_parameters = crud.energy_model_optimization.get_by_ref_model(db=db, ref_model=model_id)
+    if energy_model_optimization_parameters is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Optimization parameters for EnergyModel {model_id} not found!")
+
+    permissions.check_usage_permission(db, user=current, dataset_id=energy_model.ref_dataset)
+
+    esM = generate_esm_from_model(db=db, model=energy_model)
+    zipped_result_file_path = myopic_optimize_esm(esM=esM, optimization_parameters=energy_model_optimization_parameters)
+
+    return FileResponse(zipped_result_file_path,
+                        media_type="application/zip",
+                        filename=f"{energy_model.name} {energy_model_optimization_parameters.start_year}-{energy_model_optimization_parameters.end_year}.zip")

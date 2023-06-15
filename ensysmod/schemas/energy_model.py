@@ -4,6 +4,11 @@ from pydantic import BaseModel, Field, validator
 
 from ensysmod.model import EnergyModelOverrideAttribute, EnergyModelOverrideOperation
 from ensysmod.schemas import Dataset
+from ensysmod.schemas.energy_model_optimization import (
+    EnergyModelOptimization,
+    EnergyModelOptimizationCreate,
+    EnergyModelOptimizationUpdate,
+)
 from ensysmod.schemas.energy_model_override import (
     EnergyModelOverride,
     EnergyModelOverrideCreate,
@@ -47,6 +52,15 @@ class EnergyModelCreate(EnergyModelBase):
                         operation=EnergyModelOverrideOperation.set,
                         value=0)
                 ])
+    optimization_parameters: Optional[List[EnergyModelOptimizationCreate]] \
+        = Field(None,
+                description="Optimization parameters of the energy model.",
+                example=[EnergyModelOptimizationCreate(start_year=2020,
+                                                       end_year=2050,
+                                                       number_of_steps=3,
+                                                       years_per_step=10,
+                                                       CO2_reference=366,
+                                                       CO2_reduction_targets=[0, 25, 50, 100])])
 
     # validators
     _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_required)
@@ -58,6 +72,7 @@ class EnergyModelUpdate(EnergyModelBase):
     """
     name: Optional[str] = None
     override_parameters: Optional[List[EnergyModelOverrideUpdate]] = None
+    optimization_parameters: Optional[List[EnergyModelOptimizationUpdate]] = None
 
 
 class EnergyModel(EnergyModelBase):
@@ -67,6 +82,7 @@ class EnergyModel(EnergyModelBase):
     id: int
     dataset: Dataset
     override_parameters: List[EnergyModelOverride]
+    optimization_parameters: List[EnergyModelOptimization]
 
     class Config:
         orm_mode = True
