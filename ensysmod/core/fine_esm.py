@@ -180,10 +180,17 @@ def component_to_dict(db: Session, component: EnergyComponent, region_ids: List[
 
 
 def override_parameters(component_dict: Dict, custom_parameters: List[EnergyModelOverride]) -> Dict:
+    """
+    Overrides component parameters.
+    """
     for custom_parameter in custom_parameters:
         if custom_parameter.component.name != component_dict["name"]:
-            continue
-        attribute_name = custom_parameter.attribute
+            raise ValueError(f"Unknown component: {custom_parameter.component.name}")
+
+        attribute_name = custom_parameter.attribute.name
+        if attribute_name not in component_dict.keys():
+            raise ValueError(f"Parameter {attribute_name} is undefined for component {component_dict['name']}.")
+
         if custom_parameter.operation == EnergyModelOverrideOperation.add:
             component_dict[attribute_name] += custom_parameter.value
         elif custom_parameter.operation == EnergyModelOverrideOperation.multiply:
@@ -191,7 +198,7 @@ def override_parameters(component_dict: Dict, custom_parameters: List[EnergyMode
         elif custom_parameter.operation == EnergyModelOverrideOperation.set:
             component_dict[attribute_name] = custom_parameter.value
         else:
-            raise ValueError("Unknown operation: {}".format(custom_parameter.operation))
+            raise ValueError(f"Unknown operation: {custom_parameter.operation}")
     return component_dict
 
 

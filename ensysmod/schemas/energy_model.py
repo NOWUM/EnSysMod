@@ -45,10 +45,10 @@ class EnergyModelCreate(EnergyModelBase):
     override_parameters: Optional[List[EnergyModelOverrideCreate]] \
         = Field(None,
                 description="Override parameters of the energy model. If given, overrides the values of the referenced dataset.",
-                examples=[
+                example=[
                     EnergyModelOverrideCreate(
                         component="CO2 to environment",
-                        attribute=EnergyModelOverrideAttribute.yearly_limit,
+                        attribute=EnergyModelOverrideAttribute.yearlyLimit,
                         operation=EnergyModelOverrideOperation.set,
                         value=0)
                 ])

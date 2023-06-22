@@ -8,7 +8,26 @@ from ensysmod.database.ref_base_class import RefCRBase
 
 
 class EnergyModelOverrideAttribute(enum.Enum):
-    yearly_limit = 'yearly_limit'
+    hasCapacityVariable = 'capacity_variable'
+    capacityVariableDomain = 'capacity_variable_domain'
+    capacityPerPlantUnit = 'capacity_per_plant_unit'
+    investPerCapacity = 'invest_per_capacity'
+    opexPerCapacity = 'opex_per_capacity'
+    interestRate = 'interest_rate'
+    economicLifetime = 'economic_lifetime'
+    sharedPotentialID = 'shared_potential_id'
+
+    commodityCost = 'commodity_cost'
+    yearlyLimit = 'yearly_limit'
+    commodityLimitID = 'commodity_limit_id'
+    chargeEfficiency = 'charge_efficiency'
+    dischargeEfficiency = 'discharge_efficiency'
+    selfDischarge = 'self_discharge'
+    cyclicLifetime = 'cyclic_lifetime'
+    chargeRate = 'charge_rate'
+    dischargeRate = 'discharge_rate'
+    stateOfChargeMin = 'state_of_charge_min'
+    stateOfChargeMax = 'state_of_charge_max'
 
 
 class EnergyModelOverrideOperation(enum.Enum):
