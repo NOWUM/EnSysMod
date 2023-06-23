@@ -12,6 +12,8 @@ class EnergySink(Base):
     """
     ref_component = Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False, primary_key=True)
     ref_commodity = Column(Integer, ForeignKey("energy_commodity.id"), index=True, nullable=False)
+
+    commodity_cost = Column(Float, nullable=True)
     yearly_limit = Column(Float, nullable=True)
     commodity_limit_id = Column(String, nullable=True)
 

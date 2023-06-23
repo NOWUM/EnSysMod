@@ -84,6 +84,10 @@ def add_source(esM: EnergySystemModel, db: Session, source: EnergySource, region
     esm_source["commodity"] = source.commodity.name
     if source.commodity_cost is not None:
         esm_source["commodityCost"] = source.commodity_cost
+    if source.yearly_limit is not None:
+        esm_source["yearlyLimit"] = -source.yearly_limit  # yearlyLimit for commodity entering the system has to be negative
+    if source.commodity_limit_id is not None:
+        esm_source["commodityLimitID"] = source.commodity_limit_id
     esm_source = override_parameters(esm_source, custom_parameters)
     esM.add(Source(esM=esM, **esm_source))
 
@@ -92,6 +96,8 @@ def add_sink(esM: EnergySystemModel, db: Session, sink: EnergySink, region_ids: 
              custom_parameters: List[EnergyModelOverride]) -> None:
     esm_sink = component_to_dict(db, sink.component, region_ids)
     esm_sink["commodity"] = sink.commodity.name
+    if sink.commodity_cost is not None:
+        esm_sink["commodityCost"] = sink.commodity_cost
     if sink.yearly_limit is not None:
         esm_sink["yearlyLimit"] = sink.yearly_limit
     if sink.commodity_limit_id is not None:
@@ -185,7 +191,7 @@ def override_parameters(component_dict: Dict, custom_parameters: List[EnergyMode
     """
     for custom_parameter in custom_parameters:
         if custom_parameter.component.name != component_dict["name"]:
-            raise ValueError(f"Unknown component: {custom_parameter.component.name}")
+            continue
 
         attribute_name = custom_parameter.attribute.name
         if attribute_name not in component_dict.keys():
