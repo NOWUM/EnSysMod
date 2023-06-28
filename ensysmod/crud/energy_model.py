@@ -26,9 +26,8 @@ class CRUDEnergyModel(CRUDBaseDependsDataset[EnergyModel, EnergyModelCreate, Ene
                 crud.energy_model_override.create(db, obj_in=parameter)
 
         if obj_in.optimization_parameters is not None:
-            for parameter in obj_in.optimization_parameters:
-                parameter.ref_model = db_obj.id
-                crud.energy_model_optimization.create(db, obj_in=parameter)
+            obj_in.optimization_parameters.ref_model = db_obj.id
+            crud.energy_model_optimization.create(db, obj_in=obj_in.optimization_parameters)
 
         return db_obj
 

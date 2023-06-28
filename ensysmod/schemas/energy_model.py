@@ -45,22 +45,19 @@ class EnergyModelCreate(EnergyModelBase):
     override_parameters: Optional[List[EnergyModelOverrideCreate]] \
         = Field(None,
                 description="Override parameters of the energy model. If given, overrides the values of the referenced dataset.",
-                example=[
-                    EnergyModelOverrideCreate(
-                        component="CO2 to environment",
-                        attribute=EnergyModelOverrideAttribute.yearlyLimit,
-                        operation=EnergyModelOverrideOperation.set,
-                        value=0)
-                ])
-    optimization_parameters: Optional[List[EnergyModelOptimizationCreate]] \
+                example=[EnergyModelOverrideCreate(component="CO2 to environment",
+                                                   attribute=EnergyModelOverrideAttribute.yearlyLimit,
+                                                   operation=EnergyModelOverrideOperation.set,
+                                                   value=0)])
+    optimization_parameters: Optional[EnergyModelOptimizationCreate] \
         = Field(None,
                 description="Optimization parameters of the energy model.",
-                example=[EnergyModelOptimizationCreate(start_year=2020,
-                                                       end_year=2050,
-                                                       number_of_steps=3,
-                                                       years_per_step=10,
-                                                       CO2_reference=366,
-                                                       CO2_reduction_targets=[0, 25, 50, 100])])
+                example=EnergyModelOptimizationCreate(start_year=2020,
+                                                      end_year=2050,
+                                                      number_of_steps=3,
+                                                      years_per_step=10,
+                                                      CO2_reference=366,
+                                                      CO2_reduction_targets=[0, 25, 50, 100]))
 
     # validators
     _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_required)
