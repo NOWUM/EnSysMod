@@ -23,7 +23,6 @@ from ensysmod.model import (
     EnergyModel,
     EnergyModelOptimization,
     EnergyModelOverride,
-    EnergyModelOverrideAttribute,
     EnergyModelOverrideOperation,
     EnergySink,
     EnergySource,

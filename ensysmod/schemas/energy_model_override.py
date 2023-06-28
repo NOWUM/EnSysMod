@@ -20,9 +20,9 @@ class EnergyModelOverrideBase(RefCRBaseBase, BaseModel):
     Shared attributes for a model parameter override. Used as a base class for all schemas.
     """
     attribute: EnergyModelOverrideAttribute = Field(..., description="The attribute of the parameter.",
-                                                     example=EnergyModelOverrideAttribute.yearlyLimit)
+                                                    example="yearly_limit")
     operation: EnergyModelOverrideOperation = Field(..., description="The operation of the parameter.",
-                                                     example=EnergyModelOverrideOperation.add)
+                                                    example="set")
     value: float = Field(..., description="The value of the parameter.", example=-5.5)
 
 
@@ -33,7 +33,7 @@ class EnergyModelOverrideCreate(EnergyModelOverrideBase, RefCRBaseCreate):
     ref_model and ref_dataset are overridden on create.
 
     Region is optional.
-   . """
+    """
     ref_model: Optional[int] = None
     ref_dataset: Optional[int] = None
     region: Optional[str] = None

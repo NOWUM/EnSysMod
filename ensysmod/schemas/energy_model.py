@@ -2,7 +2,6 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field, validator
 
-from ensysmod.model import EnergyModelOverrideAttribute, EnergyModelOverrideOperation
 from ensysmod.schemas import Dataset
 from ensysmod.schemas.energy_model_optimization import (
     EnergyModelOptimization,
@@ -46,8 +45,8 @@ class EnergyModelCreate(EnergyModelBase):
         = Field(None,
                 description="Override parameters of the energy model. If given, overrides the values of the referenced dataset.",
                 example=[EnergyModelOverrideCreate(component="CO2 to environment",
-                                                   attribute=EnergyModelOverrideAttribute.yearlyLimit,
-                                                   operation=EnergyModelOverrideOperation.set,
+                                                   attribute="yearly_limit",
+                                                   operation="set",
                                                    value=0)])
     optimization_parameters: Optional[EnergyModelOptimizationCreate] \
         = Field(None,
