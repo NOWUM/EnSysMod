@@ -1,9 +1,9 @@
 from typing import Optional
 
-from pydantic import BaseModel, validator, Field
+from pydantic import BaseModel, Field, validator
 
 from ensysmod.schemas.energy_commodity import EnergyCommodity
-from ensysmod.util import validators
+from ensysmod.utils import validators
 
 
 class EnergyConversionFactorBase(BaseModel):

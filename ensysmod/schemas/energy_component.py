@@ -2,8 +2,8 @@ from typing import Optional
 
 from pydantic import BaseModel, Field, validator
 
-from ensysmod.model import EnergyComponentType, CapacityVariableDomain
-from ensysmod.util import validators
+from ensysmod.model import CapacityVariableDomain, EnergyComponentType
+from ensysmod.utils import validators
 
 
 class EnergyComponentBase(BaseModel):

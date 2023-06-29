@@ -1,9 +1,14 @@
 from typing import List
 
-from pydantic import BaseModel, validator, Field
+from pydantic import BaseModel, Field, validator
 
-from ensysmod.schemas.base_ref_component_region import RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate, RefCRBase
-from ensysmod.util import validators
+from ensysmod.schemas.base_ref_component_region import (
+    RefCRBase,
+    RefCRBaseBase,
+    RefCRBaseCreate,
+    RefCRBaseUpdate,
+)
+from ensysmod.utils import validators
 
 
 class CapacityFixBase(RefCRBaseBase, BaseModel):

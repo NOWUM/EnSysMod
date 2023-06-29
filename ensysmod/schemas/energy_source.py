@@ -10,7 +10,7 @@ from ensysmod.schemas import (
     EnergyComponentCreate,
     EnergyComponentUpdate,
 )
-from ensysmod.util import validators
+from ensysmod.utils import validators
 
 
 class EnergySourceBase(BaseModel):

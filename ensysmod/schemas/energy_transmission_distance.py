@@ -1,10 +1,10 @@
 from typing import Optional
 
-from pydantic import BaseModel, validator, Field
+from pydantic import BaseModel, Field, validator
 from pydantic.class_validators import root_validator
 
 from ensysmod.schemas.region import Region
-from ensysmod.util import validators
+from ensysmod.utils import validators
 
 
 class EnergyTransmissionDistanceBase(BaseModel):

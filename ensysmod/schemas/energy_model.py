@@ -13,7 +13,7 @@ from ensysmod.schemas.energy_model_override import (
     EnergyModelOverrideCreate,
     EnergyModelOverrideUpdate,
 )
-from ensysmod.util import validators
+from ensysmod.utils import validators
 
 
 class EnergyModelBase(BaseModel):

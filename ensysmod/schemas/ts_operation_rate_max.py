@@ -3,8 +3,13 @@ from typing import List
 from pydantic import BaseModel, Field
 from pydantic.class_validators import validator
 
-from ensysmod.schemas.base_ref_component_region import RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate, RefCRBase
-from ensysmod.util import validators
+from ensysmod.schemas.base_ref_component_region import (
+    RefCRBase,
+    RefCRBaseBase,
+    RefCRBaseCreate,
+    RefCRBaseUpdate,
+)
+from ensysmod.utils import validators
 
 
 class OperationRateMaxBase(RefCRBaseBase, BaseModel):

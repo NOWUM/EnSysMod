@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import BaseModel, Field, validator
 
 from ensysmod.schemas.user import User
-from ensysmod.util import validators
+from ensysmod.utils import validators
 
 
 class DatasetBase(BaseModel):

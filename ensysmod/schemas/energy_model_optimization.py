@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field, root_validator
 
-from ensysmod.util import validators
+from ensysmod.utils import validators
 
 
 class EnergyModelOptimizationBase(BaseModel):
