@@ -1,19 +1,18 @@
 import os
 import tempfile
 import zipfile
-import pytest
 from typing import Dict
 from zipfile import ZipFile
 
+import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
-
 from tests.utils import data_generator
 
 
 def get_dataset_zip(folder_name: str) -> str:
     """
-    Creates a zip archive from folder structure ../../examples/dataset-1/
+    Creates a zip archive from folder structure ../../examples/datasets/
     """
     # Create a temporary directory
     temp_dir = tempfile.mkdtemp()
@@ -22,18 +21,18 @@ def get_dataset_zip(folder_name: str) -> str:
     with zipfile.ZipFile(zip_file_path, 'w') as zip_file:
         project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
         print(f"Project root: {project_root}")
-        for root, dirs, files in os.walk(f"{project_root}/examples/data/{folder_name}/"):
-            acr_path = os.path.relpath(root, f"{project_root}/examples/data/{folder_name}/")
+        for root, dirs, files in os.walk(f"{project_root}/examples/datasets/{folder_name}/"):
+            acr_path = os.path.relpath(root, f"{project_root}/examples/datasets/{folder_name}/")
             zip_file.write(root, acr_path)
             for file in files:
                 zip_file.write(os.path.join(root, file), arcname=os.path.join(acr_path, file))
     return zip_file_path
 
 
-@pytest.mark.parametrize("data_folder", ["dataset-1", "dataset-2"])
+@pytest.mark.parametrize("data_folder", ["example-dataset"])
 def test_upload_dataset(client: TestClient, db: Session, normal_user_headers: Dict[str, str], data_folder: str):
     """
-    Test creating a dataset.
+    Test uploading a dataset.
     """
     # Create a dataset
     dataset = data_generator.random_existing_dataset(db)

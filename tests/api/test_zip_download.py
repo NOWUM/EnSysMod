@@ -3,15 +3,14 @@ from typing import Dict
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
-
 from tests.api.test_zip_upload import get_dataset_zip
 from tests.utils import data_generator
 
 
-@pytest.mark.parametrize("data_folder", ["dataset-1", "dataset-2"])
+@pytest.mark.parametrize("data_folder", ["example-dataset"])
 def test_download_dataset(client: TestClient, db: Session, normal_user_headers: Dict[str, str], data_folder: str):
     """
-    Test creating a dataset.
+    Test downloading a dataset.
     """
     # Create a dataset
     dataset = data_generator.random_existing_dataset(db)
