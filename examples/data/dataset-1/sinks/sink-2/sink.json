@@ -1,6 +1,0 @@
-{
-    "name": "Wasserstoff-Verbrauch",
-    "description": "Stellt den Wasserstoff-Verbrauch dar", 
-    "commodity": "Wasserstoff",
-    "capacity_variable": false
-}

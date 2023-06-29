@@ -1,0 +1,7 @@
+{
+    "name": "Natural Gas Importe",
+    "description": "Stellt die Natural Gas-Importe dar",
+    "commodity": "Methan",
+    "capacity_variable": false,
+    "commodity_cost": 0.0000331
+}

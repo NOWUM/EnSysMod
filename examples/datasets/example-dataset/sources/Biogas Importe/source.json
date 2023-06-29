@@ -1,0 +1,7 @@
+{
+    "name": "Biogas Importe",
+    "description": "Stellt die Biogas-Importe dar",
+    "commodity": "Biogas",
+    "capacity_variable": false,
+    "commodity_cost": 0.00005409
+}

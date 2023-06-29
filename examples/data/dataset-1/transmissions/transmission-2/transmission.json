@@ -1,6 +1,0 @@
-{
-  "name": "DC-Leitungen",
-  "description": "Stellt die DC-Leitungen dar",
-  "commodity": "Elektrizität",
-  "capacity_variable": true
-}

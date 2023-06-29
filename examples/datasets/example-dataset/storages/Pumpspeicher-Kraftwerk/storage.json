@@ -1,0 +1,13 @@
+{
+    "name": "Pumpspeicher-Kraftwerk",
+    "description": "Stellt Pumpspeicher-Kraftwerk dar",
+    "commodity": "Elektrizität",
+    "capacity_variable": true,
+    "invest_per_capacity": 0,
+    "opex_per_capacity": 0.000153,
+    "charge_rate": 0.16,
+    "discharge_rate": 0.12,
+    "charge_efficiency": 0.88,
+    "discharge_efficiency": 0.88,
+    "self_discharge": 0.00000521811
+}
