@@ -1,9 +1,10 @@
-from typing import Type, List, Tuple, Dict, Any
+from typing import Any, Dict, List, Tuple, Type
 
 import pytest
 from pydantic import BaseModel, ValidationError
 
 from ensysmod.model import EnergyComponentType
+from ensysmod.schemas.energy_sink import EnergySinkCreate, EnergySinkUpdate
 from ensysmod.schemas.energy_source import EnergySourceCreate, EnergySourceUpdate
 
 schemas_with_commodity_cost_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = []
@@ -11,7 +12,10 @@ schemas_with_commodity_cost_required: List[Tuple[Type[BaseModel], Dict[str, Any]
 schemas_with_commodity_cost_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
     (EnergySourceUpdate, {}),
     (EnergySourceCreate,
-     {"name": "test", "ref_dataset": 42, "type": EnergyComponentType.SOURCE, "commodity": "bar"})
+     {"name": "test", "ref_dataset": 42, "type": EnergyComponentType.SOURCE, "commodity": "bar"}),
+    (EnergySinkUpdate, {}),
+    (EnergySinkCreate,
+     {"name": "test", "ref_dataset": 42, "type": EnergyComponentType.SINK, "commodity": "bar"})
 ]
 
 schemas_with_commodity_cost = schemas_with_commodity_cost_required + schemas_with_commodity_cost_optional
