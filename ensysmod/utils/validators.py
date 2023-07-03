@@ -306,8 +306,6 @@ def validate_yearly_limit_and_commodity_limit_id(cls, values):
         return values
     if yearly_limit is not None and commodity_limit_id is None:
         raise ValueError("If yearly_limit is specified, commodity_limit_id must be specified as well.")
-    if commodity_limit_id is not None and yearly_limit is None:
-        raise ValueError("If commodity_limit_id is specified, yearly_limit must be specified as well.")
 
     if yearly_limit < 0:
         raise ValueError("Yearly limit must be zero or positive.")

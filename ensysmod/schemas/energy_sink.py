@@ -25,7 +25,7 @@ class EnergySinkBase(BaseModel):
                                           description="The yearly limit of the energy sink. If specified, commodity_limit_id must be specified as well.",
                                           example=366.5)
     commodity_limit_id: Optional[str] = Field(None,
-                                              description="Commodity limit ID of the energy sink. If specified, yearly_limit must be specified as well.",
+                                              description="Commodity limit ID of the energy sink. Required if yearly_limit is specified. The limit is shared among all components of the same commodity_limit_id.",
                                               example="CO2")
 
     # validators
