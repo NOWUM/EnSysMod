@@ -1,0 +1,20 @@
+{
+    "name": "Electroylzers",
+    "description": "",
+    "commodity_unit": "electricity",
+    "capacity_variable": true,
+    "conversion_factors": [
+        {
+            "commodity": "electricity",
+            "conversion_factor": -1
+        },
+        {
+            "commodity": "hydrogen",
+            "conversion_factor": 0.7
+        }
+    ],
+    "invest_per_capacity": 0.5,
+    "opex_per_capacity": 0.00125,
+    "interest_rate": 0.08,
+    "economic_lifetime": 10
+}

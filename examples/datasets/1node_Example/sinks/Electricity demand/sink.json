@@ -1,0 +1,6 @@
+{
+    "name": "Electricity demand",
+    "description": "",
+    "commodity": "electricity",
+    "capacity_variable": false
+}

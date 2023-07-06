@@ -1,0 +1,6 @@
+{
+    "name": "Hydrogen demand",
+    "description": "",
+    "commodity": "hydrogen",
+    "capacity_variable": false
+}

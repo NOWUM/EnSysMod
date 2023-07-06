@@ -1,0 +1,12 @@
+[
+    {
+        "name": "electricity",
+        "unit": "GW_el",
+        "description": "Commodity for electricity, given in electrical GW."
+    },
+    {
+        "name": "hydrogen",
+        "unit": "GW_H2",
+        "description": "Commodity for hydrogen, given in GW."
+    }
+]
