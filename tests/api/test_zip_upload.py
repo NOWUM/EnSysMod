@@ -29,7 +29,7 @@ def get_dataset_zip(folder_name: str) -> str:
     return zip_file_path
 
 
-@pytest.mark.parametrize("data_folder", ["example-dataset"])
+@pytest.mark.parametrize("data_folder", ["1node_Example", "Multi-regional_Example"])
 def test_upload_dataset(client: TestClient, db: Session, normal_user_headers: Dict[str, str], data_folder: str):
     """
     Test uploading a dataset.
