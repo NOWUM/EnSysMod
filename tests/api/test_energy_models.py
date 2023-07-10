@@ -43,4 +43,36 @@ def test_create_energy_model_unknown_dataset(client: TestClient, normal_user_hea
     response = client.post("/models/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
+
+def test_create_energy_model_with_override_parameters(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+    """
+    Test creating a energy model with override parameters.
+    """
+    create_request = data_gen.random_energy_model_create(db)
+    response = client.post("/models/", headers=normal_user_headers, data=create_request.json())
+    assert response.status_code == status.HTTP_200_OK
+
+    created_model = response.json()
+    assert created_model["name"] == create_request.name
+    assert created_model["override_parameters"][0]["attribute"] == "yearly_limit"
+    assert created_model["override_parameters"][0]["operation"] == "set"
+    assert created_model["override_parameters"][0]["value"] == 366.6
+
+
+def test_create_energy_model_with_optimization_parameters(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+    """
+    Test creating a energy model with optimization parameters.
+    """
+    create_request = data_gen.random_energy_model_create(db)
+    response = client.post("/models/", headers=normal_user_headers, data=create_request.json())
+    assert response.status_code == status.HTTP_200_OK
+
+    created_model = response.json()
+    assert created_model["name"] == create_request.name
+    assert created_model["optimization_parameters"][0]["start_year"] == 2020
+    assert created_model["optimization_parameters"][0]["end_year"] == 2050
+    assert created_model["optimization_parameters"][0]["number_of_steps"] == 3
+    assert created_model["optimization_parameters"][0]["years_per_step"] == 10
+
+
 # TODO Add more test cases
