@@ -7,6 +7,7 @@
 # -- Path setup --------------------------------------------------------------
 
 import json
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here.
 import os
@@ -97,4 +98,10 @@ with open(f"{generated_dir}/openapi.json", 'w') as f:
 # Pydantic schema generation configuration
 # see https://autodoc-pydantic.readthedocs.io/en/stable/users/configuration.html#model
 autodoc_pydantic_model_show_config_summary = False
+autodoc_pydantic_model_show_config_member = False
+autodoc_pydantic_model_show_validator_summary = False
 autodoc_pydantic_model_show_validator_members = False
+autodoc_pydantic_model_show_field_summary = False
+autodoc_pydantic_model_member_order = "bysource"
+autodoc_pydantic_model_show_json = False
+autodoc_pydantic_field_list_validators = False
