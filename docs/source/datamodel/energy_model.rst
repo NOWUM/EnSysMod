@@ -11,4 +11,5 @@ Energy Model
     :hidden:
 
     energymodel/energy_model.rst
-    energymodel/energy_model_parameters.rst
+    energymodel/energy_model_override_parameters.rst
+    energymodel/energy_model_optimization_parameters.rst

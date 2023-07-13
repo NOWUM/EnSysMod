@@ -1,8 +1,8 @@
-.. _modell:
+.. _model:
 
-******
-Modell
-******
+*****
+Model
+*****
 
 
 Introduction
@@ -34,24 +34,6 @@ A full documentation of the API is available `as redoc documentation <http://10.
 .. openapi:: ./../generated/openapi.json
    :paths:
       /models/
-
-An example of the request body is given below:
-
-.. code-block:: json
-
-    {
-      "name": "100% CO2 reduction",
-      "description": "A model that reduces CO2 emissions by 100%",
-      "ref_dataset": 1,
-      "parameters": [
-        {
-          "component": "CO2 to environment",
-          "attribute": "yearly_limit",
-          "operation": "set",
-          "value": 0.0
-        }
-      ]
-    }
 
 Get Model information
 =====================
