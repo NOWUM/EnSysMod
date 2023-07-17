@@ -11,6 +11,8 @@ class Base:
     """
     id: Any
     __name__: str
+    # TODO https://sqlalche.me/e/20/zlpr
+    __allow_unmapped__ = True
 
     # Generate __tablename__ automatically
     @declared_attr

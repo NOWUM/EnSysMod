@@ -1,0 +1,5 @@
+[flake8]
+# See https://flake8.pycqa.org/en/latest/user/configuration.html
+max-line-length = 150
+max-complexity = 10
+per-file-ignores = __init__.py:F401
