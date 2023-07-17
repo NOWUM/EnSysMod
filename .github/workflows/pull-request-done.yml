@@ -65,7 +65,7 @@ jobs:
           echo "${{ secrets.VPN_PASS }}" | sudo openconnect ${{ secrets.VPN_URL }} --background --user=${{ secrets.VPN_USER }} --passwd-on-stdin
 
       - name: Stop docker container on private server
-        uses: appleboy/ssh-action@v0.1.4
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SSH_URL }}
           username: ${{ secrets.SSH_USER }}
@@ -210,7 +210,7 @@ jobs:
           echo "${{ secrets.VPN_PASS }}" | sudo openconnect ${{ secrets.VPN_URL }} --background --user=${{ secrets.VPN_USER }} --passwd-on-stdin
 
       - name: Deploy docker container on private server
-        uses: appleboy/ssh-action@v0.1.4
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SSH_URL }}
           username: ${{ secrets.SSH_USER }}
