@@ -2,7 +2,7 @@
 -r requirements.txt
 
 # Dev dependencies for EnSysMod
-pytest==7.0.1
+pytest==7.4.0
 pytest-cov==3.0.0
 codecov==2.1.13
 sphinx==4.4.0
@@ -12,5 +12,5 @@ autodoc_pydantic==1.6.1
 flake8==4.0.1
 
 MarkupSafe==2.1.0
-setuptools==60.9.3
+setuptools==68.0.0
 mistune==0.8.4
