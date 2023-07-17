@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ensysmod"
+version = "0.0.4"
+authors = [
+  { name="NOWUM-Energy - FH Aachen", email="nowum-energy@fh-aachen.de" },
+]
+description = "Just another energy system modeling tool made by Institut NOWUM-Energy - FH Aachen"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "fastapi>=0.100.0",
+    "sqlalchemy>=2.0.19",
+    "uvicorn>=0.23.0",
+    "pydantic[dotenv]<2.0.0",
+    "python-jose>=3.3.0",
+    "passlib>=1.7.4",
+    "bcrypt>=3.2.0",
+    "numpy~=1.24.4",
+    "pandas>=2.0.1",
+    "openpyxl>=3.0.9",
+    "FINE>=2.2.2",
+    "python-multipart>=0.0.6",
+]
+
+[project.optional-dependencies] 
+test = [
+    "pytest>=7.4.0",
+    "pytest-cov>= 4.1.0",
+    "codecov>=2.1.13",
+    "sphinx>=4.4.0",
+    "sphinx-rtd-theme>=1.0.0",
+    "sphinxcontrib-openapi>=0.7.0",
+    "autodoc_pydantic>=1.9.0",
+    "flake8>=4.0.1",
+    "MarkupSafe>=2.1.0",
+    "pytest>= 7.2.2",
+    "httpx>=0.24.1",
+]
+
+
+[project.urls]
+"Homepage" = "https://github.com/NOWUM/EnSysMod"
+"Bug Tracker" = "https://github.com/NOWUM/EnSysMod/issues"
+
+[tool.setuptools.packages.find]
+where = ["ensysmod"]
+
+[tool.pytest]
+testpaths = "tests"
+
+[tool.pytest.ini_options]
+adopts = [
+    "--strict",
+    "--doctest-modules",
+    "--durations=0",
+    ]
+
+[tool.coverage.report]
+# https://stackoverflow.com/a/5850364
+exclude_lines = [
+    "if __name__ == .__main__.:",
+    "pragma: no-cover",
+    "pass",
+]

@@ -10,7 +10,5 @@ sphinx-rtd-theme==1.0.0
 sphinxcontrib-openapi==0.7.0
 autodoc_pydantic==1.6.1
 flake8==4.0.1
-
-MarkupSafe==2.1.0
-setuptools==68.0.0
-mistune==0.8.4
+httpx==0.24.1
+setuptools>=61.0.0

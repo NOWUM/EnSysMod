@@ -2,7 +2,7 @@ import os
 import zipfile
 from typing import Any, Type, Set, Dict, List
 
-import simplejson as json
+import json
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
