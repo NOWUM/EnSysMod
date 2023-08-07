@@ -4,27 +4,14 @@ from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from ensysmod.schemas import OperationRateMaxCreate
-from tests.utils import data_generator as data_gen
-from tests.utils.utils import random_float_numbers
-
-
-def get_random_max_operation_rate_create(db: Session) -> OperationRateMaxCreate:
-    source = data_gen.fixed_existing_energy_sink(db)
-    region = data_gen.fixed_existing_region(db)
-    return OperationRateMaxCreate(
-        ref_dataset=region.ref_dataset,
-        component=source.component.name,
-        region=region.name,
-        max_operation_rates=random_float_numbers(8760)
-    )
+from tests.utils import data_generator
 
 
 def test_create_max_operation_rate(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
     """
     Test creating a max operation rate time series.
     """
-    create_request = get_random_max_operation_rate_create(db)
+    create_request = data_generator.get_random_max_operation_rate_create(db)
     response = client.post("/max-operation-rates/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 

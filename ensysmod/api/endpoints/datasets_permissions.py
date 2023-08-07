@@ -3,19 +3,19 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from ensysmod import schemas, model, crud
+from ensysmod import crud, model, schemas
 from ensysmod.api import deps
 
 router = APIRouter()
 
 
 @router.get("/", response_model=List[schemas.DatasetPermission])
-def all_dataset_permission(db: Session = Depends(deps.get_db),
-                           current: model.User = Depends(deps.get_current_user),
-                           dataset_id: int = 0,
-                           user_id: int = 0,
-                           skip: int = 0,
-                           limit: int = 100) -> List[schemas.DatasetPermission]:
+def get_all_dataset_permissions(db: Session = Depends(deps.get_db),
+                                current: model.User = Depends(deps.get_current_user),
+                                dataset_id: int = 0,
+                                user_id: int = 0,
+                                skip: int = 0,
+                                limit: int = 100) -> List[schemas.DatasetPermission]:
     """
     Retrieve all dataset permissions.
 

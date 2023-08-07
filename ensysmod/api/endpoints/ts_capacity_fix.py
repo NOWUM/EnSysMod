@@ -3,7 +3,7 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from ensysmod import schemas, model, crud
+from ensysmod import crud, model, schemas
 from ensysmod.api import deps, permissions
 from ensysmod.schemas import CapacityFix
 
@@ -11,18 +11,18 @@ router = APIRouter()
 
 
 @router.get("/", response_model=List[schemas.CapacityFix])
-def all_fix_capacities(db: Session = Depends(deps.get_db),
-                       current: model.User = Depends(deps.get_current_user),
-                       skip: int = 0,
-                       limit: int = 100) -> List[schemas.CapacityFix]:
+def get_all_fix_capacities(db: Session = Depends(deps.get_db),
+                           current: model.User = Depends(deps.get_current_user),
+                           skip: int = 0,
+                           limit: int = 100) -> List[schemas.CapacityFix]:
     """
     Retrieve all fix capacities.
     """
-    return crud.capacity_fix.get_multi(db, skip=skip, limit=limit)
+    return crud.capacity_fix.get_multi(db=db, skip=skip, limit=limit)
 
 
 @router.get("/{ts_id}", response_model=schemas.CapacityFix)
-def get_capacity_fix(ts_id: int,
+def get_fix_capacity(ts_id: int,
                      db: Session = Depends(deps.get_db),
                      current: model.User = Depends(deps.get_current_user)):
     """
@@ -33,7 +33,7 @@ def get_capacity_fix(ts_id: int,
 
 
 @router.post("/", response_model=schemas.CapacityFix)
-def create_capacity_fix(request: schemas.CapacityFixCreate,
+def create_fix_capacity(request: schemas.CapacityFixCreate,
                         db: Session = Depends(deps.get_db),
                         current: model.User = Depends(deps.get_current_user)):
     """
@@ -77,7 +77,7 @@ def create_capacity_fix(request: schemas.CapacityFixCreate,
 
 
 @router.put("/{ts_id}", response_model=schemas.CapacityFix)
-def update_capacity_fix(ts_id: int,
+def update_fix_capacity(ts_id: int,
                         request: schemas.CapacityFixUpdate,
                         db: Session = Depends(deps.get_db),
                         current: model.User = Depends(deps.get_current_user)):
@@ -93,7 +93,7 @@ def update_capacity_fix(ts_id: int,
 
 
 @router.delete("/{ts_id}", response_model=schemas.CapacityFix)
-def remove_capacity_fix(ts_id: int,
+def remove_fix_capacity(ts_id: int,
                         db: Session = Depends(deps.get_db),
                         current: model.User = Depends(deps.get_current_user)):
     """

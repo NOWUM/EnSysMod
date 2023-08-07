@@ -1,27 +1,27 @@
-from typing import List, Union
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from ensysmod import schemas, model, crud
+from ensysmod import crud, model, schemas
 from ensysmod.api import deps, permissions
 
 router = APIRouter()
 
 
 @router.get("/", response_model=List[schemas.Region])
-def all_regions(db: Session = Depends(deps.get_db),
-                current: model.User = Depends(deps.get_current_user),
-                skip: int = 0,
-                limit: int = 100,
-                dataset: Union[None, int] = None) -> List[schemas.Region]:
+def get_all_regions(db: Session = Depends(deps.get_db),
+                    current: model.User = Depends(deps.get_current_user),
+                    skip: int = 0,
+                    limit: int = 100,
+                    dataset_id: Optional[int] = None) -> List[schemas.Region]:
     """
     Retrieve all energy regions.
     """
-    if dataset is None:
-        return crud.region.get_multi(db, skip=skip, limit=limit)
+    if dataset_id is None:
+        return crud.region.get_multi(db=db, skip=skip, limit=limit)
     else:
-        return crud.region.get_multi_by_dataset(db, dataset_id=dataset, skip=skip, limit=limit)
+        return crud.region.get_multi_by_dataset(db=db, dataset_id=dataset_id, skip=skip, limit=limit)
 
 
 @router.get("/{region_id}", response_model=schemas.Region)

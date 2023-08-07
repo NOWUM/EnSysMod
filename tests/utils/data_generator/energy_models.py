@@ -1,7 +1,4 @@
 from sqlalchemy.orm import Session
-from tests.utils.data_generator import fixed_existing_energy_source
-from tests.utils.data_generator.datasets import fixed_existing_dataset
-from tests.utils.utils import random_lower_string
 
 from ensysmod import crud
 from ensysmod.model import EnergyModel
@@ -10,6 +7,12 @@ from ensysmod.schemas import (
     EnergyModelOptimizationCreate,
     EnergyModelOverrideCreate,
 )
+from tests.utils.data_generator.datasets import (
+    create_example_dataset,
+    fixed_existing_dataset,
+)
+from tests.utils.data_generator.energy_sources import fixed_existing_energy_source
+from tests.utils.utils import random_lower_string
 
 
 def random_energy_model_create(db: Session) -> EnergyModelCreate:
@@ -73,4 +76,22 @@ def fixed_existing_energy_model(db: Session) -> EnergyModel:
     )
     if model is None:
         return crud.energy_model.create(db=db, obj_in=create_request)
+    return model
+
+
+def create_example_model(db: Session, data_folder: str):
+    """
+    Create model from example dataset.
+    """
+    dataset = create_example_dataset(db, data_folder)
+
+    create_request = EnergyModelCreate(
+        name=f"Example_Model-{data_folder}-" + random_lower_string(),
+        ref_dataset=dataset.id,
+        description="Example_Model description",
+        override_parameters=None,
+        optimization_parameters=None
+    )
+    model = crud.energy_model.create(db=db, obj_in=create_request)
+
     return model

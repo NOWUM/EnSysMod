@@ -4,7 +4,9 @@ from ensysmod import crud
 from ensysmod.model import EnergyConversion
 from ensysmod.schemas import EnergyConversionCreate, EnergyConversionFactorCreate
 from tests.utils.data_generator.datasets import fixed_existing_dataset
-from tests.utils.data_generator.energy_commodities import fixed_existing_energy_commodity
+from tests.utils.data_generator.energy_commodities import (
+    fixed_existing_energy_commodity,
+)
 from tests.utils.utils import random_lower_string
 
 

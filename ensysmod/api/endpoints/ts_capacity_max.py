@@ -3,7 +3,7 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from ensysmod import schemas, model, crud
+from ensysmod import crud, model, schemas
 from ensysmod.api import deps, permissions
 from ensysmod.schemas import CapacityMax
 
@@ -11,18 +11,18 @@ router = APIRouter()
 
 
 @router.get("/", response_model=List[schemas.CapacityMax])
-def all_max_capacities(db: Session = Depends(deps.get_db),
-                       current: model.User = Depends(deps.get_current_user),
-                       skip: int = 0,
-                       limit: int = 100) -> List[schemas.CapacityMax]:
+def get_all_max_capacities(db: Session = Depends(deps.get_db),
+                           current: model.User = Depends(deps.get_current_user),
+                           skip: int = 0,
+                           limit: int = 100) -> List[schemas.CapacityMax]:
     """
     Retrieve all max capacities.
     """
-    return crud.capacity_max.get_multi(db, skip=skip, limit=limit)
+    return crud.capacity_max.get_multi(db=db, skip=skip, limit=limit)
 
 
 @router.get("/{ts_id}", response_model=schemas.CapacityMax)
-def get_capacity_max(ts_id: int,
+def get_max_capacity(ts_id: int,
                      db: Session = Depends(deps.get_db),
                      current: model.User = Depends(deps.get_current_user)):
     """
@@ -32,7 +32,7 @@ def get_capacity_max(ts_id: int,
 
 
 @router.post("/", response_model=schemas.CapacityMax)
-def create_capacity_max(request: schemas.CapacityMaxCreate,
+def create_max_capacity(request: schemas.CapacityMaxCreate,
                         db: Session = Depends(deps.get_db),
                         current: model.User = Depends(deps.get_current_user)):
     """
@@ -75,7 +75,7 @@ def create_capacity_max(request: schemas.CapacityMaxCreate,
 
 
 @router.put("/{ts_id}", response_model=schemas.CapacityMax)
-def update_capacity_max(ts_id: int,
+def update_max_capacity(ts_id: int,
                         request: schemas.CapacityMaxUpdate,
                         db: Session = Depends(deps.get_db),
                         current: model.User = Depends(deps.get_current_user)):
@@ -90,7 +90,7 @@ def update_capacity_max(ts_id: int,
 
 
 @router.delete("/{ts_id}", response_model=schemas.CapacityMax)
-def remove_capacity_max(ts_id: int,
+def remove_max_capacity(ts_id: int,
                         db: Session = Depends(deps.get_db),
                         current: model.User = Depends(deps.get_current_user)):
     """

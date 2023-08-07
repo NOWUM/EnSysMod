@@ -60,11 +60,14 @@ where = ["ensysmod"]
 testpaths = "tests"
 
 [tool.pytest.ini_options]
-adopts = [
-    "--strict",
+addopts = [
+    "--strict-markers",
     "--doctest-modules",
     "--durations=0",
-    ]
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+]
 
 [tool.coverage.report]
 # https://stackoverflow.com/a/5850364

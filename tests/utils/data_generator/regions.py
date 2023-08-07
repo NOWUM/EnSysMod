@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from ensysmod import crud
 from ensysmod.model import Region
 from ensysmod.schemas import RegionCreate
-from tests.utils.data_generator import random_existing_dataset, fixed_existing_dataset
+from tests.utils.data_generator import fixed_existing_dataset, random_existing_dataset
 from tests.utils.utils import random_lower_string
 
 

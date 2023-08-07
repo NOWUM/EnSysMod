@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import FileResponse
@@ -16,18 +16,18 @@ router = APIRouter()
 
 
 @router.get("/", response_model=List[schemas.EnergyModel])
-def all_models(db: Session = Depends(deps.get_db),
-               current: model.User = Depends(deps.get_current_user),
-               skip: int = 0,
-               limit: int = 100,
-               dataset: Union[None, int] = None) -> List[schemas.EnergyModel]:
+def get_all_models(db: Session = Depends(deps.get_db),
+                   current: model.User = Depends(deps.get_current_user),
+                   skip: int = 0,
+                   limit: int = 100,
+                   dataset_id: Optional[int] = None) -> List[schemas.EnergyModel]:
     """
     Retrieve all energy models.
     """
-    if dataset is None:
-        return crud.energy_model.get_multi(db, skip=skip, limit=limit)
+    if dataset_id is None:
+        return crud.energy_model.get_multi(db=db, skip=skip, limit=limit)
     else:
-        return crud.energy_model.get_multi_by_dataset(db, dataset_id=dataset, skip=skip, limit=limit)
+        return crud.energy_model.get_multi_by_dataset(db=db, dataset_id=dataset_id, skip=skip, limit=limit)
 
 
 @router.get("/{model_id}", response_model=schemas.EnergyModel)
@@ -35,7 +35,7 @@ def get_model(model_id: int,
               db: Session = Depends(deps.get_db),
               current: model.User = Depends(deps.get_current_user)):
     """
-    Retrieve a energy model.
+    Retrieve an energy model.
     """
     return crud.energy_model.get(db, id=model_id)
 
@@ -68,7 +68,7 @@ def update_model(model_id: int,
                  db: Session = Depends(deps.get_db),
                  current: model.User = Depends(deps.get_current_user)):
     """
-    Update a energy model.
+    Update an energy model.
     """
     energy_model = crud.energy_model.get(db=db, id=model_id)
     if energy_model is None:
@@ -82,7 +82,7 @@ def remove_model(model_id: int,
                  db: Session = Depends(deps.get_db),
                  current: model.User = Depends(deps.get_current_user)):
     """
-    Delete a energy model.
+    Delete an energy model.
     """
     energy_model = crud.energy_model.get(db=db, id=model_id)
     if energy_model is None:

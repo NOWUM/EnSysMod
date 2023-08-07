@@ -4,12 +4,12 @@ from datetime import datetime
 from io import BytesIO
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
-from ensysmod import schemas, model, crud
+from ensysmod import crud, model, schemas
 from ensysmod.api import deps, permissions
 from ensysmod.core.file_download import export_data
 from ensysmod.core.file_upload import process_dataset_zip_archive
@@ -19,10 +19,10 @@ router = APIRouter()
 
 
 @router.get("/", response_model=List[schemas.Dataset])
-def all_datasets(db: Session = Depends(deps.get_db),
-                 current: model.User = Depends(deps.get_current_user),
-                 skip: int = 0,
-                 limit: int = 100) -> List[schemas.Dataset]:
+def get_all_datasets(db: Session = Depends(deps.get_db),
+                     current: model.User = Depends(deps.get_current_user),
+                     skip: int = 0,
+                     limit: int = 100) -> List[schemas.Dataset]:
     """
     Retrieve all datasets.
     """
@@ -36,7 +36,7 @@ def get_dataset(dataset_id: int,
     """
     Retrieve a dataset.
     """
-    return crud.dataset.get(db, dataset_id)
+    return crud.dataset.get(db=db, id=dataset_id)
 
 
 @router.post("/", response_model=schemas.Dataset,
@@ -83,10 +83,13 @@ def remove_dataset(dataset_id: int,
 
 
 @router.post("/{dataset_id}/upload", response_model=schemas.ZipArchiveUploadResult)
-def upload_zip_archive(dataset_id: int,
+def upload_dataset_zip(dataset_id: int,
                        file: UploadFile = File(...),
                        db: Session = Depends(deps.get_db),
                        current: model.User = Depends(deps.get_current_user)):
+    """
+    Upload a dataset as zip.
+    """
     if file.content_type not in ["application/x-zip-compressed", "application/zip", "application/zip-compressed"]:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail=f"File must be a zip archive. You provided {file.content_type}!")
@@ -107,11 +110,11 @@ def upload_zip_archive(dataset_id: int,
 
 
 @router.get("/{dataset_id}/download")
-def download_zip_archive(dataset_id: int,
+def download_dataset_zip(dataset_id: int,
                          db: Session = Depends(deps.get_db),
                          current: model.User = Depends(deps.get_current_user)):
     """
-    Downloads the dataset as zip
+    Download a dataset as zip.
     """
     dataset = crud.dataset.get(db=db, id=dataset_id)
     if dataset is None:
