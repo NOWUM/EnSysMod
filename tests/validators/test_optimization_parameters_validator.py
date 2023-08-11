@@ -147,7 +147,9 @@ def test_error_invalid_timeframe_parameter(schema: Type[BaseModel], data: Dict[s
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("__root__",)
-    assert exc_info.value.errors()[0]["msg"] == "The parameters must satisfy the equation: (end_year - start_year) = number_of_steps * years_per_step."
+    assert (
+        exc_info.value.errors()[0]["msg"] == "The parameters must satisfy the equation: (end_year - start_year) = number_of_steps * years_per_step."
+    )
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -217,5 +219,8 @@ def test_error_invalid_CO2_reduction_target_length(schema: Type[BaseModel], data
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("__root__",)
-    assert exc_info.value.errors()[0]["msg"] == "The number of values given in CO2_reduction_targets must match the number of optimization runs. Expected: 4, given: 3."
+    assert (
+        exc_info.value.errors()[0]["msg"]
+        == "The number of values given in CO2_reduction_targets must match the number of optimization runs. Expected: 4, given: 3."
+    )
     assert exc_info.value.errors()[0]["type"] == "value_error"

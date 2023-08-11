@@ -18,15 +18,21 @@ class EnergySourceBase(BaseModel):
     Shared attributes for an energy source. Used as a base class for all schemas.
     """
     type = EnergyComponentType.SOURCE
-    commodity_cost: Optional[float] = Field(None,
-                                            description="Cost of the energy source per unit of energy.",
-                                            example=42.2)
-    yearly_limit: Optional[float] = Field(None,
-                                          description="The yearly limit of the energy sink. If specified, commodity_limit_id must be specified as well.",
-                                          example=366.5)
-    commodity_limit_id: Optional[str] = Field(None,
-                                              description="Commodity limit ID of the energy sink. If specified, yearly_limit must be specified as well.",
-                                              example="CO2")
+    commodity_cost: Optional[float] = Field(
+        None,
+        description="Cost of the energy source per unit of energy.",
+        example=42.2,
+    )
+    yearly_limit: Optional[float] = Field(
+        None,
+        description="The yearly limit of the energy sink. If specified, commodity_limit_id must be specified as well.",
+        example=366.5,
+    )
+    commodity_limit_id: Optional[str] = Field(
+        None,
+        description="Commodity limit ID of the energy sink. If specified, yearly_limit must be specified as well.",
+        example="CO2",
+    )
 
     # validators
     _valid_type = validator("type", allow_reuse=True)(validators.validate_energy_component_type)

@@ -18,15 +18,21 @@ class EnergySinkBase(BaseModel):
     Shared attributes for an energy sink. Used as a base class for all schemas.
     """
     type = EnergyComponentType.SINK
-    commodity_cost: Optional[float] = Field(None,
-                                            description="Cost of the energy sink per unit of energy.",
-                                            example=42.2)
-    yearly_limit: Optional[float] = Field(None,
-                                          description="The yearly limit of the energy sink. If specified, commodity_limit_id must be specified as well.",
-                                          example=366.5)
-    commodity_limit_id: Optional[str] = Field(None,
-                                              description="Commodity limit ID of the energy sink. Required if yearly_limit is specified. The limit is shared among all components of the same commodity_limit_id.",
-                                              example="CO2")
+    commodity_cost: Optional[float] = Field(
+        None,
+        description="Cost of the energy sink per unit of energy.",
+        example=42.2,
+    )
+    yearly_limit: Optional[float] = Field(
+        None,
+        description="The yearly limit of the energy sink. If specified, commodity_limit_id must be specified as well.",
+        example=366.5,
+    )
+    commodity_limit_id: Optional[str] = Field(
+        None,
+        description="Commodity limit ID of the energy sink. Required if yearly_limit is specified. The limit is shared among all components of the same commodity_limit_id.",  # noqa: E501
+        example="CO2",
+    )
 
     # validators
     _valid_type = validator("type", allow_reuse=True)(validators.validate_energy_component_type)

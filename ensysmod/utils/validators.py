@@ -646,7 +646,7 @@ def validate_CO2_optimization(cls, values):
     :param CO2_reduction_targets: CO2 reduction targets for all optimization periods, in percentages. If specified, the length of the list must equal the number of optimization steps.
 
     :return: The validated CO2 optimization parameters.
-    """
+    """  # noqa: E501
     CO2_reference = values.get('CO2_reference')
     CO2_reduction_targets = values.get('CO2_reduction_targets')
     number_of_steps = values.get('number_of_steps')
@@ -665,6 +665,8 @@ def validate_CO2_optimization(cls, values):
             raise ValueError("Values of CO2_reduction_targets must be between 0 and 100.")
 
     if len(CO2_reduction_targets) != number_of_steps+1:
-        raise ValueError(f"The number of values given in CO2_reduction_targets must match the number of optimization runs. Expected: {number_of_steps+1}, given: {len(CO2_reduction_targets)}.")
+        raise ValueError(
+            f"The number of values given in CO2_reduction_targets must match the number of optimization runs. Expected: {number_of_steps+1}, given: {len(CO2_reduction_targets)}."  # noqa: E501
+        )
 
     return values

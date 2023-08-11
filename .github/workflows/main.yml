@@ -86,7 +86,7 @@ jobs:
 
       - name: Install requirements
         run: |
-          sudo apt-get update && sudo apt-get install --no-install-recommends -y coinor-cbc && sudo rm -rf /var/lib/apt/lists/*
+          sudo apt-get update && sudo apt-get install --no-install-recommends -y glpk-utils python3-swiglpk && sudo rm -rf /var/lib/apt/lists/*
           pip install --upgrade --upgrade-strategy eager -r requirements-dev.txt -e .
 
       - name: Run tests
@@ -103,7 +103,7 @@ jobs:
             result.xml
 
 
-  uplaod_coverage_results:
+  upload_coverage_results:
     needs: test
     runs-on: ubuntu-latest
     name: "Upload code coverage"
