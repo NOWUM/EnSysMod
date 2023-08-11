@@ -5,9 +5,9 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from ensysmod.schemas import EnergyModelCreate
+from ensysmod.schemas import EnergyModelCreate, EnergyModelUpdate
 from tests.utils import data_generator
-from tests.utils.utils import clear_database
+from tests.utils.utils import clear_database, random_lower_string
 
 
 def test_get_all_models(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
@@ -107,4 +107,37 @@ def test_create_energy_model_with_optimization_parameters(client: TestClient, no
     assert created_model["optimization_parameters"][0]["number_of_steps"] == 3
     assert created_model["optimization_parameters"][0]["years_per_step"] == 10
 
-# TODO Add more test cases: update_model, remove_model
+
+def test_update_energy_model(db: Session, client: TestClient, normal_user_headers: Dict[str, str]):
+    """
+    Test updating an energy model.
+    """
+    existing_model = data_generator.random_existing_energy_model(db)
+    print(existing_model.name)
+
+    update_request = EnergyModelUpdate(**jsonable_encoder(existing_model))
+    update_request.name = f"New Energy Model Name-{random_lower_string()}"
+
+    print(update_request.json())
+
+    response = client.put(
+        f"/models/{existing_model.id}",
+        headers=normal_user_headers,
+        data=update_request.json(),
+    )
+    assert response.status_code == status.HTTP_200_OK
+
+    updated_model = response.json()
+    assert updated_model["name"] == update_request.name
+
+
+def test_remove_energy_model(db: Session, client: TestClient, normal_user_headers: Dict[str, str]):
+    """
+    Test deleting an energy_model.
+    """
+    existing_model = data_generator.random_existing_energy_model(db)
+    response = client.delete(
+        f"/models/{existing_model.id}",
+        headers=normal_user_headers
+    )
+    assert response.status_code == status.HTTP_200_OK

@@ -82,9 +82,11 @@ def test_update_dataset(db: Session, client: TestClient, normal_user_headers: Di
     """
     existing_dataset = data_generator.random_existing_dataset(db)
     print(existing_dataset.name)
+
     update_request = DatasetUpdate(**jsonable_encoder(existing_dataset))
-    new_description = random_lower_string()
-    update_request.description = new_description
+    update_request.name = f"New Dataset Name-{random_lower_string()}"
+    update_request.description = f"New Dataset Description-{random_lower_string()}"
+
     response = client.put(
         f"/datasets/{existing_dataset.id}",
         headers=normal_user_headers,
