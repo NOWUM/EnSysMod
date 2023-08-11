@@ -154,6 +154,8 @@ def myopic_optimize_model(model_id: int,
     esM = generate_esm_from_model(db=db, model=energy_model)
     zipped_result_file_path = myopic_optimize_esm(esM=esM, optimization_parameters=energy_model_optimization_parameters)
 
-    return FileResponse(zipped_result_file_path,
-                        media_type="application/zip",
-                        filename=f"{energy_model.name} {energy_model_optimization_parameters.start_year}-{energy_model_optimization_parameters.end_year}.zip")
+    return FileResponse(
+        zipped_result_file_path,
+        media_type="application/zip",
+        filename=f"{energy_model.name} {energy_model_optimization_parameters.start_year}-{energy_model_optimization_parameters.end_year}.zip"
+    )
