@@ -179,10 +179,9 @@ jobs:
         run: |
           pip install --upgrade --upgrade-strategy eager -r requirements-dev.txt -e .
 
-
       - name: Run tests
         run: |
-          pytest ./tests
+          pytest ./tests -m "not require_solver"
 
 
 

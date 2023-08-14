@@ -9,6 +9,7 @@ from tests.utils import data_generator
 
 
 @pytest.mark.slow
+@pytest.mark.require_solver
 @pytest.mark.parametrize("data_folder", ["1node_Example", "Multi-regional_Example"])
 def test_optimize_model(client: TestClient, normal_user_headers: Dict[str, str], db: Session, data_folder: str):
     """
