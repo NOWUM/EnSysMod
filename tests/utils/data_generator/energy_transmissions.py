@@ -3,10 +3,18 @@ from sqlalchemy.orm import Session
 from ensysmod import crud
 from ensysmod.model import EnergyTransmission
 from ensysmod.schemas import EnergyTransmissionCreate
-from ensysmod.schemas.energy_transmission_distance import EnergyTransmissionDistanceCreate
-from tests.utils.data_generator import fixed_existing_dataset, fixed_existing_energy_commodity
-from tests.utils.data_generator.regions import fixed_existing_region, fixed_alternative_existing_region, \
-    fixed_alternative_alternative_existing_region
+from ensysmod.schemas.energy_transmission_distance import (
+    EnergyTransmissionDistanceCreate,
+)
+from tests.utils.data_generator import (
+    fixed_existing_dataset,
+    fixed_existing_energy_commodity,
+)
+from tests.utils.data_generator.regions import (
+    fixed_alternative_alternative_existing_region,
+    fixed_alternative_existing_region,
+    fixed_existing_region,
+)
 from tests.utils.utils import random_lower_string
 
 

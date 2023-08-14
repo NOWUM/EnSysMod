@@ -3,7 +3,7 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from ensysmod import schemas, model, crud
+from ensysmod import crud, model, schemas
 from ensysmod.api import deps, permissions
 from ensysmod.schemas import OperationRateMax
 
@@ -11,18 +11,18 @@ router = APIRouter()
 
 
 @router.get("/", response_model=List[schemas.OperationRateMax])
-def all_max_operation_rates(db: Session = Depends(deps.get_db),
-                            current: model.User = Depends(deps.get_current_user),
-                            skip: int = 0,
-                            limit: int = 100) -> List[schemas.OperationRateMax]:
+def get_all_max_operation_rates(db: Session = Depends(deps.get_db),
+                                current: model.User = Depends(deps.get_current_user),
+                                skip: int = 0,
+                                limit: int = 100) -> List[schemas.OperationRateMax]:
     """
     Retrieve all max operation rates.
     """
-    return crud.operation_rate_max.get_multi(db, skip=skip, limit=limit)
+    return crud.operation_rate_max.get_multi(db=db, skip=skip, limit=limit)
 
 
 @router.get("/{ts_id}", response_model=schemas.OperationRateMax)
-def get_operation_rate_max(ts_id: int,
+def get_max_operation_rate(ts_id: int,
                            db: Session = Depends(deps.get_db),
                            current: model.User = Depends(deps.get_current_user)):
     """
@@ -32,7 +32,7 @@ def get_operation_rate_max(ts_id: int,
 
 
 @router.post("/", response_model=schemas.OperationRateMax)
-def create_operation_rate_max(request: schemas.OperationRateMaxCreate,
+def create_max_operation_rate(request: schemas.OperationRateMaxCreate,
                               db: Session = Depends(deps.get_db),
                               current: model.User = Depends(deps.get_current_user)):
     """
@@ -76,7 +76,7 @@ def create_operation_rate_max(request: schemas.OperationRateMaxCreate,
 
 
 @router.put("/{ts_id}", response_model=schemas.OperationRateMax)
-def update_operation_rate_max(ts_id: int,
+def update_max_operation_rate(ts_id: int,
                               request: schemas.OperationRateMaxUpdate,
                               db: Session = Depends(deps.get_db),
                               current: model.User = Depends(deps.get_current_user)):
@@ -91,7 +91,7 @@ def update_operation_rate_max(ts_id: int,
 
 
 @router.delete("/{ts_id}", response_model=schemas.OperationRateMax)
-def remove_operation_rate_max(ts_id: int,
+def remove_max_operation_rate(ts_id: int,
                               db: Session = Depends(deps.get_db),
                               current: model.User = Depends(deps.get_current_user)):
     """

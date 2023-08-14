@@ -3,10 +3,32 @@ import string
 from typing import Dict, List
 
 from fastapi.testclient import TestClient
+from sqlalchemy import delete
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
-from ensysmod.model import User
+from ensysmod.model import (
+    CapacityFix,
+    CapacityMax,
+    Dataset,
+    DatasetPermission,
+    EnergyCommodity,
+    EnergyComponent,
+    EnergyConversion,
+    EnergyConversionFactor,
+    EnergyModel,
+    EnergyModelOptimization,
+    EnergyModelOverride,
+    EnergySink,
+    EnergySource,
+    EnergyStorage,
+    EnergyTransmission,
+    EnergyTransmissionDistance,
+    OperationRateFix,
+    OperationRateMax,
+    Region,
+    User,
+)
 from ensysmod.schemas import UserCreate, UserUpdate
 
 
@@ -55,3 +77,33 @@ def authentication_token_from_username(
         crud.user.update(db, db_obj=user, obj_in=user_in_update)
 
     return user_authentication_headers(client=client, username=username, password=password)
+
+
+def clear_database(db: Session):
+    """
+    Clear entries in the database but keep the database structure intact.
+    """
+    tables = [
+        CapacityFix,
+        CapacityMax,
+        Dataset,
+        DatasetPermission,
+        EnergyCommodity,
+        EnergyComponent,
+        EnergyConversion,
+        EnergyConversionFactor,
+        EnergyModel,
+        EnergyModelOptimization,
+        EnergyModelOverride,
+        EnergySink,
+        EnergySource,
+        EnergyStorage,
+        EnergyTransmission,
+        EnergyTransmissionDistance,
+        OperationRateFix,
+        OperationRateMax,
+        Region,
+        User,
+    ]
+    for table in tables:
+        db.execute(delete(table))

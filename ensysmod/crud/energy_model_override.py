@@ -6,7 +6,7 @@ from ensysmod.schemas import EnergyModelOverrideCreate, EnergyModelOverrideUpdat
 
 
 class CRUDEnergyModelOverride(CRUDBaseDependsComponentRegion[EnergyModelOverride, EnergyModelOverrideCreate,
-                                                              EnergyModelOverrideUpdate]):
+                                                             EnergyModelOverrideUpdate]):
     """
     CRUD operations for EnergyModelOverride
     """

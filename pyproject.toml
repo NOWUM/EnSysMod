@@ -27,7 +27,7 @@ dependencies = [
     "passlib>=1.7.4",
     "bcrypt>=3.2.0",
     "numpy~=1.24.4",
-    "pandas>=2.0.1",
+    "pandas~=1.5.3",
     "openpyxl>=3.0.9",
     "FINE>=2.2.2",
     "python-multipart>=0.0.6",
@@ -60,11 +60,14 @@ where = ["ensysmod"]
 testpaths = "tests"
 
 [tool.pytest.ini_options]
-adopts = [
-    "--strict",
+addopts = [
+    "--strict-markers",
     "--doctest-modules",
     "--durations=0",
-    ]
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+]
 
 [tool.coverage.report]
 # https://stackoverflow.com/a/5850364

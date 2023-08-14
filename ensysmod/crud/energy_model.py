@@ -1,8 +1,11 @@
+from typing import Optional
+
+from sqlalchemy import delete
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
-from ensysmod.model import EnergyModel
+from ensysmod.model import EnergyModel, EnergyModelOptimization, EnergyModelOverride
 from ensysmod.schemas import EnergyModelCreate, EnergyModelUpdate
 
 
@@ -30,6 +33,19 @@ class CRUDEnergyModel(CRUDBaseDependsDataset[EnergyModel, EnergyModelCreate, Ene
             crud.energy_model_optimization.create(db, obj_in=obj_in.optimization_parameters)
 
         return db_obj
+
+    def remove(self, db: Session, *, id: int) -> Optional[EnergyModel]:
+        if self.model.override_parameters is not None:
+            db.execute(delete(EnergyModelOverride).filter(EnergyModelOverride.ref_model == id))
+
+        if self.model.optimization_parameters is not None:
+            db.execute(delete(EnergyModelOptimization).filter(EnergyModelOptimization.ref_model == id))
+
+        model = db.query(self.model).get(id)
+        db.delete(model)
+
+        db.commit()
+        return model
 
 
 energy_model = CRUDEnergyModel(EnergyModel)

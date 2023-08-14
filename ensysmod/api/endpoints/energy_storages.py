@@ -1,24 +1,23 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
-from fastapi import status
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from ensysmod import schemas, model, crud
+from ensysmod import crud, model, schemas
 from ensysmod.api import deps, permissions
 
 router = APIRouter()
 
 
 @router.get("/", response_model=List[schemas.EnergyStorage])
-def all_energy_storages(db: Session = Depends(deps.get_db),
-                        current: model.User = Depends(deps.get_current_user),
-                        skip: int = 0,
-                        limit: int = 100) -> List[schemas.EnergyStorage]:
+def get_all_energy_storages(db: Session = Depends(deps.get_db),
+                            current: model.User = Depends(deps.get_current_user),
+                            skip: int = 0,
+                            limit: int = 100) -> List[schemas.EnergyStorage]:
     """
     Retrieve all energy storages.
     """
-    return crud.energy_storage.get_multi(db, skip, limit)
+    return crud.energy_storage.get_multi(db=db, skip=skip, limit=limit)
 
 
 @router.post("/", response_model=schemas.EnergyStorage,

@@ -3,7 +3,10 @@ from sqlalchemy.orm import Session
 from ensysmod import crud
 from ensysmod.model import EnergyCommodity
 from ensysmod.schemas import EnergyCommodityCreate
-from tests.utils.data_generator.datasets import fixed_existing_dataset, random_existing_dataset
+from tests.utils.data_generator.datasets import (
+    fixed_existing_dataset,
+    random_existing_dataset,
+)
 from tests.utils.utils import random_lower_string
 
 

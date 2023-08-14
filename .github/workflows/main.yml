@@ -86,6 +86,7 @@ jobs:
 
       - name: Install requirements
         run: |
+          sudo apt-get update && sudo apt-get install --no-install-recommends -y glpk-utils python3-swiglpk && sudo rm -rf /var/lib/apt/lists/*
           pip install --upgrade --upgrade-strategy eager -r requirements-dev.txt -e .
 
       - name: Run tests
@@ -102,7 +103,7 @@ jobs:
             result.xml
 
 
-  uplaod_coverage_results:
+  upload_coverage_results:
     needs: test
     runs-on: ubuntu-latest
     name: "Upload code coverage"
@@ -217,66 +218,3 @@ jobs:
       - name: Push the Docker image to GitHub Container Registry
         run: |
           docker push ${{ steps.get_tag.outputs.DOCKER_TAG }}
-
-
-  deploy_dev:
-    needs: [ build_dev_image ]
-    runs-on: ubuntu-latest
-    concurrency: ssh-connection # only one ssh connection at a time
-    name: "Deploy dev image"
-    if: ${{ success() && github.actor != 'dependabot[bot]' }}
-    steps:
-      - name: Update deployment status - start
-        uses: bobheadxi/deployments@v1.4.0
-        id: deployment
-        with:
-          step: start
-          token: ${{ github.token }}
-          env: Development
-          no_override: false
-          desc: "Development deployment for main branch"
-          ref: "main" # dev deployment of main branch
-          transient: true
-
-      - name: Install VPN
-        run: |
-          sudo /sbin/modprobe tun
-          sudo apt install openconnect
-
-      - name: Connect VPN
-        run: |
-          echo "${{ secrets.VPN_PASS }}" | sudo openconnect ${{ secrets.VPN_URL }} --background --user=${{ secrets.VPN_USER }} --passwd-on-stdin
-
-      - name: Deploy docker container on private server
-        uses: appleboy/ssh-action@v0.1.4
-        with:
-          host: ${{ secrets.SSH_URL }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PASS }}
-          script: |
-            docker system prune -af
-            docker pull ${{ needs.build_dev_image.outputs.image_tag }}
-            docker ps --filter publish=9000
-            docker rm -f $(docker ps --filter publish=9000 -aq)
-            docker run -d -p 9000:8080 --name "dev" ${{ needs.build_dev_image.outputs.image_tag }}
-
-      - name: Disconnect VPN
-        if: ${{ always() }}
-        run: |
-          sudo pkill openconnect
-
-      - name: Get env url
-        id: get_env_url
-        run: |
-          ENV_URL="http://${{ secrets.SSH_URL }}:9000"
-          echo ::set-output name=ENV_URL::"${ENV_URL}"
-
-      - name: Update deployment status - finish
-        uses: bobheadxi/deployments@v1.4.0
-        if: always()
-        with:
-          step: finish
-          token: ${{ github.token }}
-          status: ${{ job.status }}
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: ${{ steps.get_env_url.outputs.env_url }}
