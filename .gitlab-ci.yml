@@ -1,0 +1,35 @@
+default:
+  tags:
+    - nowum
+
+stages:
+- deploy-dev
+- deploy-release
+
+deploy-dev:
+  image: alpine:latest
+  stage: deploy-dev
+  script:
+    - chmod og= $SSH_ED25519
+    - apk update && apk add openssh-client
+    - ssh -p 8080 -i $SSH_ED25519 -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "cd EnSysMod && docker-compose pull ensysmod-dev && docker-compose down ensysmod-dev && docker-compose up ensysmod-dev -d && docker system prune -f"
+  only:
+    - main
+  environment:
+    url: https://$SERVER_IP
+    name: development
+
+deploy-release:
+  image: alpine:latest
+  stage: deploy-release
+  script:
+    - chmod og= $SSH_ED25519
+    - apk update && apk add openssh-client
+    - ssh -p 9000 -i $SSH_ED25519 -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "cd EnSysMod && docker-compose pull && docker-compose down && docker-compose up -d && docker system prune -f"
+  only:
+    - tags
+  except:
+    - branches
+  environment:
+    url: https://$SERVER_IP
+    name: release

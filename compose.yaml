@@ -1,0 +1,10 @@
+services:
+  ensysmod-dev:
+    image: "ghcr.io/nowum/ensysmod:main"
+    ports:
+      - 8080:8080
+
+  ensysmod-release:
+    image: "ghcr.io/nowum/ensysmod:latest"
+    ports:
+      - 9000:8080

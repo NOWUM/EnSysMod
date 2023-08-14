@@ -67,6 +67,7 @@ addopts = [
 ]
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "require_solver: marks tests that require solver to be installed (deselect with '-m \"not require_solver\"')",
 ]
 
 [tool.coverage.report]
