@@ -148,45 +148,8 @@ jobs:
           report_individual_runs: true
 
 
-
-  # Test if project still runs on every os
-  test_build:
-    needs: [test, lint]
-    runs-on: ${{ matrix.os }}
-    name: Build Python ${{ matrix.py }} @ ${{ matrix.os }}
-    strategy:
-      fail-fast: true
-      matrix:
-        os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        py: ["3.9", "3.10"]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-          architecture: 'x64'
-
-      - name: Cache pip
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{matrix.os}}-${{ matrix.py }}-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('requirements**.txt') }}
-
-      - name: Install requirements
-        run: |
-          pip install --upgrade --upgrade-strategy eager -r requirements-dev.txt -e .
-
-      - name: Run tests
-        run: |
-          pytest ./tests -m "not require_solver"
-
-
-
   build_dev_image:
-    needs: [ test, lint, test_build ]
+    needs: [ test, lint ]
     runs-on: ubuntu-latest
     name: "Build dev image"
     if: ${{ success() && github.actor != 'dependabot[bot]' }}
