@@ -4,9 +4,9 @@ from sqlalchemy.orm import relationship
 from ensysmod.database.base_class import Base
 
 
-class EnergyTransmissionDistance(Base):
+class EnergyTransmissionLoss(Base):
     """
-    EnergyTransmissionDistance table definition
+    EnergyTransmissionLoss table definition
 
     See https://vsa-fine.readthedocs.io/en/master/sourceCodeDocumentation/components/transmissionClassDoc.html
     """
@@ -16,10 +16,10 @@ class EnergyTransmissionDistance(Base):
     ref_region_from = Column(Integer, ForeignKey("region.id"), index=True, nullable=False)
     ref_region_to = Column(Integer, ForeignKey("region.id"), index=True, nullable=False)
 
-    distance = Column(Float, nullable=True)
+    loss = Column(Float, nullable=True)
 
     # Relationships
-    transmission = relationship("EnergyTransmission", back_populates="distances")
+    transmission = relationship("EnergyTransmission", back_populates="losses")
     region_from = relationship("Region", foreign_keys=[ref_region_from])
     region_to = relationship("Region", foreign_keys=[ref_region_to])
 

@@ -10,10 +10,15 @@ from ensysmod.schemas import (
     EnergyComponentCreate,
     EnergyComponentUpdate,
 )
-from ensysmod.schemas.energy_transmission_distance import (
-    EnergyTransmissionDistance,
-    EnergyTransmissionDistanceCreate,
-)
+
+# from ensysmod.schemas.energy_transmission_distance import (
+#     EnergyTransmissionDistance,
+#     EnergyTransmissionDistanceCreate,
+# )
+# from ensysmod.schemas.energy_transmission_loss import (
+#     EnergyTransmissionLoss,
+#     EnergyTransmissionLossCreate,
+# )
 from ensysmod.utils import validators
 
 
@@ -21,51 +26,35 @@ class EnergyTransmissionBase(BaseModel):
     """
     Shared attributes for an energy transmission. Used as a base class for all schemas.
     """
+
     type = EnergyComponentType.TRANSMISSION
-    loss_per_unit: Optional[float] = Field(None,
-                                           description="Loss per length unit of energy transmission.",
-                                           example=0.002)
 
     # validators
     _valid_type = validator("type", allow_reuse=True)(validators.validate_energy_component_type)
-    _valid_loss_per_unit = validator("loss_per_unit", allow_reuse=True)(validators.validate_loss_per_unit)
 
 
 class EnergyTransmissionCreate(EnergyTransmissionBase, EnergyComponentCreate):
     """
     Attributes to receive via API on creation of an energy transmission.
     """
-    commodity: str = Field(...,
-                           description="Commodity of energy transmission.",
-                           example="electricity")
-    distances: Optional[List[EnergyTransmissionDistanceCreate]] \
-        = Field(None,
-                description="Distances of energy transmission in the length unit provided with the dataset.")
+
+    commodity: str = Field(..., description="Commodity of energy transmission.", example="electricity")
+    # distances: Optional[List[EnergyTransmissionDistanceCreate]] = Field(
+    #     None, description="Distances of energy transmission in the length unit provided with the dataset."
+    # )
+    # losses: Optional[List[EnergyTransmissionLossCreate]] = Field(
+    #     None, description="Losses of energy transmission in the length unit provided with the dataset."
+    # )
 
     # validators
-    _valid_distances = validator("distances", allow_reuse=True)(validators.validate_distances)
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "loss_per_unit": 0.002,
-                "commodity": "electricity",
-                "distances": [
-                    {
-                        "region_from": "germany",
-                        "region_to": "france",
-                        "distance": 135.4
-                    }
-                ]
-            }
-        }
 
 
 class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):
     """
     Attributes to receive via API on update of an energy transmission.
     """
+
     commodity: Optional[str] = None
 
     # validators
@@ -76,9 +65,11 @@ class EnergyTransmission(EnergyTransmissionBase):
     """
     Attributes to return via API for an energy transmission.
     """
+
     component: EnergyComponent
     commodity: EnergyCommodity
-    distances: List[EnergyTransmissionDistance]
+    # distances: List[EnergyTransmissionDistance]
+    # losses: List[EnergyTransmissionLoss]
 
     class Config:
         orm_mode = True

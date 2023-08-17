@@ -143,8 +143,8 @@ def add_transmission(esM: EnergySystemModel, db: Session, transmission: EnergyTr
                      region_ids: List[int], custom_parameters: List[EnergyModelOverride]) -> None:
     esm_transmission = component_to_dict(db, transmission.component, region_ids)
     esm_transmission["commodity"] = transmission.commodity.name
-    esm_transmission["distances"] = crud.energy_transmission_distance.get_dataframe(db, transmission.ref_component,
-                                                                                    region_ids=region_ids)
+    esm_transmission["distances"] = crud.energy_transmission_distance.get_dataframe(db, transmission.ref_component, region_ids=region_ids)
+    esm_transmission["losses"] = crud.energy_transmission_loss.get_dataframe(db, transmission.ref_component, region_ids=region_ids)
     esm_transmission = override_parameters(esm_transmission, custom_parameters)
     esM.add(Transmission(esM=esM, **esm_transmission))
 

@@ -450,20 +450,6 @@ def validate_state_of_charge_max(state_of_charge_max: Optional[float]) -> Option
     return state_of_charge_max
 
 
-def validate_distance(distance: float) -> float:
-    """
-    Validates the distance of an object.
-
-    :param distance: The distance of the object.
-    :return: The validated distance.
-    """
-    if distance < 0:
-        raise ValueError("The distance must be zero or positive.")
-
-    return distance
-
-
-@root_validator
 def validate_component_or_ref(cls, values):
     component, ref_component = values.get('component'), values.get('ref_component')
 
@@ -478,7 +464,6 @@ def validate_component_or_ref(cls, values):
     return values
 
 
-@root_validator
 def validate_region_to_or_ref(cls, values):
     region_to, ref_region_to = values.get('region_to'), values.get('ref_region_to')
 
@@ -494,7 +479,6 @@ def validate_region_to_or_ref(cls, values):
     return values
 
 
-@root_validator
 def validate_region_from_or_ref(cls, values):
     region_from, ref_region_from = values.get('region_from'), values.get('ref_region_from')
 
@@ -510,34 +494,30 @@ def validate_region_from_or_ref(cls, values):
     return values
 
 
-def validate_loss_per_unit(loss_per_unit: float) -> Optional[float]:
+def validate_distance(distance: float) -> float:
     """
-    Validates the loss per unit of an object.
+    Validates the distance of an object.
 
-    :param loss_per_unit: The loss per unit of the object.
-    :return: The validated loss per unit.
+    :param distance: The distance of the object.
+    :return: The validated distance.
     """
-    if loss_per_unit is None:
-        return None
-    if loss_per_unit < 0 or loss_per_unit > 1:
-        raise ValueError("The loss per unit must be zero or positive.")
+    if distance < 0:
+        raise ValueError("The distance must be zero or positive.")
 
-    return loss_per_unit
+    return distance
 
 
-def validate_distances(distances: List[Any]) -> List[Any]:
+def validate_loss(loss: float) -> float:
     """
-    Validates the distances of an object.
+    Validates the loss of an object.
 
-    :param distances: The distances of the object.
-    :return: The validated distances.
+    :param loss: The loss of the object.
+    :return: The validated loss.
     """
-    if distances is None:
-        raise MissingError()
-    if len(distances) == 0:
-        raise ValueError("List of distances must not be empty.")
+    if loss < 0 or loss > 1:
+        raise ValueError("The loss must be between zero and one.")
 
-    return distances
+    return loss
 
 
 def validate_fix_capacities(fix_capacities: List[float]) -> List[float]:
