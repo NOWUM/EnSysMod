@@ -23,10 +23,10 @@ class EnergyTransmissionDistanceCreate(EnergyTransmissionDistanceBase):
     Attributes to receive via API on creation of an energy transmission distance.
     """
 
-    ref_dataset: int = Field(None, description="The ID of the referenced dataset.")
-    component: str = Field(None, description="The name of the transmission component.")
-    region_from: str = Field(None, description="The name of the origin region.")
-    region_to: str = Field(None, description="The name of the target region.")
+    ref_dataset: int = Field(..., description="The ID of the referenced dataset.")
+    component: str = Field(..., description="The name of the transmission component.")
+    region_from: str = Field(..., description="The name of the origin region.")
+    region_to: str = Field(..., description="The name of the target region.")
 
     # validators
     _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_required)
@@ -36,11 +36,7 @@ class EnergyTransmissionDistanceUpdate(EnergyTransmissionDistanceBase):
     """
     Attributes to receive via API on update of an energy transmission distance.
     """
-
-    distance: Optional[float] = None
-
-    # validators
-    _valid_distance = validator("distance", allow_reuse=True)(validators.validate_distance)
+    pass
 
 
 class EnergyTransmissionDistance(EnergyTransmissionDistanceBase):
