@@ -450,50 +450,6 @@ def validate_state_of_charge_max(state_of_charge_max: Optional[float]) -> Option
     return state_of_charge_max
 
 
-def validate_component_or_ref(cls, values):
-    component, ref_component = values.get('component'), values.get('ref_component')
-
-    if component is None and ref_component is None:
-        raise ValueError("Either component or ref_component must be provided.")
-
-    validate_ref_component_optional(ref_component)
-
-    if component is not None and len(component) > 100:
-        raise ValueError("The component must not be longer than 100 characters.")
-
-    return values
-
-
-def validate_region_to_or_ref(cls, values):
-    region_to, ref_region_to = values.get('region_to'), values.get('ref_region_to')
-
-    if region_to is None and ref_region_to is None:
-        raise ValueError("Either region_to or ref_region_to must be provided.")
-
-    if region_to is not None and len(region_to) > 100:
-        raise ValueError("The region_to must not be longer than 100 characters.")
-
-    if ref_region_to is not None and ref_region_to <= 0:
-        raise ValueError("Reference to the region_to must be positive.")
-
-    return values
-
-
-def validate_region_from_or_ref(cls, values):
-    region_from, ref_region_from = values.get('region_from'), values.get('ref_region_from')
-
-    if region_from is None and ref_region_from is None:
-        raise ValueError("Either region_from or ref_region_from must be provided.")
-
-    if region_from is not None and len(region_from) > 100:
-        raise ValueError("The region_from must not be longer than 100 characters.")
-
-    if ref_region_from is not None and ref_region_from <= 0:
-        raise ValueError("Reference to the region_from must be positive.")
-
-    return values
-
-
 def validate_distance(distance: float) -> float:
     """
     Validates the distance of an object.

@@ -1,8 +1,8 @@
 from typing import Optional
 
 from pydantic import BaseModel, Field, validator
-from pydantic.class_validators import root_validator
 
+from ensysmod.schemas.energy_transmission import EnergyTransmission
 from ensysmod.schemas.region import Region
 from ensysmod.utils import validators
 
@@ -23,22 +23,13 @@ class EnergyTransmissionDistanceCreate(EnergyTransmissionDistanceBase):
     Attributes to receive via API on creation of an energy transmission distance.
     """
 
-    ref_dataset: Optional[int] = Field(None, description="Reference dataset ID. The current dataset will be used.")
-
-    ref_component: Optional[int] = Field(None, description="Reference component ID. The current component will be used.")
-    component: Optional[str] = Field(None, description="Component name. If no ref_component is provided, the name is used to find the component.")
-
-    ref_region_from: Optional[int] = Field(None, description="Reference region ID.")
-    region_from: Optional[str] = Field(None, description="Region name. If no ref_region_from is provided, the name is used to find the region.")
-
-    ref_region_to: Optional[int] = Field(None, description="Reference region ID.")
-    region_to: Optional[str] = Field(None, description="Region name. If no ref_region_to is provided, the name is used to find the region.")
+    ref_dataset: int = Field(None, description="The ID of the referenced dataset.")
+    component: str = Field(None, description="The name of the transmission component.")
+    region_from: str = Field(None, description="The name of the origin region.")
+    region_to: str = Field(None, description="The name of the target region.")
 
     # validators
-    _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_optional)
-    _valid_ref_component = root_validator(allow_reuse=True)(validators.validate_component_or_ref)
-    _valid_ref_region_from = root_validator(allow_reuse=True)(validators.validate_region_from_or_ref)
-    _valid_ref_region_to = root_validator(allow_reuse=True)(validators.validate_region_to_or_ref)
+    _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_required)
 
 
 class EnergyTransmissionDistanceUpdate(EnergyTransmissionDistanceBase):
@@ -55,6 +46,7 @@ class EnergyTransmissionDistance(EnergyTransmissionDistanceBase):
     """
 
     id: int
+    transmission: EnergyTransmission
     region_from: Region
     region_to: Region
 

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 import pandas as pd
 from sqlalchemy.orm import Session
@@ -18,14 +18,34 @@ class CRUDEnergyTransmissionDistance(CRUDBase[EnergyTransmissionDistance, Energy
     CRUD operations for EnergyTransmissionDistance
     """
 
-    def remove_by_component(self, db: Session, component_id: int):
+    def get_by_component(self, db: Session, component_id: int) -> Optional[List[EnergyTransmissionDistance]]:
+        """
+        Get all EnergyTransmissionDistance entries for a given component.
+        """
+        return db.query(self.model).filter(self.model.ref_component == component_id).all()
+
+    def get_by_component_and_two_regions(
+        self, db: Session, component_id: int, region_from_id: int, region_to_id: int
+    ) -> Optional[EnergyTransmissionDistance]:
+        """
+        Get a EnergyTransmissionDistance entry for a given component and its two regions.
+        """
+        return (
+            db.query(self.model)
+            .filter(self.model.ref_component == component_id)
+            .filter(self.model.ref_region_from == region_from_id)
+            .filter(self.model.ref_region_to == region_to_id)
+            .first()
+        )
+
+    def remove_by_component(self, db: Session, component_id: int) -> Optional[List[EnergyTransmissionDistance]]:
         """
         Removes all EnergyTransmissionDistance entries for a given component.
-
-        :param db: Database session
-        :param component_id: ID of the component
         """
-        db.query(EnergyTransmissionDistance).filter(EnergyTransmissionDistance.ref_component == component_id).delete()
+        obj = db.query(self.model).filter(self.model.ref_component == component_id).all()
+        db.query(self.model).filter(self.model.ref_component == component_id).delete()
+        db.commit()
+        return obj
 
     def create(self, db: Session, obj_in: EnergyTransmissionDistanceCreate) -> EnergyTransmissionDistance:
         """
@@ -35,41 +55,28 @@ class CRUDEnergyTransmissionDistance(CRUDBase[EnergyTransmissionDistance, Energy
         :param obj_in: Input data
         :return: New energy transmission distance entry
         """
-
-        if obj_in.ref_component is None and obj_in.component is None:
-            raise ValueError("Component must be specified. Provide reference id or component name.")
-
-        if obj_in.ref_region_from is None and obj_in.region_from is None:
-            raise ValueError("Region from must be specified. Provide reference id or region name.")
-
-        if obj_in.ref_component is not None:
-            transmission = crud.energy_transmission.get(db, obj_in.ref_component)
-        else:
-            transmission = crud.energy_transmission.get_by_dataset_and_name(db, dataset_id=obj_in.ref_dataset, name=obj_in.component)
-
+        transmission = crud.energy_transmission.get_by_dataset_and_name(db, dataset_id=obj_in.ref_dataset, name=obj_in.component)
         if transmission is None or transmission.component.ref_dataset != obj_in.ref_dataset:
             raise ValueError("Component not found or from different dataset.")
-        obj_in.ref_component = transmission.ref_component
 
-        if obj_in.ref_region_from is not None:
-            region_from = crud.region.get(db, obj_in.ref_region_from)
-        else:
-            region_from = crud.region.get_by_dataset_and_name(db, dataset_id=obj_in.ref_dataset, name=obj_in.region_from)
-
+        region_from = crud.region.get_by_dataset_and_name(db, dataset_id=obj_in.ref_dataset, name=obj_in.region_from)
         if region_from is None or region_from.ref_dataset != obj_in.ref_dataset:
-            raise ValueError("Region from not found or from different dataset.")
-        obj_in.ref_region_from = region_from.id
+            raise ValueError("Origin region not found or from different dataset.")
 
-        if obj_in.ref_region_to is not None:
-            region_to = crud.region.get(db, obj_in.ref_region_to)
-        else:
-            region_to = crud.region.get_by_dataset_and_name(db, dataset_id=obj_in.ref_dataset, name=obj_in.region_to)
-
+        region_to = crud.region.get_by_dataset_and_name(db, dataset_id=obj_in.ref_dataset, name=obj_in.region_to)
         if region_to is None or region_to.ref_dataset != obj_in.ref_dataset:
-            raise ValueError("Region to not found or from different dataset.")
-        obj_in.ref_region_to = region_to.id
+            raise ValueError("Target region not found or from different dataset.")
 
-        return super().create(db=db, obj_in=obj_in)
+        db_obj = EnergyTransmissionDistance(
+            distance=obj_in.distance,
+            ref_component=transmission.ref_component,
+            ref_region_from=region_from.id,
+            ref_region_to=region_to.id,
+        )
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
 
     def get_dataframe(self, db: Session, component_id: int, region_ids: List[int]) -> pd.DataFrame:
         """
