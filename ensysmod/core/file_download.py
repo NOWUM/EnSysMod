@@ -1,8 +1,8 @@
+import json
 import os
 import zipfile
-from typing import Any, Type, Set, Dict, List
+from typing import Any, Dict, List, Set, Type
 
-import json
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
@@ -115,14 +115,12 @@ def dump_energy_components(db: Session, dataset_id: int, temp_folder: str, crud_
         # dump excel files
         dump_excel_file(db, obj.ref_component, region_ids, crud.capacity_fix, f"{obj_folder}/capacityFix.xlsx")
         dump_excel_file(db, obj.ref_component, region_ids, crud.capacity_max, f"{obj_folder}/capacityMax.xlsx")
-        dump_excel_file(db, obj.ref_component, region_ids, crud.operation_rate_fix,
-                        f"{obj_folder}/operationRateFix.xlsx")
-        dump_excel_file(db, obj.ref_component, region_ids, crud.operation_rate_max,
-                        f"{obj_folder}/operationRateMax.xlsx")
+        dump_excel_file(db, obj.ref_component, region_ids, crud.operation_rate_fix, f"{obj_folder}/operationRateFix.xlsx")
+        dump_excel_file(db, obj.ref_component, region_ids, crud.operation_rate_max, f"{obj_folder}/operationRateMax.xlsx")
 
         if file_name == "transmission":
-            crud.energy_transmission_distance.get_dataframe(db, obj.ref_component, region_ids) \
-                .to_excel(f"{obj_folder}/distances.xlsx")
+            crud.energy_transmission_distance.get_dataframe(db, obj.ref_component, region_ids).to_excel(f"{obj_folder}/distances.xlsx")
+            crud.energy_transmission_loss.get_dataframe(db, obj.ref_component, region_ids).to_excel(f"{obj_folder}/losses.xlsx")
 
 
 def dump_json(file: str, fields: Set[str], obj: Any):

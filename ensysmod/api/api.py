@@ -10,6 +10,8 @@ from .endpoints import (
     energy_sinks,
     energy_sources,
     energy_storages,
+    energy_transmission_distances,
+    energy_transmission_losses,
     energy_transmissions,
     regions,
     ts_capacity_fix,
@@ -31,6 +33,8 @@ api_router.include_router(energy_sinks.router, prefix="/sinks", tags=["Energy Si
 api_router.include_router(energy_sources.router, prefix="/sources", tags=["Energy Sources"])
 api_router.include_router(energy_storages.router, prefix="/storages", tags=["Energy Storages"])
 api_router.include_router(energy_transmissions.router, prefix="/transmissions", tags=["Energy Transmissions"])
+api_router.include_router(energy_transmission_distances.router, prefix="/distances", tags=["Energy Transmission Distances"])
+api_router.include_router(energy_transmission_losses.router, prefix="/losses", tags=["Energy Transmission Losses"])
 api_router.include_router(energy_models.router, prefix="/models", tags=["Energy Models"])
 
 api_router.include_router(ts_capacity_fix.router, prefix="/fix-capacities", tags=["Fix Capacities"])

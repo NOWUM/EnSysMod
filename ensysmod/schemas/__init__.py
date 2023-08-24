@@ -51,6 +51,11 @@ from .energy_transmission_distance import (
     EnergyTransmissionDistanceCreate,
     EnergyTransmissionDistanceUpdate,
 )
+from .energy_transmission_loss import (
+    EnergyTransmissionLoss,
+    EnergyTransmissionLossCreate,
+    EnergyTransmissionLossUpdate,
+)
 from .file_upload import FileStatus, FileUploadResult, ZipArchiveUploadResult
 from .region import Region, RegionCreate, RegionUpdate
 from .token import Token, TokenPayload

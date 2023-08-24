@@ -1,6 +1,5 @@
 from typing import Any, List, Optional
 
-from pydantic import root_validator
 from pydantic.errors import MissingError
 
 from ensysmod.model import EnergyComponentType
@@ -463,81 +462,17 @@ def validate_distance(distance: float) -> float:
     return distance
 
 
-@root_validator
-def validate_component_or_ref(cls, values):
-    component, ref_component = values.get('component'), values.get('ref_component')
-
-    if component is None and ref_component is None:
-        raise ValueError("Either component or ref_component must be provided.")
-
-    validate_ref_component_optional(ref_component)
-
-    if component is not None and len(component) > 100:
-        raise ValueError("The component must not be longer than 100 characters.")
-
-    return values
-
-
-@root_validator
-def validate_region_to_or_ref(cls, values):
-    region_to, ref_region_to = values.get('region_to'), values.get('ref_region_to')
-
-    if region_to is None and ref_region_to is None:
-        raise ValueError("Either region_to or ref_region_to must be provided.")
-
-    if region_to is not None and len(region_to) > 100:
-        raise ValueError("The region_to must not be longer than 100 characters.")
-
-    if ref_region_to is not None and ref_region_to <= 0:
-        raise ValueError("Reference to the region_to must be positive.")
-
-    return values
-
-
-@root_validator
-def validate_region_from_or_ref(cls, values):
-    region_from, ref_region_from = values.get('region_from'), values.get('ref_region_from')
-
-    if region_from is None and ref_region_from is None:
-        raise ValueError("Either region_from or ref_region_from must be provided.")
-
-    if region_from is not None and len(region_from) > 100:
-        raise ValueError("The region_from must not be longer than 100 characters.")
-
-    if ref_region_from is not None and ref_region_from <= 0:
-        raise ValueError("Reference to the region_from must be positive.")
-
-    return values
-
-
-def validate_loss_per_unit(loss_per_unit: float) -> Optional[float]:
+def validate_loss(loss: float) -> float:
     """
-    Validates the loss per unit of an object.
+    Validates the loss of an object.
 
-    :param loss_per_unit: The loss per unit of the object.
-    :return: The validated loss per unit.
+    :param loss: The loss of the object.
+    :return: The validated loss.
     """
-    if loss_per_unit is None:
-        return None
-    if loss_per_unit < 0 or loss_per_unit > 1:
-        raise ValueError("The loss per unit must be zero or positive.")
+    if loss < 0 or loss > 1:
+        raise ValueError("The loss must be between zero and one.")
 
-    return loss_per_unit
-
-
-def validate_distances(distances: List[Any]) -> List[Any]:
-    """
-    Validates the distances of an object.
-
-    :param distances: The distances of the object.
-    :return: The validated distances.
-    """
-    if distances is None:
-        raise MissingError()
-    if len(distances) == 0:
-        raise ValueError("List of distances must not be empty.")
-
-    return distances
+    return loss
 
 
 def validate_fix_capacities(fix_capacities: List[float]) -> List[float]:

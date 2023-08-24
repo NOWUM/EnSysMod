@@ -1,24 +1,30 @@
-from typing import Type, List, Tuple, Dict, Any
+from typing import Any, Dict, List, Tuple, Type
 
 import pytest
 from pydantic import BaseModel, ValidationError
 
 from ensysmod.model.energy_component import EnergyComponentType
-from ensysmod.schemas import EnergyCommodityCreate, EnergyComponentCreate, EnergyConversionFactorCreate
+from ensysmod.schemas import (
+    EnergyCommodityCreate,
+    EnergyComponentCreate,
+    EnergyConversionFactorCreate,
+    EnergyTransmissionDistanceCreate,
+    EnergyTransmissionLossCreate,
+)
 from ensysmod.schemas.energy_model import EnergyModelCreate
-from ensysmod.schemas.energy_transmission_distance import EnergyTransmissionDistanceCreate
 from ensysmod.schemas.region import RegionCreate
 
 schemas_with_ref_dataset_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
     (EnergyCommodityCreate, {"name": "test", "description": "foo", "unit": "bar"}),
     (EnergyComponentCreate, {"name": "test", "description": "foo", "type": EnergyComponentType.SOURCE}),
     (EnergyModelCreate, {"name": "test"}),
-    (RegionCreate, {"name": "test"})
+    (RegionCreate, {"name": "test"}),
+    (EnergyTransmissionDistanceCreate, {"distance": 1000, "component": "test", "region_from": "Region 1", "region_to": "Region 2"}),
+    (EnergyTransmissionLossCreate, {"loss": 0.00001, "component": "test", "region_from": "Region 1", "region_to": "Region 2"}),
 ]
 
 schemas_with_ref_dataset_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
     (EnergyConversionFactorCreate, {"conversion_factor": 4.2, "commodity": "bar"}),
-    (EnergyTransmissionDistanceCreate, {"distance": 5, "ref_region_from": 42, "ref_region_to": 1337})
 ]
 
 schemas_with_ref_dataset = schemas_with_ref_dataset_required + schemas_with_ref_dataset_optional

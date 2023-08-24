@@ -1,6 +1,6 @@
 import json
 from tempfile import TemporaryFile
-from typing import List, Dict, Any, Type
+from typing import Any, Dict, List, Type
 from zipfile import ZipFile
 
 import pandas as pd
@@ -11,7 +11,7 @@ from ensysmod import crud, schemas
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
 from ensysmod.crud.base_depends_timeseries import CRUDBaseDependsTimeSeries
-from ensysmod.schemas import ZipArchiveUploadResult, FileStatus, FileUploadResult
+from ensysmod.schemas import FileStatus, FileUploadResult, ZipArchiveUploadResult
 
 
 def create_or_update_named_entity(crud_repo: CRUDBaseDependsDataset, db: Session, request: Any):
@@ -190,7 +190,6 @@ def process_sub_folder_files(zip_archive: ZipFile, sub_folder_name: str, db: Ses
 
     # check if operationRateFix.xlsx exists in sub_folder_name
     if sub_folder_name + "operationRateFix.xlsx" in zip_archive.namelist():
-        # process operationRateFix.xlsx
         file_results.append(process_excel_file(zip_archive.open(sub_folder_name + "operationRateFix.xlsx"),
                                                db, dataset_id,
                                                component_name, "fix_operation_rates",
@@ -199,7 +198,6 @@ def process_sub_folder_files(zip_archive: ZipFile, sub_folder_name: str, db: Ses
 
     # check if operationRateMax.xlsx exists in sub_folder_name
     if sub_folder_name + "operationRateMax.xlsx" in zip_archive.namelist():
-        # process operationRateFix.xlsx
         file_results.append(process_excel_file(zip_archive.open(sub_folder_name + "operationRateMax.xlsx"),
                                                db, dataset_id,
                                                component_name, "max_operation_rates",
@@ -208,7 +206,6 @@ def process_sub_folder_files(zip_archive: ZipFile, sub_folder_name: str, db: Ses
 
     # check if capacityFix.xlsx exists in sub_folder_name
     if sub_folder_name + "capacityFix.xlsx" in zip_archive.namelist():
-        # process operationRateFix.xlsx
         file_results.append(process_excel_file(zip_archive.open(sub_folder_name + "capacityFix.xlsx"),
                                                db, dataset_id,
                                                component_name, "fix_capacities",
@@ -217,7 +214,6 @@ def process_sub_folder_files(zip_archive: ZipFile, sub_folder_name: str, db: Ses
 
     # check if capacityMax.xlsx exists in sub_folder_name
     if sub_folder_name + "capacityMax.xlsx" in zip_archive.namelist():
-        # process operationRateFix.xlsx
         file_results.append(process_excel_file(zip_archive.open(sub_folder_name + "capacityMax.xlsx"),
                                                db, dataset_id,
                                                component_name, "max_capacities",
@@ -232,7 +228,6 @@ def process_sub_folder_matrix_files(zip_archive: ZipFile, sub_folder_name: str, 
 
     # check if capacityFix.xlsx exists in sub_folder_name
     if sub_folder_name + "capacityFix.xlsx" in zip_archive.namelist():
-        # process operationRateFix.xlsx
         file_results.append(process_matrix_excel_file(zip_archive.open(sub_folder_name + "capacityFix.xlsx"),
                                                       db, dataset_id,
                                                       component_name, "fix_capacities",
@@ -241,7 +236,6 @@ def process_sub_folder_matrix_files(zip_archive: ZipFile, sub_folder_name: str, 
 
     # check if capacityMax.xlsx exists in sub_folder_name
     if sub_folder_name + "capacityMax.xlsx" in zip_archive.namelist():
-        # process operationRateFix.xlsx
         file_results.append(process_matrix_excel_file(zip_archive.open(sub_folder_name + "capacityMax.xlsx"),
                                                       db, dataset_id,
                                                       component_name, "max_capacities",
@@ -250,12 +244,20 @@ def process_sub_folder_matrix_files(zip_archive: ZipFile, sub_folder_name: str, 
 
     # check if distances.xlsx exists in sub_folder_name
     if sub_folder_name + "distances.xlsx" in zip_archive.namelist():
-        # process operationRateFix.xlsx
         file_results.append(process_matrix_excel_file(zip_archive.open(sub_folder_name + "distances.xlsx"),
                                                       db, dataset_id,
                                                       component_name, "distance",
                                                       crud_repo=crud.energy_transmission_distance,
                                                       create_model=schemas.EnergyTransmissionDistanceCreate,
+                                                      as_list=False, region_key="region_from"))
+
+    # check if losses.xlsx exists in sub_folder_name
+    if sub_folder_name + "losses.xlsx" in zip_archive.namelist():
+        file_results.append(process_matrix_excel_file(zip_archive.open(sub_folder_name + "losses.xlsx"),
+                                                      db, dataset_id,
+                                                      component_name, "loss",
+                                                      crud_repo=crud.energy_transmission_loss,
+                                                      create_model=schemas.EnergyTransmissionLossCreate,
                                                       as_list=False, region_key="region_from"))
     return file_results
 

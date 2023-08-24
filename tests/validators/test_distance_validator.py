@@ -1,20 +1,37 @@
-from typing import Type, List, Tuple, Dict, Any
+from typing import Any, Dict, List, Tuple, Type
 
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from ensysmod.schemas.energy_transmission_distance import EnergyTransmissionDistanceCreate, \
-    EnergyTransmissionDistanceUpdate
+from ensysmod.schemas import (
+    EnergyTransmissionDistanceCreate,
+    EnergyTransmissionDistanceUpdate,
+)
 
 schemas_with_distance_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
-    (EnergyTransmissionDistanceCreate, {"ref_region_from": 42, "ref_region_to": 1337})
+    (EnergyTransmissionDistanceCreate, {"ref_dataset": 1, "component": "test", "region_from": "Region 1", "region_to": "Region 2"}),
+    (EnergyTransmissionDistanceUpdate, {}),
 ]
 
-schemas_with_distance_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
-    (EnergyTransmissionDistanceUpdate, {})
-]
+schemas_with_distance_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = []
 
 schemas_with_distance = schemas_with_distance_required + schemas_with_distance_optional
+
+
+@pytest.mark.parametrize("schema,data", schemas_with_distance_optional)
+def test_ok_missing_distance(schema: Type[BaseModel], data: Dict[str, Any]):
+    """
+    Test that a distance is optional for a schema
+    """
+    schema(**data)
+
+
+@pytest.mark.parametrize("schema,data", schemas_with_distance_optional)
+def test_ok_none_distance(schema: Type[BaseModel], data: Dict[str, Any]):
+    """
+    Test that a distance is optional for a schema
+    """
+    schema(distance=None, **data)
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_distance_required)
@@ -31,21 +48,13 @@ def test_error_missing_distance(schema: Type[BaseModel], data: Dict[str, Any]):
     assert exc_info.value.errors()[0]["type"] == "value_error.missing"
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_distance_optional)
-def test_ok_missing_distance(schema: Type[BaseModel], data: Dict[str, Any]):
-    """
-    Test that a distance is optional for a schema
-    """
-    schema(**data)
-
-
 @pytest.mark.parametrize("schema,data", schemas_with_distance)
-def test_error_on_negative_distance(schema: Type[BaseModel], data: Dict[str, Any]):
+def test_error_negative_distance(schema: Type[BaseModel], data: Dict[str, Any]):
     """
-    Test that a distance is not under zero
+    Test that a distance is not negative
     """
     with pytest.raises(ValidationError) as exc_info:
-        schema(distance=-0.5, **data)
+        schema(distance=-1, **data)
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("distance",)
@@ -54,9 +63,9 @@ def test_error_on_negative_distance(schema: Type[BaseModel], data: Dict[str, Any
 
 
 @pytest.mark.parametrize("schema,data", schemas_with_distance)
-def test_ok_distance(schema: Type[BaseModel], data: Dict[str, Any]):
+def test_ok_distances(schema: Type[BaseModel], data: Dict[str, Any]):
     """
-    Test that a distance with everything over 0 is valid
+    Test that a zero or positive distance is valid
     """
+    schema(distance=1000, **data)
     schema(distance=0, **data)
-    schema(distance=1, **data)
