@@ -39,6 +39,9 @@ class EnergyTransmissionDistanceUpdate(EnergyTransmissionDistanceBase):
 
     distance: Optional[float] = None
 
+    # validators
+    _valid_distance = validator("distance", allow_reuse=True)(validators.validate_distance)
+
 
 class EnergyTransmissionDistance(EnergyTransmissionDistanceBase):
     """

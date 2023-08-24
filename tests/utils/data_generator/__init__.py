@@ -38,12 +38,16 @@ from .energy_storages import (
 )
 from .energy_transmissions import (
     fixed_existing_energy_transmission,
+    fixed_existing_transmission_distance,
+    fixed_existing_transmission_loss,
+    fixed_transmission_distance_create,
+    fixed_transmission_loss_create,
     random_energy_transmission_create,
     random_existing_energy_transmission,
 )
 from .regions import (
-    fixed_alternative_existing_region,
     fixed_existing_region,
+    fixed_existing_region_alternative,
     random_existing_region,
     random_region_create,
 )

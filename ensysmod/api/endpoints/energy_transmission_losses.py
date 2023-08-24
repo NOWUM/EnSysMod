@@ -62,23 +62,27 @@ def create_transmission_loss(
     """
     Create a new transmission loss.
     """
-    permissions.check_modification_permission(db, user=current, dataset_id=request.ref_dataset)
+    dataset = crud.dataset.get(db=db, id=request.ref_dataset)
+    if dataset is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {request.ref_dataset} not found!")
 
-    component = crud.energy_component.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.component)
+    permissions.check_modification_permission(db, user=current, dataset_id=dataset.id)
+
+    component = crud.energy_component.get_by_dataset_and_name(db=db, dataset_id=dataset.id, name=request.component)
     if component is None:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Component {request.component} not found in dataset {request.ref_dataset}!"
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Component {request.component} not found in dataset {dataset.id}!"
         )
 
-    region_from = crud.region.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.region_from)
+    region_from = crud.region.get_by_dataset_and_name(db=db, dataset_id=dataset.id, name=request.region_from)
     if region_from is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Region {request.region_from} not found in dataset {request.ref_dataset}!")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Region {request.region_from} not found in dataset {dataset.id}!")
 
-    region_to = crud.region.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.region_to)
+    region_to = crud.region.get_by_dataset_and_name(db=db, dataset_id=dataset.id, name=request.region_to)
     if region_to is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Region {request.region_to} not found in dataset {request.ref_dataset}!")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Region {request.region_to} not found in dataset {dataset.id}!")
 
-    loss_entry = crud.energy_transmission_loss.get_by_component_and_two_regions(
+    loss_entry = crud.energy_transmission_loss.get_by_component_and_region_ids(
         db=db,
         component_id=component.id,
         region_from_id=region_from.id,

@@ -1,6 +1,5 @@
 from typing import Any, List, Optional
 
-from pydantic import root_validator
 from pydantic.errors import MissingError
 
 from ensysmod.model import EnergyComponentType

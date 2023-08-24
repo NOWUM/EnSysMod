@@ -39,6 +39,9 @@ class EnergyTransmissionLossUpdate(EnergyTransmissionLossBase):
 
     loss: Optional[float] = None
 
+    # validators
+    _valid_distance = validator("loss", allow_reuse=True)(validators.validate_loss)
+
 
 class EnergyTransmissionLoss(EnergyTransmissionLossBase):
     """

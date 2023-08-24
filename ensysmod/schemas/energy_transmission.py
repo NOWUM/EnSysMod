@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import BaseModel, Field
 from pydantic.class_validators import validator
@@ -10,15 +10,6 @@ from ensysmod.schemas import (
     EnergyComponentCreate,
     EnergyComponentUpdate,
 )
-
-# from ensysmod.schemas.energy_transmission_distance import (
-#     EnergyTransmissionDistance,
-#     EnergyTransmissionDistanceCreate,
-# )
-# from ensysmod.schemas.energy_transmission_loss import (
-#     EnergyTransmissionLoss,
-#     EnergyTransmissionLossCreate,
-# )
 from ensysmod.utils import validators
 
 
@@ -39,12 +30,6 @@ class EnergyTransmissionCreate(EnergyTransmissionBase, EnergyComponentCreate):
     """
 
     commodity: str = Field(..., description="Commodity of energy transmission.", example="electricity")
-    # distances: Optional[List[EnergyTransmissionDistanceCreate]] = Field(
-    #     None, description="Distances of energy transmission in the length unit provided with the dataset."
-    # )
-    # losses: Optional[List[EnergyTransmissionLossCreate]] = Field(
-    #     None, description="Losses of energy transmission in the length unit provided with the dataset."
-    # )
 
     # validators
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
@@ -68,8 +53,6 @@ class EnergyTransmission(EnergyTransmissionBase):
 
     component: EnergyComponent
     commodity: EnergyCommodity
-    # distances: List[EnergyTransmissionDistance]
-    # losses: List[EnergyTransmissionLoss]
 
     class Config:
         orm_mode = True

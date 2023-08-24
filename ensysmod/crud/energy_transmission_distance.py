@@ -24,17 +24,34 @@ class CRUDEnergyTransmissionDistance(CRUDBase[EnergyTransmissionDistance, Energy
         """
         return db.query(self.model).filter(self.model.ref_component == component_id).all()
 
-    def get_by_component_and_two_regions(
+    def get_by_component_and_region_ids(
         self, db: Session, component_id: int, region_from_id: int, region_to_id: int
     ) -> Optional[EnergyTransmissionDistance]:
         """
-        Get a EnergyTransmissionDistance entry for a given component and its two regions.
+        Get a EnergyTransmissionDistance entry for a given component id and its two region ids.
         """
         return (
             db.query(self.model)
             .filter(self.model.ref_component == component_id)
             .filter(self.model.ref_region_from == region_from_id)
             .filter(self.model.ref_region_to == region_to_id)
+            .first()
+        )
+
+    def get_by_dataset_id_component_region_names(
+        self, db: Session, dataset_id: int,  component_name: str, region_from_name: str, region_to_name: str
+    ) -> Optional[EnergyTransmissionDistance]:
+        """
+        Get a EnergyTransmissionDistance entry for a given dataset id, component name and its two region names.
+        """
+        component = crud.energy_component.get_by_dataset_and_name(db=db, dataset_id=dataset_id, name=component_name)
+        region_from = crud.region.get_by_dataset_and_name(db=db, dataset_id=dataset_id, name=region_from_name)
+        region_to = crud.region.get_by_dataset_and_name(db=db, dataset_id=dataset_id, name=region_to_name)
+        return (
+            db.query(self.model)
+            .filter(self.model.ref_component == component.id)
+            .filter(self.model.ref_region_from == region_from.id)
+            .filter(self.model.ref_region_to == region_to.id)
             .first()
         )
 
