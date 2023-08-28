@@ -159,9 +159,9 @@ def component_to_dict(db: Session, component: EnergyComponent, region_ids: List[
         "opexPerCapacity": component.opex_per_capacity,
         "interestRate": component.interest_rate,
         "economicLifetime": component.economic_lifetime,
+        "sharedPotentialID": component.shared_potential_id,
+        "linkedQuantityID": component.linked_quantity_id,
     }
-    if component.shared_potential_id is not None:
-        component_data["sharedPotentialID"] = component.shared_potential_id
 
     if crud.capacity_max.has_data(db, component_id=component.id, region_ids=region_ids):
         component_data["capacityMax"] = df_or_s(crud.capacity_max.get_dataframe(db, component_id=component.id,

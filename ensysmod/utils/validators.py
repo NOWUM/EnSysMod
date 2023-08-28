@@ -196,6 +196,24 @@ def validate_shared_potential_id(shared_potential_id: Optional[str]) -> Optional
     return shared_potential_id
 
 
+def validate_linked_quantity_id(linked_quantity_id: Optional[str]) -> Optional[str]:
+    """
+    Validates the linked quantity id of an object.
+    Linked quantity id is always optional.
+
+    :param linked_quantity_id: The linked quantity id of the object.
+    :return: The validated linked quantity id.
+    """
+    if linked_quantity_id is None:
+        # Skip validation if no value provided
+        return None
+
+    if len(linked_quantity_id) > 100:
+        raise ValueError("Linked quantity id must not be longer than 100 characters.")
+
+    return linked_quantity_id
+
+
 def validate_conversion_factor(conversion_factor: Optional[float]) -> Optional[float]:
     """
     Validates the conversion factor of an object.

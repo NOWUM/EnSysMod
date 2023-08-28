@@ -1,6 +1,15 @@
 import enum
 
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Enum, UniqueConstraint, Float
+from sqlalchemy import (
+    Boolean,
+    Column,
+    Enum,
+    Float,
+    ForeignKey,
+    Integer,
+    String,
+    UniqueConstraint,
+)
 
 from ensysmod.database.base_class import Base
 
@@ -49,7 +58,8 @@ class EnergyComponent(Base):
     interest_rate = Column(Float, nullable=False, default=0.08)
     economic_lifetime = Column(Integer, nullable=False, default=10)
 
-    shared_potential_id = Column(String, nullable=True)
+    shared_potential_id = Column(String, nullable=True, default=None)
+    linked_quantity_id = Column(String, nullable=True, default=None)
 
     # constraint capacityVariableDomain
 

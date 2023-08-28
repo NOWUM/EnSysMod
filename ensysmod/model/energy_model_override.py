@@ -16,6 +16,7 @@ class EnergyModelOverrideAttribute(enum.Enum):
     interestRate = 'interest_rate'
     economicLifetime = 'economic_lifetime'
     sharedPotentialID = 'shared_potential_id'
+    linkedQuantityID = 'linked_quantity_id'
 
     commodityCost = 'commodity_cost'
     yearlyLimit = 'yearly_limit'
