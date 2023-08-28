@@ -16,6 +16,7 @@ from .endpoints import (
     regions,
     ts_capacity_fix,
     ts_capacity_max,
+    ts_capacity_min,
     ts_operation_rate_fix,
     ts_operation_rate_max,
     users,
@@ -39,5 +40,6 @@ api_router.include_router(energy_models.router, prefix="/models", tags=["Energy 
 
 api_router.include_router(ts_capacity_fix.router, prefix="/fix-capacities", tags=["Fix Capacities"])
 api_router.include_router(ts_capacity_max.router, prefix="/max-capacities", tags=["Max Capacities"])
+api_router.include_router(ts_capacity_min.router, prefix="/min-capacities", tags=["Min Capacities"])
 api_router.include_router(ts_operation_rate_fix.router, prefix="/fix-operation-rates", tags=["Fix Operation Rates"])
 api_router.include_router(ts_operation_rate_max.router, prefix="/max-operation-rates", tags=["Max Operation Rates"])

@@ -167,6 +167,10 @@ def component_to_dict(db: Session, component: EnergyComponent, region_ids: List[
         component_data["capacityMax"] = df_or_s(crud.capacity_max.get_dataframe(db, component_id=component.id,
                                                                                 region_ids=region_ids))
 
+    if crud.capacity_min.has_data(db, component_id=component.id, region_ids=region_ids):
+        component_data["capacityMin"] = df_or_s(crud.capacity_min.get_dataframe(db, component_id=component.id,
+                                                                                region_ids=region_ids))
+
     if crud.capacity_fix.has_data(db, component_id=component.id, region_ids=region_ids):
         component_data["capacityFix"] = df_or_s(crud.capacity_fix.get_dataframe(db, component_id=component.id,
                                                                                 region_ids=region_ids))

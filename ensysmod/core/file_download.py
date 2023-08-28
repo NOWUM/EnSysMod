@@ -115,6 +115,7 @@ def dump_energy_components(db: Session, dataset_id: int, temp_folder: str, crud_
         # dump excel files
         dump_excel_file(db, obj.ref_component, region_ids, crud.capacity_fix, f"{obj_folder}/capacityFix.xlsx")
         dump_excel_file(db, obj.ref_component, region_ids, crud.capacity_max, f"{obj_folder}/capacityMax.xlsx")
+        dump_excel_file(db, obj.ref_component, region_ids, crud.capacity_min, f"{obj_folder}/capacityMin.xlsx")
         dump_excel_file(db, obj.ref_component, region_ids, crud.operation_rate_fix, f"{obj_folder}/operationRateFix.xlsx")
         dump_excel_file(db, obj.ref_component, region_ids, crud.operation_rate_max, f"{obj_folder}/operationRateMax.xlsx")
 

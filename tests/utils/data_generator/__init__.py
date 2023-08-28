@@ -56,4 +56,5 @@ from .ts import (
     get_random_fix_operation_rate_create,
     get_random_max_capacity_create,
     get_random_max_operation_rate_create,
+    get_random_min_capacity_create,
 )

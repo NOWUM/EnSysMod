@@ -519,6 +519,19 @@ def validate_max_capacities(max_capacities: List[float]) -> List[float]:
     return max_capacities
 
 
+def validate_min_capacities(min_capacities: List[float]) -> List[float]:
+    """
+    Validates the min capacities of an object.
+
+    :param min_capacities: The min capacities of the object.
+    :return: The validated min capacities.
+    """
+    if not min_capacities:
+        raise ValueError("List of min capacities must not be empty.")
+
+    return min_capacities
+
+
 def validate_fix_operation_rates(fix_operation_rates: List[float]) -> List[float]:
     """
     Validates the fix operation rates of an object.

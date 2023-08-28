@@ -219,6 +219,14 @@ def process_sub_folder_files(zip_archive: ZipFile, sub_folder_name: str, db: Ses
                                                component_name, "max_capacities",
                                                crud_repo=crud.capacity_max,
                                                create_model=schemas.CapacityMaxCreate))
+
+    # check if capacityMin.xlsx exists in sub_folder_name
+    if sub_folder_name + "capacityMin.xlsx" in zip_archive.namelist():
+        file_results.append(process_excel_file(zip_archive.open(sub_folder_name + "capacityMin.xlsx"),
+                                               db, dataset_id,
+                                               component_name, "min_capacities",
+                                               crud_repo=crud.capacity_min,
+                                               create_model=schemas.CapacityMinCreate))
     return file_results
 
 
@@ -241,6 +249,14 @@ def process_sub_folder_matrix_files(zip_archive: ZipFile, sub_folder_name: str, 
                                                       component_name, "max_capacities",
                                                       crud_repo=crud.capacity_max,
                                                       create_model=schemas.CapacityMaxCreate))
+
+    # check if capacityMin.xlsx exists in sub_folder_name
+    if sub_folder_name + "capacityMin.xlsx" in zip_archive.namelist():
+        file_results.append(process_matrix_excel_file(zip_archive.open(sub_folder_name + "capacityMin.xlsx"),
+                                                      db, dataset_id,
+                                                      component_name, "min_capacities",
+                                                      crud_repo=crud.capacity_min,
+                                                      create_model=schemas.CapacityMinCreate))
 
     # check if distances.xlsx exists in sub_folder_name
     if sub_folder_name + "distances.xlsx" in zip_archive.namelist():

@@ -10,6 +10,7 @@ from ensysmod import crud
 from ensysmod.model import (
     CapacityFix,
     CapacityMax,
+    CapacityMin,
     Dataset,
     DatasetPermission,
     EnergyCommodity,
@@ -87,6 +88,7 @@ def clear_database(db: Session):
     tables = [
         CapacityFix,
         CapacityMax,
+        CapacityMin,
         Dataset,
         DatasetPermission,
         EnergyCommodity,

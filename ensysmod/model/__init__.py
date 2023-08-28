@@ -27,6 +27,7 @@ from .energy_transmission_loss import EnergyTransmissionLoss
 from .region import Region
 from .ts_capacity_fix import CapacityFix
 from .ts_capacity_max import CapacityMax
+from .ts_capacity_min import CapacityMin
 from .ts_operation_rate_fix import OperationRateFix
 from .ts_operation_rate_max import OperationRateMax
 from .user import User

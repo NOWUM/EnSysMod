@@ -61,6 +61,7 @@ from .region import Region, RegionCreate, RegionUpdate
 from .token import Token, TokenPayload
 from .ts_capacity_fix import CapacityFix, CapacityFixCreate, CapacityFixUpdate
 from .ts_capacity_max import CapacityMax, CapacityMaxCreate, CapacityMaxUpdate
+from .ts_capacity_min import CapacityMin, CapacityMinCreate, CapacityMinUpdate
 from .ts_operation_rate_fix import (
     OperationRateFix,
     OperationRateFixCreate,

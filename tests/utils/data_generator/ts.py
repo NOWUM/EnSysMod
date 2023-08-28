@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from ensysmod.schemas import (
     CapacityFixCreate,
     CapacityMaxCreate,
+    CapacityMinCreate,
     OperationRateFixCreate,
     OperationRateMaxCreate,
 )
@@ -29,6 +30,17 @@ def get_random_max_capacity_create(db: Session) -> CapacityMaxCreate:
         component=source.component.name,
         region=region.name,
         max_capacities=random_float_numbers(8760)
+    )
+
+
+def get_random_min_capacity_create(db: Session) -> CapacityMinCreate:
+    source = data_generator.fixed_existing_energy_sink(db)
+    region = data_generator.fixed_existing_region(db)
+    return CapacityMinCreate(
+        ref_dataset=region.ref_dataset,
+        component=source.component.name,
+        region=region.name,
+        min_capacities=random_float_numbers(8760)
     )
 
 
