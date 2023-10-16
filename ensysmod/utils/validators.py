@@ -558,6 +558,32 @@ def validate_max_operation_rates(max_operation_rates: List[float]) -> List[float
     return max_operation_rates
 
 
+def validate_max_yearly_full_load_hour(max_yearly_full_load_hour: list[float]) -> list[float]:
+    """
+    Validates the max yearly full load hour of an object.
+
+    :param max_yearly_full_load_hour: The max yearly full load hour of the object.
+    :return: The validated max yearly full load hour.
+    """
+    if not max_yearly_full_load_hour:
+        raise ValueError("List of max yearly full load hours must not be empty.")
+
+    return max_yearly_full_load_hour
+
+
+def validate_min_yearly_full_load_hour(min_yearly_full_load_hour: list[float]) -> list[float]:
+    """
+    Validates the min yearly full load hour of an object.
+
+    :param min_yearly_full_load_hour: The min yearly full load hour of the object.
+    :return: The validated min yearly full load hour.
+    """
+    if not min_yearly_full_load_hour:
+        raise ValueError("List of max yearly full load hours must not be empty.")
+
+    return min_yearly_full_load_hour
+
+
 def validate_optimization_timeframe(cls, values):
     """
     Validates the optimization timeframe of an object.

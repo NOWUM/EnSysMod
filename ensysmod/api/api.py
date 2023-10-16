@@ -19,6 +19,8 @@ from .endpoints import (
     ts_capacity_min,
     ts_operation_rate_fix,
     ts_operation_rate_max,
+    ts_yearly_full_load_hours_max,
+    ts_yearly_full_load_hours_min,
     users,
 )
 
@@ -43,3 +45,5 @@ api_router.include_router(ts_capacity_max.router, prefix="/max-capacities", tags
 api_router.include_router(ts_capacity_min.router, prefix="/min-capacities", tags=["Min Capacities"])
 api_router.include_router(ts_operation_rate_fix.router, prefix="/fix-operation-rates", tags=["Fix Operation Rates"])
 api_router.include_router(ts_operation_rate_max.router, prefix="/max-operation-rates", tags=["Max Operation Rates"])
+api_router.include_router(ts_yearly_full_load_hours_max.router, prefix="/max-yearly-full-load-hours", tags=["Max Yearly Full Load Hours"])
+api_router.include_router(ts_yearly_full_load_hours_min.router, prefix="/min-yearly-full-load-hours", tags=["Min Yearly Full Load Hours"])

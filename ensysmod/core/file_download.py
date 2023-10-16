@@ -118,6 +118,8 @@ def dump_energy_components(db: Session, dataset_id: int, temp_folder: str, crud_
         dump_excel_file(db, obj.ref_component, region_ids, crud.capacity_min, f"{obj_folder}/capacityMin.xlsx")
         dump_excel_file(db, obj.ref_component, region_ids, crud.operation_rate_fix, f"{obj_folder}/operationRateFix.xlsx")
         dump_excel_file(db, obj.ref_component, region_ids, crud.operation_rate_max, f"{obj_folder}/operationRateMax.xlsx")
+        dump_excel_file(db, obj.ref_component, region_ids, crud.yearly_full_load_hour_max, f"{obj_folder}/yearlyFullLoadHoursMax.xlsx")
+        dump_excel_file(db, obj.ref_component, region_ids, crud.yearly_full_load_hour_min, f"{obj_folder}/yearlyFullLoadHoursMin.xlsx")
 
         if file_name == "transmission":
             crud.energy_transmission_distance.get_dataframe(db, obj.ref_component, region_ids).to_excel(f"{obj_folder}/distances.xlsx")

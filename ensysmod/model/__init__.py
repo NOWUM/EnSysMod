@@ -30,4 +30,6 @@ from .ts_capacity_max import CapacityMax
 from .ts_capacity_min import CapacityMin
 from .ts_operation_rate_fix import OperationRateFix
 from .ts_operation_rate_max import OperationRateMax
+from .ts_yearly_full_load_hour_max import YearlyFullLoadHourMax
+from .ts_yearly_full_load_hour_min import YearlyFullLoadHourMin
 from .user import User

@@ -22,4 +22,6 @@ from .ts_capacity_max import capacity_max
 from .ts_capacity_min import capacity_min
 from .ts_operation_rate_fix import operation_rate_fix
 from .ts_operation_rate_max import operation_rate_max
+from .ts_yearly_full_load_hour_max import yearly_full_load_hour_max
+from .ts_yearly_full_load_hour_min import yearly_full_load_hour_min
 from .user import user

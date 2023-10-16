@@ -227,6 +227,22 @@ def process_sub_folder_files(zip_archive: ZipFile, sub_folder_name: str, db: Ses
                                                component_name, "min_capacities",
                                                crud_repo=crud.capacity_min,
                                                create_model=schemas.CapacityMinCreate))
+
+    # check if yearlyFullLoadHoursMax.xlsx exists in sub_folder_name
+    if sub_folder_name + "yearlyFullLoadHoursMax.xlsx" in zip_archive.namelist():
+        file_results.append(process_excel_file(zip_archive.open(sub_folder_name + "yearlyFullLoadHoursMax.xlsx"),
+                                               db, dataset_id,
+                                               component_name, "max_yearly_full_load_hour",
+                                               crud_repo=crud.yearly_full_load_hour_max,
+                                               create_model=schemas.YearlyFullLoadHourMaxCreate))
+
+    # check if yearlyFullLoadHoursMin.xlsx exists in sub_folder_name
+    if sub_folder_name + "yearlyFullLoadHoursMin.xlsx" in zip_archive.namelist():
+        file_results.append(process_excel_file(zip_archive.open(sub_folder_name + "yearlyFullLoadHoursMin.xlsx"),
+                                               db, dataset_id,
+                                               component_name, "min_yearly_full_load_hour",
+                                               crud_repo=crud.yearly_full_load_hour_min,
+                                               create_model=schemas.YearlyFullLoadHourMinCreate))
     return file_results
 
 
@@ -257,6 +273,22 @@ def process_sub_folder_matrix_files(zip_archive: ZipFile, sub_folder_name: str, 
                                                       component_name, "min_capacities",
                                                       crud_repo=crud.capacity_min,
                                                       create_model=schemas.CapacityMinCreate))
+
+    # check if yearlyFullLoadHoursMax.xlsx exists in sub_folder_name
+    if sub_folder_name + "yearlyFullLoadHoursMax.xlsx" in zip_archive.namelist():
+        file_results.append(process_matrix_excel_file(zip_archive.open(sub_folder_name + "yearlyFullLoadHoursMax.xlsx"),
+                                                      db, dataset_id,
+                                                      component_name, "max_yearly_full_load_hour",
+                                                      crud_repo=crud.yearly_full_load_hour_max,
+                                                      create_model=schemas.YearlyFullLoadHourMaxCreate))
+
+    # check if yearlyFullLoadHoursMin.xlsx exists in sub_folder_name
+    if sub_folder_name + "yearlyFullLoadHoursMin.xlsx" in zip_archive.namelist():
+        file_results.append(process_matrix_excel_file(zip_archive.open(sub_folder_name + "yearlyFullLoadHoursMin.xlsx"),
+                                                      db, dataset_id,
+                                                      component_name, "min_yearly_full_load_hour",
+                                                      crud_repo=crud.yearly_full_load_hour_min,
+                                                      create_model=schemas.YearlyFullLoadHourMinCreate))
 
     # check if distances.xlsx exists in sub_folder_name
     if sub_folder_name + "distances.xlsx" in zip_archive.namelist():

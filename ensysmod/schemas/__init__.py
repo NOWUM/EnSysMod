@@ -72,4 +72,14 @@ from .ts_operation_rate_max import (
     OperationRateMaxCreate,
     OperationRateMaxUpdate,
 )
+from .ts_yearly_full_load_hour_max import (
+    YearlyFullLoadHourMax,
+    YearlyFullLoadHourMaxCreate,
+    YearlyFullLoadHourMaxUpdate,
+)
+from .ts_yearly_full_load_hour_min import (
+    YearlyFullLoadHourMin,
+    YearlyFullLoadHourMinCreate,
+    YearlyFullLoadHourMinUpdate,
+)
 from .user import User, UserCreate, UserInDB, UserUpdate

@@ -185,6 +185,14 @@ def component_to_dict(db: Session, component: EnergyComponent, region_ids: List[
                                                                                            component_id=component.id,
                                                                                            region_ids=region_ids))
 
+    if crud.yearly_full_load_hour_max.has_data(db, component_id=component.id, region_ids=region_ids):
+        component_data["yearlyFullLoadHoursMax"] = df_or_s(crud.yearly_full_load_hour_max.get_dataframe(db, component_id=component.id,
+                                                                                                        region_ids=region_ids))
+
+    if crud.yearly_full_load_hour_min.has_data(db, component_id=component.id, region_ids=region_ids):
+        component_data["yearlyFullLoadHoursMin"] = df_or_s(crud.yearly_full_load_hour_min.get_dataframe(db, component_id=component.id,
+                                                                                                        region_ids=region_ids))
+
     return component_data
 
 
