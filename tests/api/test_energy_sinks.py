@@ -1,22 +1,20 @@
-from typing import Dict
-
 from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from ensysmod.model import EnergyComponentType
-from tests.utils import data_generator
 from tests.utils.assertions import assert_energy_component
+from tests.utils.data_generator.energy_sinks import sink_create, sink_create_request
 from tests.utils.utils import clear_database
 
 
-def test_get_all_energy_sinks(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_get_all_energy_sinks(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test retrieving all energy sinks.
     """
     clear_database(db)
-    sink1 = data_generator.random_existing_energy_sink(db)
-    sink2 = data_generator.random_existing_energy_sink(db)
+    sink1 = sink_create(db, normal_user_headers)
+    sink2 = sink_create(db, normal_user_headers)
 
     response = client.get("/sinks/", headers=normal_user_headers)
     assert response.status_code == status.HTTP_200_OK
@@ -29,11 +27,11 @@ def test_get_all_energy_sinks(client: TestClient, normal_user_headers: Dict[str,
     assert sink_list[1]["component"]["id"] == sink2.component.id
 
 
-def test_create_sink(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_sink(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating an energy sink.
     """
-    create_request = data_generator.random_energy_sink_create(db)
+    create_request = sink_create_request(db, normal_user_headers)
     response = client.post("/sinks/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
@@ -42,34 +40,35 @@ def test_create_sink(client: TestClient, normal_user_headers: Dict[str, str], db
     assert created_sinks["commodity"]["name"] == create_request.commodity
 
 
-def test_create_existing_sink(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_existing_sink(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating an existing energy sink.
     """
-    create_request = data_generator.random_energy_sink_create(db)
+    create_request = sink_create_request(db, normal_user_headers)
     response = client.post("/sinks/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
     response = client.post("/sinks/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
-def test_create_sink_unknown_dataset(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_sink_unknown_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating an energy sink.
     """
-    create_request = data_generator.random_energy_sink_create(db)
+    create_request = sink_create_request(db, normal_user_headers)
     create_request.ref_dataset = 123456  # ungültige Anfrage
     response = client.post("/sinks/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_create_sink_unknown_commodity(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_sink_unknown_commodity(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating an energy sink.
     """
-    create_request = data_generator.random_energy_sink_create(db)
+    create_request = sink_create_request(db, normal_user_headers)
     create_request.commodity = "0"  # ungültige Anfrage
     response = client.post("/sinks/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
+
 
 # TODO Add more test cases

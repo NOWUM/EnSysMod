@@ -1,22 +1,23 @@
-from typing import Dict
-
 from fastapi import status
 from fastapi.encoders import jsonable_encoder
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from ensysmod.schemas import EnergyTransmissionDistanceUpdate
-from tests.utils import data_generator
 from tests.utils.assertions import assert_transmission_distance
-from tests.utils.data_generator.energy_transmissions import create_transmission_scenario
+from tests.utils.data_generator.energy_transmissions import (
+    create_transmission_scenario,
+    transmission_distance_create,
+    transmission_distance_create_request,
+)
 from tests.utils.utils import clear_database
 
 
-def test_create_transmission_distance(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_transmission_distance(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating a transmission distance.
     """
-    create_request = data_generator.fixed_transmission_distance_create(db)
+    create_request = transmission_distance_create_request(db, normal_user_headers)
     response = client.post("/distances/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
@@ -27,59 +28,59 @@ def test_create_transmission_distance(client: TestClient, normal_user_headers: D
     assert created_distance["region_to"]["name"] == create_request.region_to
 
 
-def test_create_existing_transmission_distance(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_existing_transmission_distance(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating an existing transmission distance.
     """
     clear_database(db)
-    create_request = data_generator.fixed_transmission_distance_create(db)
+    create_request = transmission_distance_create_request(db, normal_user_headers)
     response = client.post("/distances/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
     response = client.post("/distances/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
-def test_create_transmission_distance_unknown_dataset(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_transmission_distance_unknown_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating a transmission distance with unknown dataset.
     """
-    create_request = data_generator.fixed_transmission_distance_create(db)
+    create_request = transmission_distance_create_request(db, normal_user_headers)
     create_request.ref_dataset = 123456
     response = client.post("/distances/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_create_transmission_distance_unknown_component(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_transmission_distance_unknown_component(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating a transmission distance with unknown component.
     """
-    create_request = data_generator.fixed_transmission_distance_create(db)
+    create_request = transmission_distance_create_request(db, normal_user_headers)
     create_request.component = "Unknown Component"
     response = client.post("/distances/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_create_transmission_distance_unknown_regions(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_transmission_distance_unknown_regions(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating a transmission distance with unknown regions.
     """
-    create_request = data_generator.fixed_transmission_distance_create(db)
+    create_request = transmission_distance_create_request(db, normal_user_headers)
     create_request.region_from = "Unknown Region"
     response = client.post("/distances/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    create_request = data_generator.fixed_transmission_distance_create(db)
+    create_request = transmission_distance_create_request(db, normal_user_headers)
     create_request.region_to = "Unknown Region"
     response = client.post("/distances/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_get_all_transmission_distances(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_get_all_transmission_distances(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test retrieving all transmission distances.
     """
     clear_database(db)
-    scenario = create_transmission_scenario(db)
+    scenario = create_transmission_scenario(db, normal_user_headers)
 
     response = client.get("/distances/", headers=normal_user_headers)
     assert response.status_code == status.HTTP_200_OK
@@ -92,11 +93,11 @@ def test_get_all_transmission_distances(client: TestClient, normal_user_headers:
     assert_transmission_distance(check_entry=distance_list[3], expected_entry=scenario["distances"][3])
 
 
-def test_get_transmission_distance(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_get_transmission_distance(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test retrieving a transmission distance.
     """
-    existing_distance = data_generator.fixed_existing_transmission_distance(db)
+    existing_distance = transmission_distance_create(db, normal_user_headers)
     response = client.get(f"/distances/{existing_distance.id}", headers=normal_user_headers)
     assert response.status_code == status.HTTP_200_OK
 
@@ -104,12 +105,12 @@ def test_get_transmission_distance(client: TestClient, normal_user_headers: Dict
     assert_transmission_distance(check_entry=retrieved_distance, expected_entry=existing_distance)
 
 
-def test_get_transmission_distances_by_component(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_get_transmission_distances_by_component(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test retrieving all transmission distances of a component.
     """
     clear_database(db)
-    scenario = create_transmission_scenario(db)
+    scenario = create_transmission_scenario(db, normal_user_headers)
 
     component_id = scenario["transmissions"][0].component.id
     response = client.get(f"/distances/component/{component_id}", headers=normal_user_headers)
@@ -130,11 +131,11 @@ def test_get_transmission_distances_by_component(client: TestClient, normal_user
     assert_transmission_distance(check_entry=distance_list[1], expected_entry=scenario["distances"][3])
 
 
-def test_update_transmission_distance(db: Session, client: TestClient, normal_user_headers: Dict[str, str]):
+def test_update_transmission_distance(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test updating a transmission distance.
     """
-    existing_distance = data_generator.fixed_existing_transmission_distance(db)
+    existing_distance = transmission_distance_create(db, normal_user_headers)
     print(existing_distance.distance)
 
     update_request = EnergyTransmissionDistanceUpdate(**jsonable_encoder(existing_distance))
@@ -151,12 +152,12 @@ def test_update_transmission_distance(db: Session, client: TestClient, normal_us
     assert updated_distance["distance"] == update_request.distance
 
 
-def test_remove_transmission_distance(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_remove_transmission_distance(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test deleting a transmission distance.
     """
     clear_database(db)
-    scenario = create_transmission_scenario(db)
+    scenario = create_transmission_scenario(db, normal_user_headers)
 
     # delete the first distance entry
     response = client.delete(f"/distances/{scenario['distances'][0].id}", headers=normal_user_headers)
@@ -173,12 +174,12 @@ def test_remove_transmission_distance(client: TestClient, normal_user_headers: D
     assert_transmission_distance(check_entry=distance_list[2], expected_entry=scenario["distances"][3])
 
 
-def test_remove_transmission_distances_by_component(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_remove_transmission_distances_by_component(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test deleting all transmission distances of a component.
     """
     clear_database(db)
-    scenario = create_transmission_scenario(db)
+    scenario = create_transmission_scenario(db, normal_user_headers)
 
     # delete the distance entries of the first component
     component_id = scenario["transmissions"][0].component.id

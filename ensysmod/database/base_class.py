@@ -1,11 +1,10 @@
 import re
 from typing import Any
 
-from sqlalchemy.orm import as_declarative, declared_attr
+from sqlalchemy.orm import DeclarativeBase, declared_attr
 
 
-@as_declarative()
-class Base:
+class Base(DeclarativeBase):
     """
     Base class for all database models
     """
@@ -15,6 +14,6 @@ class Base:
     __allow_unmapped__ = True
 
     # Generate __tablename__ automatically
-    @declared_attr
+    @declared_attr.directive
     def __tablename__(self) -> str:
         return re.sub(r'(?<!^)(?=[A-Z])', '_', self.__name__).lower()

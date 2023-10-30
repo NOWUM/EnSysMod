@@ -3,60 +3,43 @@ from sqlalchemy.orm import Session
 from ensysmod import crud
 from ensysmod.model import EnergyConversion
 from ensysmod.schemas import EnergyConversionCreate, EnergyConversionFactorCreate
-from tests.utils.data_generator.datasets import fixed_existing_dataset
-from tests.utils.data_generator.energy_commodities import (
-    fixed_existing_energy_commodity,
-)
+from tests.utils.data_generator.datasets import dataset_create
+from tests.utils.data_generator.energy_commodities import commodity_create
 from tests.utils.utils import random_lower_string
 
 
-def random_energy_conversion_create(db: Session) -> EnergyConversionCreate:
+def conversion_create_request(
+    db: Session,
+    current_user_header: dict[str, str],
+    dataset_id: int | None = None,
+    commodity_name: str | None = None,
+) -> EnergyConversionCreate:
     """
-    Generate a random EnergyConversionCreate object.
+    Generate a conversion create request with the specified dataset and commodity.
+    If dataset_id or commodity_name is not specified, it will be generated.
     """
-    dataset = fixed_existing_dataset(db)
-    commodity = fixed_existing_energy_commodity(db)
+    if dataset_id is None:
+        dataset_id = dataset_create(db, current_user_header).id
+    if commodity_name is None:
+        commodity_name = commodity_create(db, current_user_header, dataset_id).name
     return EnergyConversionCreate(
-        ref_dataset=dataset.id,
-        name=f"EnergyConversion-{dataset.id}-{random_lower_string()}",
+        ref_dataset=dataset_id,
+        name=f"EnergyConversion-Dataset{dataset_id}-{random_lower_string()}",
         description="Description",
-        commodity_unit=commodity.name,
-        conversion_factors=[EnergyConversionFactorCreate(commodity=commodity.name, conversion_factor=1.0)]
+        commodity_unit=commodity_name,
+        conversion_factors=[EnergyConversionFactorCreate(commodity=commodity_name, conversion_factor=1.0)],
     )
 
 
-def random_existing_energy_conversion(db: Session) -> EnergyConversion:
+def conversion_create(
+    db: Session,
+    current_user_header: dict[str, str],
+    dataset_id: int | None = None,
+    commodity_name: str | None = None,
+) -> EnergyConversion:
     """
-    Generate a random EnergyConversion object.
+    Create a conversion component with the specified dataset and commodity.
+    If dataset_id or commodity_name is not specified, it will be generated.
     """
-    create_request = random_energy_conversion_create(db)
+    create_request = conversion_create_request(db, current_user_header, dataset_id, commodity_name)
     return crud.energy_conversion.create(db=db, obj_in=create_request)
-
-
-def fixed_energy_conversion_create(db: Session) -> EnergyConversionCreate:
-    """
-    Generate a fixed EnergyConversionCreate object.
-    Will always return the same object.
-    """
-    dataset = fixed_existing_dataset(db)
-    commodity = fixed_existing_energy_commodity(db)
-    return EnergyConversionCreate(
-        ref_dataset=dataset.id,
-        name=f"EnergyConversion-{dataset.id}-Fixed",
-        description="Description",
-        commodity_unit=commodity.name,
-        conversion_factors=[EnergyConversionFactorCreate(commodity=commodity.name, conversion_factor=1.0)]
-    )
-
-
-def fixed_existing_energy_conversion(db: Session) -> EnergyConversion:
-    """
-    Generate a fixed EnergyConversion object.
-    Will always return the same object.
-    """
-    create_request = fixed_energy_conversion_create(db)
-    conversion = crud.energy_conversion.get_by_dataset_and_name(db, dataset_id=create_request.ref_dataset,
-                                                                name=create_request.name)
-    if conversion is None:
-        conversion = crud.energy_conversion.create(db=db, obj_in=create_request)
-    return conversion

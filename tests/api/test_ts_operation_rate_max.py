@@ -1,17 +1,15 @@
-from typing import Dict
-
 from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from tests.utils import data_generator
+from tests.utils.data_generator.operation_rates import operation_rate_max_create_request
 
 
-def test_create_max_operation_rate(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_max_operation_rate(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating a max operation rate time series.
     """
-    create_request = data_generator.get_random_max_operation_rate_create(db)
+    create_request = operation_rate_max_create_request(db, normal_user_headers)
     response = client.post("/max-operation-rates/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 

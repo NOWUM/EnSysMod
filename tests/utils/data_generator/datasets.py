@@ -8,53 +8,34 @@ from ensysmod import crud
 from ensysmod.core.file_upload import process_dataset_zip_archive
 from ensysmod.model import Dataset
 from ensysmod.schemas import DatasetCreate, FileStatus
-from tests.utils.utils import create_random_user, random_lower_string
+from tests.utils.utils import get_current_user_from_headers, random_lower_string
 
 
-def random_dataset_create() -> DatasetCreate:
+def dataset_create_request(db: Session, current_user_header: dict[str, str], user_id: int | None = None) -> DatasetCreate:
     """
-    Generates a random dataset create request.
+    Generate a dataset create request with the specified user_id.
+    If user_id is not specified, the current user is used.
     """
-    dataset_name = "DS " + random_lower_string()
-    dataset_description = "DS desc " + random_lower_string()
-    return DatasetCreate(name=dataset_name, description=dataset_description,
-                         hours_per_time_step=1, number_of_time_steps=8760,
-                         cost_unit='1e9 Euro', length_unit='km',
-                         ref_created_by=1)
+    if user_id is None:
+        user_id = get_current_user_from_headers(db, current_user_header).id
+    return DatasetCreate(
+        name=f"Dataset-{random_lower_string()}",
+        description="Dataset description",
+        hours_per_time_step=1,
+        number_of_time_steps=8760,
+        cost_unit="1e9 Euro",
+        length_unit="km",
+        ref_created_by=user_id,
+    )
 
 
-def random_existing_dataset(db: Session) -> Dataset:
+def dataset_create(db: Session, current_user_header: dict[str, str], user_id: int | None = None) -> Dataset:
     """
-    Generates a random existing dataset.
+    Create a dataset with the specified user_id.
+    If user_id is not specified, the current user is used.
     """
-    user = crud.user.get(db=db, id=1)
-    if user is None:
-        create_random_user(db=db)
-    create_request = random_dataset_create()
+    create_request = dataset_create_request(db, current_user_header, user_id)
     return crud.dataset.create(db=db, obj_in=create_request)
-
-
-def fixed_dataset_create() -> DatasetCreate:
-    """
-    Generates a fixed dataset create request.
-    Will always return the same create request.
-    """
-    return DatasetCreate(name="Fixed dataset", description="Fixed dataset description", ref_created_by=1)
-
-
-def fixed_existing_dataset(db: Session) -> Dataset:
-    """
-    Generates a fixed existing dataset.
-    Will always return the same dataset.
-    """
-    user = crud.user.get(db=db, id=1)
-    if user is None:
-        create_random_user(db=db)
-    create_request = fixed_dataset_create()
-    dataset = crud.dataset.get_by_name(db=db, name=create_request.name)
-    if dataset is None:
-        dataset = crud.dataset.create(db=db, obj_in=create_request)
-    return dataset
 
 
 def get_dataset_zip(folder_name: str) -> str:

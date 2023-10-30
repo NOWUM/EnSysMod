@@ -1,22 +1,20 @@
-from typing import Dict
-
 from fastapi import status
 from fastapi.encoders import jsonable_encoder
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from ensysmod.schemas import DatasetCreate, DatasetUpdate
-from tests.utils import data_generator
+from tests.utils.data_generator.datasets import dataset_create, dataset_create_request
 from tests.utils.utils import clear_database, random_lower_string
 
 
-def test_get_all_datasets(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_get_all_datasets(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test retrieving all datasets.
     """
     clear_database(db)
-    dataset1 = data_generator.random_existing_dataset(db)
-    dataset2 = data_generator.random_existing_dataset(db)
+    dataset1 = dataset_create(db, normal_user_headers)
+    dataset2 = dataset_create(db, normal_user_headers)
 
     response = client.get("/datasets/", headers=normal_user_headers)
     assert response.status_code == status.HTTP_200_OK
@@ -29,11 +27,11 @@ def test_get_all_datasets(client: TestClient, normal_user_headers: Dict[str, str
     assert dataset_list[1]["id"] == dataset2.id
 
 
-def test_get_dataset(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_get_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test retrieving a dataset.
     """
-    dataset = data_generator.random_existing_dataset(db)
+    dataset = dataset_create(db, normal_user_headers)
     response = client.get(f"/datasets/{dataset.id}", headers=normal_user_headers)
     assert response.status_code == status.HTTP_200_OK
 
@@ -42,70 +40,52 @@ def test_get_dataset(client: TestClient, normal_user_headers: Dict[str, str], db
     assert retrieved_dataset["id"] == dataset.id
 
 
-def test_create_dataset(client: TestClient, normal_user_headers: Dict[str, str]):
+def test_create_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating a dataset.
     """
-    # Create a dataset
-    create_request = data_generator.random_dataset_create()
+    create_request = dataset_create_request(db, normal_user_headers)
 
-    response = client.post(
-        "/datasets/",
-        headers=normal_user_headers,
-        data=create_request.json()
-    )
+    response = client.post("/datasets/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
     created_dataset = response.json()
-    assert created_dataset['name'] == create_request.name
-    assert created_dataset['description'] == create_request.description
+    assert created_dataset["name"] == create_request.name
+    assert created_dataset["description"] == create_request.description
 
 
-def test_create_existing_dataset(db: Session, client: TestClient, normal_user_headers: Dict[str, str]):
+def test_create_existing_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating an existing dataset.
     """
-    existing_dataset = data_generator.random_existing_dataset(db)
-    print(existing_dataset.name)
+    existing_dataset = dataset_create(db, normal_user_headers)
     create_request = DatasetCreate(**jsonable_encoder(existing_dataset))
-    response = client.post(
-        "/datasets/",
-        headers=normal_user_headers,
-        data=create_request.json()
-    )
+    response = client.post("/datasets/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
-def test_update_dataset(db: Session, client: TestClient, normal_user_headers: Dict[str, str]):
+def test_update_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test updating a dataset.
     """
-    existing_dataset = data_generator.random_existing_dataset(db)
-    print(existing_dataset.name)
+    existing_dataset = dataset_create(db, normal_user_headers)
 
     update_request = DatasetUpdate(**jsonable_encoder(existing_dataset))
     update_request.name = f"New Dataset Name-{random_lower_string()}"
     update_request.description = f"New Dataset Description-{random_lower_string()}"
 
-    response = client.put(
-        f"/datasets/{existing_dataset.id}",
-        headers=normal_user_headers,
-        data=update_request.json()
-    )
+    response = client.put(f"/datasets/{existing_dataset.id}", headers=normal_user_headers, data=update_request.json())
     assert response.status_code == status.HTTP_200_OK
 
     updated_dataset = response.json()
-    assert updated_dataset['name'] == update_request.name
-    assert updated_dataset['description'] == update_request.description
+    assert updated_dataset["name"] == update_request.name
+    assert updated_dataset["description"] == update_request.description
 
 
-def test_remove_dataset(db: Session, client: TestClient, normal_user_headers: Dict[str, str]):
+def test_remove_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test deleting a dataset.
     """
-    existing_dataset = data_generator.random_existing_dataset(db)
-    response = client.delete(
-        f"/datasets/{existing_dataset.id}",
-        headers=normal_user_headers
-    )
+    existing_dataset = dataset_create(db, normal_user_headers)
+    response = client.delete(f"/datasets/{existing_dataset.id}", headers=normal_user_headers)
     assert response.status_code == status.HTTP_200_OK
