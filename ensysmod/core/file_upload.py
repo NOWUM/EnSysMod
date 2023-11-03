@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from ensysmod import crud, schemas
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
-from ensysmod.crud.base_depends_timeseries import CRUDBaseDependsTimeSeries
+from ensysmod.crud.base_depends_matrix import CRUDBaseDependsMatrix
 from ensysmod.schemas import FileStatus, FileUploadResult, ZipArchiveUploadResult
 
 
@@ -32,7 +32,7 @@ def create_or_update_named_entity(crud_repo: CRUDBaseDependsDataset, db: Session
         return crud_repo.update(db, obj_in=request, db_obj=existing_object)
 
 
-def create_or_update_time_series(crud_repo: CRUDBaseDependsTimeSeries, db: Session, request: Any):
+def create_or_update_time_series(crud_repo: CRUDBaseDependsMatrix, db: Session, request: Any):
     """
     This function creates or updates an object inside the given crud repository.
 
@@ -311,7 +311,7 @@ def process_sub_folder_matrix_files(zip_archive: ZipFile, sub_folder_name: str, 
 
 
 def process_excel_file(file: TemporaryFile, db: Session, dataset_id: int, component_name: str, data_key: str,
-                       crud_repo: CRUDBaseDependsTimeSeries, create_model: Type[BaseModel]) -> FileUploadResult:
+                       crud_repo: CRUDBaseDependsMatrix, create_model: Type[BaseModel]) -> FileUploadResult:
     """
     Processes an excel file and adds the time series to the database.
 
@@ -340,7 +340,7 @@ def process_excel_file(file: TemporaryFile, db: Session, dataset_id: int, compon
 
 
 def process_matrix_excel_file(file: TemporaryFile, db: Session, dataset_id: int, component_name: str, data_key: str,
-                              crud_repo: CRUDBaseDependsTimeSeries, create_model: Type[BaseModel],
+                              crud_repo: CRUDBaseDependsMatrix, create_model: Type[BaseModel],
                               as_list: bool = True, region_key: str = "region") -> FileUploadResult:
     """
     Processes an excel file and adds the matrix data (region_from / region_to) to the database.

@@ -8,6 +8,7 @@ from ensysmod.crud.base import CRUDBase
 from ensysmod.model import EnergyTransmissionLoss
 from ensysmod.schemas import EnergyTransmissionLossCreate, EnergyTransmissionLossUpdate
 
+# TODO this CRUD class should inherit from CRUDBaseDependsRegionXRegionMatrix
 
 # noinspection PyMethodMayBeStatic,PyArgumentList
 class CRUDEnergyTransmissionLoss(CRUDBase[EnergyTransmissionLoss, EnergyTransmissionLossCreate, EnergyTransmissionLossUpdate]):

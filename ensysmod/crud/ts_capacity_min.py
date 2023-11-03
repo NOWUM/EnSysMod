@@ -1,14 +1,15 @@
-from ensysmod.crud.base_depends_timeseries import CRUDBaseDependsTimeSeries
+from ensysmod.crud.base_depends_region_matrix import CRUDBaseDependsRegionMatrix
 from ensysmod.model import CapacityMin
 from ensysmod.schemas import CapacityMinCreate, CapacityMinUpdate
 
 
 # noinspection PyMethodMayBeStatic,PyArgumentList
-class CRUDCapacityMin(CRUDBaseDependsTimeSeries[CapacityMin, CapacityMinCreate, CapacityMinUpdate]):
+class CRUDCapacityMin(CRUDBaseDependsRegionMatrix[CapacityMin, CapacityMinCreate, CapacityMinUpdate]):
     """
     CRUD operations for CapacityMin
     """
+
     pass
 
 
-capacity_min = CRUDCapacityMin(CapacityMin, "min_capacities")
+capacity_min = CRUDCapacityMin(CapacityMin, data_column="min_capacities")

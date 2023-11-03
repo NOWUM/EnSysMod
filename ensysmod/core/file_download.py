@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 
 from ensysmod import crud, schemas
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
-from ensysmod.crud.base_depends_timeseries import CRUDBaseDependsTimeSeries
+from ensysmod.crud.base_depends_matrix import CRUDBaseDependsMatrix
 from ensysmod.utils import jsonable_encoder
 
 
@@ -158,7 +158,7 @@ def create_json(obj: Any, fields: Set[str], remove_ref_fields: bool = True) -> A
 
 
 def dump_excel_file(db: Session, component_id: int, region_ids: List[int],
-                    crud_repo: CRUDBaseDependsTimeSeries, file_name: str):
+                    crud_repo: CRUDBaseDependsMatrix, file_name: str):
     """
     Exports time series data from database to excel.
 
