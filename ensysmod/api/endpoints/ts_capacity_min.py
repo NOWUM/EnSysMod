@@ -57,7 +57,7 @@ def create_min_capacity(request: schemas.CapacityMinCreate,
                             detail=f"CapacityMin for component {component.name} (id {component.id}) and "
                                    f"region {region.name} (id {region.id}) already exists with id {ts.id}!")
 
-    ts_in_base: Optional[List[model.CapacityMin]] = crud.capacity_min.get_by_component(db=db, component_id=component.id)
+    ts_in_base: Optional[List[model.CapacityMin]] = crud.capacity_min.get_multi_by_component(db=db, component_id=component.id)
     if ts_in_base is not None:
         # get maximum length min_capacities in ts_in_base
         max_length = 0

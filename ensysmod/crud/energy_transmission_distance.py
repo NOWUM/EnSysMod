@@ -14,6 +14,8 @@ from ensysmod.schemas import (
 # TODO this CRUD class should inherit from CRUDBaseDependsRegionXRegionMatrix
 
 # noinspection PyMethodMayBeStatic,PyArgumentList
+
+
 class CRUDEnergyTransmissionDistance(CRUDBase[EnergyTransmissionDistance, EnergyTransmissionDistanceCreate, EnergyTransmissionDistanceUpdate]):
     """
     CRUD operations for EnergyTransmissionDistance

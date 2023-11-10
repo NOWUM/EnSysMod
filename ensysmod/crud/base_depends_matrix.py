@@ -1,5 +1,5 @@
 from operator import or_
-from typing import Generic, Type
+from typing import Generic
 
 import pandas as pd
 from sqlalchemy.orm import Session
@@ -16,7 +16,7 @@ class CRUDBaseDependsMatrix(CRUDBaseDependsComponentRegion, Generic[ModelType, C
 
     data_column: str
 
-    def __init__(self, model: Type[ModelType], data_column: str):
+    def __init__(self, model: type[ModelType], data_column: str):
         super().__init__(model=model)
         self.data_column = data_column
 
@@ -43,7 +43,7 @@ class CRUDBaseDependsMatrix(CRUDBaseDependsComponentRegion, Generic[ModelType, C
         if len(obj_in_dict[self.data_column]) != 1:
             allowed_len = crud.dataset.get(db, id=obj_in_dict["ref_dataset"]).number_of_time_steps
             if len(obj_in_dict[self.data_column]) != allowed_len:
-                raise ValueError(f"Number of elements in {self.data_column} must match " f"number of time steps in dataset ({allowed_len}) or be 1.")
+                raise ValueError(f"Number of elements in {self.data_column} must match number of time steps in dataset ({allowed_len}) or be 1.")
 
         component = crud.energy_component.get_by_dataset_and_name(db, name=obj_in.component, dataset_id=obj_in.ref_dataset)
         obj_in_dict["ref_component"] = component.id

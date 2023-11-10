@@ -168,7 +168,7 @@ def dump_excel_file(db: Session, component_id: int, region_ids: List[int],
     :param crud_repo: The CRUD repository.
     :param file_name: The file name.
     """
-    if len(crud_repo.get_by_component(db, component_id=component_id)) == 0:
+    if len(crud_repo.get_multi_by_component(db, component_id=component_id)) == 0:
         print(f"No data for component {component_id}. Skipping {file_name}")
         return
 

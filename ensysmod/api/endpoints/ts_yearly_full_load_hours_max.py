@@ -57,7 +57,7 @@ def create_max_yearly_full_load_hour(request: schemas.YearlyFullLoadHourMaxCreat
                             detail=f"YearlyFullLoadHourMax for component {component.name} (id {component.id}) and "
                                    f"region {region.name} (id {region.id}) already exists with id {ts.id}!")
 
-    ts_in_base: Optional[List[model.YearlyFullLoadHourMax]] = crud.yearly_full_load_hour_max.get_by_component(db=db, component_id=component.id)
+    ts_in_base: Optional[List[model.YearlyFullLoadHourMax]] = crud.yearly_full_load_hour_max.get_multi_by_component(db=db, component_id=component.id)
     if ts_in_base is not None:
         # get maximum length max_yearly_full_load_hours in ts_in_base
         max_length = 0
