@@ -62,13 +62,13 @@ def create_max_capacity(request: schemas.CapacityMaxCreate,
         # get maximum length max_capacities in ts_in_base
         max_length = 0
         for ts_in in ts_in_base:
-            if ts_in.max_capacities is not None:
-                max_length = max(max_length, len(ts_in.max_capacities))
+            if ts_in.max_capacity is not None:
+                max_length = max(max_length, len(ts_in.max_capacity))
 
-        if max_length > 0 and max_length != len(request.max_capacities):
+        if max_length > 0 and max_length != len(request.max_capacity):
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                                 detail=f"CapacityMax for component {component.name} (id {component.id}) has a length "
-                                       f"of {max_length}. Your new time series has {len(request.max_capacities)} "
+                                       f"of {max_length}. Your new time series has {len(request.max_capacity)} "
                                        f"elements.")
 
     return crud.capacity_max.create(db=db, obj_in=request)

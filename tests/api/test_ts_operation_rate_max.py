@@ -2,14 +2,14 @@ from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from tests.utils.data_generator.operation_rates import operation_rate_max_create_request
+from tests.utils.data_generator.operation_rates import operation_rate_create_request
 
 
 def test_create_max_operation_rate(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating a max operation rate time series.
     """
-    create_request = operation_rate_max_create_request(db, normal_user_headers)
+    create_request = operation_rate_create_request("max",  db, normal_user_headers)
     response = client.post("/max-operation-rates/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 

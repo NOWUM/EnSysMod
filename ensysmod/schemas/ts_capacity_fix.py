@@ -1,6 +1,4 @@
-from typing import List
-
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, NonNegativeFloat
 
 from ensysmod.schemas.base_ref_component_region import (
     RefCRBase,
@@ -8,35 +6,30 @@ from ensysmod.schemas.base_ref_component_region import (
     RefCRBaseCreate,
     RefCRBaseUpdate,
 )
-from ensysmod.utils import validators
 
 
 class CapacityFixBase(RefCRBaseBase, BaseModel):
     """
     Shared attributes for a fix capacity. Used as a base class for all schemas.
     """
-    fix_capacities: List[float] = Field(...,
-                                        description="Fix capacities for a component in a specific region. "
-                                                    "Provide single value or a list of values for each time step "
-                                                    "in dataset.",
-                                        example=[4.0, 5.0, 6.0])
 
-    # validators
-    _valid_fix_capacities = validator("fix_capacities", allow_reuse=True)(validators.validate_fix_capacities)
+    fix_capacity: NonNegativeFloat = Field(
+        ...,
+        description="Fixed capacity for a component in a specific region.",
+        example=1.0,
+    )
 
 
 class CapacityFixCreate(CapacityFixBase, RefCRBaseCreate):
     """
     Attributes to receive via API on creation of a fix capacity.
     """
-    pass
 
 
 class CapacityFixUpdate(CapacityFixBase, RefCRBaseUpdate):
     """
     Attributes to receive via API on update of a fix capacity.
     """
-    pass
 
 
 class CapacityFix(CapacityFixBase, RefCRBase):

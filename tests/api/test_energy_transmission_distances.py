@@ -24,7 +24,7 @@ def test_create_transmission_distance(db: Session, client: TestClient, normal_us
     created_distance = response.json()
     assert created_distance["distance"] == create_request.distance
     assert created_distance["transmission"]["component"]["name"] == create_request.component
-    assert created_distance["region_from"]["name"] == create_request.region_from
+    assert created_distance["region"]["name"] == create_request.region
     assert created_distance["region_to"]["name"] == create_request.region_to
 
 
@@ -65,7 +65,7 @@ def test_create_transmission_distance_unknown_regions(db: Session, client: TestC
     Test creating a transmission distance with unknown regions.
     """
     create_request = transmission_distance_create_request(db, normal_user_headers)
-    create_request.region_from = "Unknown Region"
+    create_request.region = "Unknown Region"
     response = client.post("/distances/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 

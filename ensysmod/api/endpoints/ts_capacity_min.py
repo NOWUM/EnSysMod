@@ -62,13 +62,13 @@ def create_min_capacity(request: schemas.CapacityMinCreate,
         # get maximum length min_capacities in ts_in_base
         max_length = 0
         for ts_in in ts_in_base:
-            if ts_in.min_capacities is not None:
-                max_length = max(max_length, len(ts_in.min_capacities))
+            if ts_in.min_capacity is not None:
+                max_length = max(max_length, len(ts_in.min_capacity))
 
-        if max_length > 0 and max_length != len(request.min_capacities):
+        if max_length > 0 and max_length != len(request.min_capacity):
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                                 detail=f"CapacityMin for component {component.name} (id {component.id}) has a length "
-                                       f"of {max_length}. Your new time series has {len(request.min_capacities)} "
+                                       f"of {max_length}. Your new time series has {len(request.min_capacity)} "
                                        f"elements.")
 
     return crud.capacity_min.create(db=db, obj_in=request)

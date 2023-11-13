@@ -9,7 +9,5 @@ class CRUDCapacityMax(CRUDBaseDependsRegionMatrix[CapacityMax, CapacityMaxCreate
     CRUD operations for CapacityMax
     """
 
-    pass
 
-
-capacity_max = CRUDCapacityMax(CapacityMax, data_column="max_capacities")
+capacity_max = CRUDCapacityMax(CapacityMax, data_column="max_capacity")

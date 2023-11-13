@@ -12,7 +12,7 @@ class CRUDBaseDependsComponentRegion(CRUDBaseDependsDataset, Generic[ModelType, 
     Base class for all CRUD classes that depend on a component and region.
     """
 
-    def get_multi_by_component(self, db: Session, *, component_id: int) -> list[ModelType] | None:
+    def get_multi_by_component(self, db: Session, *, component_id: int) -> list[ModelType]:
         return db.query(self.model).filter(self.model.ref_component == component_id).all()
 
     def get_by_component_and_region(self, db: Session, *, component_id: int, region_id: int) -> ModelType | None:
@@ -34,3 +34,9 @@ class CRUDBaseDependsComponentRegion(CRUDBaseDependsDataset, Generic[ModelType, 
             obj_in_dict["ref_region_to"] = region_to.id
 
         return super().create(db=db, obj_in=obj_in_dict)
+
+    def remove_multi_by_component(self, db: Session, *, component_id: int) -> list[ModelType]:
+        obj = db.query(self.model).filter(self.model.ref_component == component_id).all()
+        db.query(self.model).filter(self.model.ref_component == component_id).delete()
+        db.commit()
+        return obj

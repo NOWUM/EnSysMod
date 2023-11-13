@@ -9,7 +9,7 @@ from ensysmod.schemas import (
 )
 
 schemas_with_distance_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
-    (EnergyTransmissionDistanceCreate, {"ref_dataset": 1, "component": "test", "region_from": "Region 1", "region_to": "Region 2"}),
+    (EnergyTransmissionDistanceCreate, {"ref_dataset": 1, "component": "test", "region": "Region 1", "region_to": "Region 2"}),
     (EnergyTransmissionDistanceUpdate, {}),
 ]
 

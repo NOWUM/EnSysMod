@@ -1,5 +1,6 @@
-import os
-import tempfile
+from pathlib import Path
+from shutil import make_archive
+from tempfile import mkstemp
 from zipfile import ZipFile
 
 from sqlalchemy.orm import Session
@@ -8,7 +9,7 @@ from ensysmod import crud
 from ensysmod.core.file_upload import process_dataset_zip_archive
 from ensysmod.model import Dataset
 from ensysmod.schemas import DatasetCreate, FileStatus
-from tests.utils.utils import get_current_user_from_headers, random_lower_string
+from tests.utils.utils import get_current_user_from_headers, get_project_root, random_lower_string
 
 
 def dataset_create_request(db: Session, current_user_header: dict[str, str], user_id: int | None = None) -> DatasetCreate:
@@ -42,19 +43,11 @@ def get_dataset_zip(folder_name: str) -> str:
     """
     Create a zip archive from folder structure /examples/datasets/
     """
-    # Create a temporary directory
-    temp_dir = tempfile.mkdtemp()
-    # create a zip file from the directory
-    zip_file_path = os.path.join(temp_dir, f"{folder_name}.zip")
-    with ZipFile(zip_file_path, 'w') as zip_file:
-        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
-        print(f"Project root: {project_root}")
-        for root, dirs, files in os.walk(f"{project_root}/examples/datasets/{folder_name}/"):
-            acr_path = os.path.relpath(root, f"{project_root}/examples/datasets/{folder_name}/")
-            zip_file.write(root, acr_path)
-            for file in files:
-                zip_file.write(os.path.join(root, file), arcname=os.path.join(acr_path, file))
-    return zip_file_path
+    root_dir = Path(get_project_root() / "examples" / "datasets" / folder_name)
+
+    _, temp_file_path = mkstemp(prefix="ensysmod_dataset_", suffix=".zip")
+    base_name = temp_file_path.removesuffix(".zip")
+    return make_archive(base_name=base_name, format="zip", root_dir=root_dir)
 
 
 def create_example_dataset(db: Session, data_folder: str):
@@ -69,16 +62,16 @@ def create_example_dataset(db: Session, data_folder: str):
         description=dataset_description,
         hours_per_time_step=1,
         number_of_time_steps=8760,
-        cost_unit='1e9 Euro',
-        length_unit='km',
-        ref_created_by=1
+        cost_unit="1e9 Euro",
+        length_unit="km",
+        ref_created_by=1,
     )
     dataset = crud.dataset.create(db=db, obj_in=create_request)
 
     # Zip and upload the example dataset from data_folder
     zip_file_path = get_dataset_zip(data_folder)
 
-    with ZipFile(zip_file_path, 'r') as zip_archive:
+    with ZipFile(zip_file_path, "r") as zip_archive:
         result = process_dataset_zip_archive(zip_archive, dataset.id, db)
         assert result.status == FileStatus.OK
 

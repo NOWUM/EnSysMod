@@ -1,7 +1,7 @@
-import os
 import zipfile
-from datetime import datetime
 from io import BytesIO
+from pathlib import Path
+from tempfile import mkdtemp
 from typing import List
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
@@ -122,16 +122,7 @@ def download_dataset_zip(dataset_id: int,
 
     permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
 
-    # create a temporary directory
-    time_str = datetime.now().strftime("%Y%m%d%H%M%S")
-    temp_dir = f"./tmp/download-{dataset_id}-{time_str}/"
-    if not os.path.exists(temp_dir):
-        os.makedirs(temp_dir)
-    else:
-        # remove all files in temp dir
-        for file in os.listdir(temp_dir):
-            os.remove(os.path.join(temp_dir, file))
-
+    temp_dir = Path(mkdtemp(prefix="ensysmod_"))
     zip_file_path = export_data(db, dataset.id, temp_dir)
 
     return FileResponse(zip_file_path, media_type="application/zip", filename=f"{dataset.name}.zip")

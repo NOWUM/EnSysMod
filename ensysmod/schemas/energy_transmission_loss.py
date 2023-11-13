@@ -23,7 +23,7 @@ class EnergyTransmissionLossCreate(EnergyTransmissionLossBase):
 
     ref_dataset: int = Field(..., description="The ID of the referenced dataset.")
     component: str = Field(..., description="The name of the transmission component.")
-    region_from: str = Field(..., description="The name of the origin region.")
+    region: str = Field(..., description="The name of the origin region.")
     region_to: str = Field(..., description="The name of the target region.")
 
     # validators
@@ -44,7 +44,7 @@ class EnergyTransmissionLoss(EnergyTransmissionLossBase):
 
     id: int
     transmission: EnergyTransmission
-    region_from: Region
+    region: Region
     region_to: Region
 
     class Config:

@@ -1,6 +1,8 @@
 import json
 import os
-import zipfile
+from pathlib import Path
+from shutil import make_archive
+from tempfile import mkstemp
 from typing import Any, Dict, List, Set, Type
 
 from pydantic import BaseModel
@@ -12,7 +14,7 @@ from ensysmod.crud.base_depends_matrix import CRUDBaseDependsMatrix
 from ensysmod.utils import jsonable_encoder
 
 
-def export_data(db: Session, dataset_id: int, temp_folder: str) -> str:
+def export_data(db: Session, dataset_id: int, temp_folder: Path) -> str:
     """
     Create a zip file for the dataset.
 
@@ -32,35 +34,27 @@ def export_data(db: Session, dataset_id: int, temp_folder: str) -> str:
               regions)
 
     region_ids = [region.id for region in regions]
-    dump_energy_components(db, dataset_id, temp_folder + "conversions/", crud.energy_conversion,
+    dump_energy_components(db, dataset_id, Path(temp_folder, "conversions"), crud.energy_conversion,
                            "conversion", schemas.EnergyConversionCreate, region_ids)
 
-    dump_energy_components(db, dataset_id, temp_folder + "sources/", crud.energy_source,
+    dump_energy_components(db, dataset_id, Path(temp_folder, "sources"), crud.energy_source,
                            "source", schemas.EnergySourceCreate, region_ids)
 
-    dump_energy_components(db, dataset_id, temp_folder + "sinks/", crud.energy_sink,
+    dump_energy_components(db, dataset_id, Path(temp_folder, "sinks"), crud.energy_sink,
                            "sink", schemas.EnergySinkCreate, region_ids)
 
-    dump_energy_components(db, dataset_id, temp_folder + "storages/", crud.energy_storage,
+    dump_energy_components(db, dataset_id, Path(temp_folder, "storages"), crud.energy_storage,
                            "storage", schemas.EnergyStorageCreate, region_ids)
 
-    dump_energy_components(db, dataset_id, temp_folder + "transmissions/", crud.energy_transmission,
+    dump_energy_components(db, dataset_id, Path(temp_folder, "transmissions"), crud.energy_transmission,
                            "transmission", schemas.EnergyTransmissionCreate, region_ids)
 
-    # create zip file
-    zip_file_path = os.path.join(temp_folder, "dataset.zip")
-    with zipfile.ZipFile(zip_file_path, 'w') as zip_file:
-        for root, dirs, files in os.walk(temp_folder):
-            acr_path = os.path.relpath(root, temp_folder)
-            zip_file.write(root, acr_path)
-            for file in files:
-                # only copy .json and .xlsx files
-                if file.endswith(".json") or file.endswith(".xlsx"):
-                    zip_file.write(os.path.join(root, file), arcname=os.path.join(acr_path, file))
-    return zip_file_path
+    _, temp_file_path = mkstemp(prefix="ensysmod_dataset_", suffix=".zip")
+    base_name = temp_file_path.removesuffix(".zip")
+    return make_archive(base_name=base_name, format="zip", root_dir=Path(temp_folder))
 
 
-def dump_energy_components(db: Session, dataset_id: int, temp_folder: str, crud_repo: CRUDBaseDependsComponent,
+def dump_energy_components(db: Session, dataset_id: int, temp_folder: Path, crud_repo: CRUDBaseDependsComponent,
                            file_name: str, schema_like: Type[BaseModel], region_ids: List[int]):
     """
     Dump all energy components to folders.
@@ -110,23 +104,23 @@ def dump_energy_components(db: Session, dataset_id: int, temp_folder: str, crud_
             dump_dict["conversion_factors"] = factor_list
             fields.add("conversion_factors")
 
-        dump_json(f"{obj_folder}/{file_name}.json", fields, dump_dict)
+        dump_json(Path(obj_folder, f"{file_name}.json"), fields, dump_dict)
 
         # dump excel files
-        dump_excel_file(db, obj.ref_component, region_ids, crud.capacity_fix, f"{obj_folder}/capacityFix.xlsx")
-        dump_excel_file(db, obj.ref_component, region_ids, crud.capacity_max, f"{obj_folder}/capacityMax.xlsx")
-        dump_excel_file(db, obj.ref_component, region_ids, crud.capacity_min, f"{obj_folder}/capacityMin.xlsx")
-        dump_excel_file(db, obj.ref_component, region_ids, crud.operation_rate_fix, f"{obj_folder}/operationRateFix.xlsx")
-        dump_excel_file(db, obj.ref_component, region_ids, crud.operation_rate_max, f"{obj_folder}/operationRateMax.xlsx")
-        dump_excel_file(db, obj.ref_component, region_ids, crud.yearly_full_load_hour_max, f"{obj_folder}/yearlyFullLoadHoursMax.xlsx")
-        dump_excel_file(db, obj.ref_component, region_ids, crud.yearly_full_load_hour_min, f"{obj_folder}/yearlyFullLoadHoursMin.xlsx")
+        dump_excel_file(db, obj.ref_component, region_ids, crud.capacity_fix, Path(obj_folder, "capacityFix.xlsx"))
+        dump_excel_file(db, obj.ref_component, region_ids, crud.capacity_max, Path(obj_folder, "capacityMax.xlsx"))
+        dump_excel_file(db, obj.ref_component, region_ids, crud.capacity_min, Path(obj_folder, "capacityMin.xlsx"))
+        dump_excel_file(db, obj.ref_component, region_ids, crud.operation_rate_fix, Path(obj_folder, "operationRateFix.xlsx"))
+        dump_excel_file(db, obj.ref_component, region_ids, crud.operation_rate_max, Path(obj_folder, "operationRateMax.xlsx"))
+        dump_excel_file(db, obj.ref_component, region_ids, crud.yearly_full_load_hour_max, Path(obj_folder, "yearlyFullLoadHoursMax.xlsx"))
+        dump_excel_file(db, obj.ref_component, region_ids, crud.yearly_full_load_hour_min, Path(obj_folder, "yearlyFullLoadHoursMin.xlsx"))
 
         if file_name == "transmission":
-            crud.energy_transmission_distance.get_dataframe(db, obj.ref_component, region_ids).to_excel(f"{obj_folder}/distances.xlsx")
-            crud.energy_transmission_loss.get_dataframe(db, obj.ref_component, region_ids).to_excel(f"{obj_folder}/losses.xlsx")
+            crud.energy_transmission_distance.get_dataframe(db, obj.ref_component, region_ids).to_excel(Path(obj_folder, "distances.xlsx"))
+            crud.energy_transmission_loss.get_dataframe(db, obj.ref_component, region_ids).to_excel(Path(obj_folder, "losses.xlsx"))
 
 
-def dump_json(file: str, fields: Set[str], obj: Any):
+def dump_json(file: Path, fields: Set[str], obj: Any):
     """
     Dump the object to a json file.
 
@@ -158,7 +152,7 @@ def create_json(obj: Any, fields: Set[str], remove_ref_fields: bool = True) -> A
 
 
 def dump_excel_file(db: Session, component_id: int, region_ids: List[int],
-                    crud_repo: CRUDBaseDependsMatrix, file_name: str):
+                    crud_repo: CRUDBaseDependsMatrix, file_name: Path):
     """
     Exports time series data from database to excel.
 

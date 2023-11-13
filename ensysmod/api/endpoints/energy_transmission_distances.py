@@ -74,9 +74,9 @@ def create_transmission_distance(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Component {request.component} not found in dataset {dataset.id}!"
         )
 
-    region_from = crud.region.get_by_dataset_and_name(db=db, dataset_id=dataset.id, name=request.region_from)
-    if region_from is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Region {request.region_from} not found in dataset {dataset.id}!")
+    region = crud.region.get_by_dataset_and_name(db=db, dataset_id=dataset.id, name=request.region)
+    if region is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Region {request.region} not found in dataset {dataset.id}!")
 
     region_to = crud.region.get_by_dataset_and_name(db=db, dataset_id=dataset.id, name=request.region_to)
     if region_to is None:
@@ -85,13 +85,13 @@ def create_transmission_distance(
     distance_entry = crud.energy_transmission_distance.get_by_component_and_region_ids(
         db=db,
         component_id=component.id,
-        region_from_id=region_from.id,
+        region_id=region.id,
         region_to_id=region_to.id,
     )
     if distance_entry is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"EnergyTransmissionDistance for component {component.name} (id {component.id}) from region {region_from.name} (id {region_from.id}) to region {region_to.name} (id {region_to.id}) already exists with id {distance_entry.id}!",  # noqa: E501
+            detail=f"EnergyTransmissionDistance for component {component.name} (id {component.id}) from region {region.name} (id {region.id}) to region {region_to.name} (id {region_to.id}) already exists with id {distance_entry.id}!",  # noqa: E501
         )
 
     return crud.energy_transmission_distance.create(db=db, obj_in=request)

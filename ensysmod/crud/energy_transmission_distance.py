@@ -1,22 +1,20 @@
 from typing import List, Optional
 
 import pandas as pd
+from crud.base_depends_region_x_region_matrix import CRUDBaseDependsRegionXRegionMatrix
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
-from ensysmod.crud.base import CRUDBase
 from ensysmod.model import EnergyTransmissionDistance
 from ensysmod.schemas import (
     EnergyTransmissionDistanceCreate,
     EnergyTransmissionDistanceUpdate,
 )
 
-# TODO this CRUD class should inherit from CRUDBaseDependsRegionXRegionMatrix
-
 # noinspection PyMethodMayBeStatic,PyArgumentList
 
 
-class CRUDEnergyTransmissionDistance(CRUDBase[EnergyTransmissionDistance, EnergyTransmissionDistanceCreate, EnergyTransmissionDistanceUpdate]):
+class CRUDEnergyTransmissionDistance(CRUDBaseDependsRegionXRegionMatrix[EnergyTransmissionDistance, EnergyTransmissionDistanceCreate, EnergyTransmissionDistanceUpdate]):
     """
     CRUD operations for EnergyTransmissionDistance
     """
@@ -28,7 +26,7 @@ class CRUDEnergyTransmissionDistance(CRUDBase[EnergyTransmissionDistance, Energy
         return db.query(self.model).filter(self.model.ref_component == component_id).all()
 
     def get_by_component_and_region_ids(
-        self, db: Session, component_id: int, region_from_id: int, region_to_id: int
+        self, db: Session, component_id: int, region_id: int, region_to_id: int
     ) -> Optional[EnergyTransmissionDistance]:
         """
         Get a EnergyTransmissionDistance entry for a given component id and its two region ids.
@@ -36,24 +34,24 @@ class CRUDEnergyTransmissionDistance(CRUDBase[EnergyTransmissionDistance, Energy
         return (
             db.query(self.model)
             .filter(self.model.ref_component == component_id)
-            .filter(self.model.ref_region_from == region_from_id)
+            .filter(self.model.ref_region == region_id)
             .filter(self.model.ref_region_to == region_to_id)
             .first()
         )
 
     def get_by_dataset_id_component_region_names(
-        self, db: Session, dataset_id: int,  component_name: str, region_from_name: str, region_to_name: str
+        self, db: Session, dataset_id: int,  component_name: str, region_name: str, region_to_name: str
     ) -> Optional[EnergyTransmissionDistance]:
         """
         Get a EnergyTransmissionDistance entry for a given dataset id, component name and its two region names.
         """
         component = crud.energy_component.get_by_dataset_and_name(db=db, dataset_id=dataset_id, name=component_name)
-        region_from = crud.region.get_by_dataset_and_name(db=db, dataset_id=dataset_id, name=region_from_name)
+        region = crud.region.get_by_dataset_and_name(db=db, dataset_id=dataset_id, name=region_name)
         region_to = crud.region.get_by_dataset_and_name(db=db, dataset_id=dataset_id, name=region_to_name)
         return (
             db.query(self.model)
             .filter(self.model.ref_component == component.id)
-            .filter(self.model.ref_region_from == region_from.id)
+            .filter(self.model.ref_region == region.id)
             .filter(self.model.ref_region_to == region_to.id)
             .first()
         )
@@ -79,8 +77,8 @@ class CRUDEnergyTransmissionDistance(CRUDBase[EnergyTransmissionDistance, Energy
         if transmission is None or transmission.component.ref_dataset != obj_in.ref_dataset:
             raise ValueError("Component not found or from different dataset.")
 
-        region_from = crud.region.get_by_dataset_and_name(db, dataset_id=obj_in.ref_dataset, name=obj_in.region_from)
-        if region_from is None or region_from.ref_dataset != obj_in.ref_dataset:
+        region = crud.region.get_by_dataset_and_name(db, dataset_id=obj_in.ref_dataset, name=obj_in.region)
+        if region is None or region.ref_dataset != obj_in.ref_dataset:
             raise ValueError("Origin region not found or from different dataset.")
 
         region_to = crud.region.get_by_dataset_and_name(db, dataset_id=obj_in.ref_dataset, name=obj_in.region_to)
@@ -90,7 +88,7 @@ class CRUDEnergyTransmissionDistance(CRUDBase[EnergyTransmissionDistance, Energy
         db_obj = EnergyTransmissionDistance(
             distance=obj_in.distance,
             ref_component=transmission.ref_component,
-            ref_region_from=region_from.id,
+            ref_region=region.id,
             ref_region_to=region_to.id,
         )
         db.add(db_obj)
@@ -105,7 +103,7 @@ class CRUDEnergyTransmissionDistance(CRUDBase[EnergyTransmissionDistance, Energy
         data = (
             db.query(self.model)
             .filter(self.model.ref_component == component_id)
-            .filter(self.model.ref_region_from.in_(region_ids))
+            .filter(self.model.ref_region.in_(region_ids))
             .filter(self.model.ref_region_to.in_(region_ids))
             .all()
         )
@@ -113,8 +111,8 @@ class CRUDEnergyTransmissionDistance(CRUDBase[EnergyTransmissionDistance, Energy
         region_names = [crud.region.get(db, id=r_id).name for r_id in region_ids]
         df = pd.DataFrame(0.0, index=region_names, columns=region_names)
         for d in data:
-            df[d.region_to.name][d.region_from.name] = d.distance
+            df[d.region_to.name][d.region.name] = d.distance
         return df
 
 
-energy_transmission_distance = CRUDEnergyTransmissionDistance(EnergyTransmissionDistance)
+energy_transmission_distance = CRUDEnergyTransmissionDistance(EnergyTransmissionDistance, data_column="distance")

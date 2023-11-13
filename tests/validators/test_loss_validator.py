@@ -6,7 +6,7 @@ from pydantic import BaseModel, ValidationError
 from ensysmod.schemas import EnergyTransmissionLossCreate, EnergyTransmissionLossUpdate
 
 schemas_with_loss_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
-    (EnergyTransmissionLossCreate, {"ref_dataset": 1, "component": "test", "region_from": "Region 1", "region_to": "Region 2"}),
+    (EnergyTransmissionLossCreate, {"ref_dataset": 1, "component": "test", "region": "Region 1", "region_to": "Region 2"}),
     (EnergyTransmissionLossUpdate, {}),
 ]
 

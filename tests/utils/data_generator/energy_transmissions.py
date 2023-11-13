@@ -67,14 +67,14 @@ def transmission_distance_create_request(
     if dataset_id is None:
         dataset_id = dataset_create(db, current_user_header).id
     commodity_name = commodity_create(db, current_user_header, dataset_id=dataset_id).name
-    region_from = region_create(db, current_user_header, dataset_id=dataset_id)
+    region = region_create(db, current_user_header, dataset_id=dataset_id)
     region_to = region_create(db, current_user_header, dataset_id=dataset_id)
     transmission = transmission_create(db, current_user_header, dataset_id, commodity_name)
     return EnergyTransmissionDistanceCreate(
         distance=1000,
         ref_dataset=dataset_id,
         component=transmission.component.name,
-        region_from=region_from.name,
+        region=region.name,
         region_to=region_to.name,
     )
 
@@ -104,14 +104,14 @@ def transmission_loss_create_request(
     if dataset_id is None:
         dataset_id = dataset_create(db, current_user_header).id
     commodity_name = commodity_create(db, current_user_header, dataset_id=dataset_id).name
-    region_from = region_create(db, current_user_header, dataset_id=dataset_id)
+    region = region_create(db, current_user_header, dataset_id=dataset_id)
     region_to = region_create(db, current_user_header, dataset_id=dataset_id)
     transmission = transmission_create(db, current_user_header, dataset_id, commodity_name)
     return EnergyTransmissionLossCreate(
         loss=0.00001,
         ref_dataset=dataset_id,
         component=transmission.component.name,
-        region_from=region_from.name,
+        region=region.name,
         region_to=region_to.name,
     )
 
@@ -143,26 +143,26 @@ def create_transmission_scenario(db: Session, current_user_header: dict[str, str
     transmission1 = transmission_create(db, current_user_header, dataset_id=dataset.id, commodity_name=commodity.name)
     transmission2 = transmission_create(db, current_user_header, dataset_id=dataset.id, commodity_name=commodity.name)
 
-    def create_distance_entry(transmission, region_from, region_to, distance):
+    def create_distance_entry(transmission, region, region_to, distance):
         return crud.energy_transmission_distance.create(
             db=db,
             obj_in=EnergyTransmissionDistanceCreate(
                 distance=distance,
                 ref_dataset=dataset.id,
                 component=transmission.component.name,
-                region_from=region_from.name,
+                region=region.name,
                 region_to=region_to.name,
             ),
         )
 
-    def create_loss_entry(transmission, region_from, region_to, loss):
+    def create_loss_entry(transmission, region, region_to, loss):
         return crud.energy_transmission_loss.create(
             db=db,
             obj_in=EnergyTransmissionLossCreate(
                 loss=loss,
                 ref_dataset=dataset.id,
                 component=transmission.component.name,
-                region_from=region_from.name,
+                region=region.name,
                 region_to=region_to.name,
             ),
         )

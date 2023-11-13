@@ -9,7 +9,5 @@ class CRUDCapacityFix(CRUDBaseDependsRegionMatrix[CapacityFix, CapacityFixCreate
     CRUD operations for CapacityFix
     """
 
-    pass
 
-
-capacity_fix = CRUDCapacityFix(CapacityFix, data_column="fix_capacities")
+capacity_fix = CRUDCapacityFix(CapacityFix, data_column="fix_capacity")

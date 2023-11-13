@@ -1,6 +1,4 @@
-from typing import List
-
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, NonNegativeFloat
 
 from ensysmod.schemas.base_ref_component_region import (
     RefCRBase,
@@ -8,35 +6,30 @@ from ensysmod.schemas.base_ref_component_region import (
     RefCRBaseCreate,
     RefCRBaseUpdate,
 )
-from ensysmod.utils import validators
 
 
 class OperationRateFixBase(RefCRBaseBase, BaseModel):
     """
     Shared attributes for a fix operation rate. Used as a base class for all schemas.
     """
-    fix_operation_rates: List[float] = Field(..., description="Fix operation rate for a component in a specific "
-                                                              "region. Provide single value or a list of values for "
-                                                              "each time step in dataset.",
-                                             example=[0.95, 0.6, 0.7])
 
-    # validators
-    _valid_fix_operation_rates = validator("fix_operation_rates", allow_reuse=True)(
-        validators.validate_fix_operation_rates)
+    fix_operation_rates: list[NonNegativeFloat] = Field(
+        ...,
+        description="Fixed operation rate for a component in a specific region.",
+        example=[0.95, 0.6, 0.7],
+    )
 
 
 class OperationRateFixCreate(OperationRateFixBase, RefCRBaseCreate):
     """
     Attributes to receive via API on creation of a fix operation rate.
     """
-    pass
 
 
 class OperationRateFixUpdate(OperationRateFixBase, RefCRBaseUpdate):
     """
     Attributes to receive via API on update of a fix operation rate.
     """
-    pass
 
 
 class OperationRateFix(OperationRateFixBase, RefCRBase):

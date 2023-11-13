@@ -24,7 +24,7 @@ def test_create_transmission_loss(db: Session, client: TestClient, normal_user_h
     created_loss = response.json()
     assert created_loss["loss"] == create_request.loss
     assert created_loss["transmission"]["component"]["name"] == create_request.component
-    assert created_loss["region_from"]["name"] == create_request.region_from
+    assert created_loss["region"]["name"] == create_request.region
     assert created_loss["region_to"]["name"] == create_request.region_to
 
 
@@ -65,7 +65,7 @@ def test_create_transmission_loss_unknown_regions(db: Session, client: TestClien
     Test creating a transmission loss with unknown regions.
     """
     create_request = transmission_loss_create_request(db, normal_user_headers)
-    create_request.region_from = "Unknown Region"
+    create_request.region = "Unknown Region"
     response = client.post("/losses/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 

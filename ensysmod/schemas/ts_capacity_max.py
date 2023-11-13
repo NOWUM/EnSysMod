@@ -1,6 +1,4 @@
-from typing import List
-
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, NonNegativeFloat
 
 from ensysmod.schemas.base_ref_component_region import (
     RefCRBase,
@@ -8,34 +6,30 @@ from ensysmod.schemas.base_ref_component_region import (
     RefCRBaseCreate,
     RefCRBaseUpdate,
 )
-from ensysmod.utils import validators
 
 
 class CapacityMaxBase(RefCRBaseBase, BaseModel):
     """
     Shared attributes for a max capacity. Used as a base class for all schemas.
     """
-    max_capacities: List[float] = Field(..., description="Max capacities for a component in a specific region. "
-                                                         "Provide single value or a list of values for each time step "
-                                                         "in dataset.",
-                                        example=[1.0, 2.0, 3.0])
 
-    # validators
-    _valid_max_capacities = validator("max_capacities", allow_reuse=True)(validators.validate_max_capacities)
+    max_capacity: NonNegativeFloat = Field(
+        ...,
+        description="Maximum capacity for a component in a specific region.",
+        example=1.0,
+    )
 
 
 class CapacityMaxCreate(CapacityMaxBase, RefCRBaseCreate):
     """
     Attributes to receive via API on creation of a max capacity.
     """
-    pass
 
 
 class CapacityMaxUpdate(CapacityMaxBase, RefCRBaseUpdate):
     """
     Attributes to receive via API on update of a max capacity.
     """
-    pass
 
 
 class CapacityMax(CapacityMaxBase, RefCRBase):

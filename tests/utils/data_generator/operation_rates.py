@@ -1,34 +1,80 @@
+from typing import Literal
+
 from sqlalchemy.orm import Session
 
+from ensysmod import crud
 from ensysmod.schemas import OperationRateFixCreate, OperationRateMaxCreate
 from tests.utils.data_generator.datasets import dataset_create
 from tests.utils.data_generator.energy_commodities import commodity_create
 from tests.utils.data_generator.energy_sources import source_create
 from tests.utils.data_generator.regions import region_create
-from tests.utils.utils import random_float_numbers
+from tests.utils.utils import random_float_number
+
+_operation_rate_types = Literal["fix", "max"]
 
 
-def operation_rate_fix_create_request(db: Session, current_user_header: dict[str, str]) -> OperationRateFixCreate:
-    dataset = dataset_create(db, current_user_header)
-    commodity = commodity_create(db, current_user_header, dataset_id=dataset.id)
-    component = source_create(db, current_user_header, dataset_id=dataset.id, commodity_name=commodity.name)
-    region = region_create(db, current_user_header, dataset_id=dataset.id)
+def operation_rate_create_request(
+    type: _operation_rate_types,
+    db: Session,
+    current_user_header: dict[str, str],
+    *,
+    dataset_id: int | None = None,
+    component_name: str | None = None,
+    region_name: str | None = None,
+    length: int = 8760,
+) -> OperationRateFixCreate | OperationRateMaxCreate:
+    """
+    Generate an operation rate create request of the specified type with the specified dataset_id, component_name, region_name and length.
+    If parameters are not specified, it will be generated.
+    """
+    if dataset_id is None:
+        dataset_id = dataset_create(db, current_user_header).id
+    if component_name is None:
+        commodity_name = commodity_create(db, current_user_header, dataset_id=dataset_id).name
+        component_name = source_create(db, current_user_header, dataset_id=dataset_id, commodity_name=commodity_name).component.name
+    if region_name is None:
+        region_name = region_create(db, current_user_header, dataset_id=dataset_id).name
+
+    if type == "max":
+        return OperationRateMaxCreate(
+            ref_dataset=dataset_id,
+            component=component_name,
+            region=region_name,
+            region_to=None,
+            max_operation_rates=random_float_number(size=length),
+        )
     return OperationRateFixCreate(
-        ref_dataset=dataset.id,
-        component=component.component.name,
-        region=region.name,
-        fix_operation_rates=random_float_numbers(8760)
+        ref_dataset=dataset_id,
+        component=component_name,
+        region=region_name,
+        region_to=None,
+        fix_operation_rates=random_float_number(size=length),
     )
 
 
-def operation_rate_max_create_request(db: Session, current_user_header: dict[str, str]) -> OperationRateMaxCreate:
-    dataset = dataset_create(db, current_user_header)
-    commodity = commodity_create(db, current_user_header, dataset_id=dataset.id)
-    component = source_create(db, current_user_header, dataset_id=dataset.id, commodity_name=commodity.name)
-    region = region_create(db, current_user_header, dataset_id=dataset.id)
-    return OperationRateMaxCreate(
-        ref_dataset=dataset.id,
-        component=component.component.name,
-        region=region.name,
-        max_operation_rates=random_float_numbers(8760)
+def operation_rate_create(
+    type: _operation_rate_types,
+    db: Session,
+    current_user_header: dict[str, str],
+    *,
+    dataset_id: int | None = None,
+    component_name: str | None = None,
+    region_name: str | None = None,
+    length: int = 8760,
+):
+    """
+    Create an operation rate of the specified type with the specified dataset_id, component_name, region_name and length.
+    If parameters are not specified, it will be generated.
+    """
+    create_request = operation_rate_create_request(
+        type=type,
+        db=db,
+        current_user_header=current_user_header,
+        dataset_id=dataset_id,
+        component_name=component_name,
+        region_name=region_name,
+        length=length,
     )
+    if type == "max":
+        return crud.operation_rate_max.create(db=db, obj_in=create_request)
+    return crud.operation_rate_fix.create(db=db, obj_in=create_request)

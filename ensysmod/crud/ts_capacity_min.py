@@ -9,7 +9,5 @@ class CRUDCapacityMin(CRUDBaseDependsRegionMatrix[CapacityMin, CapacityMinCreate
     CRUD operations for CapacityMin
     """
 
-    pass
 
-
-capacity_min = CRUDCapacityMin(CapacityMin, data_column="min_capacities")
+capacity_min = CRUDCapacityMin(CapacityMin, data_column="min_capacity")

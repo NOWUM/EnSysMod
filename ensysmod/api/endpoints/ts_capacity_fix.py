@@ -63,13 +63,13 @@ def create_fix_capacity(request: schemas.CapacityFixCreate,
         # get maximum length fix_capacities in ts_in_base
         max_length = 0
         for ts_in in ts_in_base:
-            if ts_in.fix_capacities is not None:
-                max_length = max(max_length, len(ts_in.fix_capacities))
+            if ts_in.fix_capacity is not None:
+                max_length = max(max_length, len(ts_in.fix_capacity))
 
-        if max_length > 0 and max_length != len(request.fix_capacities):
+        if max_length > 0 and max_length != len(request.fix_capacity):
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                                 detail=f"CapacityFix for component {component.name} (id {component.id}) has a length "
-                                       f"of {max_length}. Your new time series has {len(request.fix_capacities)} "
+                                       f"of {max_length}. Your new time series has {len(request.fix_capacity)} "
                                        f"elements.")
 
     return crud.capacity_fix.create(db=db, obj_in=request)

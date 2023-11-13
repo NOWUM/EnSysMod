@@ -19,8 +19,8 @@ schemas_with_ref_dataset_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] 
     (EnergyComponentCreate, {"name": "test", "description": "foo", "type": EnergyComponentType.SOURCE}),
     (EnergyModelCreate, {"name": "test"}),
     (RegionCreate, {"name": "test"}),
-    (EnergyTransmissionDistanceCreate, {"distance": 1000, "component": "test", "region_from": "Region 1", "region_to": "Region 2"}),
-    (EnergyTransmissionLossCreate, {"loss": 0.00001, "component": "test", "region_from": "Region 1", "region_to": "Region 2"}),
+    (EnergyTransmissionDistanceCreate, {"distance": 1000, "component": "test", "region": "Region 1", "region_to": "Region 2"}),
+    (EnergyTransmissionLossCreate, {"loss": 0.00001, "component": "test", "region": "Region 1", "region_to": "Region 2"}),
 ]
 
 schemas_with_ref_dataset_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [

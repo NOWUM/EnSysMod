@@ -1,5 +1,6 @@
 import random
 import string
+from pathlib import Path
 
 from fastapi.testclient import TestClient
 from sqlalchemy import delete
@@ -12,12 +13,15 @@ from ensysmod.model import User
 from ensysmod.schemas import UserCreate, UserUpdate
 
 
+def get_project_root() -> Path:
+    return Path(__file__).parents[2].resolve()
+
 def random_lower_string(length: int = 10) -> str:
     return "".join(random.choices(string.ascii_lowercase, k=length))
 
 
-def random_float_numbers(size: int = 10) -> list[float]:
-    return [random.uniform(0, 1) for _ in range(size)]
+def random_float_number(size: int = 0) -> float | list[float]:
+    return random.random() if size == 0 else [random.uniform(0, 1) for _ in range(size)]
 
 
 def user_authentication_headers(*, client: TestClient, username: str, password: str) -> dict[str, str]:
