@@ -225,7 +225,7 @@ def download_fix_operation_rate(
         component_id=component.id,
         region_ids=region_ids,
         crud_repo=crud.operation_rate_fix,
-        file_name=Path(temp_file_path),
+        file_path=Path(temp_file_path),
     )
     return FileResponse(
         path=Path(temp_file_path),

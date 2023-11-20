@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from starlette.datastructures import UploadFile
 
-from ensysmod.core.file_folder_types import excel_file_types, folder_types, json_list_file_types
+from ensysmod.core.file_folder_types import EXCEL_FILE_TYPES, FOLDER_TYPES, JSON_FILE_TYPES
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
 from ensysmod.crud.base_depends_matrix import CRUDBaseDependsMatrix
@@ -64,36 +64,30 @@ def process_dataset_zip_archive(zip_archive: ZipFile, dataset_id: int, db: Sessi
     file_results: list[FileUploadResult] = []
 
     # process regions.json and commodities.json
-    for file in json_list_file_types:
-        file_name = file.file_name + ".json"
-
-        if file_name not in zip_archive.namelist():
-            raise ValueError(f"Zip archive must contain {file_name}!")
+    for json_file in JSON_FILE_TYPES:
+        if json_file.file_name not in zip_archive.namelist():
+            raise ValueError(f"Zip archive must contain {json_file.file_name}!")
 
         file_results.append(
             process_json_list_file(
-                file=zip_archive.open(file_name),
+                file=zip_archive.open(json_file.file_name),
                 db=db,
                 dataset_id=dataset_id,
-                crud_repo=file.crud_repo,
-                create_schema=file.create_schema,
+                crud_repo=json_file.crud_repo,
+                create_schema=json_file.create_schema,
             ),
         )
 
     # process component folders
-    for folder in folder_types:
-        folder_name: str = folder.folder_type + "s/"  # folder names are in plural
-        component_file_name: str = folder.folder_type + ".json"
-
-        # if folder_name in zip_archive.namelist():
-
+    for folder in FOLDER_TYPES:
+        folder_name: str = folder.folder_name + "/"  # folder name in the zip has / at the end
         file_results.extend(
             process_components_folder(
                 zip_archive=zip_archive,
                 db=db,
                 dataset_id=dataset_id,
                 folder_name=folder_name,
-                component_file_name=component_file_name,
+                component_file_name=folder.file_name,
                 crud_repo=folder.crud_repo,
                 create_schema=folder.create_schema,
                 as_matrix=folder.as_matrix,
@@ -200,8 +194,8 @@ def process_sub_folder_files(
     if len(sub_folder_file_paths) == 0:
         return file_results
 
-    for file_type in excel_file_types:
-        file_path: str = sub_folder_name + file_type.file_name + ".xlsx"
+    for excel_file in EXCEL_FILE_TYPES:
+        file_path: str = sub_folder_name + excel_file.file_name
         if file_path in sub_folder_file_paths:
             file_results.append(
                 process_excel_file(
@@ -209,9 +203,9 @@ def process_sub_folder_files(
                     db=db,
                     dataset_id=dataset_id,
                     component_name=component_name,
-                    crud_repo=file_type.crud_repo,
-                    create_schema=file_type.create_schema,
-                    as_list=file_type.as_list,
+                    crud_repo=excel_file.crud_repo,
+                    create_schema=excel_file.create_schema,
+                    as_list=excel_file.as_list,
                     as_matrix=as_matrix,
                 ),
             )
