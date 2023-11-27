@@ -9,10 +9,10 @@ from sqlalchemy.orm import Session
 from ensysmod import crud, model
 from ensysmod.api import deps, permissions
 from ensysmod.core.file_upload import process_excel_file
+from ensysmod.model.energy_component import EnergyComponentType
 from ensysmod.schemas import (
     OperationRateFix,
     OperationRateFixCreate,
-    OperationRateFixUpdate,
 )
 from ensysmod.schemas.file_upload import FileUploadResult
 
@@ -98,6 +98,15 @@ def create_fix_operation_rate(
     if region is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Region {request.region} not found in dataset {dataset.id}!")
 
+    if len(request.fix_operation_rates) != dataset.number_of_time_steps:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=(
+                f"Length of OperationRateFix must match the number of time steps of the dataset. \
+                Expected: {dataset.number_of_time_steps}, given: {len(request.fix_operation_rates)}."
+            ),
+        )
+
     entry = crud.operation_rate_fix.get_by_component_and_region(db=db, component_id=component.id, region_id=region.id)
     if entry is not None:
         raise HTTPException(
@@ -107,35 +116,7 @@ def create_fix_operation_rate(
                 and region {region.name} (id {region.id}) already exists with id {entry.id}!"
             ),
         )
-
-    if len(request.fix_operation_rates) != dataset.number_of_time_steps:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=(
-                f"Length of OperationRateFix must match the number of time steps of the dataset.\
-                    Expected: {dataset.number_of_time_steps}, given: {len(request.fix_operation_rates)}."
-            ),
-        )
     return crud.operation_rate_fix.create(db=db, obj_in=request)
-
-
-@router.put("/{entry_id}", response_model=OperationRateFix)
-def update_fix_operation_rate(
-    entry_id: int,
-    request: OperationRateFixUpdate,
-    db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
-):
-    """
-    Update a fix operation rate.
-    """
-    entry = crud.operation_rate_fix.get(db=db, id=entry_id)
-    if entry is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Fix operation rate {entry_id} not found!")
-
-    permissions.check_modification_permission(db=db, user=current, dataset_id=entry.component.ref_dataset)
-
-    return crud.operation_rate_fix.update(db=db, db_obj=entry, obj_in=request)
 
 
 @router.delete("/{entry_id}", response_model=OperationRateFix)
@@ -198,7 +179,7 @@ def upload_fix_operation_rate(
         crud_repo=crud.operation_rate_fix,
         create_schema=OperationRateFixCreate,
         as_list=True,
-        as_matrix=(component.type == "CONVERSION"),
+        as_matrix=(component.type == EnergyComponentType.CONVERSION),
     )
 
 
@@ -217,7 +198,6 @@ def download_fix_operation_rate(
 
     operation_rates = crud.operation_rate_fix.get_multi_by_component(db, component_id=component_id)
     region_ids = [operation_rate.ref_region for operation_rate in operation_rates]
-
 
     _, temp_file_path = mkstemp(prefix="ensysmod_operationRateFix_", suffix=".xlsx")
     dump_excel_file(

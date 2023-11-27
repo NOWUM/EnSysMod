@@ -1,5 +1,8 @@
+from pathlib import Path
+from tempfile import mkstemp
 from typing import Literal
 
+import pandas as pd
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
@@ -78,3 +81,13 @@ def operation_rate_create(
     if type == "max":
         return crud.operation_rate_max.create(db=db, obj_in=create_request)
     return crud.operation_rate_fix.create(db=db, obj_in=create_request)
+
+
+def generate_time_series_excel_file(region_names: list[str], length: int = 8760) -> Path:
+    data_dict: dict[str, list[float]] = {}
+    for region_name in region_names:
+        data_dict[region_name] = random_float_number(size=length)
+
+    _, temp_file_path = mkstemp(prefix="ensysmod_time_series_", suffix=".xlsx")
+    pd.DataFrame(data_dict).to_excel(temp_file_path)
+    return Path(temp_file_path)
