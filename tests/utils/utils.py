@@ -1,7 +1,7 @@
-import random
 import string
 from pathlib import Path
 
+import numpy as np
 from fastapi.testclient import TestClient
 from sqlalchemy import delete
 from sqlalchemy.orm import Session
@@ -16,12 +16,17 @@ from ensysmod.schemas import UserCreate, UserUpdate
 def get_project_root() -> Path:
     return Path(__file__).parents[2].resolve()
 
+
 def random_lower_string(length: int = 10) -> str:
-    return "".join(random.choices(string.ascii_lowercase, k=length))
+    return "".join(np.random.default_rng().choice(list(string.ascii_lowercase), size=length))
 
 
-def random_float_number(size: int = 0) -> float | list[float]:
-    return random.random() if size == 0 else [random.uniform(0, 1) for _ in range(size)]
+def random_float_number(size: int | tuple[int, int] | None = None):
+    if isinstance(size, int):
+        return np.random.default_rng().uniform(size=size).tolist()
+    if isinstance(size, tuple):
+        return np.random.default_rng().uniform(size=size)
+    return np.random.default_rng().uniform()
 
 
 def user_authentication_headers(*, client: TestClient, username: str, password: str) -> dict[str, str]:
@@ -30,8 +35,7 @@ def user_authentication_headers(*, client: TestClient, username: str, password: 
     r = client.post("/auth/login", data=data, headers={"content-type": "application/x-www-form-urlencoded"})
     response = r.json()
     auth_token = response["access_token"]
-    headers = {"Authorization": f"Bearer {auth_token}"}
-    return headers
+    return {"Authorization": f"Bearer {auth_token}"}
 
 
 def create_random_user(db: Session) -> User:
@@ -39,8 +43,7 @@ def create_random_user(db: Session) -> User:
         username=random_lower_string(),
         password=random_lower_string(),
     )
-    user = crud.user.create(db=db, obj_in=user_in)
-    return user
+    return crud.user.create(db=db, obj_in=user_in)
 
 
 def authentication_token_from_username(*, client: TestClient, username: str, db: Session) -> dict[str, str]:

@@ -2,14 +2,15 @@ from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from tests.utils.data_generator.capacities import capacity_create_request
+from ensysmod.core.file_folder_types import CAPACITY_MIN
+from tests.utils.data_generator.excel_files import excel_file_type_create_request
 
 
 def test_create_min_capacity(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating a min capacity time series.
     """
-    create_request = capacity_create_request("min", db, normal_user_headers)
+    create_request = excel_file_type_create_request(CAPACITY_MIN, db, normal_user_headers)
     response = client.post("/min-capacities/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 

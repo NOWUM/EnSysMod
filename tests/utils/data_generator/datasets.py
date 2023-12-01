@@ -12,9 +12,14 @@ from ensysmod.schemas import DatasetCreate, FileStatus
 from tests.utils.utils import get_current_user_from_headers, get_project_root, random_lower_string
 
 
-def dataset_create_request(db: Session, current_user_header: dict[str, str], user_id: int | None = None) -> DatasetCreate:
+def dataset_create_request(
+    db: Session,
+    current_user_header: dict[str, str],
+    user_id: int | None = None,
+    number_of_time_steps: int = 8760,
+) -> DatasetCreate:
     """
-    Generate a dataset create request with the specified user_id.
+    Generate a dataset create request with the specified user_id and number_of_time_steps.
     If user_id is not specified, the current user is used.
     """
     if user_id is None:
@@ -23,19 +28,29 @@ def dataset_create_request(db: Session, current_user_header: dict[str, str], use
         name=f"Dataset-{random_lower_string()}",
         description="Dataset description",
         hours_per_time_step=1,
-        number_of_time_steps=8760,
+        number_of_time_steps=number_of_time_steps,
         cost_unit="1e9 Euro",
         length_unit="km",
         ref_created_by=user_id,
     )
 
 
-def dataset_create(db: Session, current_user_header: dict[str, str], user_id: int | None = None) -> Dataset:
+def dataset_create(
+    db: Session,
+    current_user_header: dict[str, str],
+    user_id: int | None = None,
+    number_of_time_steps: int = 8760,
+) -> Dataset:
     """
-    Create a dataset with the specified user_id.
+    Create a dataset with the specified user_id and number_of_time_steps.
     If user_id is not specified, the current user is used.
     """
-    create_request = dataset_create_request(db, current_user_header, user_id)
+    create_request = dataset_create_request(
+        db=db,
+        current_user_header=current_user_header,
+        user_id=user_id,
+        number_of_time_steps=number_of_time_steps,
+    )
     return crud.dataset.create(db=db, obj_in=create_request)
 
 

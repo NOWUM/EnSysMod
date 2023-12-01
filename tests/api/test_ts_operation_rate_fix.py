@@ -2,9 +2,10 @@ from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
+from ensysmod.core.file_folder_types import OPERATION_RATE_FIX
 from tests.utils.data_generator.datasets import dataset_create
 from tests.utils.data_generator.energy_sources import source_create
-from tests.utils.data_generator.operation_rates import generate_time_series_excel_file, operation_rate_create, operation_rate_create_request
+from tests.utils.data_generator.excel_files import excel_file_type_create, excel_file_type_create_request, generate_time_series_excel_file
 from tests.utils.data_generator.regions import region_create
 
 
@@ -12,7 +13,7 @@ def test_get_fix_operation_rate(db: Session, client: TestClient, normal_user_hea
     """
     Test getting a fix operation rate by its id.
     """
-    operation_rate_fix = operation_rate_create("fix", db, normal_user_headers)
+    operation_rate_fix = excel_file_type_create(OPERATION_RATE_FIX, db, normal_user_headers)
     entry_id = operation_rate_fix.id
 
     response = client.get(
@@ -47,7 +48,7 @@ def test_get_fix_operation_rate_by_dataset(db: Session, client: TestClient, norm
     """
     Test getting all fix operation rates of a dataset.
     """
-    operation_rate_fix = operation_rate_create("fix", db, normal_user_headers)
+    operation_rate_fix = excel_file_type_create(OPERATION_RATE_FIX, db, normal_user_headers)
     dataset_id = operation_rate_fix.ref_dataset
 
     response = client.get(
@@ -82,7 +83,7 @@ def test_get_fix_operation_rate_by_component(db: Session, client: TestClient, no
     """
     Test getting all fix operation rates of a component.
     """
-    operation_rate_fix = operation_rate_create("fix", db, normal_user_headers)
+    operation_rate_fix = excel_file_type_create(OPERATION_RATE_FIX, db, normal_user_headers)
     component_id = operation_rate_fix.ref_component
 
     response = client.get(
@@ -117,7 +118,7 @@ def test_create_fix_operation_rate(db: Session, client: TestClient, normal_user_
     """
     Test creating a fix operation rate time series.
     """
-    create_request = operation_rate_create_request("fix", db, normal_user_headers)
+    create_request = excel_file_type_create_request(OPERATION_RATE_FIX, db, normal_user_headers)
 
     response = client.post("/fix-operation-rates/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
@@ -133,7 +134,7 @@ def test_create_fix_operation_rate_dataset_not_found(db: Session, client: TestCl
     """
     Test creating a fix operation rate time series, with invalid ref_dataset.
     """
-    create_request = operation_rate_create_request("fix", db, normal_user_headers)
+    create_request = excel_file_type_create_request(OPERATION_RATE_FIX, db, normal_user_headers)
     create_request.ref_dataset = 123456  # invalid
 
     response = client.post("/fix-operation-rates/", headers=normal_user_headers, data=create_request.json())
@@ -145,7 +146,7 @@ def test_create_fix_operation_rate_component_not_found(db: Session, client: Test
     """
     Test creating a fix operation rate time series, with invalid component name.
     """
-    create_request = operation_rate_create_request("fix", db, normal_user_headers)
+    create_request = excel_file_type_create_request(OPERATION_RATE_FIX, db, normal_user_headers)
     create_request.component = "Invalid component name"  # invalid
 
     response = client.post("/fix-operation-rates/", headers=normal_user_headers, data=create_request.json())
@@ -157,7 +158,7 @@ def test_create_fix_operation_rate_region_not_found(db: Session, client: TestCli
     """
     Test creating a fix operation rate time series, with invalid region name.
     """
-    create_request = operation_rate_create_request("fix", db, normal_user_headers)
+    create_request = excel_file_type_create_request(OPERATION_RATE_FIX, db, normal_user_headers)
     create_request.region = "Invalid region name"  # invalid
 
     response = client.post("/fix-operation-rates/", headers=normal_user_headers, data=create_request.json())
@@ -169,7 +170,7 @@ def test_create_fix_operation_rate_invalid_length(db: Session, client: TestClien
     """
     Test creating a fix operation rate time series, with invalid length of time series data.
     """
-    create_request = operation_rate_create_request("fix", db, normal_user_headers)
+    create_request = excel_file_type_create_request(OPERATION_RATE_FIX, db, normal_user_headers)
     create_request.fix_operation_rates.append(0)  # add one more value to the time series data
 
     response = client.post("/fix-operation-rates/", headers=normal_user_headers, data=create_request.json())
@@ -180,7 +181,7 @@ def test_create_existing_fix_operation_rate(db: Session, client: TestClient, nor
     """
     Test creating a fix operation rate time series that already exists.
     """
-    create_request = operation_rate_create_request("fix", db, normal_user_headers)
+    create_request = excel_file_type_create_request(OPERATION_RATE_FIX, db, normal_user_headers)
 
     response = client.post("/fix-operation-rates/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
@@ -192,7 +193,7 @@ def test_remove_fix_operation_rate(client: TestClient, normal_user_headers: dict
     """
     Test removing a fix operation rate.
     """
-    operation_rate_fix = operation_rate_create("fix", db, normal_user_headers)
+    operation_rate_fix = excel_file_type_create(OPERATION_RATE_FIX, db, normal_user_headers)
     entry_id = operation_rate_fix.id
 
     response = client.delete(f"/fix-operation-rates/{entry_id}", headers=normal_user_headers)
@@ -217,7 +218,7 @@ def test_remove_fix_operation_rate_by_component(client: TestClient, normal_user_
     """
     Test removing all fix operation rates of a component.
     """
-    operation_rate_fix = operation_rate_create("fix", db, normal_user_headers)
+    operation_rate_fix = excel_file_type_create(OPERATION_RATE_FIX, db, normal_user_headers)
     component_id = operation_rate_fix.ref_component
 
     response = client.delete(f"/fix-operation-rates/component/{component_id}", headers=normal_user_headers)
@@ -281,7 +282,7 @@ def test_download_fix_operation_rate(client: TestClient, normal_user_headers: di
     """
     Test downloading fix operation rates of a component.
     """
-    operation_rate_fix = operation_rate_create("fix", db, normal_user_headers)
+    operation_rate_fix = excel_file_type_create(OPERATION_RATE_FIX, db, normal_user_headers)
     component_id = operation_rate_fix.ref_component
 
     response = client.get(

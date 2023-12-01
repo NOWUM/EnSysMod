@@ -26,6 +26,7 @@ class ExcelFileType(NamedTuple):
     file_name: str
     crud_repo: CRUDBaseDependsMatrix
     create_schema: type[BaseModel]
+    data_column: str
     as_list: bool = False
 
 
@@ -81,6 +82,7 @@ OPERATION_RATE_FIX = ExcelFileType(
     file_name="operationRateFix.xlsx",
     crud_repo=crud.operation_rate_fix,
     create_schema=schemas.OperationRateFixCreate,
+    data_column="fix_operation_rates",
     as_list=True,
 )
 
@@ -88,6 +90,7 @@ OPERATION_RATE_MAX = ExcelFileType(
     file_name="operationRateMax.xlsx",
     crud_repo=crud.operation_rate_max,
     create_schema=schemas.OperationRateMaxCreate,
+    data_column="max_operation_rates",
     as_list=True,
 )
 
@@ -95,42 +98,49 @@ CAPACITY_FIX = ExcelFileType(
     file_name="capacityFix.xlsx",
     crud_repo=crud.capacity_fix,
     create_schema=schemas.CapacityFixCreate,
+    data_column="fix_capacity",
 )
 
 CAPACITY_MAX = ExcelFileType(
     file_name="capacityMax.xlsx",
     crud_repo=crud.capacity_max,
     create_schema=schemas.CapacityMaxCreate,
+    data_column="max_capacity",
 )
 
 CAPACITY_MIN = ExcelFileType(
     file_name="capacityMin.xlsx",
     crud_repo=crud.capacity_min,
     create_schema=schemas.CapacityMinCreate,
+    data_column="min_capacity",
 )
 
 YEARLY_FULL_LOAD_HOURS_MAX = ExcelFileType(
     file_name="yearlyFullLoadHoursMax.xlsx",
     crud_repo=crud.yearly_full_load_hour_max,
     create_schema=schemas.YearlyFullLoadHourMaxCreate,
+    data_column="max_yearly_full_load_hour",
 )
 
 YEARLY_FULL_LOAD_HOURS_MIN = ExcelFileType(
     file_name="yearlyFullLoadHoursMin.xlsx",
     crud_repo=crud.yearly_full_load_hour_min,
     create_schema=schemas.YearlyFullLoadHourMinCreate,
+    data_column="min_yearly_full_load_hour",
 )
 
 DISTANCES = ExcelFileType(
     file_name="distances.xlsx",
     crud_repo=crud.energy_transmission_distance,
     create_schema=schemas.EnergyTransmissionDistanceCreate,
+    data_column="distance",
 )
 
 LOSSES = ExcelFileType(
     file_name="losses.xlsx",
     crud_repo=crud.energy_transmission_loss,
     create_schema=schemas.EnergyTransmissionLossCreate,
+    data_column="loss",
 )
 
 
