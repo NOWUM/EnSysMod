@@ -2,7 +2,7 @@ import json
 import re
 from pathlib import Path
 from shutil import make_archive
-from tempfile import mkstemp
+from tempfile import TemporaryDirectory
 from typing import Any
 
 from fastapi.encoders import jsonable_encoder
@@ -13,9 +13,10 @@ from ensysmod import crud, schemas
 from ensysmod.core.file_folder_types import EXCEL_FILE_TYPES, FOLDER_TYPES, JSON_FILE_TYPES
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.crud.base_depends_matrix import CRUDBaseDependsMatrix
+from ensysmod.utils.utils import create_temp_file
 
 
-def export_data(db: Session, dataset_id: int, export_dir: Path) -> Path:
+def export_data(db: Session, dataset_id: int) -> Path:
     """
     Create a zip file for the dataset.
 
@@ -24,28 +25,30 @@ def export_data(db: Session, dataset_id: int, export_dir: Path) -> Path:
     :param export_dir: export directory for the dataset
     :return: Path to zip file
     """
-    # export regions.json and commodities.json
-    for json_file in JSON_FILE_TYPES:
-        dump_json(
-            obj=json_file.crud_repo.get_multi_by_dataset(db, dataset_id=dataset_id),
-            fields=set(json_file.create_schema.__fields__.keys()),
-            file_path=Path(export_dir, json_file.file_name),
-        )
+    with TemporaryDirectory(prefix="ensysmod_") as export_dir:
+        export_dir = Path(export_dir)
+        # export regions.json and commodities.json
+        for json_file in JSON_FILE_TYPES:
+            dump_json(
+                obj=json_file.crud_repo.get_multi_by_dataset(db, dataset_id=dataset_id),
+                fields=set(json_file.create_schema.__fields__.keys()),
+                file_path=Path(export_dir, json_file.file_name),
+            )
 
-    # export component folders
-    for folder in FOLDER_TYPES:
-        dump_energy_component(
-            db=db,
-            dataset_id=dataset_id,
-            component_type_folder=Path(export_dir, folder.folder_name),
-            file_name=folder.file_name,
-            crud_repo=folder.crud_repo,
-            create_schema=folder.create_schema,
-        )
+        # export component folders
+        for folder in FOLDER_TYPES:
+            dump_energy_component(
+                db=db,
+                dataset_id=dataset_id,
+                component_type_folder=Path(export_dir, folder.folder_name),
+                file_name=folder.file_name,
+                crud_repo=folder.crud_repo,
+                create_schema=folder.create_schema,
+            )
 
-    _, temp_file_path = mkstemp(prefix="ensysmod_dataset_", suffix=".zip")
-    base_name = temp_file_path.removesuffix(".zip")
-    return Path(make_archive(base_name=base_name, format="zip", root_dir=Path(export_dir)))
+        temp_file_path = create_temp_file(prefix="ensysmod_dataset_", suffix=".zip")
+        base_name = str(temp_file_path.with_suffix(""))
+        return Path(make_archive(base_name=base_name, format="zip", root_dir=export_dir))
 
 
 def dump_energy_component(

@@ -248,18 +248,17 @@ def test_upload_fix_operation_rate(client: TestClient, normal_user_headers: dict
     component_id = component.component.id
     region = region_create(db, normal_user_headers, dataset_id=dataset.id)
 
-    file = generate_time_series_excel_file(region_names=[region.name])
+    with generate_time_series_excel_file(region_names=[region.name]) as file:
+        response = client.post(
+            f"/fix-operation-rates/component/{component_id}/upload",
+            headers=normal_user_headers,
+            files={"file": (file.name, file.open(mode="rb"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")},
+        )
+        assert response.status_code == status.HTTP_200_OK
 
-    response = client.post(
-        f"/fix-operation-rates/component/{component_id}/upload",
-        headers=normal_user_headers,
-        files={"file": (file.name, file.open(mode="rb"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")},
-    )
-    assert response.status_code == status.HTTP_200_OK
-
-    uploaded_file = response.json()
-    assert uploaded_file["file"] == file.name
-    assert uploaded_file["status"] == "OK"
+        uploaded_file = response.json()
+        assert uploaded_file["file"] == file.name
+        assert uploaded_file["status"] == "OK"
 
 
 def test_upload_fix_operation_rate_component_not_found(client: TestClient, normal_user_headers: dict[str, str], db: Session):
@@ -267,15 +266,14 @@ def test_upload_fix_operation_rate_component_not_found(client: TestClient, norma
     Test uploading fix operation rates of a component, with invalid component_id.
     """
     component_id = 123456  # invalid
-    file = generate_time_series_excel_file(region_names=["region"], length=1)
-
-    response = client.post(
-        f"/fix-operation-rates/component/{component_id}/upload",
-        headers=normal_user_headers,
-        files={"file": (file.name, file.open(mode="rb"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")},
-    )
-    assert response.status_code == status.HTTP_404_NOT_FOUND
-    assert response.json()["detail"] == f"Component {component_id} not found!"
+    with generate_time_series_excel_file(region_names=["region"], length=1) as file:
+        response = client.post(
+            f"/fix-operation-rates/component/{component_id}/upload",
+            headers=normal_user_headers,
+            files={"file": (file.name, file.open(mode="rb"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")},
+        )
+        assert response.status_code == status.HTTP_404_NOT_FOUND
+        assert response.json()["detail"] == f"Component {component_id} not found!"
 
 
 def test_download_fix_operation_rate(client: TestClient, normal_user_headers: dict[str, str], db: Session):

@@ -1,13 +1,11 @@
-from pathlib import Path
-from tempfile import mkstemp
-
-from core.file_download import dump_excel_file
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
+from starlette.background import BackgroundTask
 
 from ensysmod import crud, model
 from ensysmod.api import deps, permissions
+from ensysmod.core.file_download import dump_excel_file
 from ensysmod.core.file_upload import process_excel_file
 from ensysmod.model.energy_component import EnergyComponentType
 from ensysmod.schemas import (
@@ -15,6 +13,7 @@ from ensysmod.schemas import (
     OperationRateFixCreate,
 )
 from ensysmod.schemas.file_upload import FileUploadResult
+from ensysmod.utils.utils import create_temp_file, remove_file
 
 router = APIRouter()
 
@@ -199,16 +198,17 @@ def download_fix_operation_rate(
     operation_rates = crud.operation_rate_fix.get_multi_by_component(db, component_id=component_id)
     region_ids = [operation_rate.ref_region for operation_rate in operation_rates]
 
-    _, temp_file_path = mkstemp(prefix="ensysmod_operationRateFix_", suffix=".xlsx")
+    temp_file_path = create_temp_file(prefix="ensysmod_operationRateFix_", suffix=".xlsx")
     dump_excel_file(
         db=db,
         component_id=component.id,
         region_ids=region_ids,
         crud_repo=crud.operation_rate_fix,
-        file_path=Path(temp_file_path),
+        file_path=temp_file_path,
     )
     return FileResponse(
-        path=Path(temp_file_path),
+        path=temp_file_path,
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         filename=f"{component}-operationRateFix.xlsx",
+        background=BackgroundTask(remove_file, temp_file_path),
     )

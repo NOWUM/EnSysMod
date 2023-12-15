@@ -1,6 +1,7 @@
+from collections.abc import Generator
+from contextlib import contextmanager
 from pathlib import Path
 from shutil import make_archive
-from tempfile import mkstemp
 from zipfile import ZipFile
 
 from sqlalchemy.orm import Session
@@ -9,6 +10,7 @@ from ensysmod import crud
 from ensysmod.core.file_upload import process_dataset_zip_archive
 from ensysmod.model import Dataset
 from ensysmod.schemas import DatasetCreate, FileStatus
+from ensysmod.utils.utils import create_temp_file, remove_file
 from tests.utils.utils import get_current_user_from_headers, get_project_root, random_lower_string
 
 
@@ -53,16 +55,20 @@ def dataset_create(
     )
     return crud.dataset.create(db=db, obj_in=create_request)
 
-
-def get_dataset_zip(folder_name: str) -> str:
+@contextmanager
+def get_dataset_zip(folder_name: str) -> Generator[Path, None, None]:
     """
     Create a zip archive from folder structure /examples/datasets/
     """
     root_dir = Path(get_project_root() / "examples" / "datasets" / folder_name)
 
-    _, temp_file_path = mkstemp(prefix="ensysmod_dataset_", suffix=".zip")
-    base_name = temp_file_path.removesuffix(".zip")
-    return make_archive(base_name=base_name, format="zip", root_dir=root_dir)
+    temp_file_path = create_temp_file(prefix="ensysmod_dataset_", suffix=".zip")
+    base_name = str(temp_file_path.with_suffix(""))
+    zip_file_path = Path(make_archive(base_name=base_name, format="zip", root_dir=root_dir))
+    try:
+        yield zip_file_path
+    finally:
+        remove_file(zip_file_path)
 
 
 def create_example_dataset(db: Session, data_folder: str):
@@ -84,9 +90,7 @@ def create_example_dataset(db: Session, data_folder: str):
     dataset = crud.dataset.create(db=db, obj_in=create_request)
 
     # Zip and upload the example dataset from data_folder
-    zip_file_path = get_dataset_zip(data_folder)
-
-    with ZipFile(zip_file_path, "r") as zip_archive:
+    with get_dataset_zip(data_folder) as zip_file_path, ZipFile(zip_file_path, "r") as zip_archive:
         result = process_dataset_zip_archive(zip_archive, dataset.id, db)
         assert result.status == FileStatus.OK
 

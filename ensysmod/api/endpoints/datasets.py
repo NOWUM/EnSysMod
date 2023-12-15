@@ -1,19 +1,19 @@
 import zipfile
 from io import BytesIO
-from pathlib import Path
-from tempfile import mkdtemp
 from typing import List
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
+from starlette.background import BackgroundTask
 
 from ensysmod import crud, model, schemas
 from ensysmod.api import deps, permissions
 from ensysmod.core.file_download import export_data
 from ensysmod.core.file_upload import process_dataset_zip_archive
 from ensysmod.schemas import FileStatus
+from ensysmod.utils.utils import remove_file
 
 router = APIRouter()
 
@@ -122,7 +122,10 @@ def download_dataset_zip(dataset_id: int,
 
     permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
 
-    temp_dir = Path(mkdtemp(prefix="ensysmod_"))
-    zip_file_path = export_data(db, dataset.id, temp_dir)
-
-    return FileResponse(zip_file_path, media_type="application/zip", filename=f"{dataset.name}.zip")
+    zip_file_path = export_data(db=db, dataset_id=dataset.id)
+    return FileResponse(
+        path=zip_file_path,
+        media_type="application/zip",
+        filename=f"{dataset.name}.zip",
+        background=BackgroundTask(remove_file, zip_file_path),
+    )

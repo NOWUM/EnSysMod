@@ -1,10 +1,12 @@
+from collections.abc import Generator
+from contextlib import contextmanager
 from pathlib import Path
-from tempfile import mkstemp
 
 import pandas as pd
 from sqlalchemy.orm import Session
 
 from ensysmod.core.file_folder_types import ExcelFileType
+from ensysmod.utils.utils import create_temp_file, remove_file
 from tests.utils.data_generator.datasets import dataset_create
 from tests.utils.data_generator.energy_commodities import commodity_create
 from tests.utils.data_generator.energy_sources import source_create
@@ -85,22 +87,34 @@ def excel_file_type_create(
     return excel_file_type.crud_repo.create(db=db, obj_in=create_request)
 
 
-def generate_time_series_excel_file(region_names: list[str], length: int = 8760) -> Path:
+@contextmanager
+def generate_time_series_excel_file(region_names: list[str], length: int = 8760) -> Generator[Path, None, None]:
     size = (length, len(region_names))
-    _, temp_file_path = mkstemp(prefix="ensysmod_time_series_", suffix=".xlsx")
+    temp_file_path = create_temp_file(prefix="ensysmod_time_series_", suffix=".xlsx")
     pd.DataFrame(random_float_number(size=size), columns=region_names).to_excel(temp_file_path)
-    return Path(temp_file_path)
+    try:
+        yield temp_file_path
+    finally:
+        remove_file(temp_file_path)
 
 
-def generate_array_excel_file(region_names: list[str]) -> Path:
+@contextmanager
+def generate_array_excel_file(region_names: list[str]) -> Generator[Path, None, None]:
     size = (1, len(region_names))
-    _, temp_file_path = mkstemp(prefix="ensysmod_array_", suffix=".xlsx")
+    temp_file_path = create_temp_file(prefix="ensysmod_array_", suffix=".xlsx")
     pd.DataFrame(random_float_number(size=size), columns=region_names).to_excel(temp_file_path)
-    return Path(temp_file_path)
+    try:
+        yield temp_file_path
+    finally:
+        remove_file(temp_file_path)
 
 
-def generate_matrix_excel_file(region_names: list[str]) -> Path:
+@contextmanager
+def generate_matrix_excel_file(region_names: list[str]) -> Generator[Path, None, None]:
     size = (len(region_names), len(region_names))
-    _, temp_file_path = mkstemp(prefix="ensysmod_matrix_", suffix=".xlsx")
+    temp_file_path = create_temp_file(prefix="ensysmod_matrix_", suffix=".xlsx")
     pd.DataFrame(random_float_number(size=size), columns=region_names, index=region_names).to_excel(temp_file_path)
-    return Path(temp_file_path)
+    try:
+        yield temp_file_path
+    finally:
+        remove_file(temp_file_path)

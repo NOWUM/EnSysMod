@@ -1,6 +1,6 @@
 import json
 from typing import Any
-from zipfile import ZipExtFile, ZipFile
+from zipfile import ZipFile
 
 import pandas as pd
 from crud.base import CreateSchemaType
@@ -67,12 +67,12 @@ def process_dataset_zip_archive(zip_archive: ZipFile, dataset_id: int, db: Sessi
     for json_file in JSON_FILE_TYPES:
         if json_file.file_name not in zip_archive.namelist():
             raise ValueError(f"Zip archive must contain {json_file.file_name}!")
-
         file_results.append(
             process_json_list_file(
-                file=zip_archive.open(json_file.file_name),
                 db=db,
                 dataset_id=dataset_id,
+                zip_archive=zip_archive,
+                file_name=json_file.file_name,
                 crud_repo=json_file.crud_repo,
                 create_schema=json_file.create_schema,
             ),
@@ -83,9 +83,9 @@ def process_dataset_zip_archive(zip_archive: ZipFile, dataset_id: int, db: Sessi
         folder_name: str = folder.folder_name + "/"  # folder name in the zip has / at the end
         file_results.extend(
             process_components_folder(
-                zip_archive=zip_archive,
                 db=db,
                 dataset_id=dataset_id,
+                zip_archive=zip_archive,
                 folder_name=folder_name,
                 component_file_name=folder.file_name,
                 crud_repo=folder.crud_repo,
@@ -102,9 +102,10 @@ def process_dataset_zip_archive(zip_archive: ZipFile, dataset_id: int, db: Sessi
 
 def process_json_list_file(
     *,
-    file: ZipExtFile,
     db: Session,
     dataset_id: int,
+    zip_archive: ZipFile,
+    file_name: str,
     crud_repo: CRUDBaseDependsDataset,
     create_schema: type[CreateSchemaType],
 ) -> FileUploadResult:
@@ -112,26 +113,28 @@ def process_json_list_file(
     Process a json file containing a list of objects.
     Each object gets a ref_dataset key set to the given dataset_id and gets created or updated in the database.
 
-    :param file: File to process
     :param db: Database session
     :param dataset_id: ID of the dataset to add the components to
+    :param zip_archive: Zip archive to process
+    :param file_name: File name to process
     :param crud_repo: CRUD repository to use
     :param create_schema: Create schema to use
     """
     try:
-        dicts: list[dict] = json.load(file)
+        with zip_archive.open(file_name) as content:
+            dicts: list[dict] = json.load(content)
         for single_dict in dicts:
             create_or_update_named_entity(crud_repo, db, map_with_dataset_id(create_schema, single_dict, dataset_id))
-        return FileUploadResult(status=FileStatus.OK, file=file.name, message=f"Processed {len(dicts)} objects.")
+        return FileUploadResult(status=FileStatus.OK, file=file_name, message=f"Processed {len(dicts)} objects.")
     except Exception as e:
-        return FileUploadResult(status=FileStatus.ERROR, file=file.name, message=str(e))
+        return FileUploadResult(status=FileStatus.ERROR, file=file_name, message=str(e))
 
 
 def process_components_folder(
     *,
-    zip_archive: ZipFile,
     db: Session,
     dataset_id: int,
+    zip_archive: ZipFile,
     folder_name: str,
     component_file_name: str,
     crud_repo: CRUDBaseDependsComponent,
@@ -155,7 +158,8 @@ def process_components_folder(
     for sub_folder_name in sub_folder_names:
         component_file_path: str = sub_folder_name + component_file_name
         try:
-            json_dict = json.load(zip_archive.open(component_file_path))
+            with zip_archive.open(component_file_path) as content:
+                json_dict = json.load(content)
             create_or_update_named_entity(crud_repo, db, map_with_dataset_id(create_schema, json_dict, dataset_id))
             file_results.append(FileUploadResult(status=FileStatus.OK, file=component_file_path, message=f"Processed {component_file_path}"))
         except Exception as e:
@@ -181,9 +185,9 @@ def process_components_folder(
 
 def process_sub_folder_files(
     *,
-    zip_archive: ZipFile,
     db: Session,
     dataset_id: int,
+    zip_archive: ZipFile,
     component_name: str,
     sub_folder_name: str,
     as_matrix: bool = False,
@@ -199,7 +203,7 @@ def process_sub_folder_files(
         if file_path in sub_folder_file_paths:
             file_results.append(
                 process_excel_file(
-                    file=zip_archive.open(file_path),
+                    file=(zip_archive, file_path),
                     db=db,
                     dataset_id=dataset_id,
                     component_name=component_name,
@@ -214,7 +218,7 @@ def process_sub_folder_files(
 
 def process_excel_file(
     *,
-    file: UploadFile | ZipExtFile,
+    file: UploadFile | tuple[ZipFile, str],
     db: Session,
     dataset_id: int,
     component_name: str,
@@ -230,12 +234,13 @@ def process_excel_file(
     """
     try:
         if isinstance(file, UploadFile):
-            current_file = file.filename
-            file = file.file._file
-        else:
-            current_file = file.name
-
-        df: pd.DataFrame = pd.read_excel(file, engine="openpyxl")
+            file_path = file.filename if file.filename is not None else ""
+            content = file.file.read()
+            df: pd.DataFrame = pd.read_excel(content, engine="openpyxl")
+        elif isinstance(file, tuple):
+            zip_archive, file_path= file
+            with zip_archive.open(file_path) as content:
+                df: pd.DataFrame = pd.read_excel(content, engine="openpyxl")
 
         if as_matrix:
             # determine the labels (region and region_to) of rows and columns
@@ -274,7 +279,7 @@ def process_excel_file(
                 create_request = map_with_dataset_id(create_schema, request_dict, dataset_id)
                 crud_repo.create(db=db, obj_in=create_request)
 
-        return FileUploadResult(status=FileStatus.OK, file=current_file, message=f"Processed {current_file}")
+        return FileUploadResult(status=FileStatus.OK, file=file_path, message=f"Processed {file_path}")
 
     except Exception as e:
-        return FileUploadResult(status=FileStatus.ERROR, file=current_file, message=str(e))
+        return FileUploadResult(status=FileStatus.ERROR, file=file_path, message=str(e))
