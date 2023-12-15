@@ -1,5 +1,4 @@
-import os
-from datetime import datetime
+from tempfile import TemporaryDirectory
 from typing import Any, Dict, List, Union
 from zipfile import ZipFile
 
@@ -29,6 +28,7 @@ from ensysmod.model import (
     EnergyStorage,
     EnergyTransmission,
 )
+from ensysmod.utils.utils import chdir, create_temp_file
 
 
 def generate_esm_from_model(db: Session, model: EnergyModel) -> EnergySystemModel:
@@ -226,15 +226,10 @@ def optimize_esm(esM: EnergySystemModel):
     esM.cluster(numberOfTypicalPeriods=7)
     esM.optimize(timeSeriesAggregation=True)
 
-    time_str = datetime.now().strftime("%Y%m%d%H%M%S")
-    result_file_path = f"./tmp/result-{time_str}"
-    # create folder ./tmp if it does not exist
-    if not os.path.exists("./tmp"):
-        os.makedirs("./tmp")
-    writeOptimizationOutputToExcel(esM=esM,
-                                   outputFileName=result_file_path,
-                                   optSumOutputLevel=2, optValOutputLevel=1)
-    return result_file_path + ".xlsx"
+    result_file_path = create_temp_file(prefix="ensysmod_result_", suffix=".xlsx")
+    base_name = str(result_file_path.with_suffix(""))
+    writeOptimizationOutputToExcel(esM=esM, outputFileName=base_name, optSumOutputLevel=2, optValOutputLevel=1)
+    return result_file_path
 
 
 def myopic_optimize_esm(esM: EnergySystemModel, optimization_parameters: EnergyModelOptimization):
@@ -252,35 +247,23 @@ def myopic_optimize_esm(esM: EnergySystemModel, optimization_parameters: EnergyM
     if CO2_reduction_targets is not None:
         check_CO2_optimization_sink(esM)
 
-    old_cwd = os.getcwd()
-
-    time_str = datetime.now().strftime("%Y%m%d%H%M%S")
-    new_cwd = f"./tmp/result-{time_str}"
-    if not os.path.exists(new_cwd):
-        os.makedirs(new_cwd)
-
-    os.chdir(new_cwd)
-    # optimizeSimpleMyopic() can only output files to the current working directory
-    optimizeSimpleMyopic(esM=esM,
-                         startYear=start_year,
-                         endYear=end_year,
-                         nbOfSteps=nb_of_steps,
-                         nbOfRepresentedYears=nb_of_represented_years,
-                         CO2Reference=CO2_reference,
-                         CO2ReductionTargets=CO2_reduction_targets,
-                         timeSeriesAggregation=False,
-                         solver="glpk",
-                         trackESMs=False)
-
-    # zip files
-    result_excel_files = [f"ESM{year}.xlsx" for year in range(start_year, end_year+1, nb_of_represented_years)]
-    zipped_result = f"result-{time_str}.zip"
-    with ZipFile(zipped_result, 'w') as zip_file:
-        for file in result_excel_files:
-            zip_file.write(file)
-
-    os.chdir(old_cwd)
-    zipped_result_file_path = f"{new_cwd}/{zipped_result}"
+    with TemporaryDirectory(prefix="ensysmod_") as temp_dir, chdir(temp_dir):
+        # optimizeSimpleMyopic() can only output files to the current working directory
+        optimizeSimpleMyopic(
+            esM=esM,
+            startYear=start_year,
+            endYear=end_year,
+            nbOfSteps=nb_of_steps,
+            nbOfRepresentedYears=nb_of_represented_years,
+            CO2Reference=CO2_reference,
+            CO2ReductionTargets=CO2_reduction_targets,
+            trackESMs=False,
+        )
+        result_excel_files = [f"ESM{year}.xlsx" for year in range(start_year, end_year+1, nb_of_represented_years)]
+        zipped_result_file_path = create_temp_file(prefix="ensysmod_result_", suffix=".zip")
+        with ZipFile(zipped_result_file_path, "w") as zip_file:
+            for file in result_excel_files:
+                zip_file.write(file)
 
     return zipped_result_file_path
 
