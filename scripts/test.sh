@@ -5,4 +5,6 @@ cd "$(git rev-parse --show-toplevel)" || (
   exit 1
 )
 
-pytest ./tests
+pytest --cov=./ensysmod --cov-branch --cov-report=html ./tests
+
+echo "Coverage report is here: file://$(pwd)/htmlcov/index.html"
