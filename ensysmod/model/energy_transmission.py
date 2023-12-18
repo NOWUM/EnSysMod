@@ -1,7 +1,9 @@
 from sqlalchemy import Column, ForeignKey, Integer
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Session, relationship
 
 from ensysmod.database.base_class import Base
+from ensysmod.model.transmission_distance import TransmissionDistance
+from ensysmod.model.transmission_loss import TransmissionLoss
 
 
 class EnergyTransmission(Base):
@@ -18,5 +20,13 @@ class EnergyTransmission(Base):
     component = relationship("EnergyComponent")
     commodity = relationship("EnergyCommodity", back_populates="energy_transmissions")
 
-    distances = relationship("EnergyTransmissionDistance", back_populates="transmission")
-    losses = relationship("EnergyTransmissionLoss", back_populates="transmission")
+    # properties
+    @property
+    def distances(self) -> list[TransmissionDistance]:
+        session = Session.object_session(self)
+        return session.query(TransmissionDistance).filter(TransmissionDistance.ref_component == self.ref_component).all()
+
+    @property
+    def losses(self) -> list[TransmissionLoss]:
+        session = Session.object_session(self)
+        return session.query(TransmissionLoss).filter(TransmissionLoss.ref_component == self.ref_component).all()

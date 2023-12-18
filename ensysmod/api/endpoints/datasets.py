@@ -103,10 +103,10 @@ def upload_dataset_zip(dataset_id: int,
     with zipfile.ZipFile(BytesIO(file.file.read()), 'r') as zip_archive:
         result = process_dataset_zip_archive(zip_archive, dataset_id, db)
 
-        if result.status == FileStatus.ERROR:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=jsonable_encoder(result))
+    if result.status != FileStatus.OK:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=jsonable_encoder(result))
 
-        return result
+    return result
 
 
 @router.get("/{dataset_id}/download")

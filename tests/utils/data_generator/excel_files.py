@@ -88,32 +88,14 @@ def excel_file_type_create(
 
 
 @contextmanager
-def generate_time_series_excel_file(region_names: list[str], length: int = 8760) -> Generator[Path, None, None]:
-    size = (length, len(region_names))
-    temp_file_path = create_temp_file(prefix="ensysmod_time_series_", suffix=".xlsx")
-    pd.DataFrame(random_float_number(size=size), columns=region_names).to_excel(temp_file_path)
-    try:
-        yield temp_file_path
-    finally:
-        remove_file(temp_file_path)
-
-
-@contextmanager
-def generate_array_excel_file(region_names: list[str]) -> Generator[Path, None, None]:
-    size = (1, len(region_names))
-    temp_file_path = create_temp_file(prefix="ensysmod_array_", suffix=".xlsx")
-    pd.DataFrame(random_float_number(size=size), columns=region_names).to_excel(temp_file_path)
-    try:
-        yield temp_file_path
-    finally:
-        remove_file(temp_file_path)
-
-
-@contextmanager
-def generate_matrix_excel_file(region_names: list[str]) -> Generator[Path, None, None]:
-    size = (len(region_names), len(region_names))
-    temp_file_path = create_temp_file(prefix="ensysmod_matrix_", suffix=".xlsx")
-    pd.DataFrame(random_float_number(size=size), columns=region_names, index=region_names).to_excel(temp_file_path)
+def generate_excel_file(*, region_names: list[str], length: int = 8760, as_matrix: bool = False) -> Generator[Path, None, None]:
+    temp_file_path = create_temp_file(prefix="ensysmod_", suffix=".xlsx")
+    if as_matrix:
+        size = (len(region_names), len(region_names))
+        pd.DataFrame(random_float_number(size=size), columns=region_names, index=region_names).to_excel(temp_file_path)
+    else:
+        size = (length, len(region_names))
+        pd.DataFrame(random_float_number(size=size), columns=region_names).to_excel(temp_file_path)
     try:
         yield temp_file_path
     finally:

@@ -267,6 +267,8 @@ def process_excel_file(
             for column in df.columns:
                 if column == "Unnamed: 0":
                     continue  # Skip first unnamed column, because this is might be the index
+                if not as_list and len(df) != 1:
+                    raise ValueError(f"Only one row is expected, but {len(df)} were given.")
 
                 data: list[float] | float = df[column].tolist() if as_list else df[column][0]
 

@@ -29,10 +29,6 @@ class CRUDBaseDependsMatrix(CRUDBaseDependsComponentRegion, Generic[ModelType, C
             .all()
         )
 
-    def has_data(self, db: Session, *, component_id: int, region_ids: list[int]) -> bool:
-        result = self.get_multi_by_component_and_regions(db=db, component_id=component_id, region_ids=region_ids)
-        return result is not None and len(result) > 0
-
     # TODO reimplement the following methods in CRUD classes that inherit from this class.
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
@@ -45,15 +41,19 @@ class CRUDBaseDependsMatrix(CRUDBaseDependsComponentRegion, Generic[ModelType, C
                 raise ValueError(f"Number of elements in {self.data_column} must match number of time steps of the dataset: {allowed_len}.")
 
         component = crud.energy_component.get_by_dataset_and_name(db, name=obj_in.component, dataset_id=obj_in.ref_dataset)
-        # raise exception if not found
+        if component is None:
+            raise ValueError(f"Component {obj_in.component} not found in dataset {obj_in.ref_dataset}!")
         obj_in_dict["ref_component"] = component.id
 
         region = crud.region.get_by_dataset_and_name(db, name=obj_in.region, dataset_id=obj_in.ref_dataset)
-        # raise exception if not found
+        if region is None:
+            raise ValueError(f"Region {obj_in.region} not found in dataset {obj_in.ref_dataset}!")
         obj_in_dict["ref_region"] = region.id
 
         if obj_in.region_to is not None:
             region_to = crud.region.get_by_dataset_and_name(db, name=obj_in.region_to, dataset_id=obj_in.ref_dataset)
+            if region_to is None:
+                raise ValueError(f"Region {obj_in.region_to} not found in dataset {obj_in.ref_dataset}!")
             obj_in_dict["ref_region_to"] = region_to.id
 
         return super().create(db=db, obj_in=obj_in_dict)

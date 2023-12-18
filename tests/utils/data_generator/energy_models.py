@@ -30,7 +30,10 @@ def energy_model_create_request(
         description="EnergyModel description",
         override_parameters=[
             EnergyModelOverrideCreate(
+                ref_dataset=dataset_id,
                 component=component.component.name,
+                region=None,
+                region_to=None,
                 attribute="yearly_limit",
                 operation="set",
                 value=366.6,

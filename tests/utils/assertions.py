@@ -10,17 +10,11 @@ def assert_energy_component(component: Dict, expected: EnergyComponentCreate, ex
     assert component["description"] == expected.description
 
 
-def assert_transmission_distance(check_entry, expected_entry):
-    assert check_entry["id"] == expected_entry.id
-    assert check_entry["distance"] == expected_entry.distance
-    assert check_entry["transmission"]["component"]["id"] == expected_entry.ref_component
-    assert check_entry["region"]["id"] == expected_entry.ref_region
-    assert check_entry["region_to"]["id"] == expected_entry.ref_region_to
-
-
-def assert_transmission_loss(check_entry, expected_entry):
-    assert check_entry["id"] == expected_entry.id
-    assert check_entry["loss"] == expected_entry.loss
-    assert check_entry["transmission"]["component"]["id"] == expected_entry.ref_component
-    assert check_entry["region"]["id"] == expected_entry.ref_region
-    assert check_entry["region_to"]["id"] == expected_entry.ref_region_to
+def assert_excel_file_entry(entry: dict, expected, data_column: str):
+    assert entry["id"] == expected.id
+    assert entry["dataset"]["id"] == expected.ref_dataset
+    assert entry["component"]["name"] == expected.component.name
+    assert entry["region"]["name"] == expected.region.name
+    if entry["region_to"] is not None or expected.region_to is not None:
+        assert entry["region_to"]["name"] == expected.region_to.name
+    assert entry[data_column] == expected.__getattribute__(data_column)

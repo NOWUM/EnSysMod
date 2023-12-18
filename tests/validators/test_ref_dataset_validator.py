@@ -8,8 +8,8 @@ from ensysmod.schemas import (
     EnergyCommodityCreate,
     EnergyComponentCreate,
     EnergyConversionFactorCreate,
-    EnergyTransmissionDistanceCreate,
-    EnergyTransmissionLossCreate,
+    TransmissionDistanceCreate,
+    TransmissionLossCreate,
 )
 from ensysmod.schemas.energy_model import EnergyModelCreate
 from ensysmod.schemas.region import RegionCreate
@@ -19,8 +19,8 @@ schemas_with_ref_dataset_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] 
     (EnergyComponentCreate, {"name": "test", "description": "foo", "type": EnergyComponentType.SOURCE}),
     (EnergyModelCreate, {"name": "test"}),
     (RegionCreate, {"name": "test"}),
-    (EnergyTransmissionDistanceCreate, {"distance": 1000, "component": "test", "region": "Region 1", "region_to": "Region 2"}),
-    (EnergyTransmissionLossCreate, {"loss": 0.00001, "component": "test", "region": "Region 1", "region_to": "Region 2"}),
+    (TransmissionDistanceCreate, {"distance": 1000, "component": "test", "region": "Region 1", "region_to": "Region 2"}),
+    (TransmissionLossCreate, {"loss": 0.00001, "component": "test", "region": "Region 1", "region_to": "Region 2"}),
 ]
 
 schemas_with_ref_dataset_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [

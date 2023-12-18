@@ -1,8 +1,9 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 
 from ensysmod.schemas.dataset import Dataset
 from ensysmod.schemas.energy_component import EnergyComponent
 from ensysmod.schemas.region import Region
+from ensysmod.utils import validators
 
 
 class RefCRBaseBase(BaseModel):
@@ -20,6 +21,9 @@ class RefCRBaseCreate(RefCRBaseBase):
     component: str = Field(..., description="The name of the component.", example="heat_pump")
     region: str = Field(..., description="The name of the region.", example="germany")
     region_to: str | None = Field(None, description="Optional region to name, if needed.", example="france")
+
+    # validators
+    _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_required)
 
 
 class RefCRBaseUpdate(RefCRBaseBase):

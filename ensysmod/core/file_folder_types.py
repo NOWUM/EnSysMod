@@ -82,7 +82,7 @@ OPERATION_RATE_FIX = ExcelFileType(
     file_name="operationRateFix.xlsx",
     crud_repo=crud.operation_rate_fix,
     create_schema=schemas.OperationRateFixCreate,
-    data_column="fix_operation_rates",
+    data_column="operation_rate_fix",
     as_list=True,
 )
 
@@ -90,7 +90,7 @@ OPERATION_RATE_MAX = ExcelFileType(
     file_name="operationRateMax.xlsx",
     crud_repo=crud.operation_rate_max,
     create_schema=schemas.OperationRateMaxCreate,
-    data_column="max_operation_rates",
+    data_column="operation_rate_max",
     as_list=True,
 )
 
@@ -98,48 +98,48 @@ CAPACITY_FIX = ExcelFileType(
     file_name="capacityFix.xlsx",
     crud_repo=crud.capacity_fix,
     create_schema=schemas.CapacityFixCreate,
-    data_column="fix_capacity",
+    data_column="capacity_fix",
 )
 
 CAPACITY_MAX = ExcelFileType(
     file_name="capacityMax.xlsx",
     crud_repo=crud.capacity_max,
     create_schema=schemas.CapacityMaxCreate,
-    data_column="max_capacity",
+    data_column="capacity_max",
 )
 
 CAPACITY_MIN = ExcelFileType(
     file_name="capacityMin.xlsx",
     crud_repo=crud.capacity_min,
     create_schema=schemas.CapacityMinCreate,
-    data_column="min_capacity",
+    data_column="capacity_min",
 )
 
 YEARLY_FULL_LOAD_HOURS_MAX = ExcelFileType(
     file_name="yearlyFullLoadHoursMax.xlsx",
-    crud_repo=crud.yearly_full_load_hour_max,
-    create_schema=schemas.YearlyFullLoadHourMaxCreate,
-    data_column="max_yearly_full_load_hour",
+    crud_repo=crud.yearly_full_load_hours_max,
+    create_schema=schemas.YearlyFullLoadHoursMaxCreate,
+    data_column="yearly_full_load_hours_max",
 )
 
 YEARLY_FULL_LOAD_HOURS_MIN = ExcelFileType(
     file_name="yearlyFullLoadHoursMin.xlsx",
-    crud_repo=crud.yearly_full_load_hour_min,
-    create_schema=schemas.YearlyFullLoadHourMinCreate,
-    data_column="min_yearly_full_load_hour",
+    crud_repo=crud.yearly_full_load_hours_min,
+    create_schema=schemas.YearlyFullLoadHoursMinCreate,
+    data_column="yearly_full_load_hours_min",
 )
 
-DISTANCES = ExcelFileType(
+TRANSMISSION_DISTANCE = ExcelFileType(
     file_name="distances.xlsx",
-    crud_repo=crud.energy_transmission_distance,
-    create_schema=schemas.EnergyTransmissionDistanceCreate,
+    crud_repo=crud.transmission_distance,
+    create_schema=schemas.TransmissionDistanceCreate,
     data_column="distance",
 )
 
-LOSSES = ExcelFileType(
+TRANSMISSION_LOSS = ExcelFileType(
     file_name="losses.xlsx",
-    crud_repo=crud.energy_transmission_loss,
-    create_schema=schemas.EnergyTransmissionLossCreate,
+    crud_repo=crud.transmission_loss,
+    create_schema=schemas.TransmissionLossCreate,
     data_column="loss",
 )
 
@@ -163,6 +163,6 @@ EXCEL_FILE_TYPES: tuple[ExcelFileType, ...] = (
     CAPACITY_MIN,
     YEARLY_FULL_LOAD_HOURS_MAX,
     YEARLY_FULL_LOAD_HOURS_MIN,
-    DISTANCES,
-    LOSSES,
+    TRANSMISSION_DISTANCE,
+    TRANSMISSION_LOSS,
 )
