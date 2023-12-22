@@ -26,12 +26,10 @@ class YearlyFullLoadHoursMinCreate(YearlyFullLoadHoursMinBase, RefCRBaseCreate):
     """
 
 
-
 class YearlyFullLoadHoursMinUpdate(YearlyFullLoadHoursMinBase, RefCRBaseUpdate):
     """
     Attributes to receive via API on update of a YearlyFullLoadHoursMin entry.
     """
-
 
 
 class YearlyFullLoadHoursMin(YearlyFullLoadHoursMinBase, RefCRBase):

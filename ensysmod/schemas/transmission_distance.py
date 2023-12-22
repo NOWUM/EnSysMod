@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, NonNegativeFloat, validator
+from pydantic import BaseModel, Field, validator
 
 from ensysmod.schemas.base_ref_component_region import RefCRBase, RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate
 from ensysmod.schemas.region import Region
