@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from ensysmod import crud, schemas
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
-from ensysmod.crud.base_depends_matrix import CRUDBaseDependsMatrix
+from ensysmod.crud.base_depends_excel import CRUDBaseDependsExcel
 
 
 class FolderType(NamedTuple):
@@ -24,7 +24,7 @@ class JsonFileType(NamedTuple):
 
 class ExcelFileType(NamedTuple):
     file_name: str
-    crud_repo: CRUDBaseDependsMatrix
+    crud_repo: CRUDBaseDependsExcel
     create_schema: type[BaseModel]
     data_column: str
     as_list: bool = False

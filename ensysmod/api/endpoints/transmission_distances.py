@@ -197,14 +197,10 @@ def download_transmission_distance(
     if component is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Component {component_id} not found!")
 
-    distances = crud.transmission_distance.get_multi_by_component(db, component_id=component_id)
-    region_ids = [distance.ref_region for distance in distances] + [distance.ref_region_to for distance in distances]
-
     temp_file_path = create_temp_file(prefix="ensysmod_distances_", suffix=".xlsx")
     dump_excel_file(
         db=db,
         component_id=component.id,
-        region_ids=region_ids,
         crud_repo=crud.transmission_distance,
         file_path=temp_file_path,
     )

@@ -1,8 +1,7 @@
 from tempfile import TemporaryDirectory
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List
 from zipfile import ZipFile
 
-import pandas as pd
 from FINE import (
     Conversion,
     EnergySystemModel,
@@ -28,7 +27,7 @@ from ensysmod.model import (
     EnergyStorage,
     EnergyTransmission,
 )
-from ensysmod.utils.utils import chdir, create_temp_file
+from ensysmod.utils.utils import chdir, create_temp_file, df_or_s
 
 
 def generate_esm_from_model(db: Session, model: EnergyModel) -> EnergySystemModel:
@@ -145,9 +144,9 @@ def add_transmission(esM: EnergySystemModel, db: Session, transmission: EnergyTr
     esm_transmission["commodity"] = transmission.commodity.name
     component_id = transmission.component.id
     if len(transmission.distances) > 0:
-        esm_transmission["distances"] = crud.transmission_distance.get_dataframe(db, component_id=component_id, region_ids=region_ids)
+        esm_transmission["distances"] = crud.transmission_distance.get_dataframe(db, component_id=component_id)
     if len(transmission.losses) > 0:
-        esm_transmission["losses"] = crud.transmission_loss.get_dataframe(db, component_id=component_id, region_ids=region_ids)
+        esm_transmission["losses"] = crud.transmission_loss.get_dataframe(db, component_id=component_id)
     esm_transmission = override_parameters(esm_transmission, custom_parameters)
     esM.add(Transmission(esM=esM, **esm_transmission))
 
@@ -167,21 +166,21 @@ def component_to_dict(db: Session, component: EnergyComponent, region_ids: List[
     }
 
     if len(component.capacity_fix) > 0:
-        component_data["capacityFix"] = df_or_s(crud.capacity_fix.get_dataframe(db, component_id=component.id, region_ids=region_ids))
+        component_data["capacityFix"] = df_or_s(crud.capacity_fix.get_dataframe(db, component_id=component.id))
     if len(component.capacity_max) > 0:
-        component_data["capacityMax"] = df_or_s(crud.capacity_max.get_dataframe(db, component_id=component.id, region_ids=region_ids))
+        component_data["capacityMax"] = df_or_s(crud.capacity_max.get_dataframe(db, component_id=component.id))
     if len(component.capacity_min) > 0:
-        component_data["capacityMin"] = df_or_s(crud.capacity_min.get_dataframe(db, component_id=component.id, region_ids=region_ids))
+        component_data["capacityMin"] = df_or_s(crud.capacity_min.get_dataframe(db, component_id=component.id))
 
     if len(component.operation_rate_fix) > 0:
-        component_data["operationRateFix"] = df_or_s(crud.operation_rate_fix.get_dataframe(db, component_id=component.id, region_ids=region_ids))
+        component_data["operationRateFix"] = df_or_s(crud.operation_rate_fix.get_dataframe(db, component_id=component.id))
     if len(component.operation_rate_max) > 0:
-        component_data["operationRateMax"] = df_or_s(crud.operation_rate_max.get_dataframe(db, component_id=component.id, region_ids=region_ids))
+        component_data["operationRateMax"] = df_or_s(crud.operation_rate_max.get_dataframe(db, component_id=component.id))
 
     if len(component.yearly_full_load_hours_max) > 0:
-        component_data["yearlyFullLoadHoursMax"] = df_or_s(crud.yearly_full_load_hours_max.get_dataframe(db, component_id=component.id, region_ids=region_ids))
+        component_data["yearlyFullLoadHoursMax"] = df_or_s(crud.yearly_full_load_hours_max.get_dataframe(db, component_id=component.id))
     if len(component.yearly_full_load_hours_min) > 0:
-        component_data["yearlyFullLoadHoursMin"] = df_or_s(crud.yearly_full_load_hours_min.get_dataframe(db, component_id=component.id, region_ids=region_ids))
+        component_data["yearlyFullLoadHoursMin"] = df_or_s(crud.yearly_full_load_hours_min.get_dataframe(db, component_id=component.id))
 
     return component_data
 
@@ -267,10 +266,3 @@ def check_CO2_optimization_sink(esM: EnergySystemModel):
 
     if esM.getComponentAttribute(componentName='CO2 to environment', attributeName='commodityLimitID') is None:
         raise ValueError("Commodity limit ID of the sink component 'CO2 to environment' must be specified.")
-
-
-def df_or_s(dataframe: pd.DataFrame) -> Union[pd.DataFrame, pd.Series]:
-    if dataframe.shape[0] == 1:
-        return dataframe.squeeze(axis=0)
-    else:
-        return dataframe

@@ -11,31 +11,13 @@ from starlette.datastructures import UploadFile
 from ensysmod.core.file_folder_types import EXCEL_FILE_TYPES, FOLDER_TYPES, JSON_FILE_TYPES
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
-from ensysmod.crud.base_depends_matrix import CRUDBaseDependsMatrix
+from ensysmod.crud.base_depends_excel import CRUDBaseDependsExcel
 from ensysmod.schemas import FileStatus, FileUploadResult, ZipArchiveUploadResult
 
 
-def create_or_update_named_entity(crud_repo: CRUDBaseDependsDataset, db: Session, request: CreateSchemaType):
+def create_request(create_schema: type[CreateSchemaType], json_dict: dict, dataset_id: int) -> CreateSchemaType:
     """
-    This function creates or updates an object inside the given crud repository.
-
-    :param crud_repo: The crud repository.
-    :param db: The database session.
-    :param request: The request.
-    :return: The created or updated object.
-    """
-    existing_object = crud_repo.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.name)
-    if existing_object is not None:
-        print(f"{request.name} already exists in database. Updating...")
-        return crud_repo.update(db, obj_in=request, db_obj=existing_object)
-
-    print(f"{request.name} doesn't exists in dataset {request.ref_dataset}. Creating...")
-    return crud_repo.create(db, obj_in=request)
-
-
-def map_with_dataset_id(create_schema: type[CreateSchemaType], json_dict: dict, dataset_id: int) -> CreateSchemaType:
-    """
-    Maps a json dict to a dict with the ref_dataset key set to the given dataset_id.
+    Set the ref_dataset to dataset_id, then convert the json_dict into the create schema type.
     """
     json_dict["ref_dataset"] = dataset_id
     return create_schema.parse_obj(json_dict)
@@ -124,7 +106,7 @@ def process_json_list_file(
         with zip_archive.open(file_name) as content:
             dicts: list[dict] = json.load(content)
         for single_dict in dicts:
-            create_or_update_named_entity(crud_repo, db, map_with_dataset_id(create_schema, single_dict, dataset_id))
+            crud_repo.create(db, obj_in=create_request(create_schema, single_dict, dataset_id))
         return FileUploadResult(status=FileStatus.OK, file=file_name, message=f"Processed {len(dicts)} objects.")
     except Exception as e:
         return FileUploadResult(status=FileStatus.ERROR, file=file_name, message=str(e))
@@ -160,7 +142,7 @@ def process_components_folder(
         try:
             with zip_archive.open(component_file_path) as content:
                 json_dict = json.load(content)
-            create_or_update_named_entity(crud_repo, db, map_with_dataset_id(create_schema, json_dict, dataset_id))
+            crud_repo.create(db, obj_in=create_request(create_schema, json_dict, dataset_id))
             file_results.append(FileUploadResult(status=FileStatus.OK, file=component_file_path, message=f"Processed {component_file_path}"))
         except Exception as e:
             file_results.append(FileUploadResult(status=FileStatus.ERROR, file=component_file_path, message=str(e)))
@@ -222,7 +204,7 @@ def process_excel_file(
     db: Session,
     dataset_id: int,
     component_name: str,
-    crud_repo: CRUDBaseDependsMatrix,
+    crud_repo: CRUDBaseDependsExcel,
     create_schema: type[BaseModel],
     as_list: bool = False,
     as_matrix: bool = False,
@@ -241,11 +223,13 @@ def process_excel_file(
             zip_archive, file_path= file
             with zip_archive.open(file_path) as content:
                 df: pd.DataFrame = pd.read_excel(content, engine="openpyxl")
+        else:
+            raise TypeError("Unknown file type.")
 
         if as_matrix:
             # determine the labels (region and region_to) of rows and columns
             regions = df.iloc[:, 0].tolist()
-            df.drop(df.columns[0], axis=1, inplace=True)
+            df = df.drop(df.columns[0], axis=1)
             regions_to = df.columns.tolist()
 
             df_array = df.to_numpy()
@@ -260,9 +244,7 @@ def process_excel_file(
                         "region": regions[i],
                         "region_to": regions_to[j],
                     }
-
-                    create_request = map_with_dataset_id(create_schema, request_dict, dataset_id)
-                    crud_repo.create(db=db, obj_in=create_request)
+                    crud_repo.create(db=db, obj_in=create_request(create_schema, request_dict, dataset_id))
         else:
             for column in df.columns:
                 if column == "Unnamed: 0":
@@ -277,9 +259,7 @@ def process_excel_file(
                     "component": component_name,
                     "region": column,
                 }
-
-                create_request = map_with_dataset_id(create_schema, request_dict, dataset_id)
-                crud_repo.create(db=db, obj_in=create_request)
+                crud_repo.create(db=db, obj_in=create_request(create_schema, request_dict, dataset_id))
 
         return FileUploadResult(status=FileStatus.OK, file=file_path, message=f"Processed {file_path}")
 

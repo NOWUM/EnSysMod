@@ -197,14 +197,10 @@ def download_transmission_loss(
     if component is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Component {component_id} not found!")
 
-    losses = crud.transmission_loss.get_multi_by_component(db, component_id=component_id)
-    region_ids = [loss.ref_region for loss in losses] + [loss.ref_region_to for loss in losses]
-
     temp_file_path = create_temp_file(prefix="ensysmod_losses_", suffix=".xlsx")
     dump_excel_file(
         db=db,
         component_id=component.id,
-        region_ids=region_ids,
         crud_repo=crud.transmission_loss,
         file_path=temp_file_path,
     )

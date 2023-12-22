@@ -1,10 +1,10 @@
-from ensysmod.crud.base_depends_region_matrix import CRUDBaseDependsRegionMatrix
+from ensysmod.crud.base_depends_excel import CRUDBaseDependsExcel
 from ensysmod.model import YearlyFullLoadHoursMax
 from ensysmod.schemas import YearlyFullLoadHoursMaxCreate, YearlyFullLoadHoursMaxUpdate
 
 
 # noinspection PyMethodMayBeStatic,PyArgumentList
-class CRUDYearlyFullLoadHoursMax(CRUDBaseDependsRegionMatrix[YearlyFullLoadHoursMax, YearlyFullLoadHoursMaxCreate, YearlyFullLoadHoursMaxUpdate]):
+class CRUDYearlyFullLoadHoursMax(CRUDBaseDependsExcel[YearlyFullLoadHoursMax, YearlyFullLoadHoursMaxCreate, YearlyFullLoadHoursMaxUpdate]):
     """
     CRUD operations for YearlyFullLoadHoursMax
     """

@@ -1,11 +1,11 @@
-from ensysmod.crud.base_depends_region_x_region_matrix import CRUDBaseDependsRegionXRegionMatrix
+from ensysmod.crud.base_depends_excel import CRUDBaseDependsExcel
 from ensysmod.model import TransmissionDistance
 from ensysmod.schemas import TransmissionDistanceCreate, TransmissionDistanceUpdate
 
 # noinspection PyMethodMayBeStatic,PyArgumentList
 
 
-class CRUDTransmissionDistance(CRUDBaseDependsRegionXRegionMatrix[TransmissionDistance, TransmissionDistanceCreate, TransmissionDistanceUpdate]):
+class CRUDTransmissionDistance(CRUDBaseDependsExcel[TransmissionDistance, TransmissionDistanceCreate, TransmissionDistanceUpdate]):
     """
     CRUD operations for TransmissionDistance
     """

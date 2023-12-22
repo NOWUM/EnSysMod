@@ -1,10 +1,10 @@
-from ensysmod.crud.base_depends_timeseries_matrix import CRUDBaseDependsTimeSeriesMatrix
+from ensysmod.crud.base_depends_excel import CRUDBaseDependsExcel
 from ensysmod.model import OperationRateMax
 from ensysmod.schemas import OperationRateMaxCreate, OperationRateMaxUpdate
 
 
 # noinspection PyMethodMayBeStatic,PyArgumentList
-class CRUDOperationRateMax(CRUDBaseDependsTimeSeriesMatrix[OperationRateMax, OperationRateMaxCreate, OperationRateMaxUpdate]):
+class CRUDOperationRateMax(CRUDBaseDependsExcel[OperationRateMax, OperationRateMaxCreate, OperationRateMaxUpdate]):
     """
     CRUD operations for OperationRateMax
     """

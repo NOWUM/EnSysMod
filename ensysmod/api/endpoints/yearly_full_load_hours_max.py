@@ -191,14 +191,10 @@ def download_yearly_full_load_hours_max(
     if component is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Component {component_id} not found!")
 
-    yearly_full_load_hours = crud.yearly_full_load_hours_max.get_multi_by_component(db, component_id=component_id)
-    region_ids = [yearly_full_load_hours.ref_region for yearly_full_load_hours in yearly_full_load_hours]
-
     temp_file_path = create_temp_file(prefix="ensysmod_yearlyFullLoadHoursMax_", suffix=".xlsx")
     dump_excel_file(
         db=db,
         component_id=component.id,
-        region_ids=region_ids,
         crud_repo=crud.yearly_full_load_hours_max,
         file_path=temp_file_path,
     )

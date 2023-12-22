@@ -191,14 +191,10 @@ def download_capacity_fix(
     if component is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Component {component_id} not found!")
 
-    capacities = crud.capacity_fix.get_multi_by_component(db, component_id=component_id)
-    region_ids = [capacity.ref_region for capacity in capacities]
-
     temp_file_path = create_temp_file(prefix="ensysmod_capacityFix_", suffix=".xlsx")
     dump_excel_file(
         db=db,
         component_id=component.id,
-        region_ids=region_ids,
         crud_repo=crud.capacity_fix,
         file_path=temp_file_path,
     )

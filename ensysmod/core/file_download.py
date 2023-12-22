@@ -9,10 +9,10 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from ensysmod import crud, schemas
+from ensysmod import schemas
 from ensysmod.core.file_folder_types import EXCEL_FILE_TYPES, FOLDER_TYPES, JSON_FILE_TYPES
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
-from ensysmod.crud.base_depends_matrix import CRUDBaseDependsMatrix
+from ensysmod.crud.base_depends_excel import CRUDBaseDependsExcel
 from ensysmod.utils.utils import create_temp_file
 
 
@@ -95,12 +95,10 @@ def dump_energy_component(
         dump_json(obj=component_dict, fields=fields, file_path=Path(component_folder, file_name))
 
         # dump excel files
-        region_ids = [region.id for region in crud.region.get_multi_by_dataset(db, dataset_id=dataset_id)]
         for excel_file in EXCEL_FILE_TYPES:
             dump_excel_file(
                 db=db,
                 component_id=component.ref_component,
-                region_ids=region_ids,
                 crud_repo=excel_file.crud_repo,
                 file_path=Path(component_folder, excel_file.file_name),
             )
@@ -132,15 +130,14 @@ def dump_json(*, obj: Any, fields: set[str], file_path: Path):
         json.dump(json_obj, file, ensure_ascii=False, indent=4)
 
 
-def dump_excel_file(*, db: Session, component_id: int, region_ids: list[int], crud_repo: CRUDBaseDependsMatrix, file_path: Path):
+def dump_excel_file(*, db: Session, component_id: int, crud_repo: CRUDBaseDependsExcel, file_path: Path):
     """
     Export excel data from database to an excel file.
 
     :param db: The database session.
     :param component_id: The component id.
-    :param region_ids: The region ids.
     :param crud_repo: The CRUD repository.
     :param file_path: The file path.
     """
     if len(crud_repo.get_multi_by_component(db, component_id=component_id)) != 0:
-        crud_repo.get_dataframe(db, component_id=component_id, region_ids=region_ids).to_excel(file_path)
+        crud_repo.get_dataframe(db, component_id=component_id).to_excel(file_path)

@@ -1,10 +1,10 @@
-from ensysmod.crud.base_depends_region_matrix import CRUDBaseDependsRegionMatrix
+from ensysmod.crud.base_depends_excel import CRUDBaseDependsExcel
 from ensysmod.model import YearlyFullLoadHoursMin
 from ensysmod.schemas import YearlyFullLoadHoursMinCreate, YearlyFullLoadHoursMinUpdate
 
 
 # noinspection PyMethodMayBeStatic,PyArgumentList
-class CRUDYearlyFullLoadHoursMin(CRUDBaseDependsRegionMatrix[YearlyFullLoadHoursMin, YearlyFullLoadHoursMinCreate, YearlyFullLoadHoursMinUpdate]):
+class CRUDYearlyFullLoadHoursMin(CRUDBaseDependsExcel[YearlyFullLoadHoursMin, YearlyFullLoadHoursMinCreate, YearlyFullLoadHoursMinUpdate]):
     """
     CRUD operations for YearlyFullLoadHoursMin
     """
