@@ -18,4 +18,4 @@ Dataset
     dataset/energy_conversion.rst
     dataset/energy_storage.rst
     dataset/energy_transmission.rst
-    dataset/time_series_data.rst
+    dataset/excel_data.rst

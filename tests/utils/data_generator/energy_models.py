@@ -7,27 +7,33 @@ from ensysmod.schemas import (
     EnergyModelOptimizationCreate,
     EnergyModelOverrideCreate,
 )
-from tests.utils.data_generator.datasets import (
-    create_example_dataset,
-    fixed_existing_dataset,
-)
-from tests.utils.data_generator.energy_sources import fixed_existing_energy_source
+from tests.utils.data_generator.datasets import create_example_dataset, dataset_create
+from tests.utils.data_generator.energy_sinks import sink_create
 from tests.utils.utils import random_lower_string
 
 
-def random_energy_model_create(db: Session) -> EnergyModelCreate:
+def energy_model_create_request(
+    db: Session,
+    current_user_header: dict[str, str],
+    dataset_id: int | None = None,
+) -> EnergyModelCreate:
     """
-    Generate a random energy model create request.
+    Generate an energy model create request with the specified dataset.
+    If dataset_id is not specified, it will be generated.
     """
-    dataset = fixed_existing_dataset(db)
-    component_1 = fixed_existing_energy_source(db)
+    if dataset_id is None:
+        dataset_id = dataset_create(db, current_user_header).id
+    component = sink_create(db, current_user_header, dataset_id)
     return EnergyModelCreate(
-        name=f"EnergyModel-{dataset.id}-" + random_lower_string(),
-        ref_dataset=dataset.id,
+        name=f"EnergyModel-Dataset{dataset_id}-{random_lower_string()}",
+        ref_dataset=dataset_id,
         description="EnergyModel description",
         override_parameters=[
             EnergyModelOverrideCreate(
-                component=component_1.component.name,
+                ref_dataset=dataset_id,
+                component=component.component.name,
+                region=None,
+                region_to=None,
                 attribute="yearly_limit",
                 operation="set",
                 value=366.6,
@@ -39,44 +45,22 @@ def random_energy_model_create(db: Session) -> EnergyModelCreate:
             number_of_steps=3,
             years_per_step=10,
             CO2_reference=366.6,
-            CO2_reduction_targets=[0, 25, 50, 100]
-        )
+            CO2_reduction_targets=[0, 25, 50, 100],
+        ),
     )
 
 
-def random_existing_energy_model(db: Session) -> EnergyModel:
+def energy_model_create(
+    db: Session,
+    current_user_header: dict[str, str],
+    dataset_id: int | None = None,
+) -> EnergyModel:
     """
-    Generate a random existing energy model.
+    Create an energy model with the specified dataset.
+    If dataset_id is not specified, it will be generated.
     """
-    create_request = random_energy_model_create(db)
+    create_request = energy_model_create_request(db, current_user_header, dataset_id)
     return crud.energy_model.create(db=db, obj_in=create_request)
-
-
-def fixed_energy_model_create(db: Session) -> EnergyModelCreate:
-    """
-    Generate a fixed energy model create request.
-    Will always return the same energy model.
-    """
-    dataset = fixed_existing_dataset(db)
-    return EnergyModelCreate(
-        name=f"EnergyModel-{dataset.id}-Fixed",
-        ref_dataset=dataset.id,
-        description="EnergyModel description",
-    )
-
-
-def fixed_existing_energy_model(db: Session) -> EnergyModel:
-    """
-    Generate a fixed existing energy model.
-    Will always return the same energy model.
-    """
-    create_request = fixed_energy_model_create(db)
-    model = crud.energy_model.get_by_dataset_and_name(
-        db=db, dataset_id=create_request.ref_dataset, name=create_request.name
-    )
-    if model is None:
-        return crud.energy_model.create(db=db, obj_in=create_request)
-    return model
 
 
 def create_example_model(db: Session, data_folder: str):
@@ -90,7 +74,7 @@ def create_example_model(db: Session, data_folder: str):
         ref_dataset=dataset.id,
         description="Example_Model description",
         override_parameters=None,
-        optimization_parameters=None
+        optimization_parameters=None,
     )
     model = crud.energy_model.create(db=db, obj_in=create_request)
 

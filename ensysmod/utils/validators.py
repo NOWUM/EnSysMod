@@ -196,6 +196,24 @@ def validate_shared_potential_id(shared_potential_id: Optional[str]) -> Optional
     return shared_potential_id
 
 
+def validate_linked_quantity_id(linked_quantity_id: Optional[str]) -> Optional[str]:
+    """
+    Validates the linked quantity id of an object.
+    Linked quantity id is always optional.
+
+    :param linked_quantity_id: The linked quantity id of the object.
+    :return: The validated linked quantity id.
+    """
+    if linked_quantity_id is None:
+        # Skip validation if no value provided
+        return None
+
+    if len(linked_quantity_id) > 100:
+        raise ValueError("Linked quantity id must not be longer than 100 characters.")
+
+    return linked_quantity_id
+
+
 def validate_conversion_factor(conversion_factor: Optional[float]) -> Optional[float]:
     """
     Validates the conversion factor of an object.
@@ -473,58 +491,6 @@ def validate_loss(loss: float) -> float:
         raise ValueError("The loss must be between zero and one.")
 
     return loss
-
-
-def validate_fix_capacities(fix_capacities: List[float]) -> List[float]:
-    """
-    Validates the fix capacities of an object.
-
-    :param fix_capacities: The fix capacities of the object.
-    :return: The validated fix capacities.
-    """
-    if not fix_capacities:
-        raise ValueError("List of fix capacities must not be empty.")
-
-    return fix_capacities
-
-
-def validate_max_capacities(max_capacities: List[float]) -> List[float]:
-    """
-    Validates the max capacities of an object.
-
-    :param max_capacities: The max capacities of the object.
-    :return: The validated max capacities.
-    """
-    if not max_capacities:
-        raise ValueError("List of max capacities must not be empty.")
-
-    return max_capacities
-
-
-def validate_fix_operation_rates(fix_operation_rates: List[float]) -> List[float]:
-    """
-    Validates the fix operation rates of an object.
-
-    :param fix_operation_rates: The fix operation rates of the object.
-    :return: The validated fix operation rates.
-    """
-    if not fix_operation_rates:
-        raise ValueError("List of fix operation rates must not be empty.")
-
-    return fix_operation_rates
-
-
-def validate_max_operation_rates(max_operation_rates: List[float]) -> List[float]:
-    """
-    Validates the max operation rates of an object.
-
-    :param max_operation_rates: The max operation rates of the object.
-    :return: The validated max operation rates.
-    """
-    if not max_operation_rates:
-        raise ValueError("List of max operation rates must not be empty.")
-
-    return max_operation_rates
 
 
 def validate_optimization_timeframe(cls, values):

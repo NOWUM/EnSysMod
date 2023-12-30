@@ -1,22 +1,23 @@
-from typing import Dict
-
 from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from ensysmod.model import EnergyComponentType
-from tests.utils import data_generator
 from tests.utils.assertions import assert_energy_component
+from tests.utils.data_generator.energy_sources import (
+    source_create,
+    source_create_request,
+)
 from tests.utils.utils import clear_database
 
 
-def test_get_all_energy_sources(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_get_all_energy_sources(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test retrieving all energy sources.
     """
     clear_database(db)
-    source1 = data_generator.random_existing_energy_source(db)
-    source2 = data_generator.random_existing_energy_source(db)
+    source1 = source_create(db, normal_user_headers)
+    source2 = source_create(db, normal_user_headers)
 
     response = client.get("/sources/", headers=normal_user_headers)
     assert response.status_code == status.HTTP_200_OK
@@ -29,11 +30,11 @@ def test_get_all_energy_sources(client: TestClient, normal_user_headers: Dict[st
     assert source_list[1]["component"]["id"] == source2.component.id
 
 
-def test_create_source(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_source(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating an energy source.
     """
-    create_request = data_generator.random_energy_source_create(db)
+    create_request = source_create_request(db, normal_user_headers)
     response = client.post("/sources/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
@@ -42,34 +43,35 @@ def test_create_source(client: TestClient, normal_user_headers: Dict[str, str], 
     assert created_source["commodity"]["name"] == create_request.commodity
 
 
-def test_create_existing_source(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_existing_source(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating an existing energy source.
     """
-    create_request = data_generator.random_energy_source_create(db)
+    create_request = source_create_request(db, normal_user_headers)
     response = client.post("/sources/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
     response = client.post("/sources/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
-def test_create_source_unknown_dataset(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_source_unknown_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating an energy source.
     """
-    create_request = data_generator.random_energy_source_create(db)
+    create_request = source_create_request(db, normal_user_headers)
     create_request.ref_dataset = 123456  # ungültige Anfrage
     response = client.post("/sources/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_create_source_unknown_commodity(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_source_unknown_commodity(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating an energy source.
     """
-    create_request = data_generator.random_energy_source_create(db)
+    create_request = source_create_request(db, normal_user_headers)
     create_request.commodity = "0"  # ungültige Anfrage
     response = client.post("/sources/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
+
 
 # TODO Add more test cases

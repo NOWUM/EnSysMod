@@ -3,52 +3,37 @@ from sqlalchemy.orm import Session
 from ensysmod import crud
 from ensysmod.model import EnergyCommodity
 from ensysmod.schemas import EnergyCommodityCreate
-from tests.utils.data_generator.datasets import (
-    fixed_existing_dataset,
-    random_existing_dataset,
-)
+from tests.utils.data_generator.datasets import dataset_create
 from tests.utils.utils import random_lower_string
 
 
-def random_energy_commodity_create(db: Session) -> EnergyCommodityCreate:
+def commodity_create_request(
+    db: Session,
+    current_user_header: dict[str, str],
+    dataset_id: int | None = None,
+) -> EnergyCommodityCreate:
     """
-    Generate a random energy commodity create request.
+    Generate a commodity create request with the specified dataset.
+    If dataset_id is not specified, it will be generated.
     """
-    dataset = random_existing_dataset(db)
-    return EnergyCommodityCreate(name=f"EnergyCommodity-{dataset.id}-" + random_lower_string(),
-                                 ref_dataset=dataset.id,
-                                 description="EnergyCommodity description",
-                                 unit="kWh")
+    if dataset_id is None:
+        dataset_id = dataset_create(db, current_user_header).id
+    return EnergyCommodityCreate(
+        name=f"EnergyCommodity-Dataset{dataset_id}-{random_lower_string()}",
+        unit="kWh",
+        description="EnergyCommodity description",
+        ref_dataset=dataset_id,
+    )
 
 
-def random_existing_energy_commodity(db: Session) -> EnergyCommodity:
+def commodity_create(
+    db: Session,
+    current_user_header: dict[str, str],
+    dataset_id: int | None = None,
+) -> EnergyCommodity:
     """
-    Generate a random existing energy commodity.
+    Create a commodity in the specified dataset.
+    If dataset_id is not specified, it will be generated.
     """
-    create_request = random_energy_commodity_create(db)
+    create_request = commodity_create_request(db, current_user_header, dataset_id)
     return crud.energy_commodity.create(db=db, obj_in=create_request)
-
-
-def fixed_energy_commodity_create(db: Session) -> EnergyCommodityCreate:
-    """
-    Generate a fixed energy commodity create request.
-    Will always return the same energy commodity.
-    """
-    dataset = fixed_existing_dataset(db)
-    return EnergyCommodityCreate(name=f"EnergyCommodity-{dataset.id}-Fixed",
-                                 ref_dataset=dataset.id,
-                                 description="EnergyCommodity description",
-                                 unit="kWh")
-
-
-def fixed_existing_energy_commodity(db: Session) -> EnergyCommodity:
-    """
-    Generate a fixed existing energy commodity.
-    Will always return the same energy commodity.
-    """
-    create_request = fixed_energy_commodity_create(db)
-    commodity = crud.energy_commodity.get_by_dataset_and_name(db=db, dataset_id=create_request.ref_dataset,
-                                                              name=create_request.name)
-    if commodity is None:
-        return crud.energy_commodity.create(db=db, obj_in=create_request)
-    return commodity

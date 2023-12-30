@@ -14,12 +14,12 @@ import os
 import pathlib
 import sys
 
+sys.path.insert(0, pathlib.Path(__file__).parents[2].resolve().as_posix())
+
 from fastapi.openapi.utils import get_openapi
 
 import ensysmod
 from ensysmod.app import app
-
-sys.path.insert(0, pathlib.Path(__file__).parents[2].resolve().as_posix())
 
 # If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.

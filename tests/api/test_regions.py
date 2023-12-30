@@ -1,22 +1,20 @@
-from typing import Dict
-
 from fastapi import status
 from fastapi.encoders import jsonable_encoder
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from ensysmod.schemas import RegionCreate, RegionUpdate
-from tests.utils import data_generator
+from tests.utils.data_generator.regions import region_create, region_create_request
 from tests.utils.utils import clear_database, random_lower_string
 
 
-def test_get_all_regions(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_get_all_regions(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test retrieving all regions.
     """
     clear_database(db)
-    region1 = data_generator.random_existing_region(db)
-    region2 = data_generator.random_existing_region(db)
+    region1 = region_create(db, normal_user_headers)
+    region2 = region_create(db, normal_user_headers)
 
     response = client.get("/regions/", headers=normal_user_headers)
     assert response.status_code == status.HTTP_200_OK
@@ -29,13 +27,13 @@ def test_get_all_regions(client: TestClient, normal_user_headers: Dict[str, str]
     assert region_list[1]["id"] == region2.id
 
 
-def test_get_all_regions_specific_dataset(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_get_all_regions_specific_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test retrieving all regions belonging to a specific dataset.
     """
     clear_database(db)
-    region1 = data_generator.random_existing_region(db)
-    region2 = data_generator.random_existing_region(db)
+    region1 = region_create(db, normal_user_headers)
+    region2 = region_create(db, normal_user_headers)
 
     response1 = client.get("/regions/", headers=normal_user_headers, params={"dataset_id": region1.dataset.id})
     assert response1.status_code == status.HTTP_200_OK
@@ -54,11 +52,11 @@ def test_get_all_regions_specific_dataset(client: TestClient, normal_user_header
     assert region_list2[0]["id"] == region2.id
 
 
-def test_get_region(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_get_region(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test retrieving a region.
     """
-    region = data_generator.random_existing_region(db)
+    region = region_create(db, normal_user_headers)
     response = client.get(f"/regions/{region.id}", headers=normal_user_headers)
     assert response.status_code == status.HTTP_200_OK
 
@@ -68,11 +66,11 @@ def test_get_region(client: TestClient, normal_user_headers: Dict[str, str], db:
     assert retrieved_region["id"] == region.id
 
 
-def test_create_region(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_region(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating a region.
     """
-    create_request = data_generator.random_region_create(db)
+    create_request = region_create_request(db, normal_user_headers)
     response = client.post("/regions/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
@@ -81,35 +79,35 @@ def test_create_region(client: TestClient, normal_user_headers: Dict[str, str], 
     assert created_region["dataset"]["id"] == create_request.ref_dataset
 
 
-def test_create_existing_region(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_existing_region(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating an existing region.
     """
-    existing_region = data_generator.random_existing_region(db)
+    existing_region = region_create(db, normal_user_headers)
     create_request = RegionCreate(**jsonable_encoder(existing_region))
     response = client.post("/regions/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
-def test_create_region_unknown_dataset(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_region_unknown_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating a region.
     """
-    create_request = data_generator.random_region_create(db)
+    create_request = region_create_request(db, normal_user_headers)
     create_request.ref_dataset = 123456  # ungültige Anfrage
     response = client.post("/regions/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_create_multiple_regions_same_dataset(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_multiple_regions_same_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating multiple regions on the same dataset.
     """
-    existing_region = data_generator.random_existing_region(db)
+    existing_region = region_create(db, normal_user_headers)
     dataset_id = existing_region.dataset.id
 
     # Create a new region on the same dataset
-    create_request = data_generator.random_region_create(db)
+    create_request = region_create_request(db, normal_user_headers)
     create_request.ref_dataset = dataset_id
 
     response = client.post("/regions/", headers=normal_user_headers, data=create_request.json())
@@ -132,11 +130,11 @@ def test_create_multiple_regions_same_dataset(client: TestClient, normal_user_he
     assert region_list[1]["id"] == second_region["id"]
 
 
-def test_update_region(db: Session, client: TestClient, normal_user_headers: Dict[str, str]):
+def test_update_region(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test updating a region.
     """
-    existing_region = data_generator.random_existing_region(db)
+    existing_region = region_create(db, normal_user_headers)
     print(existing_region.name)
 
     update_request = RegionUpdate(**jsonable_encoder(existing_region))
@@ -153,23 +151,17 @@ def test_update_region(db: Session, client: TestClient, normal_user_headers: Dic
     assert updated_region["name"] == update_request.name
 
 
-def test_remove_region(db: Session, client: TestClient, normal_user_headers: Dict[str, str]):
+def test_remove_region(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test deleting a region.
     """
-    # Create a dataset with two commodities
-    first_region = data_generator.random_existing_region(db)
-    dataset_id = first_region.dataset.id
-
-    create_request = data_generator.random_region_create(db)
-    create_request.ref_dataset = dataset_id
-
-    response = client.post("/regions/", headers=normal_user_headers, data=create_request.json())
-    assert response.status_code == status.HTTP_200_OK
-    second_region = response.json()
+    # Create two regions in the same dataset
+    region1 = region_create(db, normal_user_headers)
+    dataset_id = region1.dataset.id
+    region2 = region_create(db, normal_user_headers, dataset_id=dataset_id)
 
     # Delete the first region
-    response = client.delete(f"/regions/{first_region.id}", headers=normal_user_headers)
+    response = client.delete(f"/regions/{region1.id}", headers=normal_user_headers)
     assert response.status_code == status.HTTP_200_OK
 
     # Check that the dataset only has the second region
@@ -182,5 +174,5 @@ def test_remove_region(db: Session, client: TestClient, normal_user_headers: Dic
 
     region_list = get_response.json()
     assert len(region_list) == 1
-    assert region_list[0]["name"] == second_region["name"]
-    assert region_list[0]["id"] == second_region["id"]
+    assert region_list[0]["name"] == region2.name
+    assert region_list[0]["id"] == region2.id

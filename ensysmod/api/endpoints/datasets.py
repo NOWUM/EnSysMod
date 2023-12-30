@@ -1,6 +1,4 @@
-import os
 import zipfile
-from datetime import datetime
 from io import BytesIO
 from typing import List
 
@@ -8,12 +6,14 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
+from starlette.background import BackgroundTask
 
 from ensysmod import crud, model, schemas
 from ensysmod.api import deps, permissions
 from ensysmod.core.file_download import export_data
 from ensysmod.core.file_upload import process_dataset_zip_archive
 from ensysmod.schemas import FileStatus
+from ensysmod.utils.utils import remove_file
 
 router = APIRouter()
 
@@ -103,10 +103,10 @@ def upload_dataset_zip(dataset_id: int,
     with zipfile.ZipFile(BytesIO(file.file.read()), 'r') as zip_archive:
         result = process_dataset_zip_archive(zip_archive, dataset_id, db)
 
-        if result.status == FileStatus.ERROR:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=jsonable_encoder(result))
+    if result.status != FileStatus.OK:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=jsonable_encoder(result))
 
-        return result
+    return result
 
 
 @router.get("/{dataset_id}/download")
@@ -122,16 +122,10 @@ def download_dataset_zip(dataset_id: int,
 
     permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
 
-    # create a temporary directory
-    time_str = datetime.now().strftime("%Y%m%d%H%M%S")
-    temp_dir = f"./tmp/download-{dataset_id}-{time_str}/"
-    if not os.path.exists(temp_dir):
-        os.makedirs(temp_dir)
-    else:
-        # remove all files in temp dir
-        for file in os.listdir(temp_dir):
-            os.remove(os.path.join(temp_dir, file))
-
-    zip_file_path = export_data(db, dataset.id, temp_dir)
-
-    return FileResponse(zip_file_path, media_type="application/zip", filename=f"{dataset.name}.zip")
+    zip_file_path = export_data(db=db, dataset_id=dataset.id)
+    return FileResponse(
+        path=zip_file_path,
+        media_type="application/zip",
+        filename=f"{dataset.name}.zip",
+        background=BackgroundTask(remove_file, zip_file_path),
+    )

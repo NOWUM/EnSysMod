@@ -20,13 +20,13 @@ def db() -> Generator:
             db.close()
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def client() -> Generator:
     with TestClient(app) as c:
         yield c
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def normal_user_headers(client: TestClient) -> Generator:
     db = SessionLocal()
     user = crud.user.get(db, id=1)

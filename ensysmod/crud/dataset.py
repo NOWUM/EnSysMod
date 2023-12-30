@@ -1,11 +1,11 @@
-from typing import Optional, Union, Any
+from typing import Any
 
 from sqlalchemy.orm import Session
 
 from ensysmod.crud.base import CRUDBase
 from ensysmod.crud.dataset_permission import dataset_permission
 from ensysmod.model import Dataset
-from ensysmod.schemas import DatasetCreate, DatasetUpdate, DatasetPermissionCreate
+from ensysmod.schemas import DatasetCreate, DatasetPermissionCreate, DatasetUpdate
 
 
 # noinspection PyMethodMayBeStatic,PyArgumentList
@@ -14,7 +14,7 @@ class CRUDDataset(CRUDBase[Dataset, DatasetCreate, DatasetUpdate]):
     CRUD operations for Dataset
     """
 
-    def create(self, db: Session, *, obj_in: Union[DatasetCreate, Dataset, dict]) -> Dataset:
+    def create(self, db: Session, *, obj_in: DatasetCreate | Dataset | dict[str, Any]) -> Dataset:
         new_dataset: Dataset = super().create(db, obj_in=obj_in)
 
         # Add permission for creator
@@ -30,10 +30,10 @@ class CRUDDataset(CRUDBase[Dataset, DatasetCreate, DatasetUpdate]):
 
         return new_dataset
 
-    def get_by_name(self, db: Session, *, name: str) -> Optional[Dataset]:
+    def get_by_name(self, db: Session, *, name: str) -> Dataset | None:
         return db.query(Dataset).filter(Dataset.name == name).first()
 
-    def remove(self, db: Session, *, id: Any) -> Dataset:
+    def remove(self, db: Session, *, id: int) -> Dataset:
         dataset_permission.remove_by_dataset(db, dataset_id=id)
         return super().remove(db, id=id)
 

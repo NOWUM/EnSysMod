@@ -13,6 +13,10 @@ class RefCRBase:
         return Column(Integer, primary_key=True)
 
     @declared_attr
+    def ref_dataset(self):
+        return Column(Integer, ForeignKey("dataset.id"), index=True, nullable=False)
+
+    @declared_attr
     def ref_component(self):
         return Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False)
 
@@ -23,6 +27,10 @@ class RefCRBase:
     @declared_attr
     def ref_region_to(self):
         return Column(Integer, ForeignKey("region.id"), nullable=True)
+
+    @declared_attr
+    def dataset(self):
+        return relationship("Dataset")
 
     @declared_attr
     def component(self):

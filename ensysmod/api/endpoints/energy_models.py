@@ -3,6 +3,8 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
+from starlette.background import BackgroundTask
+from utils.utils import remove_file
 
 from ensysmod import crud, model, schemas
 from ensysmod.api import deps, permissions
@@ -130,9 +132,12 @@ def optimize_model(model_id: int,
     esM = generate_esm_from_model(db=db, model=energy_model)
     result_file_path = optimize_esm(esM=esM)
 
-    return FileResponse(result_file_path,
-                        media_type="application/vnd.openxmlformats-officedocument. spreadsheetml.sheet",
-                        filename=f"{energy_model.name}.xlsx")
+    return FileResponse(
+        path=result_file_path,
+        media_type="application/vnd.openxmlformats-officedocument. spreadsheetml.sheet",
+        filename=f"{energy_model.name}.xlsx",
+        background=BackgroundTask(remove_file, result_file_path),
+    )
 
 
 @router.get("/{model_id}/myopic_optimize")
@@ -155,7 +160,8 @@ def myopic_optimize_model(model_id: int,
     zipped_result_file_path = myopic_optimize_esm(esM=esM, optimization_parameters=energy_model_optimization_parameters)
 
     return FileResponse(
-        zipped_result_file_path,
+        path=zipped_result_file_path,
         media_type="application/zip",
-        filename=f"{energy_model.name} {energy_model_optimization_parameters.start_year}-{energy_model_optimization_parameters.end_year}.zip"
+        filename=f"{energy_model.name} {energy_model_optimization_parameters.start_year}-{energy_model_optimization_parameters.end_year}.zip",
+        background=BackgroundTask(remove_file, zipped_result_file_path),
     )

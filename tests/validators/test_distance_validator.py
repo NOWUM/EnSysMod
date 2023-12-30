@@ -4,13 +4,13 @@ import pytest
 from pydantic import BaseModel, ValidationError
 
 from ensysmod.schemas import (
-    EnergyTransmissionDistanceCreate,
-    EnergyTransmissionDistanceUpdate,
+    TransmissionDistanceCreate,
+    TransmissionDistanceUpdate,
 )
 
 schemas_with_distance_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
-    (EnergyTransmissionDistanceCreate, {"ref_dataset": 1, "component": "test", "region_from": "Region 1", "region_to": "Region 2"}),
-    (EnergyTransmissionDistanceUpdate, {}),
+    (TransmissionDistanceCreate, {"ref_dataset": 1, "component": "test", "region": "Region 1", "region_to": "Region 2"}),
+    (TransmissionDistanceUpdate, {}),
 ]
 
 schemas_with_distance_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = []

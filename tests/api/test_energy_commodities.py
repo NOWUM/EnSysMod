@@ -1,22 +1,23 @@
-from typing import Dict
-
 from fastapi import status
 from fastapi.encoders import jsonable_encoder
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from ensysmod.schemas import EnergyCommodityCreate, EnergyCommodityUpdate
-from tests.utils import data_generator
+from tests.utils.data_generator.energy_commodities import (
+    commodity_create,
+    commodity_create_request,
+)
 from tests.utils.utils import clear_database, random_lower_string
 
 
-def test_get_all_commodities(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_get_all_commodities(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test retrieving all commodities.
     """
     clear_database(db)
-    commodity1 = data_generator.random_existing_energy_commodity(db)
-    commodity2 = data_generator.random_existing_energy_commodity(db)
+    commodity1 = commodity_create(db, normal_user_headers)
+    commodity2 = commodity_create(db, normal_user_headers)
 
     response = client.get("/commodities/", headers=normal_user_headers)
     assert response.status_code == status.HTTP_200_OK
@@ -29,13 +30,13 @@ def test_get_all_commodities(client: TestClient, normal_user_headers: Dict[str, 
     assert commodity_list[1]["id"] == commodity2.id
 
 
-def test_get_all_commodities_specific_dataset(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_get_all_commodities_specific_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test retrieving all commodities belonging to a specific dataset.
     """
     clear_database(db)
-    commodity1 = data_generator.random_existing_energy_commodity(db)
-    commodity2 = data_generator.random_existing_energy_commodity(db)
+    commodity1 = commodity_create(db, normal_user_headers)
+    commodity2 = commodity_create(db, normal_user_headers)
 
     response1 = client.get("/commodities/", headers=normal_user_headers, params={"dataset_id": commodity1.dataset.id})
     assert response1.status_code == status.HTTP_200_OK
@@ -54,11 +55,11 @@ def test_get_all_commodities_specific_dataset(client: TestClient, normal_user_he
     assert commodity_list2[0]["id"] == commodity2.id
 
 
-def test_get_commodity(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_get_commodity(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test retrieving a commodity.
     """
-    commodity = data_generator.random_existing_energy_commodity(db)
+    commodity = commodity_create(db, normal_user_headers)
     response = client.get(f"/commodities/{commodity.id}", headers=normal_user_headers)
     assert response.status_code == status.HTTP_200_OK
 
@@ -68,11 +69,11 @@ def test_get_commodity(client: TestClient, normal_user_headers: Dict[str, str], 
     assert retrieved_commodity["id"] == commodity.id
 
 
-def test_create_commodity(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_commodity(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating an energy commodity.
     """
-    create_request = data_generator.random_energy_commodity_create(db)
+    create_request = commodity_create_request(db, normal_user_headers)
     response = client.post("/commodities/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
@@ -83,35 +84,35 @@ def test_create_commodity(client: TestClient, normal_user_headers: Dict[str, str
     assert created_commodity["unit"] == create_request.unit
 
 
-def test_create_existing_commodity(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_existing_commodity(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating an existing energy commodity.
     """
-    existing_commodity = data_generator.random_existing_energy_commodity(db)
+    existing_commodity = commodity_create(db, normal_user_headers)
     create_request = EnergyCommodityCreate(**jsonable_encoder(existing_commodity))
     response = client.post("/commodities/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
-def test_create_commodity_unknown_dataset(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_commodity_unknown_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating an energy commodity.
     """
-    create_request = data_generator.random_energy_commodity_create(db)
+    create_request = commodity_create_request(db, normal_user_headers)
     create_request.ref_dataset = 123456  # ungültige Anfrage
     response = client.post("/commodities/", headers=normal_user_headers, data=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_create_multiple_commodities_same_dataset(client: TestClient, normal_user_headers: Dict[str, str], db: Session):
+def test_create_multiple_commodities_same_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test creating multiple commodities on the same dataset.
     """
-    existing_commodity = data_generator.random_existing_energy_commodity(db)
+    existing_commodity = commodity_create(db, normal_user_headers)
     dataset_id = existing_commodity.dataset.id
 
     # Create a new commodity on the same dataset
-    create_request = data_generator.random_energy_commodity_create(db)
+    create_request = commodity_create_request(db, normal_user_headers)
     create_request.ref_dataset = dataset_id
 
     response = client.post("/commodities/", headers=normal_user_headers, data=create_request.json())
@@ -134,11 +135,11 @@ def test_create_multiple_commodities_same_dataset(client: TestClient, normal_use
     assert commodity_list[1]["id"] == second_commodity["id"]
 
 
-def test_update_commodity(db: Session, client: TestClient, normal_user_headers: Dict[str, str]):
+def test_update_commodity(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test updating a commodity.
     """
-    existing_commodity = data_generator.random_existing_energy_commodity(db)
+    existing_commodity = commodity_create(db, normal_user_headers)
     print(existing_commodity.name)
 
     update_request = EnergyCommodityUpdate(**jsonable_encoder(existing_commodity))
@@ -159,23 +160,17 @@ def test_update_commodity(db: Session, client: TestClient, normal_user_headers: 
     assert updated_commodity["description"] == update_request.description
 
 
-def test_remove_commodity(db: Session, client: TestClient, normal_user_headers: Dict[str, str]):
+def test_remove_commodity(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
     Test deleting a commodity.
     """
-    # Create a dataset with two commodities
-    first_commodity = data_generator.random_existing_energy_commodity(db)
-    dataset_id = first_commodity.dataset.id
-
-    create_request = data_generator.random_energy_commodity_create(db)
-    create_request.ref_dataset = dataset_id
-
-    response = client.post("/commodities/", headers=normal_user_headers, data=create_request.json())
-    assert response.status_code == status.HTTP_200_OK
-    second_commodity = response.json()
+    # Create two commodities in the same dataset
+    commodity1 = commodity_create(db, normal_user_headers)
+    dataset_id = commodity1.dataset.id
+    commodity2 = commodity_create(db, normal_user_headers, dataset_id=dataset_id)
 
     # Delete the first commodity
-    response = client.delete(f"/commodities/{first_commodity.id}", headers=normal_user_headers)
+    response = client.delete(f"/commodities/{commodity1.id}", headers=normal_user_headers)
     assert response.status_code == status.HTTP_200_OK
 
     # Check that the dataset only has the second commodity
@@ -188,5 +183,5 @@ def test_remove_commodity(db: Session, client: TestClient, normal_user_headers: 
 
     commodity_list = get_response.json()
     assert len(commodity_list) == 1
-    assert commodity_list[0]["name"] == second_commodity["name"]
-    assert commodity_list[0]["id"] == second_commodity["id"]
+    assert commodity_list[0]["name"] == commodity2.name
+    assert commodity_list[0]["id"] == commodity2.id
