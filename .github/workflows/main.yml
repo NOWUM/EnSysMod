@@ -57,12 +57,10 @@ jobs:
 
       - name: Install requirements
         run: |
-          pip install -e .[test]
+          pip install --upgrade --upgrade-strategy eager -r requirements-dev.txt -e .
 
-      - name: flake8 Lint
-        uses: reviewdog/action-flake8@v3
-        with:
-          github_token: ${{ github.token }}
+      - name: Run Ruff
+        run: ruff check --output-format=github .
 
 
   # Checks if all tests pass

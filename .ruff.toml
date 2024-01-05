@@ -1,0 +1,19 @@
+line-length = 150
+target-version = "py310"
+
+[lint]
+select = ["ALL"]
+ignore = ["N", "D", "ANN", "S", "BLE", "A", "EM", "TD", "FIX", "PL", "TRY"]
+
+[lint.per-file-ignores]
+"__init__.py" = [
+    "I001", # allow unsorted imports in __init__.py
+    "F401", # allow unused imports in __init__.py
+]
+"tests/*" = [
+    "S101", # allow assert statements for pytest
+    "ARG",  # allow unused arguments for pytest fixtures
+]
+"ensysmod/api/endpoints/*" = [
+    "B008", # allow function calls (Depends, File) in API endpoints
+]
