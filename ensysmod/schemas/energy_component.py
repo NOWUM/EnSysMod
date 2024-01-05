@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import BaseModel, Field, validator
 
 from ensysmod.model import CapacityVariableDomain, EnergyComponentType
@@ -10,52 +8,39 @@ class EnergyComponentBase(BaseModel):
     """
     Shared attributes for an energy component. Used as a base class for all schemas.
     """
-    name: str = Field(...,
-                      description="Unique name of the energy component. It is used to identify the component.",
-                      example="gas turbine")
 
-    description: Optional[str] = Field(None,
-                                       description="Description of the energy component. Can be used to explain the "
-                                                   "component.")
+    name: str = Field(..., description="Unique name of the energy component. It is used to identify the component.", example="gas turbine")
 
-    capacity_variable: Optional[bool] = Field(None,
-                                              description="Whether the energy component should be model with a "
-                                                          "capacity or not.")
+    description: str | None = Field(None, description="Description of the energy component. Can be used to explain the component.")
 
-    capacity_variable_domain: Optional[CapacityVariableDomain] \
-        = Field(None,
-                description="Mathematical domain of the capacity variables."
-                            "'continuous' means that the capacity is modeled as real values >= 0."
-                            "'discrete' means that the capacity is modeled as integer values >= 0.")
+    capacity_variable: bool | None = Field(None, description="Whether the energy component should be model with a capacity or not.")
 
-    capacity_per_plant_unit: Optional[float] \
-        = Field(None,
-                description="Capacity per plant unit. "
-                            "By default is 1, thus the number of plants is the equal to the installed capacity.")
+    capacity_variable_domain: CapacityVariableDomain | None = Field(
+        None,
+        description="Mathematical domain of the capacity variables. 'continuous' means that the capacity is modeled as real values >= 0. 'discrete' means that the capacity is modeled as integer values >= 0.",  # noqa: E501
+    )
 
-    invest_per_capacity: Optional[float] \
-        = Field(None,
-                description="Investment per capacity.")
+    capacity_per_plant_unit: float | None = Field(
+        None,
+        description="Capacity per plant unit. By default is 1, thus the number of plants is the equal to the installed capacity.",
+    )
 
-    opex_per_capacity: Optional[float] \
-        = Field(None,
-                description="Operational expenditure per capacity.")
+    invest_per_capacity: float | None = Field(None, description="Investment per capacity.")
 
-    interest_rate: Optional[float] \
-        = Field(None,
-                description="Interest rate.")
+    opex_per_capacity: float | None = Field(None, description="Operational expenditure per capacity.")
 
-    economic_lifetime: Optional[int] \
-        = Field(None,
-                description="Economic lifetime.")
+    interest_rate: float | None = Field(None, description="Interest rate.")
 
-    shared_potential_id: Optional[str] \
-        = Field(None,
-                description="Shared potential ID. If specified, the maximum potential capacity is shared among all "
-                            "components of the same shared potential id.")
-    linked_quantity_id: Optional[str] \
-        = Field(None,
-                description="Linked quantity ID. If specified, components of the same linked quantity ID are built with the same quantity.")
+    economic_lifetime: int | None = Field(None, description="Economic lifetime.")
+
+    shared_potential_id: str | None = Field(
+        None,
+        description="Shared potential ID. If specified, the maximum potential capacity is shared among all components of the same shared potential id.",  # noqa: E501
+    )
+    linked_quantity_id: str | None = Field(
+        None,
+        description="Linked quantity ID. If specified, components of the same linked quantity ID are built with the same quantity.",
+    )
 
     # validators
     _valid_name = validator("name", allow_reuse=True)(validators.validate_name)
@@ -73,12 +58,10 @@ class EnergyComponentCreate(EnergyComponentBase):
     """
     Attributes to receive via API on creation of an energy component.
     """
-    ref_dataset: int = Field(...,
-                             description="Reference to dataset that energy component belongs to.",
-                             example=1)
 
-    type: EnergyComponentType = Field(...,
-                                      description="Type of the energy component.")
+    ref_dataset: int = Field(..., description="Reference to dataset that energy component belongs to.", example=1)
+
+    type: EnergyComponentType = Field(..., description="Type of the energy component.")
 
     # validators
     _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_required)
@@ -89,16 +72,17 @@ class EnergyComponentUpdate(EnergyComponentBase):
     """
     Attributes to receive via API on update of an energy component.
     """
-    name: Optional[str] = None
+
+    name: str | None = None
 
 
 class EnergyComponent(EnergyComponentBase):
     """
     Attributes to return via API for an energy component.
     """
+
     id: int = Field(..., description="The unique ID of the energy component.")
-    type: EnergyComponentType = Field(...,
-                                      description="Type of the energy component.")
+    type: EnergyComponentType = Field(..., description="Type of the energy component.")
 
     class Config:
         orm_mode = True

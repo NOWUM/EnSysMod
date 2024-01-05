@@ -1,6 +1,5 @@
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
 from ensysmod.model import EnergyCommodity
-
 from ensysmod.schemas import EnergyCommodityCreate, EnergyCommodityUpdate
 
 
@@ -9,7 +8,6 @@ class CRUDEnergyCommodity(CRUDBaseDependsDataset[EnergyCommodity, EnergyCommodit
     """
     CRUD operations for EnergyCommodity
     """
-    pass
 
 
 energy_commodity = CRUDEnergyCommodity(EnergyCommodity)

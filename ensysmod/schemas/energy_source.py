@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import BaseModel, Field, validator
 from pydantic.class_validators import root_validator
 
@@ -17,18 +15,19 @@ class EnergySourceBase(BaseModel):
     """
     Shared attributes for an energy source. Used as a base class for all schemas.
     """
+
     type = EnergyComponentType.SOURCE
-    commodity_cost: Optional[float] = Field(
+    commodity_cost: float | None = Field(
         None,
         description="Cost of the energy source per unit of energy.",
         example=42.2,
     )
-    yearly_limit: Optional[float] = Field(
+    yearly_limit: float | None = Field(
         None,
         description="The yearly limit of the energy sink. If specified, commodity_limit_id must be specified as well.",
         example=366.5,
     )
-    commodity_limit_id: Optional[str] = Field(
+    commodity_limit_id: str | None = Field(
         None,
         description="Commodity limit ID of the energy sink. If specified, yearly_limit must be specified as well.",
         example="CO2",
@@ -44,9 +43,8 @@ class EnergySourceCreate(EnergySourceBase, EnergyComponentCreate):
     """
     Attributes to receive via API on creation of an energy source.
     """
-    commodity: str = Field(...,
-                           description="Commodity the energy source is associated with.",
-                           example="electricity")
+
+    commodity: str = Field(..., description="Commodity the energy source is associated with.", example="electricity")
 
     # validators
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
@@ -56,7 +54,8 @@ class EnergySourceUpdate(EnergySourceBase, EnergyComponentUpdate):
     """
     Attributes to receive via API on update of an energy source.
     """
-    commodity: Optional[str] = None
+
+    commodity: str | None = None
 
     # validators
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
@@ -66,6 +65,7 @@ class EnergySource(EnergySourceBase):
     """
     Attributes to return via API for an energy source.
     """
+
     component: EnergyComponent
     commodity: EnergyCommodity
 

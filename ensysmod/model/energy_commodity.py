@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from ensysmod.database.base_class import Base
@@ -20,6 +20,4 @@ class EnergyCommodity(Base):
     energy_transmissions = relationship("EnergyTransmission", back_populates="commodity")
 
     # table constraints
-    __table_args__ = (
-        UniqueConstraint("ref_dataset", "name", name="_commodity_name_dataset_uc"),
-    )
+    __table_args__ = (UniqueConstraint("ref_dataset", "name", name="_commodity_name_dataset_uc"),)

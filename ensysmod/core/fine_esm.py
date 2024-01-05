@@ -1,5 +1,5 @@
 from tempfile import TemporaryDirectory
-from typing import Any, Dict, List
+from typing import Any
 from zipfile import ZipFile
 
 from FINE import (
@@ -39,15 +39,14 @@ def generate_esm_from_model(db: Session, model: EnergyModel) -> EnergySystemMode
     :return: ESM
     """
     regions = model.dataset.regions
-    region_ids = [region.id for region in regions]
     commodities = model.dataset.commodities
     esm_data = {
         "hoursPerTimeStep": model.dataset.hours_per_time_step,
         "numberOfTimeSteps": model.dataset.number_of_time_steps,
         "costUnit": model.dataset.cost_unit,
         "lengthUnit": model.dataset.length_unit,
-        "locations": set(region.name for region in regions),
-        "commodities": set(commodity.name for commodity in commodities),
+        "locations": {region.name for region in regions},
+        "commodities": {commodity.name for commodity in commodities},
         "commodityUnitsDict": {commodity.name: commodity.unit for commodity in model.dataset.commodities},
     }
 
@@ -55,30 +54,34 @@ def generate_esm_from_model(db: Session, model: EnergyModel) -> EnergySystemMode
 
     # Add all sources
     for source in model.dataset.sources:
-        add_source(esM, db, source, region_ids, model.override_parameters)
+        add_source(esM, db, source, model.override_parameters)
 
     # Add all sinks
     for sink in model.dataset.sinks:
-        add_sink(esM, db, sink, region_ids, model.override_parameters)
+        add_sink(esM, db, sink, model.override_parameters)
 
     # Add all conversions
     for conversion in model.dataset.conversions:
-        add_conversion(esM, db, conversion, region_ids, model.override_parameters)
+        add_conversion(esM, db, conversion, model.override_parameters)
 
     # Add all storages
     for storage in model.dataset.storages:
-        add_storage(esM, db, storage, region_ids, model.override_parameters)
+        add_storage(esM, db, storage, model.override_parameters)
 
     # Add all transmissions
     for transmission in model.dataset.transmissions:
-        add_transmission(esM, db, transmission, region_ids, model.override_parameters)
+        add_transmission(esM, db, transmission, model.override_parameters)
 
     return esM
 
 
-def add_source(esM: EnergySystemModel, db: Session, source: EnergySource, region_ids: List[int],
-               custom_parameters: List[EnergyModelOverride]) -> None:
-    esm_source = component_to_dict(db, source.component, region_ids)
+def add_source(
+    esM: EnergySystemModel,
+    db: Session,
+    source: EnergySource,
+    custom_parameters: list[EnergyModelOverride],
+) -> None:
+    esm_source = component_to_dict(db, source.component)
     esm_source["commodity"] = source.commodity.name
     if source.commodity_cost is not None:
         esm_source["commodityCost"] = source.commodity_cost
@@ -90,9 +93,13 @@ def add_source(esM: EnergySystemModel, db: Session, source: EnergySource, region
     esM.add(Source(esM=esM, **esm_source))
 
 
-def add_sink(esM: EnergySystemModel, db: Session, sink: EnergySink, region_ids: List[int],
-             custom_parameters: List[EnergyModelOverride]) -> None:
-    esm_sink = component_to_dict(db, sink.component, region_ids)
+def add_sink(
+    esM: EnergySystemModel,
+    db: Session,
+    sink: EnergySink,
+    custom_parameters: list[EnergyModelOverride],
+) -> None:
+    esm_sink = component_to_dict(db, sink.component)
     esm_sink["commodity"] = sink.commodity.name
     if sink.commodity_cost is not None:
         esm_sink["commodityCost"] = sink.commodity_cost
@@ -104,19 +111,26 @@ def add_sink(esM: EnergySystemModel, db: Session, sink: EnergySink, region_ids: 
     esM.add(Sink(esM=esM, **esm_sink))
 
 
-def add_conversion(esM: EnergySystemModel, db: Session, conversion: EnergyConversion, region_ids: List[int],
-                   custom_parameters: List[EnergyModelOverride]) -> None:
-    esm_conversion = component_to_dict(db, conversion.component, region_ids)
+def add_conversion(
+    esM: EnergySystemModel,
+    db: Session,
+    conversion: EnergyConversion,
+    custom_parameters: list[EnergyModelOverride],
+) -> None:
+    esm_conversion = component_to_dict(db, conversion.component)
     esm_conversion["physicalUnit"] = conversion.commodity_unit.unit
-    esm_conversion["commodityConversionFactors"] = {x.commodity.name: x.conversion_factor for x in
-                                                    conversion.conversion_factors}
+    esm_conversion["commodityConversionFactors"] = {x.commodity.name: x.conversion_factor for x in conversion.conversion_factors}
     esm_conversion = override_parameters(esm_conversion, custom_parameters)
     esM.add(Conversion(esM=esM, **esm_conversion))
 
 
-def add_storage(esM: EnergySystemModel, db: Session, storage: EnergyStorage, region_ids: List[int],
-                custom_parameters: List[EnergyModelOverride]) -> None:
-    esm_storage = component_to_dict(db, storage.component, region_ids)
+def add_storage(
+    esM: EnergySystemModel,
+    db: Session,
+    storage: EnergyStorage,
+    custom_parameters: list[EnergyModelOverride],
+) -> None:
+    esm_storage = component_to_dict(db, storage.component)
     esm_storage["commodity"] = storage.commodity.name
     if storage.charge_efficiency is not None:
         esm_storage["chargeEfficiency"] = storage.charge_efficiency
@@ -138,9 +152,13 @@ def add_storage(esM: EnergySystemModel, db: Session, storage: EnergyStorage, reg
     esM.add(Storage(esM=esM, **esm_storage))
 
 
-def add_transmission(esM: EnergySystemModel, db: Session, transmission: EnergyTransmission,
-                     region_ids: List[int], custom_parameters: List[EnergyModelOverride]) -> None:
-    esm_transmission = component_to_dict(db, transmission.component, region_ids)
+def add_transmission(
+    esM: EnergySystemModel,
+    db: Session,
+    transmission: EnergyTransmission,
+    custom_parameters: list[EnergyModelOverride],
+) -> None:
+    esm_transmission = component_to_dict(db, transmission.component)
     esm_transmission["commodity"] = transmission.commodity.name
     component_id = transmission.component.id
     if len(transmission.distances) > 0:
@@ -151,7 +169,7 @@ def add_transmission(esM: EnergySystemModel, db: Session, transmission: EnergyTr
     esM.add(Transmission(esM=esM, **esm_transmission))
 
 
-def component_to_dict(db: Session, component: EnergyComponent, region_ids: List[int]) -> Dict[str, Any]:
+def component_to_dict(db: Session, component: EnergyComponent) -> dict[str, Any]:
     component_data = {
         "name": component.name,
         "hasCapacityVariable": component.capacity_variable,
@@ -185,7 +203,7 @@ def component_to_dict(db: Session, component: EnergyComponent, region_ids: List[
     return component_data
 
 
-def override_parameters(component_dict: Dict, custom_parameters: List[EnergyModelOverride]) -> Dict:
+def override_parameters(component_dict: dict, custom_parameters: list[EnergyModelOverride]) -> dict:
     """
     Overrides component parameters.
     """
@@ -194,7 +212,7 @@ def override_parameters(component_dict: Dict, custom_parameters: List[EnergyMode
             continue
 
         attribute_name = custom_parameter.attribute.name
-        if attribute_name not in component_dict.keys():
+        if attribute_name not in component_dict:
             raise ValueError(f"Parameter {attribute_name} is undefined for component {component_dict['name']}.")
 
         if custom_parameter.operation == EnergyModelOverrideOperation.add:
@@ -248,7 +266,7 @@ def myopic_optimize_esm(esM: EnergySystemModel, optimization_parameters: EnergyM
             CO2ReductionTargets=CO2_reduction_targets,
             trackESMs=False,
         )
-        result_excel_files = [f"ESM{year}.xlsx" for year in range(start_year, end_year+1, nb_of_represented_years)]
+        result_excel_files = [f"ESM{year}.xlsx" for year in range(start_year, end_year + 1, nb_of_represented_years)]
         zipped_result_file_path = create_temp_file(prefix="ensysmod_result_", suffix=".zip")
         with ZipFile(zipped_result_file_path, "w") as zip_file:
             for file in result_excel_files:
@@ -261,8 +279,8 @@ def check_CO2_optimization_sink(esM: EnergySystemModel):
     """
     Checks the required Sink component for the CO2 optimization to function properly.
     """
-    if ('CO2 to environment', 'SourceSinkModel') not in esM.componentNames.items():
+    if ("CO2 to environment", "SourceSinkModel") not in esM.componentNames.items():
         raise ValueError("Sink component with the name 'CO2 to environment' is required.")
 
-    if esM.getComponentAttribute(componentName='CO2 to environment', attributeName='commodityLimitID') is None:
+    if esM.getComponentAttribute(componentName="CO2 to environment", attributeName="commodityLimitID") is None:
         raise ValueError("Commodity limit ID of the sink component 'CO2 to environment' must be specified.")

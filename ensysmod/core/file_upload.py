@@ -219,9 +219,9 @@ def process_excel_file(
 
         if as_matrix:
             # determine the labels (region and region_to) of rows and columns
-            regions = df.iloc[:, 0].tolist()
-            df = df.drop(df.columns[0], axis=1)
-            regions_to = df.columns.tolist()
+            regions: list[str] = df.iloc[:, 0].tolist()
+            df: pd.DataFrame = df.drop(df.columns[0], axis=1)
+            regions_to: list[str] = df.columns.tolist()
 
             df_array = df.to_numpy()
             # for each element of matrix

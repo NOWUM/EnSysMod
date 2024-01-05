@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import BaseModel, Field
 from pydantic.class_validators import validator
 
@@ -40,7 +38,7 @@ class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):
     Attributes to receive via API on update of an energy transmission.
     """
 
-    commodity: Optional[str] = None
+    commodity: str | None = None
 
     # validators
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)

@@ -1,5 +1,3 @@
-from typing import List, Optional
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -9,36 +7,41 @@ from ensysmod.api import deps, permissions
 router = APIRouter()
 
 
-@router.get("/", response_model=List[schemas.Region])
-def get_all_regions(db: Session = Depends(deps.get_db),
-                    current: model.User = Depends(deps.get_current_user),
-                    skip: int = 0,
-                    limit: int = 100,
-                    dataset_id: Optional[int] = None) -> List[schemas.Region]:
+@router.get("/", response_model=list[schemas.Region])
+def get_all_regions(
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+    skip: int = 0,
+    limit: int = 100,
+    dataset_id: int | None = None,
+) -> list[schemas.Region]:
     """
     Retrieve all energy regions.
     """
-    if dataset_id is None:
-        return crud.region.get_multi(db=db, skip=skip, limit=limit)
-    else:
+    if dataset_id:
         return crud.region.get_multi_by_dataset(db=db, dataset_id=dataset_id, skip=skip, limit=limit)
+
+    return crud.region.get_multi(db=db, skip=skip, limit=limit)
 
 
 @router.get("/{region_id}", response_model=schemas.Region)
-def get_region(region_id: int,
-               db: Session = Depends(deps.get_db),
-               current: model.User = Depends(deps.get_current_user)):
+def get_region(
+    region_id: int,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+):
     """
     Retrieve a region.
     """
     return crud.region.get(db, region_id)
 
 
-@router.post("/", response_model=schemas.Region,
-             responses={409: {"description": "Region with same name already exists."}})
-def create_region(request: schemas.RegionCreate,
-                  db: Session = Depends(deps.get_db),
-                  current: model.User = Depends(deps.get_current_user)):
+@router.post("/", response_model=schemas.Region, responses={409: {"description": "Region with same name already exists."}})
+def create_region(
+    request: schemas.RegionCreate,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+):
     """
     Create a new region.
     """
@@ -50,17 +53,18 @@ def create_region(request: schemas.RegionCreate,
 
     existing = crud.region.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.name)
     if existing is not None:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
-                            detail=f"Region {request.name} already for dataset {request.ref_dataset} exists!")
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Region {request.name} already for dataset {request.ref_dataset} exists!")
 
     return crud.region.create(db=db, obj_in=request)
 
 
 @router.put("/{region_id}", response_model=schemas.Region)
-def update_region(region_id: int,
-                  request: schemas.RegionUpdate,
-                  db: Session = Depends(deps.get_db),
-                  current: model.User = Depends(deps.get_current_user)):
+def update_region(
+    region_id: int,
+    request: schemas.RegionUpdate,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+):
     """
     Update a region.
     """
@@ -72,9 +76,11 @@ def update_region(region_id: int,
 
 
 @router.delete("/{region_id}", response_model=schemas.Region)
-def remove_region(region_id: int,
-                  db: Session = Depends(deps.get_db),
-                  current: model.User = Depends(deps.get_current_user)):
+def remove_region(
+    region_id: int,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+):
     """
     Delete a region.
     """

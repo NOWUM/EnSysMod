@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import BaseModel, Field
 
 from ensysmod.model.energy_model_override import (
@@ -19,10 +17,9 @@ class EnergyModelOverrideBase(RefCRBaseBase, BaseModel):
     """
     Shared attributes for a model parameter override. Used as a base class for all schemas.
     """
-    attribute: EnergyModelOverrideAttribute = Field(..., description="The attribute of the parameter.",
-                                                    example="yearly_limit")
-    operation: EnergyModelOverrideOperation = Field(..., description="The operation of the parameter.",
-                                                    example="set")
+
+    attribute: EnergyModelOverrideAttribute = Field(..., description="The attribute of the parameter.", example="yearly_limit")
+    operation: EnergyModelOverrideOperation = Field(..., description="The operation of the parameter.", example="set")
     value: float = Field(..., description="The value of the parameter.", example=-5.5)
 
 
@@ -34,28 +31,31 @@ class EnergyModelOverrideCreate(EnergyModelOverrideBase, RefCRBaseCreate):
 
     Region is optional.
     """
-    ref_model: Optional[int] = None
-    ref_dataset: Optional[int] = None
-    region: Optional[str] = None
+
+    ref_model: int | None = None
+    ref_dataset: int | None = None
+    region: str | None = None
 
 
 class EnergyModelOverrideUpdate(EnergyModelOverrideBase, RefCRBaseUpdate):
     """
     Attributes to receive via API on update of a model parameter override.
     """
-    attribute: Optional[EnergyModelOverrideAttribute] = None
-    operation: Optional[EnergyModelOverrideOperation] = None
-    value: Optional[float] = None
+
+    attribute: EnergyModelOverrideAttribute | None = None
+    operation: EnergyModelOverrideOperation | None = None
+    value: float | None = None
 
 
 class EnergyModelOverride(EnergyModelOverrideBase, RefCRBase):
     """
     Attributes to return via API for a model parameter override.
     """
+
     id: int
 
     # Region is optional.
-    region: Optional[Region] = None
+    region: Region | None = None
 
     class Config:
         orm_mode = True

@@ -1,19 +1,19 @@
-from typing import Generator
+from collections.abc import Generator
 
 import pytest
 from fastapi.testclient import TestClient
 
 from ensysmod import crud
-from ensysmod.app import app
+from ensysmod.app import app, init_database
 from ensysmod.database.session import SessionLocal
 from tests.utils.utils import authentication_token_from_username, create_random_user
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def db() -> Generator:
-    db = None
+    init_database()
+    db = SessionLocal()
     try:
-        db = SessionLocal()
         yield db
     finally:
         if db is not None:
@@ -32,4 +32,4 @@ def normal_user_headers(client: TestClient) -> Generator:
     user = crud.user.get(db, id=1)
     if user is None:
         user = create_random_user(db)
-    yield authentication_token_from_username(db=db, client=client, username=user.username)
+    return authentication_token_from_username(db=db, client=client, username=user.username)

@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import BaseModel, Field, validator
 from pydantic.class_validators import root_validator
 
@@ -17,18 +15,19 @@ class EnergySinkBase(BaseModel):
     """
     Shared attributes for an energy sink. Used as a base class for all schemas.
     """
+
     type = EnergyComponentType.SINK
-    commodity_cost: Optional[float] = Field(
+    commodity_cost: float | None = Field(
         None,
         description="Cost of the energy sink per unit of energy.",
         example=42.2,
     )
-    yearly_limit: Optional[float] = Field(
+    yearly_limit: float | None = Field(
         None,
         description="The yearly limit of the energy sink. If specified, commodity_limit_id must be specified as well.",
         example=366.5,
     )
-    commodity_limit_id: Optional[str] = Field(
+    commodity_limit_id: str | None = Field(
         None,
         description="Commodity limit ID of the energy sink. Required if yearly_limit is specified. The limit is shared among all components of the same commodity_limit_id.",  # noqa: E501
         example="CO2",
@@ -44,9 +43,8 @@ class EnergySinkCreate(EnergySinkBase, EnergyComponentCreate):
     """
     Attributes to receive via API on creation of an energy sink.
     """
-    commodity: str = Field(...,
-                           description="Commodity the energy sink is based on.",
-                           example="electricity")
+
+    commodity: str = Field(..., description="Commodity the energy sink is based on.", example="electricity")
 
     # validators
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
@@ -56,7 +54,8 @@ class EnergySinkUpdate(EnergySinkBase, EnergyComponentUpdate):
     """
     Attributes to receive via API on update of an energy sink.
     """
-    commodity: Optional[str] = None
+
+    commodity: str | None = None
 
     # validators
     _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
@@ -66,6 +65,7 @@ class EnergySink(EnergySinkBase):
     """
     Attributes to return via API for an energy sink.
     """
+
     component: EnergyComponent
     commodity: EnergyCommodity
 

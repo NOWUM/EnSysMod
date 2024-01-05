@@ -32,11 +32,11 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             db_obj = obj_in
         elif isinstance(obj_in, dict):
             # filter obj_in to only pass fields in model to model's constructor
-            data = {k: v for k, v in obj_in.items() if k in self.model.__table__.columns.keys()}
+            data = {k: v for k, v in obj_in.items() if k in self.model.__table__.columns}
             db_obj = self.model(**data)
         else:
             obj_in_data = jsonable_encoder(obj_in, include=self.model.__table__.columns.keys())
-            db_obj = self.model(**obj_in_data)  # type: ignore
+            db_obj = self.model(**obj_in_data)
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)

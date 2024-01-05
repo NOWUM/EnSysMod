@@ -1,11 +1,9 @@
-from typing import Optional
-
 from pydantic import BaseModel
 
 
 # Shared attributes
 class UserBase(BaseModel):
-    username: Optional[str] = None
+    username: str | None = None
 
 
 # Attributes to receive via API on creation
@@ -16,11 +14,11 @@ class UserCreate(UserBase):
 
 # Attributes to receive via API on update
 class UserUpdate(UserBase):
-    password: Optional[str] = None
+    password: str | None = None
 
 
 class UserInDBBase(UserBase):
-    id: Optional[int] = None
+    id: int | None = None
 
     class Config:
         orm_mode = True

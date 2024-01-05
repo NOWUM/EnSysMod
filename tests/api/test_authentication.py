@@ -16,8 +16,8 @@ def test_register_endpoint(client: TestClient, db: Session):
     new_user = r.json()
     assert r.status_code == status.HTTP_200_OK
     assert new_user
-    assert new_user['username'] == payload['username']
-    db_user = crud.user.get_by_username(db=db, username=payload['username'])
+    assert new_user["username"] == payload["username"]
+    db_user = crud.user.get_by_username(db=db, username=payload["username"])
     assert db_user
 
 
@@ -27,7 +27,7 @@ def test_register_twice_endpoint(client: TestClient):
     new_user = r.json()
     assert r.status_code == status.HTTP_200_OK
     assert new_user
-    assert new_user['username'] == payload['username']
+    assert new_user["username"] == payload["username"]
 
     r2 = client.post("/auth/register", json=payload)
     assert r2.status_code == status.HTTP_409_CONFLICT
@@ -40,8 +40,8 @@ def test_login_endpoint(client: TestClient, db: Session):
 
     r2 = client.post("/auth/login", data=payload, headers={"content-type": "application/x-www-form-urlencoded"})
     assert r2.status_code == status.HTTP_200_OK
-    assert r2.json()['access_token']
-    assert r2.json()['token_type'] == 'bearer'
+    assert r2.json()["access_token"]
+    assert r2.json()["token_type"] == "bearer"
 
 
 def test_login_unknown_user_endpoint(client: TestClient, db: Session):
@@ -61,7 +61,7 @@ def test_test_token_endpoint(client: TestClient):
     r3 = client.get("/auth/test-token", headers={"Authorization": f"Bearer {r2.json()['access_token']}"})
     user = r3.json()
     assert r3.status_code == status.HTTP_200_OK
-    assert user['username'] == payload['username']
+    assert user["username"] == payload["username"]
 
 
 def test_test_token_unknown_access_token_endpoint(client: TestClient):
@@ -77,7 +77,7 @@ def test_test_token_user_deleted(client: TestClient, db: Session):
     r2 = client.post("/auth/login", data=payload, headers={"content-type": "application/x-www-form-urlencoded"})
     assert r2.status_code == status.HTTP_200_OK
 
-    user_id = crud.user.get_by_username(db=db, username=payload['username']).id
+    user_id = crud.user.get_by_username(db=db, username=payload["username"]).id
     crud.user.remove(db=db, id=user_id)
 
     r3 = client.get("/auth/test-token", headers={"Authorization": f"Bearer {r2.json()['access_token']}"})

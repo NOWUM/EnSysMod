@@ -197,6 +197,8 @@ def download_transmission_loss(
     if component is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Component {component_id} not found!")
 
+    permissions.check_usage_permission(db=db, user=current, dataset_id=component.ref_dataset)
+
     temp_file_path = create_temp_file(prefix="ensysmod_losses_", suffix=".xlsx")
     dump_excel_file(
         db=db,

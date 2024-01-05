@@ -17,6 +17,4 @@ class EnergyModel(Base):
     optimization_parameters = relationship("EnergyModelOptimization", back_populates="model")
 
     # table constraints
-    __table_args__ = (
-        UniqueConstraint("ref_dataset", "name", name="_commodity_name_dataset_uc"),
-    )
+    __table_args__ = (UniqueConstraint("ref_dataset", "name", name="_commodity_name_dataset_uc"),)

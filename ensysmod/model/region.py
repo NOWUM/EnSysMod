@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from ensysmod.database.base_class import Base
@@ -10,6 +10,7 @@ class Region(Base):
 
     Stores the region information in database.
     """
+
     id = Column(Integer, primary_key=True, index=True)
     ref_dataset = Column(Integer, ForeignKey("dataset.id"), index=True, nullable=False)
     name = Column(String, index=True, nullable=False)
@@ -18,6 +19,4 @@ class Region(Base):
     dataset = relationship("Dataset")
 
     # table constraints
-    __table_args__ = (
-        UniqueConstraint("ref_dataset", "name", name="_region_dataset_name_uc"),
-    )
+    __table_args__ = (UniqueConstraint("ref_dataset", "name", name="_region_dataset_name_uc"),)

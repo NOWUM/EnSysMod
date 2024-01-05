@@ -1,4 +1,4 @@
-from typing import Any, List, Optional
+from typing import Any
 
 from pydantic.errors import MissingError
 
@@ -73,7 +73,7 @@ def validate_ref_dataset_required(ref_dataset: int) -> int:
     return ref_dataset
 
 
-def validate_ref_dataset_optional(ref_dataset: Optional[int]) -> Optional[int]:
+def validate_ref_dataset_optional(ref_dataset: int | None) -> int | None:
     """
     Validates the reference to a dataset of an object.
 
@@ -88,7 +88,7 @@ def validate_ref_dataset_optional(ref_dataset: Optional[int]) -> Optional[int]:
     return ref_dataset
 
 
-def validate_capacity_per_plant_unit(capacity_per_plant_unit: Optional[float]) -> Optional[float]:
+def validate_capacity_per_plant_unit(capacity_per_plant_unit: float | None) -> float | None:
     """
     Validates the capacity per plant per unit of an object.
     Capacity per plant per unit is always optional.
@@ -106,7 +106,7 @@ def validate_capacity_per_plant_unit(capacity_per_plant_unit: Optional[float]) -
     return capacity_per_plant_unit
 
 
-def validate_invest_per_capacity(invest_per_capacity: Optional[float]) -> Optional[float]:
+def validate_invest_per_capacity(invest_per_capacity: float | None) -> float | None:
     """
     Validates the invest per capacity of an object.
     Invest per capacity is always optional.
@@ -124,7 +124,7 @@ def validate_invest_per_capacity(invest_per_capacity: Optional[float]) -> Option
     return invest_per_capacity
 
 
-def validate_opex_per_capacity(opex_per_capacity: Optional[float]) -> Optional[float]:
+def validate_opex_per_capacity(opex_per_capacity: float | None) -> float | None:
     """
     Validates the opex per capacity of an object.
     Opex per capacity is always optional.
@@ -142,7 +142,7 @@ def validate_opex_per_capacity(opex_per_capacity: Optional[float]) -> Optional[f
     return opex_per_capacity
 
 
-def validate_interest_rate(interest_rate: Optional[float]) -> Optional[float]:
+def validate_interest_rate(interest_rate: float | None) -> float | None:
     """
     Validates the interest rate of an object.
     Interest rate is always optional.
@@ -160,7 +160,7 @@ def validate_interest_rate(interest_rate: Optional[float]) -> Optional[float]:
     return interest_rate
 
 
-def validate_economic_lifetime(economic_lifetime: Optional[int]) -> Optional[int]:
+def validate_economic_lifetime(economic_lifetime: int | None) -> int | None:
     """
     Validates the economic lifetime of an object.
     Economic lifetime is always optional.
@@ -178,7 +178,7 @@ def validate_economic_lifetime(economic_lifetime: Optional[int]) -> Optional[int
     return economic_lifetime
 
 
-def validate_shared_potential_id(shared_potential_id: Optional[str]) -> Optional[str]:
+def validate_shared_potential_id(shared_potential_id: str | None) -> str | None:
     """
     Validates the shared potential id of an object.
     Shared potential id is always optional.
@@ -196,7 +196,7 @@ def validate_shared_potential_id(shared_potential_id: Optional[str]) -> Optional
     return shared_potential_id
 
 
-def validate_linked_quantity_id(linked_quantity_id: Optional[str]) -> Optional[str]:
+def validate_linked_quantity_id(linked_quantity_id: str | None) -> str | None:
     """
     Validates the linked quantity id of an object.
     Linked quantity id is always optional.
@@ -214,7 +214,7 @@ def validate_linked_quantity_id(linked_quantity_id: Optional[str]) -> Optional[s
     return linked_quantity_id
 
 
-def validate_conversion_factor(conversion_factor: Optional[float]) -> Optional[float]:
+def validate_conversion_factor(conversion_factor: float | None) -> float | None:
     """
     Validates the conversion factor of an object.
     Conversion factor is always optional.
@@ -231,7 +231,7 @@ def validate_conversion_factor(conversion_factor: Optional[float]) -> Optional[f
     return conversion_factor
 
 
-def validate_commodity(commodity: Optional[str]) -> Optional[str]:
+def validate_commodity(commodity: str | None) -> str | None:
     """
     Validates the commodity of an object.
 
@@ -262,7 +262,7 @@ def validate_ref_component_required(ref_component: int) -> int:
     return ref_component
 
 
-def validate_ref_component_optional(ref_component: Optional[int]) -> Optional[int]:
+def validate_ref_component_optional(ref_component: int | None) -> int | None:
     """
     Validates the reference to a component of an object.
 
@@ -278,7 +278,7 @@ def validate_ref_component_optional(ref_component: Optional[int]) -> Optional[in
     return ref_component
 
 
-def validate_conversion_factors(conversion_factors: List[Any]) -> List[Any]:
+def validate_conversion_factors(conversion_factors: list[Any]) -> list[Any]:
     """
     Validates the conversion factors of an object.
 
@@ -286,14 +286,14 @@ def validate_conversion_factors(conversion_factors: List[Any]) -> List[Any]:
     :return: The validated conversion_factor.
     """
     if conversion_factors is None:
-        raise MissingError()
+        raise MissingError
     if len(conversion_factors) == 0:
         raise ValueError("List of conversion factors must not be empty.")
 
     return conversion_factors
 
 
-def validate_commodity_cost(commodity_cost: float) -> Optional[float]:
+def validate_commodity_cost(commodity_cost: float) -> float | None:
     """
     Validates the commodity cost of an object.
 
@@ -308,7 +308,7 @@ def validate_commodity_cost(commodity_cost: float) -> Optional[float]:
     return commodity_cost
 
 
-def validate_yearly_limit_and_commodity_limit_id(cls, values):
+def validate_yearly_limit_and_commodity_limit_id(cls, values):  # noqa: ARG001
     """
     Validates the yearly limit and the commodity limit ID of an object.
 
@@ -316,7 +316,7 @@ def validate_yearly_limit_and_commodity_limit_id(cls, values):
     :param commodity_limit_id: The commodity limit id of the object.
     :return: The validated yearly limit and commodity limit id.
     """
-    yearly_limit, commodity_limit_id = values.get('yearly_limit'), values.get('commodity_limit_id')
+    yearly_limit, commodity_limit_id = values.get("yearly_limit"), values.get("commodity_limit_id")
 
     if yearly_limit is None and commodity_limit_id is None:
         # Skip validation if no value provided
@@ -332,7 +332,7 @@ def validate_yearly_limit_and_commodity_limit_id(cls, values):
     return values
 
 
-def validate_charge_efficiency(charge_efficiency: Optional[float]) -> Optional[float]:
+def validate_charge_efficiency(charge_efficiency: float | None) -> float | None:
     """
     Validates the charge efficiency of an object.
     Charge efficiency is always optional.
@@ -349,7 +349,7 @@ def validate_charge_efficiency(charge_efficiency: Optional[float]) -> Optional[f
     return charge_efficiency
 
 
-def validate_discharge_efficiency(discharge_efficiency: Optional[float]) -> Optional[float]:
+def validate_discharge_efficiency(discharge_efficiency: float | None) -> float | None:
     """
     Validates the discharge efficiency of an object.
     Discharge efficiency is always optional.
@@ -366,7 +366,7 @@ def validate_discharge_efficiency(discharge_efficiency: Optional[float]) -> Opti
     return discharge_efficiency
 
 
-def validate_self_discharge(self_discharge: Optional[float]) -> Optional[float]:
+def validate_self_discharge(self_discharge: float | None) -> float | None:
     """
     Validates the self discharge of an object.
     Self discharge is always optional.
@@ -383,7 +383,7 @@ def validate_self_discharge(self_discharge: Optional[float]) -> Optional[float]:
     return self_discharge
 
 
-def validate_cyclic_lifetime(cyclic_lifetime: Optional[int]) -> Optional[int]:
+def validate_cyclic_lifetime(cyclic_lifetime: int | None) -> int | None:
     """
     Validates the cyclic lifetime of an object.
     Cyclic lifetime is always optional.
@@ -400,7 +400,7 @@ def validate_cyclic_lifetime(cyclic_lifetime: Optional[int]) -> Optional[int]:
     return cyclic_lifetime
 
 
-def validate_charge_rate(charge_rate: Optional[float]) -> Optional[float]:
+def validate_charge_rate(charge_rate: float | None) -> float | None:
     """
     Validates the charge rate of an object.
     Charge rate is always optional.
@@ -417,7 +417,7 @@ def validate_charge_rate(charge_rate: Optional[float]) -> Optional[float]:
     return charge_rate
 
 
-def validate_discharge_rate(discharge_rate: Optional[float]) -> Optional[float]:
+def validate_discharge_rate(discharge_rate: float | None) -> float | None:
     """
     Validates the discharge rate of an object.
     Discharge rate is always optional.
@@ -434,7 +434,7 @@ def validate_discharge_rate(discharge_rate: Optional[float]) -> Optional[float]:
     return discharge_rate
 
 
-def validate_state_of_charge_min(state_of_charge_min: Optional[float]) -> Optional[float]:
+def validate_state_of_charge_min(state_of_charge_min: float | None) -> float | None:
     """
     Validates the state of charge min of an object.
     State of charge min is always optional.
@@ -451,7 +451,7 @@ def validate_state_of_charge_min(state_of_charge_min: Optional[float]) -> Option
     return state_of_charge_min
 
 
-def validate_state_of_charge_max(state_of_charge_max: Optional[float]) -> Optional[float]:
+def validate_state_of_charge_max(state_of_charge_max: float | None) -> float | None:
     """
     Validates the state of charge max of an object.
     State of charge max is always optional.
@@ -493,7 +493,7 @@ def validate_loss(loss: float) -> float:
     return loss
 
 
-def validate_optimization_timeframe(cls, values):
+def validate_optimization_timeframe(cls, values):  # noqa: ARG001
     """
     Validates the optimization timeframe of an object.
 
@@ -504,10 +504,10 @@ def validate_optimization_timeframe(cls, values):
 
     :return: the validated optimization timeframe parameters.
     """
-    start_year = values.get('start_year')
-    end_year = values.get('end_year')
-    number_of_steps = values.get('number_of_steps')
-    years_per_step = values.get('years_per_step')
+    start_year = values.get("start_year")
+    end_year = values.get("end_year")
+    number_of_steps = values.get("number_of_steps")
+    years_per_step = values.get("years_per_step")
 
     if start_year is None:
         raise ValueError("start_year must be specified.")
@@ -524,22 +524,22 @@ def validate_optimization_timeframe(cls, values):
     if (end_year is None) & (number_of_steps is not None) & (years_per_step is not None):
         end_year = start_year + number_of_steps * years_per_step
     elif (end_year is not None) & (number_of_steps is None) & (years_per_step is not None):
-        number_of_steps = (end_year - start_year)/years_per_step
+        number_of_steps = (end_year - start_year) / years_per_step
     elif (end_year is not None) & (number_of_steps is not None) & (years_per_step is None):
-        years_per_step = (end_year - start_year)/number_of_steps
+        years_per_step = (end_year - start_year) / number_of_steps
 
     if (end_year - start_year) != number_of_steps * years_per_step:
         raise ValueError("The parameters must satisfy the equation: (end_year - start_year) = number_of_steps * years_per_step.")
 
-    values['start_year'] = start_year
-    values['end_year'] = end_year
-    values['number_of_steps'] = number_of_steps
-    values['years_per_step'] = years_per_step
+    values["start_year"] = start_year
+    values["end_year"] = end_year
+    values["number_of_steps"] = number_of_steps
+    values["years_per_step"] = years_per_step
 
     return values
 
 
-def validate_CO2_optimization(cls, values):
+def validate_CO2_optimization(cls, values):  # noqa: ARG001
     """
     Validates the CO2 optimization.
 
@@ -548,9 +548,9 @@ def validate_CO2_optimization(cls, values):
 
     :return: The validated CO2 optimization parameters.
     """  # noqa: E501
-    CO2_reference = values.get('CO2_reference')
-    CO2_reduction_targets = values.get('CO2_reduction_targets')
-    number_of_steps = values.get('number_of_steps')
+    CO2_reference = values.get("CO2_reference")
+    CO2_reduction_targets = values.get("CO2_reduction_targets")
+    number_of_steps = values.get("number_of_steps")
 
     if (CO2_reference is None) & (CO2_reduction_targets is None):
         return values
@@ -565,9 +565,9 @@ def validate_CO2_optimization(cls, values):
         if target < 0 or target > 100:
             raise ValueError("Values of CO2_reduction_targets must be between 0 and 100.")
 
-    if len(CO2_reduction_targets) != number_of_steps+1:
+    if len(CO2_reduction_targets) != number_of_steps + 1:
         raise ValueError(
-            f"The number of values given in CO2_reduction_targets must match the number of optimization runs. Expected: {number_of_steps+1}, given: {len(CO2_reduction_targets)}."  # noqa: E501
+            f"The number of values given in CO2_reduction_targets must match the number of optimization runs. Expected: {number_of_steps+1}, given: {len(CO2_reduction_targets)}.",  # noqa: E501
         )
 
     return values

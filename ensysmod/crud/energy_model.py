@@ -1,5 +1,3 @@
-from typing import Optional
-
 from sqlalchemy import delete
 from sqlalchemy.orm import Session
 
@@ -34,7 +32,7 @@ class CRUDEnergyModel(CRUDBaseDependsDataset[EnergyModel, EnergyModelCreate, Ene
 
         return db_obj
 
-    def remove(self, db: Session, *, id: int) -> Optional[EnergyModel]:
+    def remove(self, db: Session, *, id: int) -> EnergyModel | None:
         if self.model.override_parameters is not None:
             db.execute(delete(EnergyModelOverride).filter(EnergyModelOverride.ref_model == id))
 

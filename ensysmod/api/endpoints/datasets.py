@@ -1,6 +1,5 @@
 import zipfile
 from io import BytesIO
-from typing import List
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from fastapi.encoders import jsonable_encoder
@@ -18,11 +17,13 @@ from ensysmod.utils.utils import remove_file
 router = APIRouter()
 
 
-@router.get("/", response_model=List[schemas.Dataset])
-def get_all_datasets(db: Session = Depends(deps.get_db),
-                     current: model.User = Depends(deps.get_current_user),
-                     skip: int = 0,
-                     limit: int = 100) -> List[schemas.Dataset]:
+@router.get("/", response_model=list[schemas.Dataset])
+def get_all_datasets(
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+    skip: int = 0,
+    limit: int = 100,
+) -> list[schemas.Dataset]:
     """
     Retrieve all datasets.
     """
@@ -30,36 +31,40 @@ def get_all_datasets(db: Session = Depends(deps.get_db),
 
 
 @router.get("/{dataset_id}", response_model=schemas.Dataset)
-def get_dataset(dataset_id: int,
-                db: Session = Depends(deps.get_db),
-                current: model.User = Depends(deps.get_current_user)):
+def get_dataset(
+    dataset_id: int,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+):
     """
     Retrieve a dataset.
     """
     return crud.dataset.get(db=db, id=dataset_id)
 
 
-@router.post("/", response_model=schemas.Dataset,
-             responses={409: {"description": "Dataset with same name already exists."}})
-def create_dataset(request: schemas.DatasetCreate,
-                   db: Session = Depends(deps.get_db),
-                   current: model.User = Depends(deps.get_current_user)):
+@router.post("/", response_model=schemas.Dataset, responses={409: {"description": "Dataset with same name already exists."}})
+def create_dataset(
+    request: schemas.DatasetCreate,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+):
     """
     Create a new dataset.
     """
     existing_ds = crud.dataset.get_by_name(db=db, name=request.name)
     if existing_ds is not None:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Dataset {request.name} already exists!"
-                                                                         f"Please choose a different name.")
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Dataset {request.name} already exists!Please choose a different name.")
     request.ref_created_by = current.id
     return crud.dataset.create(db=db, obj_in=request)
 
 
 @router.put("/{dataset_id}", response_model=schemas.Dataset)
-def update_dataset(dataset_id: int,
-                   request: schemas.DatasetUpdate,
-                   db: Session = Depends(deps.get_db),
-                   current: model.User = Depends(deps.get_current_user)):
+def update_dataset(
+    dataset_id: int,
+    request: schemas.DatasetUpdate,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+):
     """
     Update a dataset.
     """
@@ -71,9 +76,11 @@ def update_dataset(dataset_id: int,
 
 
 @router.delete("/{dataset_id}", response_model=schemas.Dataset)
-def remove_dataset(dataset_id: int,
-                   db: Session = Depends(deps.get_db),
-                   current: model.User = Depends(deps.get_current_user)):
+def remove_dataset(
+    dataset_id: int,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+):
     """
     Delete a dataset.
     """
@@ -83,16 +90,17 @@ def remove_dataset(dataset_id: int,
 
 
 @router.post("/{dataset_id}/upload", response_model=schemas.ZipArchiveUploadResult)
-def upload_dataset_zip(dataset_id: int,
-                       file: UploadFile = File(...),
-                       db: Session = Depends(deps.get_db),
-                       current: model.User = Depends(deps.get_current_user)):
+def upload_dataset_zip(
+    dataset_id: int,
+    file: UploadFile = File(...),
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+):
     """
     Upload a dataset as zip.
     """
     if file.content_type not in ["application/x-zip-compressed", "application/zip", "application/zip-compressed"]:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                            detail=f"File must be a zip archive. You provided {file.content_type}!")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"File must be a zip archive. You provided {file.content_type}!")
 
     dataset = crud.dataset.get(db=db, id=dataset_id)
     if dataset is None:
@@ -100,7 +108,7 @@ def upload_dataset_zip(dataset_id: int,
 
     permissions.check_modification_permission(db=db, user=current, dataset_id=dataset_id)
 
-    with zipfile.ZipFile(BytesIO(file.file.read()), 'r') as zip_archive:
+    with zipfile.ZipFile(BytesIO(file.file.read()), "r") as zip_archive:
         result = process_dataset_zip_archive(zip_archive, dataset_id, db)
 
     if result.status != FileStatus.OK:
@@ -110,9 +118,11 @@ def upload_dataset_zip(dataset_id: int,
 
 
 @router.get("/{dataset_id}/download")
-def download_dataset_zip(dataset_id: int,
-                         db: Session = Depends(deps.get_db),
-                         current: model.User = Depends(deps.get_current_user)):
+def download_dataset_zip(
+    dataset_id: int,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+):
     """
     Download a dataset as zip.
     """

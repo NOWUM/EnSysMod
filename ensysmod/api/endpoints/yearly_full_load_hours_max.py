@@ -191,6 +191,8 @@ def download_yearly_full_load_hours_max(
     if component is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Component {component_id} not found!")
 
+    permissions.check_usage_permission(db=db, user=current, dataset_id=component.ref_dataset)
+
     temp_file_path = create_temp_file(prefix="ensysmod_yearlyFullLoadHoursMax_", suffix=".xlsx")
     dump_excel_file(
         db=db,

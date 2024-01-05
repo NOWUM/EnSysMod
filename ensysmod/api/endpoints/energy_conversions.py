@@ -1,5 +1,3 @@
-from typing import List
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -9,22 +7,25 @@ from ensysmod.api import deps, permissions
 router = APIRouter()
 
 
-@router.get("/", response_model=List[schemas.EnergyConversion])
-def get_all_energy_conversions(db: Session = Depends(deps.get_db),
-                               current: model.User = Depends(deps.get_current_user),
-                               skip: int = 0,
-                               limit: int = 100) -> List[schemas.EnergyConversion]:
+@router.get("/", response_model=list[schemas.EnergyConversion])
+def get_all_energy_conversions(
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+    skip: int = 0,
+    limit: int = 100,
+) -> list[schemas.EnergyConversion]:
     """
     Retrieve all energy conversions.
     """
     return crud.energy_conversion.get_multi(db=db, skip=skip, limit=limit)
 
 
-@router.post("/", response_model=schemas.EnergyConversion,
-             responses={409: {"description": "EnergyConversion with same name already exists."}})
-def create_conversion(request: schemas.EnergyConversionCreate,
-                      db: Session = Depends(deps.get_db),
-                      current: model.User = Depends(deps.get_current_user)):
+@router.post("/", response_model=schemas.EnergyConversion, responses={409: {"description": "EnergyConversion with same name already exists."}})
+def create_conversion(
+    request: schemas.EnergyConversionCreate,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+):
     """
     Create a new energy conversion.
     """
@@ -36,16 +37,18 @@ def create_conversion(request: schemas.EnergyConversionCreate,
 
     existing = crud.energy_conversion.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.name)
     if existing is not None:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
-                            detail=f"EnergyConversion {request.name} already for dataset {request.ref_dataset} exists!")
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"EnergyConversion {request.name} already for dataset {request.ref_dataset} exists!",
+        )
 
     # Check if energy commodity exists
-    commodity = crud.energy_commodity.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset,
-                                                              name=request.commodity_unit)
+    commodity = crud.energy_commodity.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.commodity_unit)
     if commodity is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"EnergyCommodity {request.commodity_unit} "
-                                   f"in dataset {request.ref_dataset} not found!")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"EnergyCommodity {request.commodity_unit} in dataset {request.ref_dataset} not found!",
+        )
 
     # TODO Check commodities for conversion factors
 

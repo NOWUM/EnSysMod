@@ -61,7 +61,6 @@ def test_get_region(db: Session, client: TestClient, normal_user_headers: dict[s
     assert response.status_code == status.HTTP_200_OK
 
     retrieved_region = response.json()
-    print(retrieved_region)
     assert retrieved_region["name"] == region.name
     assert retrieved_region["id"] == region.id
 
@@ -135,7 +134,6 @@ def test_update_region(db: Session, client: TestClient, normal_user_headers: dic
     Test updating a region.
     """
     existing_region = region_create(db, normal_user_headers)
-    print(existing_region.name)
 
     update_request = RegionUpdate(**jsonable_encoder(existing_region))
     update_request.name = f"New Region Name-{random_lower_string()}"

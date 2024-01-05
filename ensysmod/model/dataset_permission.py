@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, ForeignKey, UniqueConstraint, Boolean
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, UniqueConstraint
 
 from ensysmod.database.base_class import Base
 
@@ -7,6 +7,7 @@ class DatasetPermission(Base):
     """
     Dataset Permission class
     """
+
     id = Column(Integer, primary_key=True, index=True)
     ref_dataset = Column(Integer, ForeignKey("dataset.id"), index=True, nullable=False)
     ref_user = Column(Integer, ForeignKey("user.id"), index=True, nullable=False)
@@ -16,6 +17,4 @@ class DatasetPermission(Base):
     allow_permission_revoke = Column(Boolean, nullable=False)
 
     # table constraints
-    __table_args__ = (
-        UniqueConstraint("ref_dataset", "ref_user", name="_dataset_user_uc"),
-    )
+    __table_args__ = (UniqueConstraint("ref_dataset", "ref_user", name="_dataset_user_uc"),)

@@ -64,7 +64,6 @@ def test_get_commodity(db: Session, client: TestClient, normal_user_headers: dic
     assert response.status_code == status.HTTP_200_OK
 
     retrieved_commodity = response.json()
-    print(retrieved_commodity)
     assert retrieved_commodity["name"] == commodity.name
     assert retrieved_commodity["id"] == commodity.id
 
@@ -140,7 +139,6 @@ def test_update_commodity(db: Session, client: TestClient, normal_user_headers: 
     Test updating a commodity.
     """
     existing_commodity = commodity_create(db, normal_user_headers)
-    print(existing_commodity.name)
 
     update_request = EnergyCommodityUpdate(**jsonable_encoder(existing_commodity))
     update_request.name = f"New Commodity Name-{random_lower_string()}"

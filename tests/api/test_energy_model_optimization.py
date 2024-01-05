@@ -6,8 +6,8 @@ from sqlalchemy.orm import Session
 from tests.utils.data_generator.energy_models import create_example_model
 
 
-@pytest.mark.slow
-@pytest.mark.require_solver
+@pytest.mark.slow()
+@pytest.mark.require_solver()
 @pytest.mark.parametrize("data_folder", ["1node_Example", "Multi-regional_Example"])
 def test_optimize_model(db: Session, client: TestClient, normal_user_headers: dict[str, str], data_folder: str):
     """

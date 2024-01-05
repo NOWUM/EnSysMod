@@ -114,12 +114,9 @@ def test_update_energy_model(db: Session, client: TestClient, normal_user_header
     Test updating an energy model.
     """
     existing_model = energy_model_create(db, normal_user_headers)
-    print(existing_model.name)
 
     update_request = EnergyModelUpdate(**jsonable_encoder(existing_model))
     update_request.name = f"New Energy Model Name-{random_lower_string()}"
-
-    print(update_request.json())
 
     response = client.put(
         f"/models/{existing_model.id}",

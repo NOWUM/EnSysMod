@@ -1,5 +1,3 @@
-from typing import List, Optional
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -9,36 +7,41 @@ from ensysmod.api import deps, permissions
 router = APIRouter()
 
 
-@router.get("/", response_model=List[schemas.EnergyCommodity])
-def get_all_commodities(db: Session = Depends(deps.get_db),
-                        current: model.User = Depends(deps.get_current_user),
-                        skip: int = 0,
-                        limit: int = 100,
-                        dataset_id: Optional[int] = None) -> List[schemas.EnergyCommodity]:
+@router.get("/", response_model=list[schemas.EnergyCommodity])
+def get_all_commodities(
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+    skip: int = 0,
+    limit: int = 100,
+    dataset_id: int | None = None,
+) -> list[schemas.EnergyCommodity]:
     """
     Retrieve all energy commodities.
     """
-    if dataset_id is None:
-        return crud.energy_commodity.get_multi(db=db, skip=skip, limit=limit)
-    else:
+    if dataset_id:
         return crud.energy_commodity.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
+
+    return crud.energy_commodity.get_multi(db=db, skip=skip, limit=limit)
 
 
 @router.get("/{commodity_id}", response_model=schemas.EnergyCommodity)
-def get_commodity(commodity_id: int,
-                  db: Session = Depends(deps.get_db),
-                  current: model.User = Depends(deps.get_current_user)):
+def get_commodity(
+    commodity_id: int,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+):
     """
     Retrieve an energy commodity.
     """
     return crud.energy_commodity.get(db=db, id=commodity_id)
 
 
-@router.post("/", response_model=schemas.EnergyCommodity,
-             responses={409: {"description": "EnergyCommodity with same name already exists."}})
-def create_commodity(request: schemas.EnergyCommodityCreate,
-                     db: Session = Depends(deps.get_db),
-                     current: model.User = Depends(deps.get_current_user)):
+@router.post("/", response_model=schemas.EnergyCommodity, responses={409: {"description": "EnergyCommodity with same name already exists."}})
+def create_commodity(
+    request: schemas.EnergyCommodityCreate,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+):
     """
     Create a new energy commodity.
     """
@@ -50,17 +53,21 @@ def create_commodity(request: schemas.EnergyCommodityCreate,
 
     existing = crud.energy_commodity.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.name)
     if existing is not None:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
-                            detail=f"EnergyCommodity {request.name} already for dataset {request.ref_dataset} exists!")
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"EnergyCommodity {request.name} already for dataset {request.ref_dataset} exists!",
+        )
 
     return crud.energy_commodity.create(db=db, obj_in=request)
 
 
 @router.put("/{commodity_id}", response_model=schemas.EnergyCommodity)
-def update_commodity(commodity_id: int,
-                     request: schemas.EnergyCommodityUpdate,
-                     db: Session = Depends(deps.get_db),
-                     current: model.User = Depends(deps.get_current_user)):
+def update_commodity(
+    commodity_id: int,
+    request: schemas.EnergyCommodityUpdate,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+):
     """
     Update an energy commodity.
     """
@@ -72,9 +79,11 @@ def update_commodity(commodity_id: int,
 
 
 @router.delete("/{commodity_id}", response_model=schemas.EnergyCommodity)
-def remove_commodity(commodity_id: int,
-                     db: Session = Depends(deps.get_db),
-                     current: model.User = Depends(deps.get_current_user)):
+def remove_commodity(
+    commodity_id: int,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+):
     """
     Delete an energy commodity.
     """

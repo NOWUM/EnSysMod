@@ -1,8 +1,8 @@
 import pathlib
 import secrets
-from typing import Optional, Dict, Any
+from typing import Any
 
-from pydantic import BaseSettings, validator, PostgresDsn
+from pydantic import BaseSettings, PostgresDsn, validator
 
 
 class Settings(BaseSettings):
@@ -23,14 +23,14 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
 
     # Database access
-    POSTGRES_SERVER: Optional[str] = None
-    POSTGRES_USER: Optional[str] = None
-    POSTGRES_PASSWORD: Optional[str] = None
-    POSTGRES_DB: Optional[str] = None
-    SQLALCHEMY_DATABASE_URI: Optional[str] = None
+    POSTGRES_SERVER: str | None = None
+    POSTGRES_USER: str | None = None
+    POSTGRES_PASSWORD: str | None = None
+    POSTGRES_DB: str | None = None
+    SQLALCHEMY_DATABASE_URI: str | None = None
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
-    def assemble_db_connection(cls, v: Optional[str], values: Dict[str, Any]) -> str:
+    def assemble_db_connection(cls, v: str | None, values: dict[str, Any]) -> str:
         if isinstance(v, str):
             return v
         if all(isinstance(values[key], str) for key in ("POSTGRES_USER", "POSTGRES_PASSWORD", "POSTGRES_SERVER")):

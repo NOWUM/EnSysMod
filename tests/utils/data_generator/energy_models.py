@@ -76,6 +76,4 @@ def create_example_model(db: Session, data_folder: str):
         override_parameters=None,
         optimization_parameters=None,
     )
-    model = crud.energy_model.create(db=db, obj_in=create_request)
-
-    return model
+    return crud.energy_model.create(db=db, obj_in=create_request)

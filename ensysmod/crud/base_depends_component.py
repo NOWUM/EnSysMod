@@ -30,7 +30,7 @@ class CRUDBaseDependsComponent(CRUDBaseDependsDataset, Generic[ModelType, Create
         """
         Get a list of energy component based objects based on dataset.
         """
-        return db.query(self.model).join(EnergyComponent).filter(EnergyComponent.ref_dataset == dataset_id).all()
+        return db.query(self.model).join(EnergyComponent).filter(EnergyComponent.ref_dataset == dataset_id).offset(skip).limit(limit).all()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType | ModelType | dict[str, Any]) -> ModelType:
         """

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, ForeignKey, Float
+from sqlalchemy import Column, Float, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 
 from ensysmod.database.base_class import Base
@@ -10,6 +10,7 @@ class EnergyStorage(Base):
 
     See https://vsa-fine.readthedocs.io/en/latest/storageClassDoc.html
     """
+
     ref_component = Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False, primary_key=True)
     ref_commodity = Column(Integer, ForeignKey("energy_commodity.id"), index=True, nullable=False)
 

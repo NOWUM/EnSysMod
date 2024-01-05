@@ -1,4 +1,4 @@
-from fastapi import status, HTTPException
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from ensysmod import crud

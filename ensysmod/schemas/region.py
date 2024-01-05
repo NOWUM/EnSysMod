@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import BaseModel, Field, validator
 
 from ensysmod.schemas import Dataset
@@ -10,9 +8,8 @@ class RegionBase(BaseModel):
     """
     Shared attributes for a region. Used as a base class for all schemas.
     """
-    name: str = Field(...,
-                      description="Unique name of the region.",
-                      example="germany")
+
+    name: str = Field(..., description="Unique name of the region.", example="germany")
 
     # validators
     _valid_name = validator("name", allow_reuse=True)(validators.validate_name)
@@ -22,6 +19,7 @@ class RegionCreate(RegionBase):
     """
     Attributes to receive via API on creation of a region.
     """
+
     ref_dataset: int = Field(..., description="ID of the dataset to use as reference.", example=1)
 
     # validators
@@ -32,13 +30,15 @@ class RegionUpdate(RegionBase):
     """
     Attributes to receive via API on update of a region.
     """
-    name: Optional[str] = Field(None, description="New name of the region", example="germany")
+
+    name: str | None = Field(None, description="New name of the region", example="germany")
 
 
 class Region(RegionBase):
     """
     Attributes to return via API for a region.
     """
+
     id: int
     dataset: Dataset
 

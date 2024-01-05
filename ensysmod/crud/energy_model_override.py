@@ -5,12 +5,10 @@ from ensysmod.schemas import EnergyModelOverrideCreate, EnergyModelOverrideUpdat
 # noinspection PyMethodMayBeStatic,PyArgumentList
 
 
-class CRUDEnergyModelOverride(CRUDBaseDependsComponentRegion[EnergyModelOverride, EnergyModelOverrideCreate,
-                                                             EnergyModelOverrideUpdate]):
+class CRUDEnergyModelOverride(CRUDBaseDependsComponentRegion[EnergyModelOverride, EnergyModelOverrideCreate, EnergyModelOverrideUpdate]):
     """
     CRUD operations for EnergyModelOverride
     """
-    pass
 
 
 energy_model_override = CRUDEnergyModelOverride(EnergyModelOverride)

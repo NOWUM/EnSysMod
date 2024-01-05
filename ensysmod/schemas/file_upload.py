@@ -1,24 +1,23 @@
 import enum
-from typing import Optional, List
 
 from pydantic import BaseModel
 
 
 class FileStatus(enum.Enum):
-    OK = 'OK'
-    ERROR = 'ERROR'
-    SKIPPED = 'SKIPPED'
+    OK = "OK"
+    ERROR = "ERROR"
+    SKIPPED = "SKIPPED"
 
 
 class FileUploadResult(BaseModel):
     file: str
     status: FileStatus
-    message: Optional[str] = None
+    message: str | None = None
 
 
 class ZipArchiveUploadResult(BaseModel):
     status: FileStatus
-    file_results: List[FileUploadResult]
+    file_results: list[FileUploadResult]
 
     class Config:
         orm_mode = True
