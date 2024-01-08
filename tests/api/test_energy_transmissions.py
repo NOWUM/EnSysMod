@@ -35,7 +35,7 @@ def test_create_transmission(db: Session, client: TestClient, normal_user_header
     Test creating an energy transmission.
     """
     create_request = transmission_create_request(db, normal_user_headers)
-    response = client.post("/transmissions/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/transmissions/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
     created_transmission = response.json()
@@ -48,9 +48,9 @@ def test_create_existing_transmission(db: Session, client: TestClient, normal_us
     Test creating an existing energy transmission.
     """
     create_request = transmission_create_request(db, normal_user_headers)
-    response = client.post("/transmissions/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/transmissions/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
-    response = client.post("/transmissions/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/transmissions/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
@@ -60,7 +60,7 @@ def test_create_transmission_unknown_dataset(db: Session, client: TestClient, no
     """
     create_request = transmission_create_request(db, normal_user_headers)
     create_request.ref_dataset = 123456  # ungültige Anfrage
-    response = client.post("/transmissions/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/transmissions/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
@@ -70,7 +70,7 @@ def test_create_transmission_unknown_commodity(db: Session, client: TestClient, 
     """
     create_request = transmission_create_request(db, normal_user_headers)
     create_request.commodity = "0"  # ungültige Anfrage
-    response = client.post("/transmissions/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/transmissions/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 

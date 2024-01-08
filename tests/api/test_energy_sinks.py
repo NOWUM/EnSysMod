@@ -32,7 +32,7 @@ def test_create_sink(db: Session, client: TestClient, normal_user_headers: dict[
     Test creating an energy sink.
     """
     create_request = sink_create_request(db, normal_user_headers)
-    response = client.post("/sinks/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/sinks/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
     created_sinks = response.json()
@@ -45,9 +45,9 @@ def test_create_existing_sink(db: Session, client: TestClient, normal_user_heade
     Test creating an existing energy sink.
     """
     create_request = sink_create_request(db, normal_user_headers)
-    response = client.post("/sinks/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/sinks/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
-    response = client.post("/sinks/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/sinks/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
@@ -57,7 +57,7 @@ def test_create_sink_unknown_dataset(db: Session, client: TestClient, normal_use
     """
     create_request = sink_create_request(db, normal_user_headers)
     create_request.ref_dataset = 123456  # ungültige Anfrage
-    response = client.post("/sinks/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/sinks/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
@@ -67,7 +67,7 @@ def test_create_sink_unknown_commodity(db: Session, client: TestClient, normal_u
     """
     create_request = sink_create_request(db, normal_user_headers)
     create_request.commodity = "0"  # ungültige Anfrage
-    response = client.post("/sinks/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/sinks/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 

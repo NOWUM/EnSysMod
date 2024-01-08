@@ -119,7 +119,7 @@ def test_create_yearly_full_load_hours_min(db: Session, client: TestClient, norm
     """
     create_request = excel_file_type_create_request(YEARLY_FULL_LOAD_HOURS_MIN, db, normal_user_headers)
 
-    response = client.post("/min-yearly-full-load-hours/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/min-yearly-full-load-hours/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
     created_entry = response.json()
@@ -136,7 +136,7 @@ def test_create_yearly_full_load_hours_min_dataset_not_found(db: Session, client
     create_request = excel_file_type_create_request(YEARLY_FULL_LOAD_HOURS_MIN, db, normal_user_headers)
     create_request.ref_dataset = 123456  # invalid
 
-    response = client.post("/min-yearly-full-load-hours/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/min-yearly-full-load-hours/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
@@ -150,7 +150,7 @@ def test_create_yearly_full_load_hours_min_component_not_found(db: Session, clie
     create_request = excel_file_type_create_request(YEARLY_FULL_LOAD_HOURS_MIN, db, normal_user_headers)
     create_request.component = "Invalid component name"  # invalid
 
-    response = client.post("/min-yearly-full-load-hours/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/min-yearly-full-load-hours/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
@@ -164,7 +164,7 @@ def test_create_yearly_full_load_hours_min_region_not_found(db: Session, client:
     create_request = excel_file_type_create_request(YEARLY_FULL_LOAD_HOURS_MIN, db, normal_user_headers)
     create_request.region = "Invalid region name"  # invalid
 
-    response = client.post("/min-yearly-full-load-hours/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/min-yearly-full-load-hours/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
@@ -177,9 +177,9 @@ def test_create_existing_yearly_full_load_hours_min(db: Session, client: TestCli
     """
     create_request = excel_file_type_create_request(YEARLY_FULL_LOAD_HOURS_MIN, db, normal_user_headers)
 
-    response = client.post("/min-yearly-full-load-hours/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/min-yearly-full-load-hours/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
-    response = client.post("/min-yearly-full-load-hours/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/min-yearly-full-load-hours/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 

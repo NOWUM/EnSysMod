@@ -35,7 +35,7 @@ def test_create_conversion(db: Session, client: TestClient, normal_user_headers:
     Test creating an energy conversion.
     """
     create_request = conversion_create_request(db, normal_user_headers)
-    response = client.post("/conversions/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/conversions/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
     created_conversion = response.json()
@@ -48,9 +48,9 @@ def test_create_existing_conversion(db: Session, client: TestClient, normal_user
     Test creating an existing energy conversion.
     """
     create_request = conversion_create_request(db, normal_user_headers)
-    response = client.post("/conversions/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/conversions/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
-    response = client.post("/conversions/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/conversions/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
@@ -60,7 +60,7 @@ def test_create_conversion_unknown_dataset(db: Session, client: TestClient, norm
     """
     create_request = conversion_create_request(db, normal_user_headers)
     create_request.ref_dataset = 132456  # ungültige Anfrage
-    response = client.post("/conversions/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/conversions/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
@@ -70,7 +70,7 @@ def test_create_conversion_unknown_commodity(db: Session, client: TestClient, no
     """
     create_request = conversion_create_request(db, normal_user_headers)
     create_request.commodity_unit = "0"  # ungültige Anfrage
-    response = client.post("/conversions/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/conversions/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 

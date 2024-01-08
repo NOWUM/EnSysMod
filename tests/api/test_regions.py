@@ -46,7 +46,7 @@ def test_create_region(db: Session, client: TestClient, normal_user_headers: dic
     Test creating a region.
     """
     create_request = region_create_request(db, normal_user_headers)
-    response = client.post("/regions/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/regions/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
     created_region = response.json()
@@ -60,7 +60,7 @@ def test_create_existing_region(db: Session, client: TestClient, normal_user_hea
     """
     existing_region = region_create(db, normal_user_headers)
     create_request = RegionCreate(**jsonable_encoder(existing_region))
-    response = client.post("/regions/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/regions/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
@@ -70,7 +70,7 @@ def test_create_region_unknown_dataset(db: Session, client: TestClient, normal_u
     """
     create_request = region_create_request(db, normal_user_headers)
     create_request.ref_dataset = 123456  # ungültige Anfrage
-    response = client.post("/regions/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/regions/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
@@ -85,7 +85,7 @@ def test_create_multiple_regions_same_dataset(db: Session, client: TestClient, n
     create_request = region_create_request(db, normal_user_headers)
     create_request.ref_dataset = dataset_id
 
-    response = client.post("/regions/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/regions/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
     second_region = response.json()
 
@@ -117,7 +117,7 @@ def test_update_region(db: Session, client: TestClient, normal_user_headers: dic
     response = client.put(
         f"/regions/{existing_region.id}",
         headers=normal_user_headers,
-        data=update_request.json(),
+        content=update_request.json(),
     )
     assert response.status_code == status.HTTP_200_OK
 

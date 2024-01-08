@@ -49,7 +49,7 @@ def test_create_model(db: Session, client: TestClient, normal_user_headers: dict
     Test creating an energy model.
     """
     create_request = energy_model_create_request(db, normal_user_headers)
-    response = client.post("/models/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/models/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
     created_model = response.json()
@@ -65,7 +65,7 @@ def test_create_existing_model(db: Session, client: TestClient, normal_user_head
     existing_model = energy_model_create(db, normal_user_headers)
     existing_model.override_parameters = []
     create_request = EnergyModelCreate(**jsonable_encoder(existing_model))
-    response = client.post("/models/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/models/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
@@ -75,7 +75,7 @@ def test_create_energy_model_unknown_dataset(db: Session, client: TestClient, no
     """
     create_request = energy_model_create_request(db, normal_user_headers)
     create_request.ref_dataset = 123456  # ungültige Anfrage
-    response = client.post("/models/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/models/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
@@ -84,7 +84,7 @@ def test_create_energy_model_with_override_parameters(db: Session, client: TestC
     Test creating an energy model with override parameters.
     """
     create_request = energy_model_create_request(db, normal_user_headers)
-    response = client.post("/models/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/models/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
     created_model = response.json()
@@ -99,7 +99,7 @@ def test_create_energy_model_with_optimization_parameters(db: Session, client: T
     Test creating an energy model with optimization parameters.
     """
     create_request = energy_model_create_request(db, normal_user_headers)
-    response = client.post("/models/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/models/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
     created_model = response.json()
@@ -122,7 +122,7 @@ def test_update_energy_model(db: Session, client: TestClient, normal_user_header
     response = client.put(
         f"/models/{existing_model.id}",
         headers=normal_user_headers,
-        data=update_request.json(),
+        content=update_request.json(),
     )
     assert response.status_code == status.HTTP_200_OK
 

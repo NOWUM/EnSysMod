@@ -115,7 +115,7 @@ def test_create_operation_rate_max(db: Session, client: TestClient, normal_user_
     """
     create_request = excel_file_type_create_request(OPERATION_RATE_MAX, db, normal_user_headers)
 
-    response = client.post("/max-operation-rates/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/max-operation-rates/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
     created_entry = response.json()
@@ -132,7 +132,7 @@ def test_create_operation_rate_max_dataset_not_found(db: Session, client: TestCl
     create_request = excel_file_type_create_request(OPERATION_RATE_MAX, db, normal_user_headers)
     create_request.ref_dataset = 123456  # invalid
 
-    response = client.post("/max-operation-rates/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/max-operation-rates/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
@@ -146,7 +146,7 @@ def test_create_operation_rate_max_component_not_found(db: Session, client: Test
     create_request = excel_file_type_create_request(OPERATION_RATE_MAX, db, normal_user_headers)
     create_request.component = "Invalid component name"  # invalid
 
-    response = client.post("/max-operation-rates/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/max-operation-rates/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
@@ -160,7 +160,7 @@ def test_create_operation_rate_max_region_not_found(db: Session, client: TestCli
     create_request = excel_file_type_create_request(OPERATION_RATE_MAX, db, normal_user_headers)
     create_request.region = "Invalid region name"  # invalid
 
-    response = client.post("/max-operation-rates/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/max-operation-rates/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
@@ -174,7 +174,7 @@ def test_create_operation_rate_max_invalid_length(db: Session, client: TestClien
     create_request = excel_file_type_create_request(OPERATION_RATE_MAX, db, normal_user_headers)
     create_request.operation_rate_max.append(0)  # add one more value to the data
 
-    response = client.post("/max-operation-rates/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/max-operation-rates/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
@@ -184,9 +184,9 @@ def test_create_existing_operation_rate_max(db: Session, client: TestClient, nor
     """
     create_request = excel_file_type_create_request(OPERATION_RATE_MAX, db, normal_user_headers)
 
-    response = client.post("/max-operation-rates/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/max-operation-rates/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
-    response = client.post("/max-operation-rates/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/max-operation-rates/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 

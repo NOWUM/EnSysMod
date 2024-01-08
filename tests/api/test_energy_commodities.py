@@ -49,7 +49,7 @@ def test_create_commodity(db: Session, client: TestClient, normal_user_headers: 
     Test creating an energy commodity.
     """
     create_request = commodity_create_request(db, normal_user_headers)
-    response = client.post("/commodities/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/commodities/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
     created_commodity = response.json()
@@ -65,7 +65,7 @@ def test_create_existing_commodity(db: Session, client: TestClient, normal_user_
     """
     existing_commodity = commodity_create(db, normal_user_headers)
     create_request = EnergyCommodityCreate(**jsonable_encoder(existing_commodity))
-    response = client.post("/commodities/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/commodities/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
@@ -75,7 +75,7 @@ def test_create_commodity_unknown_dataset(db: Session, client: TestClient, norma
     """
     create_request = commodity_create_request(db, normal_user_headers)
     create_request.ref_dataset = 123456  # ungültige Anfrage
-    response = client.post("/commodities/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/commodities/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
@@ -90,7 +90,7 @@ def test_create_multiple_commodities_same_dataset(db: Session, client: TestClien
     create_request = commodity_create_request(db, normal_user_headers)
     create_request.ref_dataset = dataset_id
 
-    response = client.post("/commodities/", headers=normal_user_headers, data=create_request.json())
+    response = client.post("/commodities/", headers=normal_user_headers, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
     second_commodity = response.json()
 
@@ -124,7 +124,7 @@ def test_update_commodity(db: Session, client: TestClient, normal_user_headers: 
     response = client.put(
         f"/commodities/{existing_commodity.id}",
         headers=normal_user_headers,
-        data=update_request.json(),
+        content=update_request.json(),
     )
     assert response.status_code == status.HTTP_200_OK
 
