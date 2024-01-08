@@ -8,16 +8,18 @@ router = APIRouter()
 
 
 @router.get("/", response_model=list[schemas.EnergyConversion])
-def get_all_energy_conversions(
+def get_energy_conversion_by_dataset(
+    dataset_id: int,
     db: Session = Depends(deps.get_db),
     current: model.User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
-) -> list[schemas.EnergyConversion]:
+):
     """
-    Retrieve all energy conversions.
+    Get all energy conversions of a dataset.
     """
-    return crud.energy_conversion.get_multi(db=db, skip=skip, limit=limit)
+    permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
+    return crud.energy_conversion.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
 @router.post("/", response_model=schemas.EnergyConversion, responses={409: {"description": "EnergyConversion with same name already exists."}})

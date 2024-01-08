@@ -27,7 +27,7 @@ def client() -> Generator:
 
 
 @pytest.fixture(scope="session")
-def normal_user_headers(client: TestClient) -> Generator:
+def normal_user_headers(client: TestClient) -> dict[str, str]:
     db = SessionLocal()
     user = crud.user.get(db, id=1)
     if user is None:

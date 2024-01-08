@@ -15,23 +15,6 @@ from ensysmod.core.fine_esm import (
 router = APIRouter()
 
 
-@router.get("/", response_model=list[schemas.EnergyModel])
-def get_all_models(
-    db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
-    skip: int = 0,
-    limit: int = 100,
-    dataset_id: int | None = None,
-) -> list[schemas.EnergyModel]:
-    """
-    Retrieve all energy models.
-    """
-    if dataset_id:
-        return crud.energy_model.get_multi_by_dataset(db=db, dataset_id=dataset_id, skip=skip, limit=limit)
-
-    return crud.energy_model.get_multi(db=db, skip=skip, limit=limit)
-
-
 @router.get("/{model_id}", response_model=schemas.EnergyModel)
 def get_model(
     model_id: int,
@@ -39,9 +22,30 @@ def get_model(
     current: model.User = Depends(deps.get_current_user),
 ):
     """
-    Retrieve an energy model.
+    Get an energy model by its id.
     """
-    return crud.energy_model.get(db, id=model_id)
+    model = crud.energy_model.get(db, id=model_id)
+    if model is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Energy Model {model_id} not found!")
+
+    permissions.check_usage_permission(db=db, user=current, dataset_id=model.ref_dataset)
+
+    return model
+
+
+@router.get("/", response_model=list[schemas.EnergyModel])
+def get_energy_model_by_dataset(
+    dataset_id: int,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+    skip: int = 0,
+    limit: int = 100,
+):
+    """
+    Get all energy models of a dataset.
+    """
+    permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
+    return crud.energy_model.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
 @router.post("/", response_model=schemas.EnergyModel, responses={409: {"description": "EnergyModel with same name already exists."}})

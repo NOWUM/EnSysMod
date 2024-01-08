@@ -4,30 +4,12 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from ensysmod.schemas import EnergyModelCreate, EnergyModelUpdate
+from tests.utils.data_generator.datasets import dataset_create
 from tests.utils.data_generator.energy_models import (
     energy_model_create,
     energy_model_create_request,
 )
-from tests.utils.utils import clear_database, random_lower_string
-
-
-def test_get_all_models(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
-    """
-    Test retrieving all energy models.
-    """
-    clear_database(db)
-    model1 = energy_model_create(db, normal_user_headers)
-    model2 = energy_model_create(db, normal_user_headers)
-
-    response = client.get("/models/", headers=normal_user_headers)
-    assert response.status_code == status.HTTP_200_OK
-
-    model_list = response.json()
-    assert len(model_list) == 2
-    assert model_list[0]["name"] == model1.name
-    assert model_list[0]["dataset"]["id"] == model1.dataset.id
-    assert model_list[1]["name"] == model2.name
-    assert model_list[1]["dataset"]["id"] == model2.dataset.id
+from tests.utils.utils import random_lower_string
 
 
 def test_get_model(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
@@ -41,6 +23,25 @@ def test_get_model(db: Session, client: TestClient, normal_user_headers: dict[st
     retrieved_model = response.json()
     assert retrieved_model["name"] == model.name
     assert retrieved_model["dataset"]["id"] == model.dataset.id
+
+
+def test_get_model_by_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+    """
+    Test getting all models of a dataset.
+    """
+    dataset = dataset_create(db, normal_user_headers)
+    model1 = energy_model_create(db, normal_user_headers, dataset_id=dataset.id)
+    model2 = energy_model_create(db, normal_user_headers, dataset_id=dataset.id)
+
+    response = client.get("/models/", headers=normal_user_headers, params={"dataset_id": dataset.id})
+    assert response.status_code == status.HTTP_200_OK
+
+    model_list = response.json()
+    assert len(model_list) == 2
+    assert model_list[0]["name"] == model1.name
+    assert model_list[0]["id"] == model1.id
+    assert model_list[1]["name"] == model2.name
+    assert model_list[1]["id"] == model2.id
 
 
 def test_create_model(db: Session, client: TestClient, normal_user_headers: dict[str, str]):

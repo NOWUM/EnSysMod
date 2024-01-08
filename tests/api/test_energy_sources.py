@@ -4,22 +4,22 @@ from sqlalchemy.orm import Session
 
 from ensysmod.model import EnergyComponentType
 from tests.utils.assertions import assert_energy_component
+from tests.utils.data_generator.datasets import dataset_create
 from tests.utils.data_generator.energy_sources import (
     source_create,
     source_create_request,
 )
-from tests.utils.utils import clear_database
 
 
-def test_get_all_energy_sources(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+def test_get_energy_source_by_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
-    Test retrieving all energy sources.
+    Test getting all energy sources of a dataset.
     """
-    clear_database(db)
-    source1 = source_create(db, normal_user_headers)
-    source2 = source_create(db, normal_user_headers)
+    dataset = dataset_create(db, normal_user_headers)
+    source1 = source_create(db, normal_user_headers, dataset_id=dataset.id)
+    source2 = source_create(db, normal_user_headers, dataset_id=dataset.id)
 
-    response = client.get("/sources/", headers=normal_user_headers)
+    response = client.get("/sources/", headers=normal_user_headers, params={"dataset_id": dataset.id})
     assert response.status_code == status.HTTP_200_OK
 
     source_list = response.json()

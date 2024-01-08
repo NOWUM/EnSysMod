@@ -4,55 +4,12 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from ensysmod.schemas import EnergyCommodityCreate, EnergyCommodityUpdate
+from tests.utils.data_generator.datasets import dataset_create
 from tests.utils.data_generator.energy_commodities import (
     commodity_create,
     commodity_create_request,
 )
-from tests.utils.utils import clear_database, random_lower_string
-
-
-def test_get_all_commodities(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
-    """
-    Test retrieving all commodities.
-    """
-    clear_database(db)
-    commodity1 = commodity_create(db, normal_user_headers)
-    commodity2 = commodity_create(db, normal_user_headers)
-
-    response = client.get("/commodities/", headers=normal_user_headers)
-    assert response.status_code == status.HTTP_200_OK
-
-    commodity_list = response.json()
-    assert len(commodity_list) == 2
-    assert commodity_list[0]["name"] == commodity1.name
-    assert commodity_list[0]["id"] == commodity1.id
-    assert commodity_list[1]["name"] == commodity2.name
-    assert commodity_list[1]["id"] == commodity2.id
-
-
-def test_get_all_commodities_specific_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
-    """
-    Test retrieving all commodities belonging to a specific dataset.
-    """
-    clear_database(db)
-    commodity1 = commodity_create(db, normal_user_headers)
-    commodity2 = commodity_create(db, normal_user_headers)
-
-    response1 = client.get("/commodities/", headers=normal_user_headers, params={"dataset_id": commodity1.dataset.id})
-    assert response1.status_code == status.HTTP_200_OK
-
-    commodity_list1 = response1.json()
-    assert len(commodity_list1) == 1
-    assert commodity_list1[0]["name"] == commodity1.name
-    assert commodity_list1[0]["id"] == commodity1.id
-
-    response2 = client.get("/commodities/", headers=normal_user_headers, params={"dataset_id": commodity2.dataset.id})
-    assert response2.status_code == status.HTTP_200_OK
-
-    commodity_list2 = response2.json()
-    assert len(commodity_list2) == 1
-    assert commodity_list2[0]["name"] == commodity2.name
-    assert commodity_list2[0]["id"] == commodity2.id
+from tests.utils.utils import random_lower_string
 
 
 def test_get_commodity(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
@@ -66,6 +23,25 @@ def test_get_commodity(db: Session, client: TestClient, normal_user_headers: dic
     retrieved_commodity = response.json()
     assert retrieved_commodity["name"] == commodity.name
     assert retrieved_commodity["id"] == commodity.id
+
+
+def test_get_commodity_by_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+    """
+    Test getting all commodities of a dataset.
+    """
+    dataset = dataset_create(db, normal_user_headers)
+    commodity1 = commodity_create(db, normal_user_headers, dataset_id=dataset.id)
+    commodity2 = commodity_create(db, normal_user_headers, dataset_id=dataset.id)
+
+    response = client.get("/commodities/", headers=normal_user_headers, params={"dataset_id": dataset.id})
+    assert response.status_code == status.HTTP_200_OK
+
+    commodity_list = response.json()
+    assert len(commodity_list) == 2
+    assert commodity_list[0]["name"] == commodity1.name
+    assert commodity_list[0]["id"] == commodity1.id
+    assert commodity_list[1]["name"] == commodity2.name
+    assert commodity_list[1]["id"] == commodity2.id
 
 
 def test_create_commodity(db: Session, client: TestClient, normal_user_headers: dict[str, str]):

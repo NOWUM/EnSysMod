@@ -7,23 +7,6 @@ from ensysmod.api import deps, permissions
 router = APIRouter()
 
 
-@router.get("/", response_model=list[schemas.EnergyCommodity])
-def get_all_commodities(
-    db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
-    skip: int = 0,
-    limit: int = 100,
-    dataset_id: int | None = None,
-) -> list[schemas.EnergyCommodity]:
-    """
-    Retrieve all energy commodities.
-    """
-    if dataset_id:
-        return crud.energy_commodity.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
-
-    return crud.energy_commodity.get_multi(db=db, skip=skip, limit=limit)
-
-
 @router.get("/{commodity_id}", response_model=schemas.EnergyCommodity)
 def get_commodity(
     commodity_id: int,
@@ -31,9 +14,30 @@ def get_commodity(
     current: model.User = Depends(deps.get_current_user),
 ):
     """
-    Retrieve an energy commodity.
+    Get an energy commodity by its id.
     """
-    return crud.energy_commodity.get(db=db, id=commodity_id)
+    commodity = crud.energy_commodity.get(db=db, id=commodity_id)
+    if commodity is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Commodity {commodity_id} not found!")
+
+    permissions.check_usage_permission(db=db, user=current, dataset_id=commodity.ref_dataset)
+
+    return commodity
+
+
+@router.get("/", response_model=list[schemas.EnergyCommodity])
+def get_commodity_by_dataset(
+    dataset_id: int,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+    skip: int = 0,
+    limit: int = 100,
+):
+    """
+    Get all energy commodities of a dataset.
+    """
+    permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
+    return crud.energy_commodity.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
 @router.post("/", response_model=schemas.EnergyCommodity, responses={409: {"description": "EnergyCommodity with same name already exists."}})

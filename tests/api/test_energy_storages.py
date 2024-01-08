@@ -4,22 +4,22 @@ from sqlalchemy.orm import Session
 
 from ensysmod.model import EnergyComponentType
 from tests.utils.assertions import assert_energy_component
+from tests.utils.data_generator.datasets import dataset_create
 from tests.utils.data_generator.energy_storages import (
     storage_create,
     storage_create_request,
 )
-from tests.utils.utils import clear_database
 
 
-def test_get_all_energy_storages(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+def test_get_energy_storage_by_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
-    Test retrieving all energy storages.
+    Test getting all energy storages of a dataset.
     """
-    clear_database(db)
-    storage1 = storage_create(db, normal_user_headers)
-    storage2 = storage_create(db, normal_user_headers)
+    dataset = dataset_create(db, normal_user_headers)
+    storage1 = storage_create(db, normal_user_headers, dataset_id=dataset.id)
+    storage2 = storage_create(db, normal_user_headers, dataset_id=dataset.id)
 
-    response = client.get("/storages/", headers=normal_user_headers)
+    response = client.get("/storages/", headers=normal_user_headers, params={"dataset_id": dataset.id})
     assert response.status_code == status.HTTP_200_OK
 
     storage_list = response.json()

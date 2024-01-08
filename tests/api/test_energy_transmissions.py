@@ -4,22 +4,22 @@ from sqlalchemy.orm import Session
 
 from ensysmod.model import EnergyComponentType
 from tests.utils.assertions import assert_energy_component
+from tests.utils.data_generator.datasets import dataset_create
 from tests.utils.data_generator.energy_transmissions import (
     transmission_create,
     transmission_create_request,
 )
-from tests.utils.utils import clear_database
 
 
-def test_get_all_energy_transmissions(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+def test_get_energy_transmission_by_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
-    Test retrieving all energy transmissions.
+    Test getting all energy transmissions of a dataset.
     """
-    clear_database(db)
-    transmission1 = transmission_create(db, normal_user_headers)
-    transmission2 = transmission_create(db, normal_user_headers)
+    dataset = dataset_create(db, normal_user_headers)
+    transmission1 = transmission_create(db, normal_user_headers, dataset_id=dataset.id)
+    transmission2 = transmission_create(db, normal_user_headers, dataset_id=dataset.id)
 
-    response = client.get("/transmissions/", headers=normal_user_headers)
+    response = client.get("/transmissions/", headers=normal_user_headers, params={"dataset_id": dataset.id})
     assert response.status_code == status.HTTP_200_OK
 
     transmission_list = response.json()

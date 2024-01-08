@@ -7,23 +7,6 @@ from ensysmod.api import deps, permissions
 router = APIRouter()
 
 
-@router.get("/", response_model=list[schemas.Region])
-def get_all_regions(
-    db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
-    skip: int = 0,
-    limit: int = 100,
-    dataset_id: int | None = None,
-) -> list[schemas.Region]:
-    """
-    Retrieve all energy regions.
-    """
-    if dataset_id:
-        return crud.region.get_multi_by_dataset(db=db, dataset_id=dataset_id, skip=skip, limit=limit)
-
-    return crud.region.get_multi(db=db, skip=skip, limit=limit)
-
-
 @router.get("/{region_id}", response_model=schemas.Region)
 def get_region(
     region_id: int,
@@ -31,9 +14,30 @@ def get_region(
     current: model.User = Depends(deps.get_current_user),
 ):
     """
-    Retrieve a region.
+    Get a region by its id.
     """
-    return crud.region.get(db, region_id)
+    region = crud.region.get(db, region_id)
+    if region is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Region {region_id} not found!")
+
+    permissions.check_usage_permission(db=db, user=current, dataset_id=region.ref_dataset)
+
+    return region
+
+
+@router.get("/", response_model=list[schemas.Region])
+def get_region_by_dataset(
+    dataset_id: int,
+    db: Session = Depends(deps.get_db),
+    current: model.User = Depends(deps.get_current_user),
+    skip: int = 0,
+    limit: int = 100,
+):
+    """
+    Get all regions of a dataset.
+    """
+    permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
+    return crud.region.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
 @router.post("/", response_model=schemas.Region, responses={409: {"description": "Region with same name already exists."}})

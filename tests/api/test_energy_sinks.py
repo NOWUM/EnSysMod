@@ -4,19 +4,19 @@ from sqlalchemy.orm import Session
 
 from ensysmod.model import EnergyComponentType
 from tests.utils.assertions import assert_energy_component
+from tests.utils.data_generator.datasets import dataset_create
 from tests.utils.data_generator.energy_sinks import sink_create, sink_create_request
-from tests.utils.utils import clear_database
 
 
-def test_get_all_energy_sinks(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+def test_get_energy_sink_by_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
     """
-    Test retrieving all energy sinks.
+    Test getting all energy sinks of a dataset.
     """
-    clear_database(db)
-    sink1 = sink_create(db, normal_user_headers)
-    sink2 = sink_create(db, normal_user_headers)
+    dataset = dataset_create(db, normal_user_headers)
+    sink1 = sink_create(db, normal_user_headers, dataset_id=dataset.id)
+    sink2 = sink_create(db, normal_user_headers, dataset_id=dataset.id)
 
-    response = client.get("/sinks/", headers=normal_user_headers)
+    response = client.get("/sinks/", headers=normal_user_headers, params={"dataset_id": dataset.id})
     assert response.status_code == status.HTTP_200_OK
 
     sink_list = response.json()

@@ -4,52 +4,9 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from ensysmod.schemas import RegionCreate, RegionUpdate
+from tests.utils.data_generator.datasets import dataset_create
 from tests.utils.data_generator.regions import region_create, region_create_request
-from tests.utils.utils import clear_database, random_lower_string
-
-
-def test_get_all_regions(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
-    """
-    Test retrieving all regions.
-    """
-    clear_database(db)
-    region1 = region_create(db, normal_user_headers)
-    region2 = region_create(db, normal_user_headers)
-
-    response = client.get("/regions/", headers=normal_user_headers)
-    assert response.status_code == status.HTTP_200_OK
-
-    region_list = response.json()
-    assert len(region_list) == 2
-    assert region_list[0]["name"] == region1.name
-    assert region_list[0]["id"] == region1.id
-    assert region_list[1]["name"] == region2.name
-    assert region_list[1]["id"] == region2.id
-
-
-def test_get_all_regions_specific_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
-    """
-    Test retrieving all regions belonging to a specific dataset.
-    """
-    clear_database(db)
-    region1 = region_create(db, normal_user_headers)
-    region2 = region_create(db, normal_user_headers)
-
-    response1 = client.get("/regions/", headers=normal_user_headers, params={"dataset_id": region1.dataset.id})
-    assert response1.status_code == status.HTTP_200_OK
-
-    region_list1 = response1.json()
-    assert len(region_list1) == 1
-    assert region_list1[0]["name"] == region1.name
-    assert region_list1[0]["id"] == region1.id
-
-    response2 = client.get("/regions/", headers=normal_user_headers, params={"dataset_id": region2.dataset.id})
-    assert response2.status_code == status.HTTP_200_OK
-
-    region_list2 = response2.json()
-    assert len(region_list2) == 1
-    assert region_list2[0]["name"] == region2.name
-    assert region_list2[0]["id"] == region2.id
+from tests.utils.utils import random_lower_string
 
 
 def test_get_region(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
@@ -63,6 +20,25 @@ def test_get_region(db: Session, client: TestClient, normal_user_headers: dict[s
     retrieved_region = response.json()
     assert retrieved_region["name"] == region.name
     assert retrieved_region["id"] == region.id
+
+
+def test_get_region_by_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+    """
+    Test getting all regions of a dataset.
+    """
+    dataset = dataset_create(db, normal_user_headers)
+    region1 = region_create(db, normal_user_headers, dataset_id=dataset.id)
+    region2 = region_create(db, normal_user_headers, dataset_id=dataset.id)
+
+    response = client.get("/regions/", headers=normal_user_headers, params={"dataset_id": dataset.id})
+    assert response.status_code == status.HTTP_200_OK
+
+    region_list = response.json()
+    assert len(region_list) == 2
+    assert region_list[0]["name"] == region1.name
+    assert region_list[0]["id"] == region1.id
+    assert region_list[1]["name"] == region2.name
+    assert region_list[1]["id"] == region2.id
 
 
 def test_create_region(db: Session, client: TestClient, normal_user_headers: dict[str, str]):

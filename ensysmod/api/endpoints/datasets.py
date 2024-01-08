@@ -20,7 +20,6 @@ router = APIRouter()
 @router.get("/", response_model=list[schemas.Dataset])
 def get_all_datasets(
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
 ) -> list[schemas.Dataset]:
@@ -37,9 +36,15 @@ def get_dataset(
     current: model.User = Depends(deps.get_current_user),
 ):
     """
-    Retrieve a dataset.
+    Get a dataset by its id.
     """
-    return crud.dataset.get(db=db, id=dataset_id)
+    dataset = crud.dataset.get(db=db, id=dataset_id)
+    if dataset is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {dataset_id} not found!")
+
+    permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
+
+    return dataset
 
 
 @router.post("/", response_model=schemas.Dataset, responses={409: {"description": "Dataset with same name already exists."}})

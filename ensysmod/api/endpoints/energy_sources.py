@@ -8,16 +8,18 @@ router = APIRouter()
 
 
 @router.get("/", response_model=list[schemas.EnergySource])
-def get_all_energy_sources(
+def get_energy_source_by_dataset(
+    dataset_id: int,
     db: Session = Depends(deps.get_db),
     current: model.User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
-) -> list[schemas.EnergySource]:
+):
     """
-    Retrieve all energy sources.
+    Get all energy sources of a dataset.
     """
-    return crud.energy_source.get_multi(db=db, skip=skip, limit=limit)
+    permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
+    return crud.energy_source.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
 @router.post("/", response_model=schemas.EnergySource, responses={409: {"description": "EnergySource with same name already exists."}})
