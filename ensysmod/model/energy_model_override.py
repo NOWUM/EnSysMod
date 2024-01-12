@@ -1,10 +1,16 @@
-import enum
+from __future__ import annotations
 
-from sqlalchemy import Column, Enum, Float, ForeignKey, Integer, UniqueConstraint
-from sqlalchemy.orm import relationship
+import enum
+from typing import TYPE_CHECKING
+
+from sqlalchemy import ForeignKey, UniqueConstraint
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ensysmod.database.base_class import Base
-from ensysmod.database.ref_base_class import RefCRBase
+from ensysmod.database.ref_base_class import RefComponent, RefDataset, RefRegionOptional, RefRegionToOptional
+
+if TYPE_CHECKING:
+    from model.energy_model import EnergyModel
 
 
 class EnergyModelOverrideAttribute(enum.Enum):
@@ -37,25 +43,15 @@ class EnergyModelOverrideOperation(enum.Enum):
     set = "set"
 
 
-class EnergyModelOverride(RefCRBase, Base):
-    """
-    A energy model parameter is referenced to a model and a component.
+class EnergyModelOverride(RefRegionToOptional, RefRegionOptional, RefComponent, RefDataset, Base):
+    ref_model: Mapped[int] = mapped_column(ForeignKey("energy_model.id"))
 
-    It can be used to overwrite different attributes from the component.
-    """
-
-    ref_model = Column(Integer, ForeignKey("energy_model.id"), nullable=False)
-
-    # The region reference is optional.
-    ref_region = Column(Integer, ForeignKey("region.id"), nullable=True)
-
-    attribute = Column(Enum(EnergyModelOverrideAttribute), nullable=False)
-    operation = Column(Enum(EnergyModelOverrideOperation), nullable=False)
-    value = Column(Float, nullable=False)
+    attribute: Mapped[EnergyModelOverrideAttribute]
+    operation: Mapped[EnergyModelOverrideOperation]
+    value: Mapped[float]
 
     # relationships
-    component = relationship("EnergyComponent")
-    model = relationship("EnergyModel", back_populates="override_parameters")
+    model: Mapped[EnergyModel] = relationship(back_populates="override_parameters")
 
     # table constraints
     __table_args__ = (UniqueConstraint("ref_model", "attribute", name="_model_attribute_uc"),)

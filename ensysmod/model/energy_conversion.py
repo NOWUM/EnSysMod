@@ -1,23 +1,21 @@
-from sqlalchemy import Column, ForeignKey, Integer
-from sqlalchemy.orm import relationship
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ensysmod.database.base_class import Base
-from ensysmod.model.energy_conversion_factor import EnergyConversionFactor
+from ensysmod.database.ref_base_class import RefComponentUnique, RefDataset
+
+if TYPE_CHECKING:
+    from model.energy_commodity import EnergyCommodity
+    from model.energy_conversion_factor import EnergyConversionFactor
 
 
-class EnergyConversion(Base):
-    """
-    EnergyConversion table definition
+class EnergyConversion(RefComponentUnique, RefDataset, Base):
+    ref_commodity_unit: Mapped[int] = mapped_column(ForeignKey("energy_commodity.id"))
 
-    Represents a conversion component in the database.
-    It is used to convert one commodity to another.
-    See https://vsa-fine.readthedocs.io/en/latest/conversionClassDoc.html
-    """
-
-    ref_component = Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False, primary_key=True)
-    ref_commodity_unit = Column(Integer, ForeignKey("energy_commodity.id"), index=True, nullable=False)
-
-    # Relationships
-    component = relationship("EnergyComponent")
-    commodity_unit = relationship("EnergyCommodity", back_populates="energy_conversions")
-    conversion_factors: list[EnergyConversionFactor] = relationship("EnergyConversionFactor", back_populates="conversion")
+    # relationships
+    commodity_unit: Mapped[EnergyCommodity] = relationship()
+    conversion_factors: Mapped[list[EnergyConversionFactor]] = relationship(back_populates="conversion")

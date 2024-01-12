@@ -50,7 +50,7 @@ class DatasetCreate(DatasetBase):
     Attributes to receive via API on creation of a dataset.
     """
 
-    ref_created_by: int | None = Field(None, description="User ID of the creator. If not provided, the current user is used.")
+    ref_user: int | None = Field(None, description="User ID of the creator. If not provided, the current user is used.")
 
 
 class DatasetUpdate(DatasetBase):
@@ -67,7 +67,7 @@ class Dataset(DatasetBase):
     """
 
     id: int = Field(..., description="The unique ID of the dataset.")
-    created_by: User = Field(..., description="User that created the dataset.")
+    user: User = Field(..., description="User that created the dataset.")
 
     class Config:
         orm_mode = True

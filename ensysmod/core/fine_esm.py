@@ -161,9 +161,9 @@ def add_transmission(
     esm_transmission = component_to_dict(db, transmission.component)
     esm_transmission["commodity"] = transmission.commodity.name
     component_id = transmission.component.id
-    if len(transmission.distances) > 0:
+    if len(transmission.component.distances) > 0:
         esm_transmission["distances"] = crud.transmission_distance.get_dataframe(db, component_id=component_id)
-    if len(transmission.losses) > 0:
+    if len(transmission.component.losses) > 0:
         esm_transmission["losses"] = crud.transmission_loss.get_dataframe(db, component_id=component_id)
     esm_transmission = override_parameters(esm_transmission, custom_parameters)
     esM.add(Transmission(esM=esM, **esm_transmission))

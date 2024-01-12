@@ -1,20 +1,26 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, UniqueConstraint
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from sqlalchemy import ForeignKey, UniqueConstraint
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ensysmod.database.base_class import Base
+from ensysmod.database.ref_base_class import RefDataset
+
+if TYPE_CHECKING:
+    from model.user import User
 
 
-class DatasetPermission(Base):
-    """
-    Dataset Permission class
-    """
+class DatasetPermission(RefDataset, Base):
+    ref_user: Mapped[int] = mapped_column(ForeignKey("user.id"), index=True)
+    allow_usage: Mapped[bool]
+    allow_modification: Mapped[bool]
+    allow_permission_grant: Mapped[bool]
+    allow_permission_revoke: Mapped[bool]
 
-    id = Column(Integer, primary_key=True, index=True)
-    ref_dataset = Column(Integer, ForeignKey("dataset.id"), index=True, nullable=False)
-    ref_user = Column(Integer, ForeignKey("user.id"), index=True, nullable=False)
-    allow_usage = Column(Boolean, nullable=False)
-    allow_modification = Column(Boolean, nullable=False)
-    allow_permission_grant = Column(Boolean, nullable=False)
-    allow_permission_revoke = Column(Boolean, nullable=False)
+    # relationships
+    user: Mapped[User] = relationship()
 
     # table constraints
     __table_args__ = (UniqueConstraint("ref_dataset", "ref_user", name="_dataset_user_uc"),)

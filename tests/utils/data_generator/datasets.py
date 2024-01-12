@@ -33,7 +33,7 @@ def dataset_create_request(
         number_of_time_steps=number_of_time_steps,
         cost_unit="1e9 Euro",
         length_unit="km",
-        ref_created_by=user_id,
+        ref_user=user_id,
     )
 
 
@@ -86,7 +86,7 @@ def create_example_dataset(db: Session, data_folder: str):
         number_of_time_steps=8760,
         cost_unit="1e9 Euro",
         length_unit="km",
-        ref_created_by=1,
+        ref_user=1,
     )
     dataset = crud.dataset.create(db=db, obj_in=create_request)
 

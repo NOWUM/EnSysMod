@@ -1,6 +1,6 @@
 import re
 
-from sqlalchemy.orm import DeclarativeBase, declared_attr
+from sqlalchemy.orm import DeclarativeBase, Mapped, declared_attr, mapped_column
 
 
 class Base(DeclarativeBase):
@@ -8,10 +8,7 @@ class Base(DeclarativeBase):
     Base class for all database models
     """
 
-    id: int
-    __name__: str
-    # TODO https://sqlalche.me/e/20/zlpr
-    __allow_unmapped__ = True
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
 
     # Generate __tablename__ automatically
     @declared_attr.directive

@@ -20,7 +20,7 @@ class CRUDDataset(CRUDBase[Dataset, DatasetCreate, DatasetUpdate]):
         # Add permission for creator
         creator_permission = DatasetPermissionCreate(
             ref_dataset=new_dataset.id,
-            ref_user=new_dataset.ref_created_by,
+            ref_user=new_dataset.ref_user,
             allow_usage=True,
             allow_modification=True,
             allow_permission_grant=True,

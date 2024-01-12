@@ -58,8 +58,8 @@ def create_dataset(
     """
     existing_ds = crud.dataset.get_by_name(db=db, name=request.name)
     if existing_ds is not None:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Dataset {request.name} already exists!Please choose a different name.")
-    request.ref_created_by = current.id
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Dataset {request.name} already exists! Please choose a different name.")
+    request.ref_user = current.id
     return crud.dataset.create(db=db, obj_in=request)
 
 

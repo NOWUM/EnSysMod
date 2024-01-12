@@ -1,45 +1,76 @@
-from sqlalchemy import Column, Integer
-from sqlalchemy.orm import declared_attr, relationship
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from sqlalchemy.orm import Mapped, declared_attr, mapped_column, relationship
 from sqlalchemy.sql.schema import ForeignKey
 
+if TYPE_CHECKING:
+    from ensysmod.model.dataset import Dataset
+    from ensysmod.model.energy_commodity import EnergyCommodity
+    from ensysmod.model.energy_component import EnergyComponent
+    from ensysmod.model.region import Region
 
-class RefCRBase:
-    """
-    Base class for tables referencing components and regions.
-    """
 
-    @declared_attr
-    def id(self):
-        return Column(Integer, primary_key=True)
-
-    @declared_attr
-    def ref_dataset(self):
-        return Column(Integer, ForeignKey("dataset.id"), index=True, nullable=False)
+class RefDataset:
+    ref_dataset: Mapped[int] = mapped_column(ForeignKey("dataset.id"), index=True)
 
     @declared_attr
-    def ref_component(self):
-        return Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False)
+    def dataset(self) -> Mapped[Dataset]:
+        return relationship()
+
+
+class RefComponentUnique:
+    ref_component: Mapped[int] = mapped_column(ForeignKey("energy_component.id"), index=True, unique=True)
 
     @declared_attr
-    def ref_region(self):
-        return Column(Integer, ForeignKey("region.id"), index=True, nullable=False)
+    def component(self) -> Mapped[EnergyComponent]:
+        return relationship()
+
+
+class RefComponent:
+    ref_component: Mapped[int] = mapped_column(ForeignKey("energy_component.id"), index=True)
 
     @declared_attr
-    def ref_region_to(self):
-        return Column(Integer, ForeignKey("region.id"), nullable=True)
+    def component(self) -> Mapped[EnergyComponent]:
+        return relationship()
+
+
+class RefCommodity:
+    ref_commodity: Mapped[int] = mapped_column(ForeignKey("energy_commodity.id"))
 
     @declared_attr
-    def dataset(self):
-        return relationship("Dataset")
+    def commodity(self) -> Mapped[EnergyCommodity]:
+        return relationship()
+
+
+class RefRegion:
+    ref_region: Mapped[int] = mapped_column(ForeignKey("region.id"))
 
     @declared_attr
-    def component(self):
-        return relationship("EnergyComponent")
+    def region(self) -> Mapped[Region]:
+        return relationship(foreign_keys=[self.ref_region])
+
+
+class RefRegionOptional:
+    ref_region: Mapped[int | None] = mapped_column(ForeignKey("region.id"))
 
     @declared_attr
-    def region(self):
-        return relationship("Region", foreign_keys=[self.ref_region])
+    def region(self) -> Mapped[Region | None]:
+        return relationship(foreign_keys=[self.ref_region])
+
+
+class RefRegionTo:
+    ref_region_to: Mapped[int] = mapped_column(ForeignKey("region.id"))
 
     @declared_attr
-    def region_to(self):
-        return relationship("Region", foreign_keys=[self.ref_region_to])
+    def region_to(self) -> Mapped[Region]:
+        return relationship(foreign_keys=[self.ref_region_to])
+
+
+class RefRegionToOptional:
+    ref_region_to: Mapped[int | None] = mapped_column(ForeignKey("region.id"))
+
+    @declared_attr
+    def region_to(self) -> Mapped[Region | None]:
+        return relationship(foreign_keys=[self.ref_region_to])

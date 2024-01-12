@@ -1,86 +1,43 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, and_
-from sqlalchemy.orm import Session, relationship
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from sqlalchemy import ForeignKey, UniqueConstraint
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ensysmod.database.base_class import Base
-from ensysmod.model.energy_commodity import EnergyCommodity
-from ensysmod.model.energy_component import EnergyComponent
-from ensysmod.model.energy_conversion import EnergyConversion
-from ensysmod.model.energy_sink import EnergySink
-from ensysmod.model.energy_source import EnergySource
-from ensysmod.model.energy_storage import EnergyStorage
-from ensysmod.model.energy_transmission import EnergyTransmission
-from ensysmod.model.region import Region
-from ensysmod.model.user import User
+
+if TYPE_CHECKING:
+    from ensysmod.model.energy_commodity import EnergyCommodity
+    from ensysmod.model.energy_conversion import EnergyConversion
+    from ensysmod.model.energy_sink import EnergySink
+    from ensysmod.model.energy_source import EnergySource
+    from ensysmod.model.energy_storage import EnergyStorage
+    from ensysmod.model.energy_transmission import EnergyTransmission
+    from ensysmod.model.region import Region
+    from ensysmod.model.user import User
 
 
 class Dataset(Base):
-    """
-    Dataset class
+    ref_user: Mapped[int] = mapped_column(ForeignKey("user.id"), index=True)
 
-    Represents a energy dataset in the database.
-    A dataset contains Regions, Commodities, Sources, Conversions, Storages, Transmissions.
-    It is the basis for a energy model.
-    """
+    name: Mapped[str] = mapped_column(index=True)
+    description: Mapped[str | None]
+    hours_per_time_step: Mapped[int] = mapped_column(default=1)
+    number_of_time_steps: Mapped[int] = mapped_column(default=8760)
+    cost_unit: Mapped[str] = mapped_column(default="1e9 Euro")
+    length_unit: Mapped[str] = mapped_column(default="km")
 
-    id = Column(Integer, primary_key=True)
-    ref_created_by = Column(Integer, ForeignKey("user.id"), index=True, nullable=False)
-    name = Column(String, unique=True, index=True, nullable=False)
-    description = Column(String, nullable=True)
-    hours_per_time_step = Column(Integer, nullable=False, default=1)
-    number_of_time_steps = Column(Integer, nullable=False, default=8760)
-    cost_unit = Column(String, nullable=False, default="1e9 Euro")
-    length_unit = Column(String, nullable=False, default="km")
+    # relationships
+    user: Mapped[User] = relationship()
+    regions: Mapped[list[Region]] = relationship(back_populates="dataset")
+    commodities: Mapped[list[EnergyCommodity]] = relationship(back_populates="dataset")
 
-    regions: list[Region] = relationship("Region", back_populates="dataset")
-    commodities: list[EnergyCommodity] = relationship("EnergyCommodity", back_populates="dataset")
-    created_by: User = relationship("User")
+    sources: Mapped[list[EnergySource]] = relationship(back_populates="dataset")
+    sinks: Mapped[list[EnergySink]] = relationship(back_populates="dataset")
+    conversions: Mapped[list[EnergyConversion]] = relationship(back_populates="dataset")
+    storages: Mapped[list[EnergyStorage]] = relationship(back_populates="dataset")
+    transmissions: Mapped[list[EnergyTransmission]] = relationship(back_populates="dataset")
 
-    @property
-    def sources(self) -> list[EnergySource]:
-        sess = Session.object_session(self)
-        return (
-            sess.query(EnergySource)
-            .join(EnergyComponent)
-            .filter(and_(EnergyComponent.ref_dataset == self.id, EnergyComponent.id == EnergySource.ref_component))
-            .all()
-        )
-
-    @property
-    def sinks(self) -> list[EnergySink]:
-        sess = Session.object_session(self)
-        return (
-            sess.query(EnergySink)
-            .join(EnergyComponent)
-            .filter(and_(EnergyComponent.ref_dataset == self.id, EnergyComponent.id == EnergySink.ref_component))
-            .all()
-        )
-
-    @property
-    def conversions(self) -> list[EnergyConversion]:
-        sess = Session.object_session(self)
-        return (
-            sess.query(EnergyConversion)
-            .join(EnergyComponent)
-            .filter(and_(EnergyComponent.ref_dataset == self.id, EnergyComponent.id == EnergyConversion.ref_component))
-            .all()
-        )
-
-    @property
-    def storages(self) -> list[EnergyStorage]:
-        sess = Session.object_session(self)
-        return (
-            sess.query(EnergyStorage)
-            .join(EnergyComponent)
-            .filter(and_(EnergyComponent.ref_dataset == self.id, EnergyComponent.id == EnergyStorage.ref_component))
-            .all()
-        )
-
-    @property
-    def transmissions(self) -> list[EnergyTransmission]:
-        sess = Session.object_session(self)
-        return (
-            sess.query(EnergyTransmission)
-            .join(EnergyComponent)
-            .filter(and_(EnergyComponent.ref_dataset == self.id, EnergyComponent.id == EnergyTransmission.ref_component))
-            .all()
-        )
+    # table constraints
+    __table_args__ = (UniqueConstraint("name", "ref_user", name="_dataset_user_uc"),)

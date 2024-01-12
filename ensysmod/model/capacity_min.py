@@ -1,8 +1,8 @@
-from sqlalchemy import Column, Float
+from sqlalchemy.orm import Mapped
 
 from ensysmod.database.base_class import Base
-from ensysmod.database.ref_base_class import RefCRBase
+from ensysmod.database.ref_base_class import RefComponent, RefDataset, RefRegion, RefRegionToOptional
 
 
-class CapacityMin(RefCRBase, Base):
-    capacity_min = Column(Float, nullable=False)
+class CapacityMin(RefRegionToOptional, RefRegion, RefComponent, RefDataset, Base):
+    capacity_min: Mapped[float]
