@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "ensysmod"
 version = "0.0.4"
 authors = [
-  { name="NOWUM-Energy - FH Aachen", email="nowum-energy@fh-aachen.de" },
+    { name = "NOWUM-Energy - FH Aachen", email = "nowum-energy@fh-aachen.de" },
 ]
 description = "Just another energy system modeling tool made by Institut NOWUM-Energy - FH Aachen"
 readme = "README.md"
@@ -33,7 +33,7 @@ dependencies = [
     "python-multipart>=0.0.6",
 ]
 
-[project.optional-dependencies] 
+[project.optional-dependencies]
 test = [
     "pytest>=7.4.0",
     "pytest-cov>= 4.1.0",
@@ -42,9 +42,8 @@ test = [
     "sphinx-rtd-theme>=1.0.0",
     "sphinxcontrib-openapi>=0.7.0",
     "autodoc_pydantic>=1.9.0",
-    "ruff>=0.1.11",
+    "ruff>=0.1.13",
     "MarkupSafe>=2.1.0",
-    "pytest>= 7.2.2",
     "httpx>=0.24.1",
 ]
 
@@ -60,20 +59,18 @@ where = ["ensysmod"]
 testpaths = "tests"
 
 [tool.pytest.ini_options]
-addopts = [
-    "--strict-markers",
-    "--doctest-modules",
-    "--durations=10",
-]
+addopts = ["--strict-markers", "--doctest-modules", "--durations=10"]
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
     "require_solver: marks tests that require solver to be installed (deselect with '-m \"not require_solver\"')",
 ]
 
 [tool.coverage.report]
-# https://stackoverflow.com/a/5850364
+omit = ["ensysmod/__main__.py"]
 exclude_lines = [
     "if __name__ == .__main__.:",
     "pragma: no-cover",
-    "pass",
+    "if TYPE_CHECKING:",
 ]
+skip_covered = true
+skip_empty = true

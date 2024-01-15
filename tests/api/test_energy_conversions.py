@@ -4,22 +4,19 @@ from sqlalchemy.orm import Session
 
 from ensysmod.model import EnergyComponentType
 from tests.utils.assertions import assert_energy_component
-from tests.utils.data_generator.datasets import dataset_create
-from tests.utils.data_generator.energy_conversions import (
-    conversion_create,
-    conversion_create_request,
-)
+from tests.utils.data_generator.datasets import new_dataset
+from tests.utils.data_generator.energy_conversions import conversion_create_request, new_conversion
 
 
-def test_get_energy_conversion_by_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+def test_get_energy_conversion_by_dataset(db: Session, client: TestClient, user_header: dict[str, str]):
     """
     Test getting all energy conversions of a dataset.
     """
-    dataset = dataset_create(db, normal_user_headers)
-    conversion1 = conversion_create(db, normal_user_headers, dataset_id=dataset.id)
-    conversion2 = conversion_create(db, normal_user_headers, dataset_id=dataset.id)
+    dataset = new_dataset(db, user_header)
+    conversion1 = new_conversion(db, user_header, dataset_id=dataset.id)
+    conversion2 = new_conversion(db, user_header, dataset_id=dataset.id)
 
-    response = client.get("/conversions/", headers=normal_user_headers, params={"dataset_id": dataset.id})
+    response = client.get("/conversions/", headers=user_header, params={"dataset_id": dataset.id})
     assert response.status_code == status.HTTP_200_OK
 
     conversion_list = response.json()
@@ -30,12 +27,12 @@ def test_get_energy_conversion_by_dataset(db: Session, client: TestClient, norma
     assert conversion_list[1]["component"]["id"] == conversion2.component.id
 
 
-def test_create_conversion(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+def test_create_conversion(db: Session, client: TestClient, user_header: dict[str, str]):
     """
     Test creating an energy conversion.
     """
-    create_request = conversion_create_request(db, normal_user_headers)
-    response = client.post("/conversions/", headers=normal_user_headers, content=create_request.json())
+    create_request = conversion_create_request(db, user_header)
+    response = client.post("/conversions/", headers=user_header, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
     created_conversion = response.json()
@@ -43,34 +40,34 @@ def test_create_conversion(db: Session, client: TestClient, normal_user_headers:
     assert created_conversion["commodity_unit"]["name"] == create_request.commodity_unit
 
 
-def test_create_existing_conversion(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+def test_create_existing_conversion(db: Session, client: TestClient, user_header: dict[str, str]):
     """
     Test creating an existing energy conversion.
     """
-    create_request = conversion_create_request(db, normal_user_headers)
-    response = client.post("/conversions/", headers=normal_user_headers, content=create_request.json())
+    create_request = conversion_create_request(db, user_header)
+    response = client.post("/conversions/", headers=user_header, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
-    response = client.post("/conversions/", headers=normal_user_headers, content=create_request.json())
+    response = client.post("/conversions/", headers=user_header, content=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
-def test_create_conversion_unknown_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+def test_create_conversion_unknown_dataset(db: Session, client: TestClient, user_header: dict[str, str]):
     """
     Test creating an energy conversion.
     """
-    create_request = conversion_create_request(db, normal_user_headers)
+    create_request = conversion_create_request(db, user_header)
     create_request.ref_dataset = 132456  # ungültige Anfrage
-    response = client.post("/conversions/", headers=normal_user_headers, content=create_request.json())
+    response = client.post("/conversions/", headers=user_header, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_create_conversion_unknown_commodity(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+def test_create_conversion_unknown_commodity(db: Session, client: TestClient, user_header: dict[str, str]):
     """
     Test creating an energy conversion.
     """
-    create_request = conversion_create_request(db, normal_user_headers)
+    create_request = conversion_create_request(db, user_header)
     create_request.commodity_unit = "0"  # ungültige Anfrage
-    response = client.post("/conversions/", headers=normal_user_headers, content=create_request.json())
+    response = client.post("/conversions/", headers=user_header, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 

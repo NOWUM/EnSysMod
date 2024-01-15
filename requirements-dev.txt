@@ -9,6 +9,6 @@ sphinx==4.4.0
 sphinx-rtd-theme==1.0.0
 sphinxcontrib-openapi==0.7.0
 autodoc_pydantic==1.6.1
-ruff==0.1.11
+ruff==0.1.13
 httpx==0.24.1
 setuptools>=61.0.0

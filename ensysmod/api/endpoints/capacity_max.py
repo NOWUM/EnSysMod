@@ -9,10 +9,7 @@ from ensysmod.api import deps, permissions
 from ensysmod.core.file_download import dump_excel_file
 from ensysmod.core.file_upload import process_excel_file
 from ensysmod.model.energy_component import EnergyComponentType
-from ensysmod.schemas import (
-    CapacityMax,
-    CapacityMaxCreate,
-)
+from ensysmod.schemas import CapacityMax, CapacityMaxCreate
 from ensysmod.schemas.file_upload import FileStatus, FileUploadResult
 from ensysmod.utils.utils import create_temp_file, remove_file
 
@@ -23,7 +20,7 @@ router = APIRouter()
 def get_capacity_max(
     entry_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ) -> CapacityMax:
     """
     Get a CapacityMax by its id.
@@ -32,7 +29,7 @@ def get_capacity_max(
     if entry is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"CapacityMax {entry_id} not found!")
 
-    permissions.check_usage_permission(db=db, user=current, dataset_id=entry.ref_dataset)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=entry.ref_dataset)
 
     return entry
 
@@ -41,7 +38,7 @@ def get_capacity_max(
 def get_capacity_max_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
 ) -> list[CapacityMax]:
@@ -52,7 +49,7 @@ def get_capacity_max_by_dataset(
     if len(entry_list) == 0:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"CapacityMax for dataset {dataset_id} not found!")
 
-    permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=dataset_id)
 
     return entry_list
 
@@ -61,7 +58,7 @@ def get_capacity_max_by_dataset(
 def get_capacity_max_by_component(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ) -> list[CapacityMax] | None:
     """
     Get all CapacityMax of a component.
@@ -70,7 +67,7 @@ def get_capacity_max_by_component(
     if len(entry_list) == 0:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"CapacityMax for component {component_id} not found!")
 
-    permissions.check_usage_permission(db=db, user=current, dataset_id=entry_list[0].ref_dataset)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=entry_list[0].ref_dataset)
 
     return entry_list
 
@@ -79,7 +76,7 @@ def get_capacity_max_by_component(
 def create_capacity_max(
     request: CapacityMaxCreate,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Create a new CapacityMax.
@@ -88,7 +85,7 @@ def create_capacity_max(
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {request.ref_dataset} not found!")
 
-    permissions.check_modification_permission(db=db, user=current, dataset_id=dataset.id)
+    permissions.check_modification_permission(db=db, user=current_user, dataset_id=dataset.id)
 
     component = crud.energy_component.get_by_dataset_and_name(db=db, dataset_id=dataset.id, name=request.component)
     if component is None:
@@ -114,7 +111,7 @@ def create_capacity_max(
 def remove_capacity_max(
     entry_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Remove a CapacityMax.
@@ -123,7 +120,7 @@ def remove_capacity_max(
     if entry is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"CapacityMax {entry_id} not found!")
 
-    permissions.check_modification_permission(db=db, user=current, dataset_id=entry.ref_dataset)
+    permissions.check_modification_permission(db=db, user=current_user, dataset_id=entry.ref_dataset)
 
     return crud.capacity_max.remove(db=db, id=entry_id)
 
@@ -132,7 +129,7 @@ def remove_capacity_max(
 def remove_capacity_max_by_component(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Remove all CapacityMax of a component.
@@ -141,7 +138,7 @@ def remove_capacity_max_by_component(
     if len(entry_list) == 0:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"CapacityMax for component {component_id} not found!")
 
-    permissions.check_modification_permission(db=db, user=current, dataset_id=entry_list[0].ref_dataset)
+    permissions.check_modification_permission(db=db, user=current_user, dataset_id=entry_list[0].ref_dataset)
 
     return crud.capacity_max.remove_multi_by_component(db=db, component_id=component_id)
 
@@ -151,7 +148,7 @@ def upload_capacity_max(
     component_id: int,
     file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ) -> FileUploadResult:
     """
     Upload CapacityMax of a component.
@@ -160,7 +157,7 @@ def upload_capacity_max(
     if component is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Component {component_id} not found!")
 
-    permissions.check_modification_permission(db=db, user=current, dataset_id=component.ref_dataset)
+    permissions.check_modification_permission(db=db, user=current_user, dataset_id=component.ref_dataset)
 
     result = process_excel_file(
         file=file,
@@ -182,7 +179,7 @@ def upload_capacity_max(
 def download_capacity_max(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ) -> FileResponse:
     """
     Download CapacityMax of a component.
@@ -191,7 +188,7 @@ def download_capacity_max(
     if component is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Component {component_id} not found!")
 
-    permissions.check_usage_permission(db=db, user=current, dataset_id=component.ref_dataset)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=component.ref_dataset)
 
     temp_file_path = create_temp_file(prefix="ensysmod_capacityMax_", suffix=".xlsx")
     dump_excel_file(

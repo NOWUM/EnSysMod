@@ -2,7 +2,7 @@ from collections.abc import Generator
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from jose import jwt
+from jose import JWTError, jwt
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
 
@@ -11,14 +11,12 @@ from ensysmod.core import security, settings
 from ensysmod.database.session import SessionLocal
 
 
-def get_db() -> Generator:
-    db = None
+def get_db() -> Generator[Session, None, None]:
+    db = SessionLocal()
     try:
-        db = SessionLocal()
         yield db
     finally:
-        if db is not None:
-            db.close()
+        db.close()
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login/")
@@ -29,15 +27,11 @@ def get_current_user(
     token: str = Depends(oauth2_scheme),
 ) -> model.User:
     try:
-        payload = jwt.decode(
-            token,
-            settings.SECRET_KEY,
-            algorithms=[security.ALGORITHM],
-        )
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[security.ALGORITHM])
         token_data = schemas.TokenPayload(**payload)
-    except (jwt.JWTError, ValidationError) as exc:
+    except (JWTError, ValidationError) as exc:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Could not validate credentials") from exc
     user = crud.user.get(db, id=token_data.sub)
-    if not user:
+    if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found.")
     return user

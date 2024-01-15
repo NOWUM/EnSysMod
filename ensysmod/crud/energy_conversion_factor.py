@@ -36,10 +36,7 @@ class CRUDEnergyConversionFactor(CRUDBase[EnergyConversionFactor, EnergyConversi
             ref_commodity=commodity.id,
             conversion_factor=obj_in.conversion_factor,
         )
-        db.add(db_obj)
-        db.commit()
-        db.refresh(db_obj)
-        return db_obj
+        return super().create(db, obj_in=db_obj)
 
 
 energy_conversion_factor = CRUDEnergyConversionFactor(EnergyConversionFactor)

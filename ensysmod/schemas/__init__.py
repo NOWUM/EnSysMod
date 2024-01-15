@@ -17,7 +17,7 @@ from .energy_transmission import EnergyTransmission, EnergyTransmissionCreate, E
 from .file_upload import FileStatus, FileUploadResult, ZipArchiveUploadResult
 from .region import Region, RegionCreate, RegionUpdate
 from .token import Token, TokenPayload
-from .user import User, UserCreate, UserInDB, UserUpdate
+from .user import User, UserCreate, UserUpdate
 
 from .capacity_fix import CapacityFix, CapacityFixCreate, CapacityFixUpdate
 from .capacity_max import CapacityMax, CapacityMaxCreate, CapacityMaxUpdate

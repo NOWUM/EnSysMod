@@ -7,18 +7,18 @@ from sqlalchemy.orm import Session
 
 from ensysmod.core.file_folder_types import ExcelFileType
 from ensysmod.utils.utils import create_temp_file, remove_file
-from tests.utils.data_generator.datasets import dataset_create
-from tests.utils.data_generator.energy_commodities import commodity_create
-from tests.utils.data_generator.energy_sources import source_create
-from tests.utils.data_generator.energy_transmissions import transmission_create
-from tests.utils.data_generator.regions import region_create
+from tests.utils.data_generator.datasets import new_dataset
+from tests.utils.data_generator.energy_commodities import new_commodity
+from tests.utils.data_generator.energy_sources import new_source
+from tests.utils.data_generator.energy_transmissions import new_transmission
+from tests.utils.data_generator.regions import new_region
 from tests.utils.utils import random_float_number
 
 
 def excel_file_type_create_request(
     excel_file_type: ExcelFileType,
     db: Session,
-    current_user_header: dict[str, str],
+    user_header: dict[str, str],
     *,
     dataset_id: int | None = None,
     component_name: str | None = None,
@@ -32,21 +32,19 @@ def excel_file_type_create_request(
     If parameters are not specified, it will be generated, except for region_to, which will only be generated if transmission_component is True.
     """
     if dataset_id is None:
-        dataset_id = dataset_create(db, current_user_header, number_of_time_steps=number_of_time_steps).id
+        dataset_id = new_dataset(db, user_header, number_of_time_steps=number_of_time_steps).id
     if component_name is None:
-        commodity_name = commodity_create(db, current_user_header, dataset_id=dataset_id).name
+        commodity_name = new_commodity(db, user_header, dataset_id=dataset_id).name
         if transmission_component:
-            component_name = transmission_create(db, current_user_header, dataset_id=dataset_id, commodity_name=commodity_name).component.name
+            component_name = new_transmission(db, user_header, dataset_id=dataset_id, commodity_name=commodity_name).component.name
         else:
-            component_name = source_create(db, current_user_header, dataset_id=dataset_id, commodity_name=commodity_name).component.name
+            component_name = new_source(db, user_header, dataset_id=dataset_id, commodity_name=commodity_name).component.name
     if region_name is None:
-        region_name = region_create(db, current_user_header, dataset_id=dataset_id).name
-    if transmission_component and region_to_name is None:
-        region_to_name = region_create(db, current_user_header, dataset_id=dataset_id).name
+        region_name = new_region(db, user_header, dataset_id=dataset_id).name
+    if region_to_name is None and transmission_component:
+        region_to_name = new_region(db, user_header, dataset_id=dataset_id).name
 
-    data_column = {
-        excel_file_type.data_column: random_float_number(size=number_of_time_steps) if excel_file_type.as_list else random_float_number(),
-    }
+    data_column = {excel_file_type.data_column: random_float_number(size=number_of_time_steps) if excel_file_type.as_list else random_float_number()}
 
     return excel_file_type.create_schema(
         ref_dataset=dataset_id,
@@ -57,10 +55,10 @@ def excel_file_type_create_request(
     )
 
 
-def excel_file_type_create(
+def new_excel_file_type(
     excel_file_type: ExcelFileType,
     db: Session,
-    current_user_header: dict[str, str],
+    user_header: dict[str, str],
     *,
     dataset_id: int | None = None,
     component_name: str | None = None,
@@ -76,7 +74,7 @@ def excel_file_type_create(
     create_request = excel_file_type_create_request(
         excel_file_type=excel_file_type,
         db=db,
-        current_user_header=current_user_header,
+        user_header=user_header,
         dataset_id=dataset_id,
         component_name=component_name,
         region_name=region_name,

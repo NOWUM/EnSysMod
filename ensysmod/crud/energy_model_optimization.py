@@ -2,10 +2,7 @@ from sqlalchemy.orm import Session
 
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
 from ensysmod.model import EnergyModelOptimization
-from ensysmod.schemas import (
-    EnergyModelOptimizationCreate,
-    EnergyModelOptimizationUpdate,
-)
+from ensysmod.schemas import EnergyModelOptimizationCreate, EnergyModelOptimizationUpdate
 
 
 # noinspection PyMethodMayBeStatic,PyArgumentList

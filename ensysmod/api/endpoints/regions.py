@@ -11,7 +11,7 @@ router = APIRouter()
 def get_region(
     region_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Get a region by its id.
@@ -20,7 +20,7 @@ def get_region(
     if region is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Region {region_id} not found!")
 
-    permissions.check_usage_permission(db=db, user=current, dataset_id=region.ref_dataset)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=region.ref_dataset)
 
     return region
 
@@ -29,14 +29,14 @@ def get_region(
 def get_region_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
 ):
     """
     Get all regions of a dataset.
     """
-    permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=dataset_id)
     return crud.region.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
@@ -44,7 +44,7 @@ def get_region_by_dataset(
 def create_region(
     request: schemas.RegionCreate,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Create a new region.
@@ -53,7 +53,7 @@ def create_region(
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {request.ref_dataset} not found!")
 
-    permissions.check_modification_permission(db, user=current, dataset_id=request.ref_dataset)
+    permissions.check_modification_permission(db, user=current_user, dataset_id=request.ref_dataset)
 
     existing = crud.region.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.name)
     if existing is not None:
@@ -67,7 +67,7 @@ def update_region(
     region_id: int,
     request: schemas.RegionUpdate,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Update a region.
@@ -75,7 +75,7 @@ def update_region(
     region = crud.region.get(db=db, id=region_id)
     if region is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Region {region_id} not found!")
-    permissions.check_modification_permission(db, user=current, dataset_id=region.ref_dataset)
+    permissions.check_modification_permission(db, user=current_user, dataset_id=region.ref_dataset)
     return crud.region.update(db=db, db_obj=region, obj_in=request)
 
 
@@ -83,7 +83,7 @@ def update_region(
 def remove_region(
     region_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Delete a region.
@@ -91,5 +91,5 @@ def remove_region(
     region = crud.region.get(db=db, id=region_id)
     if region is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Region {region_id} not found!")
-    permissions.check_modification_permission(db, user=current, dataset_id=region.ref_dataset)
+    permissions.check_modification_permission(db, user=current_user, dataset_id=region.ref_dataset)
     return crud.region.remove(db=db, id=region_id)

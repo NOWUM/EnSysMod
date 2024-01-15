@@ -3,14 +3,14 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
-from tests.utils.utils import random_lower_string
+from tests.utils.utils import random_string
 
 
 def get_register_payload():
-    return {"username": random_lower_string(), "password": random_lower_string()}
+    return {"username": random_string(), "password": random_string()}
 
 
-def test_register_endpoint(client: TestClient, db: Session):
+def test_register_endpoint(db: Session, client: TestClient):
     payload = get_register_payload()
     r = client.post("/auth/register", json=payload)
     new_user = r.json()
@@ -33,7 +33,7 @@ def test_register_twice_endpoint(client: TestClient):
     assert r2.status_code == status.HTTP_409_CONFLICT
 
 
-def test_login_endpoint(client: TestClient, db: Session):
+def test_login_endpoint(client: TestClient):
     payload = get_register_payload()
     r = client.post("/auth/register", json=payload)
     assert r.status_code == status.HTTP_200_OK
@@ -44,7 +44,7 @@ def test_login_endpoint(client: TestClient, db: Session):
     assert r2.json()["token_type"] == "bearer"
 
 
-def test_login_unknown_user_endpoint(client: TestClient, db: Session):
+def test_login_unknown_user_endpoint(client: TestClient):
     payload = get_register_payload()
     r = client.post("/auth/login", data=payload, headers={"content-type": "application/x-www-form-urlencoded"})
     assert r.status_code == status.HTTP_401_UNAUTHORIZED
@@ -69,7 +69,7 @@ def test_test_token_unknown_access_token_endpoint(client: TestClient):
     assert r.status_code == status.HTTP_403_FORBIDDEN
 
 
-def test_test_token_user_deleted(client: TestClient, db: Session):
+def test_test_token_user_deleted(db: Session, client: TestClient):
     payload = get_register_payload()
     r = client.post("/auth/register", json=payload)
     assert r.status_code == status.HTTP_200_OK

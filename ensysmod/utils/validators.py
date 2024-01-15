@@ -249,19 +249,6 @@ def validate_commodity(commodity: str | None) -> str | None:
     return commodity
 
 
-def validate_ref_component_required(ref_component: int) -> int:
-    """
-    Validates the reference to a component of an object.
-
-    :param ref_component: The reference to a component of the object.
-    :return: The validated reference to a component.
-    """
-    if ref_component <= 0:
-        raise ValueError("Reference to a component must be positive.")
-
-    return ref_component
-
-
 def validate_ref_component_optional(ref_component: int | None) -> int | None:
     """
     Validates the reference to a component of an object.

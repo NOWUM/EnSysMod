@@ -33,7 +33,7 @@ def get_all_datasets(
 def get_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Get a dataset by its id.
@@ -42,7 +42,7 @@ def get_dataset(
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {dataset_id} not found!")
 
-    permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=dataset_id)
 
     return dataset
 
@@ -51,7 +51,7 @@ def get_dataset(
 def create_dataset(
     request: schemas.DatasetCreate,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Create a new dataset.
@@ -59,7 +59,7 @@ def create_dataset(
     existing_ds = crud.dataset.get_by_name(db=db, name=request.name)
     if existing_ds is not None:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Dataset {request.name} already exists! Please choose a different name.")
-    request.ref_user = current.id
+    request.ref_user = current_user.id
     return crud.dataset.create(db=db, obj_in=request)
 
 
@@ -68,7 +68,7 @@ def update_dataset(
     dataset_id: int,
     request: schemas.DatasetUpdate,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Update a dataset.
@@ -76,7 +76,7 @@ def update_dataset(
     dataset = crud.dataset.get(db=db, id=dataset_id)
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {dataset_id} not found!")
-    permissions.check_modification_permission(db=db, user=current, dataset_id=dataset_id)
+    permissions.check_modification_permission(db=db, user=current_user, dataset_id=dataset_id)
     return crud.dataset.update(db=db, db_obj=dataset, obj_in=request)
 
 
@@ -84,12 +84,12 @@ def update_dataset(
 def remove_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Delete a dataset.
     """
-    permissions.check_modification_permission(db=db, user=current, dataset_id=dataset_id)
+    permissions.check_modification_permission(db=db, user=current_user, dataset_id=dataset_id)
     # TODO remove all components, commodities, regions, etc.
     return crud.dataset.remove(db=db, id=dataset_id)
 
@@ -99,7 +99,7 @@ def upload_dataset_zip(
     dataset_id: int,
     file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Upload a dataset as zip.
@@ -111,7 +111,7 @@ def upload_dataset_zip(
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {dataset_id} not found!")
 
-    permissions.check_modification_permission(db=db, user=current, dataset_id=dataset_id)
+    permissions.check_modification_permission(db=db, user=current_user, dataset_id=dataset_id)
 
     with zipfile.ZipFile(BytesIO(file.file.read()), "r") as zip_archive:
         result = process_dataset_zip_archive(zip_archive, dataset_id, db)
@@ -126,7 +126,7 @@ def upload_dataset_zip(
 def download_dataset_zip(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Download a dataset as zip.
@@ -135,7 +135,7 @@ def download_dataset_zip(
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {dataset_id} not found!")
 
-    permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=dataset_id)
 
     zip_file_path = export_data(db=db, dataset_id=dataset.id)
     return FileResponse(

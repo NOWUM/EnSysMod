@@ -19,7 +19,7 @@ router = APIRouter()
 def get_transmission_loss(
     entry_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ) -> TransmissionLoss:
     """
     Get a TransmissionLoss by its id.
@@ -28,7 +28,7 @@ def get_transmission_loss(
     if entry is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"TransmissionLoss {entry_id} not found!")
 
-    permissions.check_usage_permission(db=db, user=current, dataset_id=entry.ref_dataset)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=entry.ref_dataset)
 
     return entry
 
@@ -37,7 +37,7 @@ def get_transmission_loss(
 def get_transmission_loss_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
 ) -> list[TransmissionLoss]:
@@ -48,7 +48,7 @@ def get_transmission_loss_by_dataset(
     if len(entry_list) == 0:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"TransmissionLoss for dataset {dataset_id} not found!")
 
-    permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=dataset_id)
 
     return entry_list
 
@@ -57,7 +57,7 @@ def get_transmission_loss_by_dataset(
 def get_transmission_loss_by_component(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ) -> list[TransmissionLoss] | None:
     """
     Get all TransmissionLoss of a component.
@@ -66,7 +66,7 @@ def get_transmission_loss_by_component(
     if len(entry_list) == 0:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"TransmissionLoss for component {component_id} not found!")
 
-    permissions.check_usage_permission(db=db, user=current, dataset_id=entry_list[0].ref_dataset)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=entry_list[0].ref_dataset)
 
     return entry_list
 
@@ -75,7 +75,7 @@ def get_transmission_loss_by_component(
 def create_transmission_loss(
     request: TransmissionLossCreate,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Create a new TransmissionLoss.
@@ -84,7 +84,7 @@ def create_transmission_loss(
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {request.ref_dataset} not found!")
 
-    permissions.check_modification_permission(db=db, user=current, dataset_id=dataset.id)
+    permissions.check_modification_permission(db=db, user=current_user, dataset_id=dataset.id)
 
     component = crud.energy_component.get_by_dataset_and_name(db=db, dataset_id=dataset.id, name=request.component)
     if component is None:
@@ -120,7 +120,7 @@ def create_transmission_loss(
 def remove_transmission_loss(
     entry_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Remove a TransmissionLoss.
@@ -129,7 +129,7 @@ def remove_transmission_loss(
     if entry is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"TransmissionLoss {entry_id} not found!")
 
-    permissions.check_modification_permission(db=db, user=current, dataset_id=entry.ref_dataset)
+    permissions.check_modification_permission(db=db, user=current_user, dataset_id=entry.ref_dataset)
 
     return crud.transmission_loss.remove(db=db, id=entry_id)
 
@@ -138,7 +138,7 @@ def remove_transmission_loss(
 def remove_transmission_loss_by_component(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Remove all TransmissionLoss of a component.
@@ -147,7 +147,7 @@ def remove_transmission_loss_by_component(
     if len(entry_list) == 0:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"TransmissionLoss for component {component_id} not found!")
 
-    permissions.check_modification_permission(db=db, user=current, dataset_id=entry_list[0].ref_dataset)
+    permissions.check_modification_permission(db=db, user=current_user, dataset_id=entry_list[0].ref_dataset)
 
     return crud.transmission_loss.remove_multi_by_component(db=db, component_id=component_id)
 
@@ -157,7 +157,7 @@ def upload_transmission_loss(
     component_id: int,
     file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ) -> FileUploadResult:
     """
     Upload TransmissionLoss of a component.
@@ -166,7 +166,7 @@ def upload_transmission_loss(
     if component is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Component {component_id} not found!")
 
-    permissions.check_modification_permission(db=db, user=current, dataset_id=component.ref_dataset)
+    permissions.check_modification_permission(db=db, user=current_user, dataset_id=component.ref_dataset)
 
     result = process_excel_file(
         file=file,
@@ -188,7 +188,7 @@ def upload_transmission_loss(
 def download_transmission_loss(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ) -> FileResponse:
     """
     Download TransmissionLoss of a component.
@@ -197,7 +197,7 @@ def download_transmission_loss(
     if component is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Component {component_id} not found!")
 
-    permissions.check_usage_permission(db=db, user=current, dataset_id=component.ref_dataset)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=component.ref_dataset)
 
     temp_file_path = create_temp_file(prefix="ensysmod_losses_", suffix=".xlsx")
     dump_excel_file(

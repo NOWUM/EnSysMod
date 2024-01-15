@@ -3,14 +3,15 @@ from sqlalchemy.orm import Session
 from ensysmod import crud
 from ensysmod.model import EnergySink
 from ensysmod.schemas import EnergySinkCreate
-from tests.utils.data_generator.datasets import dataset_create
-from tests.utils.data_generator.energy_commodities import commodity_create
-from tests.utils.utils import random_lower_string
+from tests.utils.data_generator.datasets import new_dataset
+from tests.utils.data_generator.energy_commodities import new_commodity
+from tests.utils.utils import random_string
 
 
 def sink_create_request(
     db: Session,
-    current_user_header: dict[str, str],
+    user_header: dict[str, str],
+    *,
     dataset_id: int | None = None,
     commodity_name: str | None = None,
 ) -> EnergySinkCreate:
@@ -19,13 +20,13 @@ def sink_create_request(
     If dataset_id or commodity_name is not specified, it will be generated.
     """
     if dataset_id is None:
-        dataset_id = dataset_create(db, current_user_header).id
+        dataset_id = new_dataset(db, user_header).id
     if commodity_name is None:
-        commodity_name = commodity_create(db, current_user_header, dataset_id).name
+        commodity_name = new_commodity(db, user_header, dataset_id=dataset_id).name
     return EnergySinkCreate(
         ref_dataset=dataset_id,
-        name=f"EnergySink-Dataset{dataset_id}-{random_lower_string()}",
-        description="Description",
+        name=f"EnergySink-Dataset{dataset_id}-{random_string()}",
+        description=None,
         commodity=commodity_name,
         yearly_limit=1000,
         commodity_limit_id="limit_id",
@@ -33,9 +34,10 @@ def sink_create_request(
     )
 
 
-def sink_create(
+def new_sink(
     db: Session,
-    current_user_header: dict[str, str],
+    user_header: dict[str, str],
+    *,
     dataset_id: int | None = None,
     commodity_name: str | None = None,
 ) -> EnergySink:
@@ -43,5 +45,5 @@ def sink_create(
     Create a sink component with the specified dataset and commodity.
     If dataset_id or commodity_name is not specified, it will be generated.
     """
-    create_request = sink_create_request(db, current_user_header, dataset_id, commodity_name)
+    create_request = sink_create_request(db, user_header, dataset_id=dataset_id, commodity_name=commodity_name)
     return crud.energy_sink.create(db=db, obj_in=create_request)

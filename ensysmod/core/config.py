@@ -1,8 +1,8 @@
-import pathlib
 import secrets
 from typing import Any
 
 from pydantic import BaseSettings, PostgresDsn, validator
+from utils.utils import get_project_root
 
 
 class Settings(BaseSettings):
@@ -42,8 +42,7 @@ class Settings(BaseSettings):
                 path=f"/{values.get('POSTGRES_DB') or ''}",
             )
 
-        config_folder = pathlib.Path(__file__).parent.resolve()
-        return f"sqlite:///{config_folder}/../local.db"
+        return f"sqlite:///{get_project_root()}/local.db"
 
     class Config:
         case_sensitive = True

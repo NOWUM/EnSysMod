@@ -4,22 +4,19 @@ from sqlalchemy.orm import Session
 
 from ensysmod.model import EnergyComponentType
 from tests.utils.assertions import assert_energy_component
-from tests.utils.data_generator.datasets import dataset_create
-from tests.utils.data_generator.energy_storages import (
-    storage_create,
-    storage_create_request,
-)
+from tests.utils.data_generator.datasets import new_dataset
+from tests.utils.data_generator.energy_storages import new_storage, storage_create_request
 
 
-def test_get_energy_storage_by_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+def test_get_energy_storage_by_dataset(db: Session, client: TestClient, user_header: dict[str, str]):
     """
     Test getting all energy storages of a dataset.
     """
-    dataset = dataset_create(db, normal_user_headers)
-    storage1 = storage_create(db, normal_user_headers, dataset_id=dataset.id)
-    storage2 = storage_create(db, normal_user_headers, dataset_id=dataset.id)
+    dataset = new_dataset(db, user_header)
+    storage1 = new_storage(db, user_header, dataset_id=dataset.id)
+    storage2 = new_storage(db, user_header, dataset_id=dataset.id)
 
-    response = client.get("/storages/", headers=normal_user_headers, params={"dataset_id": dataset.id})
+    response = client.get("/storages/", headers=user_header, params={"dataset_id": dataset.id})
     assert response.status_code == status.HTTP_200_OK
 
     storage_list = response.json()
@@ -30,12 +27,12 @@ def test_get_energy_storage_by_dataset(db: Session, client: TestClient, normal_u
     assert storage_list[1]["component"]["id"] == storage2.component.id
 
 
-def test_create_storage(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+def test_create_storage(db: Session, client: TestClient, user_header: dict[str, str]):
     """
     Test creating an energy storage.
     """
-    create_request = storage_create_request(db, normal_user_headers)
-    response = client.post("/storages/", headers=normal_user_headers, content=create_request.json())
+    create_request = storage_create_request(db, user_header)
+    response = client.post("/storages/", headers=user_header, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
 
     created_storage = response.json()
@@ -43,34 +40,34 @@ def test_create_storage(db: Session, client: TestClient, normal_user_headers: di
     assert created_storage["commodity"]["name"] == create_request.commodity
 
 
-def test_create_existing_storage(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+def test_create_existing_storage(db: Session, client: TestClient, user_header: dict[str, str]):
     """
     Test creating an existing energy storage.
     """
-    create_request = storage_create_request(db, normal_user_headers)
-    response = client.post("/storages/", headers=normal_user_headers, content=create_request.json())
+    create_request = storage_create_request(db, user_header)
+    response = client.post("/storages/", headers=user_header, content=create_request.json())
     assert response.status_code == status.HTTP_200_OK
-    response = client.post("/storages/", headers=normal_user_headers, content=create_request.json())
+    response = client.post("/storages/", headers=user_header, content=create_request.json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
-def test_create_storage_unknown_dataset(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+def test_create_storage_unknown_dataset(db: Session, client: TestClient, user_header: dict[str, str]):
     """
     Test creating an energy storage.
     """
-    create_request = storage_create_request(db, normal_user_headers)
+    create_request = storage_create_request(db, user_header)
     create_request.ref_dataset = 123456  # ungültige Anfrage
-    response = client.post("/storages/", headers=normal_user_headers, content=create_request.json())
+    response = client.post("/storages/", headers=user_header, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_create_storage_unknown_commodity(db: Session, client: TestClient, normal_user_headers: dict[str, str]):
+def test_create_storage_unknown_commodity(db: Session, client: TestClient, user_header: dict[str, str]):
     """
     Test creating an energy storage.
     """
-    create_request = storage_create_request(db, normal_user_headers)
+    create_request = storage_create_request(db, user_header)
     create_request.commodity = "0"  # ungültige Anfrage
-    response = client.post("/storages/", headers=normal_user_headers, content=create_request.json())
+    response = client.post("/storages/", headers=user_header, content=create_request.json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 

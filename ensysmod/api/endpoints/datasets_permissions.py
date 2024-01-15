@@ -10,7 +10,7 @@ router = APIRouter()
 @router.get("/", response_model=list[schemas.DatasetPermission])
 def get_all_dataset_permissions(
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
     dataset_id: int = 0,
     user_id: int = 0,
     skip: int = 0,
@@ -24,24 +24,24 @@ def get_all_dataset_permissions(
     Otherwise, all of your personal permissions will be returned.
     """
     if dataset_id != 0:
-        if not crud.dataset_permission.is_permission_check_allowed(db=db, dataset_id=dataset_id, user_id=current.id):
+        if not crud.dataset_permission.is_permission_check_allowed(db=db, dataset_id=dataset_id, user_id=current_user.id):
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You have no permission to check permissions for this dataset.")
         return crud.dataset_permission.get_by_dataset_id(db=db, dataset_id=dataset_id, skip=skip, limit=limit)
 
     if user_id != 0:
-        if user_id != current.id:
+        if user_id != current_user.id:
             # TODO Add admin permission to user, that allow this function
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You have no permission to check permissions for this user.")
         return crud.dataset_permission.get_by_user_id(db=db, user_id=user_id, skip=skip, limit=limit)
 
-    return crud.dataset_permission.get_by_user_id(db=db, user_id=current.id, skip=skip, limit=limit)
+    return crud.dataset_permission.get_by_user_id(db=db, user_id=current_user.id, skip=skip, limit=limit)
 
 
 @router.get("/{permission_id}", response_model=schemas.DatasetPermission)
 def get_dataset_permission(
     permission_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Retrieve a dataset-user permission.
@@ -50,7 +50,7 @@ def get_dataset_permission(
     if existing_permission is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset permission not found for id {permission_id}.")
 
-    if not crud.dataset_permission.is_permission_check_allowed(db=db, dataset_id=existing_permission.ref_dataset, user_id=current.id):
+    if not crud.dataset_permission.is_permission_check_allowed(db=db, dataset_id=existing_permission.ref_dataset, user_id=current_user.id):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You have no permission to check permissions for this dataset.")
 
     return crud.dataset_permission.get(db, permission_id)
@@ -60,12 +60,12 @@ def get_dataset_permission(
 def create_dataset_permission(
     request: schemas.DatasetPermissionCreate,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Create a new dataset_permission.
     """
-    if not crud.dataset_permission.is_permission_grant_allowed(db=db, dataset_id=request.ref_dataset, user_id=current.id):
+    if not crud.dataset_permission.is_permission_grant_allowed(db=db, dataset_id=request.ref_dataset, user_id=current_user.id):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You have no permission to grant permissions to other users for this dataset.",
@@ -83,7 +83,7 @@ def update_dataset_permission(
     permission_id: int,
     request: schemas.DatasetPermissionUpdate,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Update a dataset-user permission.
@@ -96,16 +96,16 @@ def update_dataset_permission(
     if existing_permission is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset permission not found for id {permission_id}.")
 
-    if existing_permission.ref_user == current.id:
+    if existing_permission.ref_user == current_user.id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You cannot edit your own dataset permissions.")
 
-    if not crud.dataset_permission.is_permission_grant_allowed(db=db, dataset_id=existing_permission.ref_dataset, user_id=current.id):
+    if not crud.dataset_permission.is_permission_grant_allowed(db=db, dataset_id=existing_permission.ref_dataset, user_id=current_user.id):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You have no permission to grant permissions to other users for this dataset.",
         )
 
-    if not crud.dataset_permission.is_permission_revoke_allowed(db=db, dataset_id=existing_permission.ref_dataset, user_id=current.id):
+    if not crud.dataset_permission.is_permission_revoke_allowed(db=db, dataset_id=existing_permission.ref_dataset, user_id=current_user.id):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You have no permission to revoke permissions from other users for this dataset.",
@@ -118,7 +118,7 @@ def update_dataset_permission(
 def remove_dataset_permission(
     permission_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Delete a dataset-user permission.
@@ -127,10 +127,10 @@ def remove_dataset_permission(
     if existing_permission is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset permission not found for id {permission_id}.")
 
-    if existing_permission.ref_user == current.id:
+    if existing_permission.ref_user == current_user.id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You cannot edit your own dataset permissions.")
 
-    if not crud.dataset_permission.is_permission_revoke_allowed(db=db, dataset_id=existing_permission.ref_dataset, user_id=current.id):
+    if not crud.dataset_permission.is_permission_revoke_allowed(db=db, dataset_id=existing_permission.ref_dataset, user_id=current_user.id):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You have no permission to revoke permissions from other users for this dataset.",

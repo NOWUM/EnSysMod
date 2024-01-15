@@ -6,11 +6,7 @@ from utils.utils import remove_file
 
 from ensysmod import crud, model, schemas
 from ensysmod.api import deps, permissions
-from ensysmod.core.fine_esm import (
-    generate_esm_from_model,
-    myopic_optimize_esm,
-    optimize_esm,
-)
+from ensysmod.core.fine_esm import generate_esm_from_model, myopic_optimize_esm, optimize_esm
 
 router = APIRouter()
 
@@ -19,7 +15,7 @@ router = APIRouter()
 def get_model(
     model_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Get an energy model by its id.
@@ -28,7 +24,7 @@ def get_model(
     if model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Energy Model {model_id} not found!")
 
-    permissions.check_usage_permission(db=db, user=current, dataset_id=model.ref_dataset)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=model.ref_dataset)
 
     return model
 
@@ -37,14 +33,14 @@ def get_model(
 def get_energy_model_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
 ):
     """
     Get all energy models of a dataset.
     """
-    permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=dataset_id)
     return crud.energy_model.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
@@ -52,7 +48,7 @@ def get_energy_model_by_dataset(
 def create_model(
     request: schemas.EnergyModelCreate,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Create a new energy model.
@@ -61,7 +57,7 @@ def create_model(
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {request.ref_dataset} not found!")
 
-    permissions.check_usage_permission(db, user=current, dataset_id=request.ref_dataset)
+    permissions.check_usage_permission(db, user=current_user, dataset_id=request.ref_dataset)
 
     existing = crud.energy_model.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.name)
     if existing is not None:
@@ -78,7 +74,7 @@ def update_model(
     model_id: int,
     request: schemas.EnergyModelUpdate,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Update an energy model.
@@ -86,7 +82,7 @@ def update_model(
     energy_model = crud.energy_model.get(db=db, id=model_id)
     if energy_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyModel {model_id} not found!")
-    permissions.check_usage_permission(db, user=current, dataset_id=energy_model.ref_dataset)
+    permissions.check_usage_permission(db, user=current_user, dataset_id=energy_model.ref_dataset)
     return crud.energy_model.update(db=db, db_obj=energy_model, obj_in=request)
 
 
@@ -94,7 +90,7 @@ def update_model(
 def remove_model(
     model_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Delete an energy model.
@@ -102,7 +98,7 @@ def remove_model(
     energy_model = crud.energy_model.get(db=db, id=model_id)
     if energy_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyModel {model_id} not found!")
-    permissions.check_usage_permission(db, user=current, dataset_id=energy_model.ref_dataset)
+    permissions.check_usage_permission(db, user=current_user, dataset_id=energy_model.ref_dataset)
     return crud.energy_model.remove(db=db, id=model_id)
 
 
@@ -110,7 +106,7 @@ def remove_model(
 def validate_model(
     model_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Create FINE energy system model from model.
@@ -122,7 +118,7 @@ def validate_model(
     if energy_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyModel {model_id} not found!")
 
-    permissions.check_usage_permission(db, user=current, dataset_id=energy_model.ref_dataset)
+    permissions.check_usage_permission(db, user=current_user, dataset_id=energy_model.ref_dataset)
 
     generate_esm_from_model(db=db, model=energy_model)
     return energy_model
@@ -132,7 +128,7 @@ def validate_model(
 def optimize_model(
     model_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Create FINE energy system model from model and optimizes it.
@@ -144,7 +140,7 @@ def optimize_model(
     if energy_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyModel {model_id} not found!")
 
-    permissions.check_usage_permission(db, user=current, dataset_id=energy_model.ref_dataset)
+    permissions.check_usage_permission(db, user=current_user, dataset_id=energy_model.ref_dataset)
 
     esM = generate_esm_from_model(db=db, model=energy_model)
     result_file_path = optimize_esm(esM=esM)
@@ -161,7 +157,7 @@ def optimize_model(
 def myopic_optimize_model(
     model_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Create FINE energy system model from model and optimizes it based on myopic approach.
@@ -173,7 +169,7 @@ def myopic_optimize_model(
     if optimization_parameters is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Optimization parameters for EnergyModel {model_id} not found!")
 
-    permissions.check_usage_permission(db, user=current, dataset_id=energy_model.ref_dataset)
+    permissions.check_usage_permission(db, user=current_user, dataset_id=energy_model.ref_dataset)
 
     esM = generate_esm_from_model(db=db, model=energy_model)
     zipped_result_file_path = myopic_optimize_esm(esM=esM, optimization_parameters=optimization_parameters)

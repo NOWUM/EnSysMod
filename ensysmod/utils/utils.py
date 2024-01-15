@@ -6,6 +6,10 @@ from tempfile import mkstemp
 import pandas as pd
 
 
+def get_project_root() -> Path:
+    return Path(__file__).parents[2].resolve()
+
+
 def create_temp_file(dir: str | Path | None = None, prefix: str | None = None, suffix: str | None = None) -> Path:
     fd, temp_file_path = mkstemp(dir=dir, prefix=prefix, suffix=suffix)
     os.close(fd)

@@ -11,7 +11,7 @@ router = APIRouter()
 def get_commodity(
     commodity_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Get an energy commodity by its id.
@@ -20,7 +20,7 @@ def get_commodity(
     if commodity is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Commodity {commodity_id} not found!")
 
-    permissions.check_usage_permission(db=db, user=current, dataset_id=commodity.ref_dataset)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=commodity.ref_dataset)
 
     return commodity
 
@@ -29,14 +29,14 @@ def get_commodity(
 def get_commodity_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
 ):
     """
     Get all energy commodities of a dataset.
     """
-    permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=dataset_id)
     return crud.energy_commodity.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
@@ -44,7 +44,7 @@ def get_commodity_by_dataset(
 def create_commodity(
     request: schemas.EnergyCommodityCreate,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Create a new energy commodity.
@@ -53,7 +53,7 @@ def create_commodity(
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {request.ref_dataset} not found!")
 
-    permissions.check_modification_permission(db, user=current, dataset_id=request.ref_dataset)
+    permissions.check_modification_permission(db, user=current_user, dataset_id=request.ref_dataset)
 
     existing = crud.energy_commodity.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.name)
     if existing is not None:
@@ -70,7 +70,7 @@ def update_commodity(
     commodity_id: int,
     request: schemas.EnergyCommodityUpdate,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Update an energy commodity.
@@ -78,7 +78,7 @@ def update_commodity(
     commodity = crud.energy_commodity.get(db=db, id=commodity_id)
     if commodity is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyCommodity {commodity_id} not found!")
-    permissions.check_modification_permission(db, user=current, dataset_id=commodity.ref_dataset)
+    permissions.check_modification_permission(db, user=current_user, dataset_id=commodity.ref_dataset)
     return crud.energy_commodity.update(db=db, db_obj=commodity, obj_in=request)
 
 
@@ -86,7 +86,7 @@ def update_commodity(
 def remove_commodity(
     commodity_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Delete an energy commodity.
@@ -94,5 +94,5 @@ def remove_commodity(
     commodity = crud.energy_commodity.get(db=db, id=commodity_id)
     if commodity is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyCommodity {commodity_id} not found!")
-    permissions.check_modification_permission(db, user=current, dataset_id=commodity.ref_dataset)
+    permissions.check_modification_permission(db, user=current_user, dataset_id=commodity.ref_dataset)
     return crud.energy_commodity.remove(db=db, id=commodity_id)

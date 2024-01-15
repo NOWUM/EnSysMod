@@ -11,14 +11,14 @@ router = APIRouter()
 def get_energy_source_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
 ):
     """
     Get all energy sources of a dataset.
     """
-    permissions.check_usage_permission(db=db, user=current, dataset_id=dataset_id)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=dataset_id)
     return crud.energy_source.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
@@ -26,7 +26,7 @@ def get_energy_source_by_dataset(
 def create_source(
     request: schemas.EnergySourceCreate,
     db: Session = Depends(deps.get_db),
-    current: model.User = Depends(deps.get_current_user),
+    current_user: model.User = Depends(deps.get_current_user),
 ):
     """
     Create a new energy source.
@@ -35,7 +35,7 @@ def create_source(
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {request.ref_dataset} not found!")
 
-    permissions.check_modification_permission(db, user=current, dataset_id=request.ref_dataset)
+    permissions.check_modification_permission(db, user=current_user, dataset_id=request.ref_dataset)
 
     existing = crud.energy_source.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.name)
     if existing is not None:
