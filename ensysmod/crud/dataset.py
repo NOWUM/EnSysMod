@@ -1,5 +1,6 @@
 from typing import Any
 
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ensysmod.crud.base import CRUDBase
@@ -31,7 +32,8 @@ class CRUDDataset(CRUDBase[Dataset, DatasetCreate, DatasetUpdate]):
         return new_dataset
 
     def get_by_name(self, db: Session, *, name: str) -> Dataset | None:
-        return db.query(Dataset).filter(Dataset.name == name).first()
+        query = select(Dataset).where(Dataset.name == name)
+        return db.execute(query).scalar_one_or_none()
 
     def remove(self, db: Session, *, id: int) -> Dataset:
         dataset_permission.remove_by_dataset(db, dataset_id=id)

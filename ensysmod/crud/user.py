@@ -2,6 +2,7 @@ from datetime import timedelta
 from typing import Any
 
 from fastapi import HTTPException, status
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ensysmod.core import security, settings
@@ -13,7 +14,8 @@ from ensysmod.schemas import Token, UserCreate, UserUpdate
 # noinspection PyMethodMayBeStatic,PyArgumentList
 class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
     def get_by_username(self, db: Session, *, username: str) -> User | None:
-        return db.query(User).filter(User.username == username).first()
+        query = select(User).where(User.username == username)
+        return db.execute(query).scalar_one_or_none()
 
     def create(self, db: Session, *, obj_in: UserCreate) -> User:
         db_obj = User(username=obj_in.username, hashed_password=security.get_password_hash(obj_in.password))

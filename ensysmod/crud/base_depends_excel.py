@@ -20,13 +20,12 @@ class CRUDBaseDependsExcel(CRUDBaseDependsComponentRegion, Generic[ModelType, Cr
         self.data_column = data_column
 
     def get_by_component_and_2_regions(self, db: Session, component_id: int, region_id: int, region_to_id: int) -> ModelType | None:
-        return (
-            db.query(self.model)
-            .filter(self.model.ref_component == component_id)
-            .filter(self.model.ref_region == region_id)
-            .filter(self.model.ref_region_to == region_to_id)
-            .first()
+        query = select(self.model).where(
+            self.model.ref_component == component_id,
+            self.model.ref_region == region_id,
+            self.model.ref_region_to == region_to_id,
         )
+        return db.execute(query).scalar_one_or_none()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
         obj_in_dict = obj_in.dict()

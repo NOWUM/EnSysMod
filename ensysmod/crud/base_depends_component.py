@@ -1,6 +1,7 @@
 from typing import Any, Generic
 
 from fastapi.encoders import jsonable_encoder
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
@@ -21,13 +22,15 @@ class CRUDBaseDependsComponent(CRUDBaseDependsDataset, Generic[ModelType, Create
         component = crud.energy_component.get_by_dataset_and_name(db, dataset_id=dataset_id, name=name)
         if component is None:
             return None
-        return db.query(self.model).filter(self.model.ref_component == component.id).first()
+        query = select(self.model).where(self.model.ref_component == component.id)
+        return db.execute(query).scalar_one_or_none()
 
     def get_multi_by_dataset(self, db: Session, *, skip: int = 0, limit: int = 100, dataset_id: int) -> list[ModelType]:
         """
         Get a list of energy component based objects based on dataset.
         """
-        return db.query(self.model).join(EnergyComponent).filter(EnergyComponent.ref_dataset == dataset_id).offset(skip).limit(limit).all()
+        query = select(self.model).join(EnergyComponent).where(EnergyComponent.ref_dataset == dataset_id).offset(skip).limit(limit)
+        return db.execute(query).scalars().all()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType | ModelType | dict[str, Any]) -> ModelType:
         """

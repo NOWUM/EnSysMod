@@ -1,5 +1,6 @@
 from typing import Any, Generic
 
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
@@ -13,10 +14,12 @@ class CRUDBaseDependsComponentRegion(CRUDBaseDependsDataset, Generic[ModelType, 
     """
 
     def get_multi_by_component(self, db: Session, *, component_id: int) -> list[ModelType]:
-        return db.query(self.model).filter(self.model.ref_component == component_id).all()
+        query = select(self.model).where(self.model.ref_component == component_id)
+        return db.execute(query).scalars().all()
 
     def get_by_component_and_region(self, db: Session, *, component_id: int, region_id: int) -> ModelType | None:
-        return db.query(self.model).filter(self.model.ref_component == component_id).filter(self.model.ref_region == region_id).first()
+        query = select(self.model).where(self.model.ref_component == component_id).where(self.model.ref_region == region_id)
+        return db.execute(query).scalar_one_or_none()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType | dict[str, Any]) -> ModelType:
         obj_in_dict = obj_in if isinstance(obj_in, dict) else obj_in.dict()
@@ -36,7 +39,8 @@ class CRUDBaseDependsComponentRegion(CRUDBaseDependsDataset, Generic[ModelType, 
         return super().create(db=db, obj_in=obj_in_dict)
 
     def remove_multi_by_component(self, db: Session, *, component_id: int) -> list[ModelType]:
-        obj = db.query(self.model).filter(self.model.ref_component == component_id).all()
-        db.query(self.model).filter(self.model.ref_component == component_id).delete()
+        obj_list = db.execute(select(self.model).where(self.model.ref_component == component_id)).scalars().all()
+        for obj in obj_list:
+            db.delete(obj)
         db.commit()
-        return obj
+        return obj_list

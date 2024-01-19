@@ -39,9 +39,8 @@ class CRUDEnergyModel(CRUDBaseDependsDataset[EnergyModel, EnergyModelCreate, Ene
         if self.model.optimization_parameters is not None:
             db.execute(delete(EnergyModelOptimization).filter(EnergyModelOptimization.ref_model == id))
 
-        model = db.query(self.model).get(id)
+        model = db.get(self.model, id)
         db.delete(model)
-
         db.commit()
         return model
 
