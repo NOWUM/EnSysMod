@@ -9,7 +9,7 @@ from sqlalchemy.types import PickleType
 from ensysmod.database.base_class import Base
 
 if TYPE_CHECKING:
-    from model.energy_model import EnergyModel
+    from ensysmod.model.energy_model import EnergyModel
 
 
 class EnergyModelOptimization(Base):

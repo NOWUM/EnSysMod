@@ -10,7 +10,7 @@ from ensysmod.database.base_class import Base
 from ensysmod.database.ref_base_class import RefComponent, RefDataset, RefRegionOptional, RefRegionToOptional
 
 if TYPE_CHECKING:
-    from model.energy_model import EnergyModel
+    from ensysmod.model.energy_model import EnergyModel
 
 
 class EnergyModelOverrideAttribute(enum.Enum):

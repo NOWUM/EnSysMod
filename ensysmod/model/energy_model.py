@@ -9,8 +9,8 @@ from ensysmod.database.base_class import Base
 from ensysmod.database.ref_base_class import RefDataset
 
 if TYPE_CHECKING:
-    from model.energy_model_optimization import EnergyModelOptimization
-    from model.energy_model_override import EnergyModelOverride
+    from ensysmod.model.energy_model_optimization import EnergyModelOptimization
+    from ensysmod.model.energy_model_override import EnergyModelOverride
 
 
 class EnergyModel(RefDataset, Base):
@@ -18,8 +18,8 @@ class EnergyModel(RefDataset, Base):
     description: Mapped[str | None]
 
     # relationships
-    override_parameters: Mapped[list[EnergyModelOverride]] = relationship(back_populates="model")
-    optimization_parameters: Mapped[list[EnergyModelOptimization]] = relationship(back_populates="model")
+    override_parameters: Mapped[list[EnergyModelOverride]] = relationship(back_populates="model", cascade="all, delete-orphan")
+    optimization_parameters: Mapped[list[EnergyModelOptimization]] = relationship(back_populates="model", cascade="all, delete-orphan")
 
     # table constraints
     __table_args__ = (UniqueConstraint("ref_dataset", "name", name="_model_name_dataset_uc"),)

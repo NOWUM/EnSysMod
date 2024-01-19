@@ -3,12 +3,12 @@ from typing import Any
 from zipfile import ZipFile
 
 import pandas as pd
-from crud.base import CreateSchemaType
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from starlette.datastructures import UploadFile
 
 from ensysmod.core.file_folder_types import EXCEL_FILE_TYPES, FOLDER_TYPES, JSON_FILE_TYPES
+from ensysmod.crud.base import CreateSchemaType
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
 from ensysmod.crud.base_depends_excel import CRUDBaseDependsExcel

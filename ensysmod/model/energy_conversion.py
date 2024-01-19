@@ -9,8 +9,8 @@ from ensysmod.database.base_class import Base
 from ensysmod.database.ref_base_class import RefComponentUnique, RefDataset
 
 if TYPE_CHECKING:
-    from model.energy_commodity import EnergyCommodity
-    from model.energy_conversion_factor import EnergyConversionFactor
+    from ensysmod.model.energy_commodity import EnergyCommodity
+    from ensysmod.model.energy_conversion_factor import EnergyConversionFactor
 
 
 class EnergyConversion(RefComponentUnique, RefDataset, Base):
@@ -18,4 +18,4 @@ class EnergyConversion(RefComponentUnique, RefDataset, Base):
 
     # relationships
     commodity_unit: Mapped[EnergyCommodity] = relationship()
-    conversion_factors: Mapped[list[EnergyConversionFactor]] = relationship(back_populates="conversion")
+    conversion_factors: Mapped[list[EnergyConversionFactor]] = relationship(back_populates="conversion", cascade="all, delete-orphan")

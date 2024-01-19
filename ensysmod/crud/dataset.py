@@ -35,9 +35,5 @@ class CRUDDataset(CRUDBase[Dataset, DatasetCreate, DatasetUpdate]):
         query = select(Dataset).where(Dataset.name == name)
         return db.execute(query).scalar_one_or_none()
 
-    def remove(self, db: Session, *, id: int) -> Dataset:
-        dataset_permission.remove_by_dataset(db, dataset_id=id)
-        return super().remove(db, id=id)
-
 
 dataset = CRUDDataset(Dataset)

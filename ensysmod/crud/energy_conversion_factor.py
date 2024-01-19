@@ -12,15 +12,6 @@ class CRUDEnergyConversionFactor(CRUDBase[EnergyConversionFactor, EnergyConversi
     CRUD operations for EnergyConversionFactor
     """
 
-    def remove_by_component(self, db: Session, component_id: int):
-        """
-        Removes all EnergyConversionFactor entries for a given component.
-
-        :param db: Database session
-        :param component_id: ID of the component
-        """
-        db.query(EnergyConversionFactor).filter(EnergyConversionFactor.ref_component == component_id).delete()
-
     def create(self, db: Session, obj_in: EnergyConversionFactorCreate):
         """
         Creates a new EnergyConversionFactor entry.

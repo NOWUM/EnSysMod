@@ -10,15 +10,20 @@ from ensysmod.database.base_class import Base
 from ensysmod.database.ref_base_class import RefDataset
 
 if TYPE_CHECKING:
-    from model.capacity_fix import CapacityFix
-    from model.capacity_max import CapacityMax
-    from model.capacity_min import CapacityMin
-    from model.operation_rate_fix import OperationRateFix
-    from model.operation_rate_max import OperationRateMax
-    from model.transmission_distance import TransmissionDistance
-    from model.transmission_loss import TransmissionLoss
-    from model.yearly_full_load_hours_max import YearlyFullLoadHoursMax
-    from model.yearly_full_load_hours_min import YearlyFullLoadHoursMin
+    from ensysmod.model.capacity_fix import CapacityFix
+    from ensysmod.model.capacity_max import CapacityMax
+    from ensysmod.model.capacity_min import CapacityMin
+    from ensysmod.model.energy_conversion import EnergyConversion
+    from ensysmod.model.energy_sink import EnergySink
+    from ensysmod.model.energy_source import EnergySource
+    from ensysmod.model.energy_storage import EnergyStorage
+    from ensysmod.model.energy_transmission import EnergyTransmission
+    from ensysmod.model.operation_rate_fix import OperationRateFix
+    from ensysmod.model.operation_rate_max import OperationRateMax
+    from ensysmod.model.transmission_distance import TransmissionDistance
+    from ensysmod.model.transmission_loss import TransmissionLoss
+    from ensysmod.model.yearly_full_load_hours_max import YearlyFullLoadHoursMax
+    from ensysmod.model.yearly_full_load_hours_min import YearlyFullLoadHoursMin
 
 
 class EnergyComponentType(enum.Enum):
@@ -53,15 +58,21 @@ class EnergyComponent(RefDataset, Base):
     linked_quantity_id: Mapped[str | None]
 
     # relationships
-    capacity_fix: Mapped[list[CapacityFix]] = relationship(back_populates="component")
-    capacity_max: Mapped[list[CapacityMax]] = relationship(back_populates="component")
-    capacity_min: Mapped[list[CapacityMin]] = relationship(back_populates="component")
-    operation_rate_fix: Mapped[list[OperationRateFix]] = relationship(back_populates="component")
-    operation_rate_max: Mapped[list[OperationRateMax]] = relationship(back_populates="component")
-    yearly_full_load_hours_max: Mapped[list[YearlyFullLoadHoursMax]] = relationship(back_populates="component")
-    yearly_full_load_hours_min: Mapped[list[YearlyFullLoadHoursMin]] = relationship(back_populates="component")
-    distances: Mapped[list[TransmissionDistance]] = relationship(back_populates="component")
-    losses: Mapped[list[TransmissionLoss]] = relationship(back_populates="component")
+    source: Mapped[EnergySource] = relationship(back_populates="component", cascade="all, delete-orphan")
+    sink: Mapped[EnergySink] = relationship(back_populates="component", cascade="all, delete-orphan")
+    conversion: Mapped[EnergyConversion] = relationship(back_populates="component", cascade="all, delete-orphan")
+    storage: Mapped[EnergyStorage] = relationship(back_populates="component", cascade="all, delete-orphan")
+    transmission: Mapped[EnergyTransmission] = relationship(back_populates="component", cascade="all, delete-orphan")
+
+    capacity_fix: Mapped[list[CapacityFix]] = relationship(back_populates="component", cascade="all, delete-orphan")
+    capacity_max: Mapped[list[CapacityMax]] = relationship(back_populates="component", cascade="all, delete-orphan")
+    capacity_min: Mapped[list[CapacityMin]] = relationship(back_populates="component", cascade="all, delete-orphan")
+    operation_rate_fix: Mapped[list[OperationRateFix]] = relationship(back_populates="component", cascade="all, delete-orphan")
+    operation_rate_max: Mapped[list[OperationRateMax]] = relationship(back_populates="component", cascade="all, delete-orphan")
+    yearly_full_load_hours_max: Mapped[list[YearlyFullLoadHoursMax]] = relationship(back_populates="component", cascade="all, delete-orphan")
+    yearly_full_load_hours_min: Mapped[list[YearlyFullLoadHoursMin]] = relationship(back_populates="component", cascade="all, delete-orphan")
+    distances: Mapped[list[TransmissionDistance]] = relationship(back_populates="component", cascade="all, delete-orphan")
+    losses: Mapped[list[TransmissionLoss]] = relationship(back_populates="component", cascade="all, delete-orphan")
 
     # table constraints
     __table_args__ = (UniqueConstraint("ref_dataset", "name", name="_component_name_dataset_uc"),)

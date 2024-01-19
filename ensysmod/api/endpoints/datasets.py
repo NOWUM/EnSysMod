@@ -90,7 +90,6 @@ def remove_dataset(
     Delete a dataset.
     """
     permissions.check_modification_permission(db=db, user=current_user, dataset_id=dataset_id)
-    # TODO remove all components, commodities, regions, etc.
     return crud.dataset.remove(db=db, id=dataset_id)
 
 

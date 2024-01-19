@@ -16,9 +16,6 @@ class CRUDDatasetPermission(CRUDBaseDependsDataset[DatasetPermission, DatasetCre
     def get_by_dataset_and_name(self, db: Session, *, dataset_id: int, name: str) -> DatasetPermission | None:
         raise NotImplementedError
 
-    def remove_by_dataset(self, db: Session, *, dataset_id: int) -> None:
-        db.query(self.model).filter(DatasetPermission.ref_dataset == dataset_id).delete()
-
     def is_usage_allowed(self, db: Session, *, dataset_id: int, user_id: int) -> bool:
         query = select(self.model).where(self.model.ref_dataset == dataset_id, self.model.ref_user == user_id)
         permission = db.execute(query).scalar_one_or_none()

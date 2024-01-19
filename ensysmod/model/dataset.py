@@ -8,8 +8,11 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from ensysmod.database.base_class import Base
 
 if TYPE_CHECKING:
+    from ensysmod.model.dataset_permission import DatasetPermission
     from ensysmod.model.energy_commodity import EnergyCommodity
+    from ensysmod.model.energy_component import EnergyComponent
     from ensysmod.model.energy_conversion import EnergyConversion
+    from ensysmod.model.energy_model import EnergyModel
     from ensysmod.model.energy_sink import EnergySink
     from ensysmod.model.energy_source import EnergySource
     from ensysmod.model.energy_storage import EnergyStorage
@@ -30,14 +33,19 @@ class Dataset(Base):
 
     # relationships
     user: Mapped[User] = relationship()
-    regions: Mapped[list[Region]] = relationship(back_populates="dataset")
-    commodities: Mapped[list[EnergyCommodity]] = relationship(back_populates="dataset")
+    permissions: Mapped[list[DatasetPermission]] = relationship(back_populates="dataset", cascade="all, delete-orphan")
 
-    sources: Mapped[list[EnergySource]] = relationship(back_populates="dataset")
-    sinks: Mapped[list[EnergySink]] = relationship(back_populates="dataset")
-    conversions: Mapped[list[EnergyConversion]] = relationship(back_populates="dataset")
-    storages: Mapped[list[EnergyStorage]] = relationship(back_populates="dataset")
-    transmissions: Mapped[list[EnergyTransmission]] = relationship(back_populates="dataset")
+    regions: Mapped[list[Region]] = relationship(back_populates="dataset", cascade="all, delete-orphan")
+    commodities: Mapped[list[EnergyCommodity]] = relationship(back_populates="dataset", cascade="all, delete-orphan")
+
+    components: Mapped[list[EnergyComponent]] = relationship(back_populates="dataset", cascade="all, delete-orphan")
+    sources: Mapped[list[EnergySource]] = relationship(back_populates="dataset", cascade="all, delete-orphan")
+    sinks: Mapped[list[EnergySink]] = relationship(back_populates="dataset", cascade="all, delete-orphan")
+    conversions: Mapped[list[EnergyConversion]] = relationship(back_populates="dataset", cascade="all, delete-orphan")
+    storages: Mapped[list[EnergyStorage]] = relationship(back_populates="dataset", cascade="all, delete-orphan")
+    transmissions: Mapped[list[EnergyTransmission]] = relationship(back_populates="dataset", cascade="all, delete-orphan")
+
+    models: Mapped[list[EnergyModel]] = relationship(back_populates="dataset", cascade="all, delete-orphan")
 
     # table constraints
     __table_args__ = (UniqueConstraint("name", "ref_user", name="_dataset_user_uc"),)

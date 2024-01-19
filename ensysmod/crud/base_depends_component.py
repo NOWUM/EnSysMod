@@ -40,11 +40,3 @@ class CRUDBaseDependsComponent(CRUDBaseDependsDataset, Generic[ModelType, Create
         obj_in_dict = jsonable_encoder(obj_in)
         obj_in_dict["ref_component"] = component.id
         return super().create(db, obj_in=obj_in_dict)
-
-    def remove(self, db: Session, *, id: int) -> ModelType:
-        """
-        Removes an energy component based object from database.
-        """
-        db_obj = super().remove(db, id=id)
-        crud.energy_component.remove(db, id=id)
-        return db_obj

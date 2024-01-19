@@ -9,7 +9,7 @@ from ensysmod.database.base_class import Base
 from ensysmod.database.ref_base_class import RefCommodity
 
 if TYPE_CHECKING:
-    from model.energy_conversion import EnergyConversion
+    from ensysmod.model.energy_conversion import EnergyConversion
 
 
 class EnergyConversionFactor(RefCommodity, Base):

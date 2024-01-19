@@ -25,7 +25,7 @@ class RefComponentUnique:
 
     @declared_attr
     def component(self) -> Mapped[EnergyComponent]:
-        return relationship()
+        return relationship(cascade="all, delete")
 
 
 class RefComponent:
