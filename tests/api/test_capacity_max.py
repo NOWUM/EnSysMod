@@ -97,7 +97,7 @@ def test_create_capacity_max(db: Session, client: TestClient, user_header: dict[
     """
     create_request = excel_file_type_create_request(CAPACITY_MAX, db, user_header)
 
-    response = client.post("/max-capacities/", headers=user_header, content=create_request.json())
+    response = client.post("/max-capacities/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
 
     created_entry = response.json()
@@ -114,7 +114,7 @@ def test_create_capacity_max_dataset_not_found(db: Session, client: TestClient, 
     create_request = excel_file_type_create_request(CAPACITY_MAX, db, user_header)
     create_request.ref_dataset = 123456  # invalid
 
-    response = client.post("/max-capacities/", headers=user_header, content=create_request.json())
+    response = client.post("/max-capacities/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
@@ -128,7 +128,7 @@ def test_create_capacity_max_component_not_found(db: Session, client: TestClient
     create_request = excel_file_type_create_request(CAPACITY_MAX, db, user_header)
     create_request.component = "Invalid component name"  # invalid
 
-    response = client.post("/max-capacities/", headers=user_header, content=create_request.json())
+    response = client.post("/max-capacities/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
@@ -142,7 +142,7 @@ def test_create_capacity_max_region_not_found(db: Session, client: TestClient, u
     create_request = excel_file_type_create_request(CAPACITY_MAX, db, user_header)
     create_request.region = "Invalid region name"  # invalid
 
-    response = client.post("/max-capacities/", headers=user_header, content=create_request.json())
+    response = client.post("/max-capacities/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
@@ -155,9 +155,9 @@ def test_create_existing_capacity_max(db: Session, client: TestClient, user_head
     """
     create_request = excel_file_type_create_request(CAPACITY_MAX, db, user_header)
 
-    response = client.post("/max-capacities/", headers=user_header, content=create_request.json())
+    response = client.post("/max-capacities/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
-    response = client.post("/max-capacities/", headers=user_header, content=create_request.json())
+    response = client.post("/max-capacities/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 

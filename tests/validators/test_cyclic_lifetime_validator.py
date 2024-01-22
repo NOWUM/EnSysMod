@@ -38,11 +38,11 @@ def test_error_on_negative_cyclic_lifetime(schema: type[BaseModel], data: dict[s
     Test that a cyclic lifetime is not negative
     """
     with pytest.raises(ValidationError) as exc_info:
-        schema(cyclic_lifetime=-0.5, **data)
+        schema(cyclic_lifetime=-1, **data)
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("cyclic_lifetime",)
-    assert exc_info.value.errors()[0]["msg"] == "Cyclic lifetime must be positive."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Cyclic lifetime must be positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -56,7 +56,7 @@ def test_error_on_zero_cyclic_lifetime(schema: type[BaseModel], data: dict[str, 
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("cyclic_lifetime",)
-    assert exc_info.value.errors()[0]["msg"] == "Cyclic lifetime must be positive."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Cyclic lifetime must be positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

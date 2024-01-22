@@ -42,7 +42,7 @@ def test_error_on_negative_discharge_rate(schema: type[BaseModel], data: dict[st
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("discharge_rate",)
-    assert exc_info.value.errors()[0]["msg"] == "Discharge rate must be between 0 and 1."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Discharge rate must be between 0 and 1."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -56,7 +56,7 @@ def test_error_on_positive_discharge_rate(schema: type[BaseModel], data: dict[st
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("discharge_rate",)
-    assert exc_info.value.errors()[0]["msg"] == "Discharge rate must be between 0 and 1."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Discharge rate must be between 0 and 1."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

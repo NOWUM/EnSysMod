@@ -43,7 +43,7 @@ def test_error_long_linked_quantity_id(schema: type[BaseModel], data: dict[str, 
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("linked_quantity_id",)
-    assert exc_info.value.errors()[0]["msg"] == "Linked quantity id must not be longer than 100 characters."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Linked quantity id must not be longer than 100 characters."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

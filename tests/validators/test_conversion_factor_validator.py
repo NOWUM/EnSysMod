@@ -42,8 +42,8 @@ def test_error_missing_conversion_factor(schema: type[BaseModel], data: dict[str
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("conversion_factor",)
-    assert exc_info.value.errors()[0]["msg"] == "field required"
-    assert exc_info.value.errors()[0]["type"] == "value_error.missing"
+    assert exc_info.value.errors()[0]["msg"] == "Field required"
+    assert exc_info.value.errors()[0]["type"] == "missing"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_conversion_factor)
@@ -56,7 +56,7 @@ def test_error_too_high_conversion_factor(schema: type[BaseModel], data: dict[st
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("conversion_factor",)
-    assert exc_info.value.errors()[0]["msg"] == "Conversion factor must be between -5 and 5."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Conversion factor must be between -5 and 5."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -70,7 +70,7 @@ def test_error_too_low_conversion_factor(schema: type[BaseModel], data: dict[str
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("conversion_factor",)
-    assert exc_info.value.errors()[0]["msg"] == "Conversion factor must be between -5 and 5."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Conversion factor must be between -5 and 5."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

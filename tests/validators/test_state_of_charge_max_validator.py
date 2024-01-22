@@ -42,7 +42,7 @@ def test_error_on_negative_state_of_charge_max(schema: type[BaseModel], data: di
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("state_of_charge_max",)
-    assert exc_info.value.errors()[0]["msg"] == "State of charge max must be between 0 and 1."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, State of charge max must be between 0 and 1."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -56,7 +56,7 @@ def test_error_on_positive_state_of_charge_max(schema: type[BaseModel], data: di
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("state_of_charge_max",)
-    assert exc_info.value.errors()[0]["msg"] == "State of charge max must be between 0 and 1."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, State of charge max must be between 0 and 1."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

@@ -46,7 +46,7 @@ def test_create_region(db: Session, client: TestClient, user_header: dict[str, s
     Test creating a region.
     """
     create_request = region_create_request(db, user_header)
-    response = client.post("/regions/", headers=user_header, content=create_request.json())
+    response = client.post("/regions/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
 
     created_region = response.json()
@@ -60,7 +60,7 @@ def test_create_existing_region(db: Session, client: TestClient, user_header: di
     """
     existing_region = new_region(db, user_header)
     create_request = RegionCreate(**jsonable_encoder(existing_region))
-    response = client.post("/regions/", headers=user_header, content=create_request.json())
+    response = client.post("/regions/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
@@ -70,7 +70,7 @@ def test_create_region_unknown_dataset(db: Session, client: TestClient, user_hea
     """
     create_request = region_create_request(db, user_header)
     create_request.ref_dataset = 123456  # ungültige Anfrage
-    response = client.post("/regions/", headers=user_header, content=create_request.json())
+    response = client.post("/regions/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
@@ -85,7 +85,7 @@ def test_create_multiple_regions_same_dataset(db: Session, client: TestClient, u
     create_request = region_create_request(db, user_header)
     create_request.ref_dataset = dataset_id
 
-    response = client.post("/regions/", headers=user_header, content=create_request.json())
+    response = client.post("/regions/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
     second_region = response.json()
 
@@ -110,7 +110,7 @@ def test_update_region(db: Session, client: TestClient, user_header: dict[str, s
     update_request = RegionUpdate(**jsonable_encoder(existing_region))
     update_request.name = f"New Region Name-{random_string()}"
 
-    response = client.put(f"/regions/{existing_region.id}", headers=user_header, content=update_request.json())
+    response = client.put(f"/regions/{existing_region.id}", headers=user_header, content=update_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
 
     updated_region = response.json()

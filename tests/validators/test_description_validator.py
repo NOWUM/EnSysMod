@@ -41,7 +41,7 @@ def test_error_long_description(schema: type[BaseModel], data: dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("description",)
-    assert exc_info.value.errors()[0]["msg"] == "Description must not be longer than 1024 characters."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Description must not be longer than 1024 characters."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

@@ -31,7 +31,7 @@ def export_data(db: Session, dataset_id: int) -> Path:
         for json_file in JSON_FILE_TYPES:
             dump_json(
                 obj=json_file.crud_repo.get_multi_by_dataset(db, dataset_id=dataset_id),
-                fields=set(json_file.create_schema.__fields__.keys()),
+                fields=set(json_file.create_schema.model_fields),
                 file_path=Path(export_dir, json_file.file_name),
             )
 
@@ -70,7 +70,7 @@ def dump_energy_component(
     :param crud_repo: CRUD repository
     :param create_schema: create schema
     """
-    fields = set(create_schema.__fields__.keys())
+    fields = set(create_schema.model_fields)
     fields.remove("type")
 
     for component in crud_repo.get_multi_by_dataset(db, dataset_id=dataset_id):
@@ -107,7 +107,7 @@ def dump_energy_component(
 def conversion_factors_json(component) -> list[dict[str, Any]]:
     return [
         jsonable_encoder(
-            obj=dict(schemas.EnergyConversionFactor.from_orm(factor)),
+            obj=dict(schemas.EnergyConversionFactor.model_validate(factor)),
             include={"conversion_factor", "commodity"},
             custom_encoder={schemas.EnergyCommodity: lambda x: x.name},
         )

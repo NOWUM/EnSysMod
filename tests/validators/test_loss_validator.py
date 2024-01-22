@@ -41,8 +41,8 @@ def test_error_missing_loss(schema: type[BaseModel], data: dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("loss",)
-    assert exc_info.value.errors()[0]["msg"] == "field required"
-    assert exc_info.value.errors()[0]["type"] == "value_error.missing"
+    assert exc_info.value.errors()[0]["msg"] == "Field required"
+    assert exc_info.value.errors()[0]["type"] == "missing"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_loss)
@@ -55,7 +55,7 @@ def test_error_negative_loss(schema: type[BaseModel], data: dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("loss",)
-    assert exc_info.value.errors()[0]["msg"] == "The loss must be between zero and one."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, The loss must be between zero and one."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -69,7 +69,7 @@ def test_error_loss_above_one(schema: type[BaseModel], data: dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("loss",)
-    assert exc_info.value.errors()[0]["msg"] == "The loss must be between zero and one."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, The loss must be between zero and one."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

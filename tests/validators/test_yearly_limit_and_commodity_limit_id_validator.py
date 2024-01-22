@@ -44,8 +44,8 @@ def test_error_missing_commodity_limit_id(schema: type[BaseModel], data: dict[st
         schema(yearly_limit=999, commodity_limit_id=None, **data)
 
     assert len(exc_info.value.errors()) == 1
-    assert exc_info.value.errors()[0]["loc"] == ("__root__",)
-    assert exc_info.value.errors()[0]["msg"] == "If yearly_limit is specified, commodity_limit_id must be specified as well."
+    assert exc_info.value.errors()[0]["loc"] == ()
+    assert exc_info.value.errors()[0]["msg"] == "Value error, If yearly_limit is specified, commodity_limit_id must be specified as well."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -58,8 +58,8 @@ def test_error_on_negative_yearly_limit(schema: type[BaseModel], data: dict[str,
         schema(yearly_limit=-0.5, commodity_limit_id="limit", **data)
 
     assert len(exc_info.value.errors()) == 1
-    assert exc_info.value.errors()[0]["loc"] == ("__root__",)
-    assert exc_info.value.errors()[0]["msg"] == "Yearly limit must be zero or positive."
+    assert exc_info.value.errors()[0]["loc"] == ()
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Yearly limit must be zero or positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -72,8 +72,8 @@ def test_error_long_commodity_limit_id(schema: type[BaseModel], data: dict[str, 
         schema(yearly_limit=999, commodity_limit_id="a" * 101, **data)
 
     assert len(exc_info.value.errors()) == 1
-    assert exc_info.value.errors()[0]["loc"] == ("__root__",)
-    assert exc_info.value.errors()[0]["msg"] == "Commodity limit ID must not be longer than 100 characters."
+    assert exc_info.value.errors()[0]["loc"] == ()
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Commodity limit ID must not be longer than 100 characters."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

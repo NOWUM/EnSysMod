@@ -28,8 +28,8 @@ def test_error_missing_commodity(schema: type[BaseModel], data: dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("commodity_unit",)
-    assert exc_info.value.errors()[0]["msg"] == "field required"
-    assert exc_info.value.errors()[0]["type"] == "value_error.missing"
+    assert exc_info.value.errors()[0]["msg"] == "Field required"
+    assert exc_info.value.errors()[0]["type"] == "missing"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_commodity_optional)
@@ -50,7 +50,7 @@ def test_error_empty_commodity(schema: type[BaseModel], data: dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("commodity_unit",)
-    assert exc_info.value.errors()[0]["msg"] == "Commodity must not be empty."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Commodity must not be empty."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -64,7 +64,7 @@ def test_error_long_commodity(schema: type[BaseModel], data: dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("commodity_unit",)
-    assert exc_info.value.errors()[0]["msg"] == "Commodity must not be longer than 255 characters."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Commodity must not be longer than 255 characters."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

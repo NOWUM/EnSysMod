@@ -32,7 +32,7 @@ def test_create_transmission(db: Session, client: TestClient, user_header: dict[
     Test creating an energy transmission.
     """
     create_request = transmission_create_request(db, user_header)
-    response = client.post("/transmissions/", headers=user_header, content=create_request.json())
+    response = client.post("/transmissions/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
 
     created_transmission = response.json()
@@ -45,9 +45,9 @@ def test_create_existing_transmission(db: Session, client: TestClient, user_head
     Test creating an existing energy transmission.
     """
     create_request = transmission_create_request(db, user_header)
-    response = client.post("/transmissions/", headers=user_header, content=create_request.json())
+    response = client.post("/transmissions/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
-    response = client.post("/transmissions/", headers=user_header, content=create_request.json())
+    response = client.post("/transmissions/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
@@ -57,7 +57,7 @@ def test_create_transmission_unknown_dataset(db: Session, client: TestClient, us
     """
     create_request = transmission_create_request(db, user_header)
     create_request.ref_dataset = 123456  # ungültige Anfrage
-    response = client.post("/transmissions/", headers=user_header, content=create_request.json())
+    response = client.post("/transmissions/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
@@ -67,7 +67,7 @@ def test_create_transmission_unknown_commodity(db: Session, client: TestClient, 
     """
     create_request = transmission_create_request(db, user_header)
     create_request.commodity = "0"  # ungültige Anfrage
-    response = client.post("/transmissions/", headers=user_header, content=create_request.json())
+    response = client.post("/transmissions/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 

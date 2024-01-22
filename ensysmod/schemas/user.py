@@ -1,14 +1,15 @@
-from pydantic import BaseModel
+from pydantic import Field
+
+from ensysmod.schemas.base_schema import BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
 
 
-# Shared attributes
-class UserBase(BaseModel):
+class UserBase(BaseSchema):
     """
     Shared attributes for a User. Used as a base class for all schemas.
     """
 
 
-class UserCreate(UserBase):
+class UserCreate(UserBase, CreateSchema):
     """
     Attributes to receive via API on creation of a User.
     """
@@ -17,7 +18,7 @@ class UserCreate(UserBase):
     password: str
 
 
-class UserUpdate(UserBase):
+class UserUpdate(UserBase, UpdateSchema):
     """
     Attributes to receive via API on update of a User.
     """
@@ -26,14 +27,11 @@ class UserUpdate(UserBase):
     password: str | None = None
 
 
-class User(UserBase):
+class User(UserBase, ReturnSchema):
     """
     Attributes to return via API for a User.
     """
 
     id: int
     username: str
-    hashed_password: str
-
-    class Config:
-        orm_mode = True
+    hashed_password: str = Field(exclude=True)

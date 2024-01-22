@@ -1,7 +1,7 @@
 import secrets
-from typing import Any
 
-from pydantic import BaseSettings, PostgresDsn, validator
+from pydantic import PostgresDsn, ValidationInfo, field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from utils.utils import get_project_root
 
 
@@ -29,24 +29,22 @@ class Settings(BaseSettings):
     POSTGRES_DB: str | None = None
     SQLALCHEMY_DATABASE_URI: str | None = None
 
-    @validator("SQLALCHEMY_DATABASE_URI", pre=True)
-    def assemble_db_connection(cls, v: str | None, values: dict[str, Any]) -> str:
+    @field_validator("SQLALCHEMY_DATABASE_URI", mode="before")
+    @classmethod
+    def assemble_db_connection(cls, v: str | None, values: ValidationInfo) -> str:
+        if v is None:
+            return f"sqlite:///{get_project_root()}/ensysmod/local.db"
         if isinstance(v, str):
             return v
-        if all(isinstance(values[key], str) for key in ("POSTGRES_USER", "POSTGRES_PASSWORD", "POSTGRES_SERVER")):
-            return PostgresDsn.build(
-                scheme="postgresql",
-                user=values.get("POSTGRES_USER"),
-                password=values.get("POSTGRES_PASSWORD"),
-                host=values.get("POSTGRES_SERVER"),
-                path=f"/{values.get('POSTGRES_DB') or ''}",
-            )
+        return PostgresDsn.build(
+            scheme="postgresql",
+            username=values.data.get("POSTGRES_USER"),
+            password=values.data.get("POSTGRES_PASSWORD"),
+            host=values.data.get("POSTGRES_SERVER"),
+            path=f"{values.data.get('POSTGRES_DB') or ''}",
+        ).unicode_string()
 
-        return f"sqlite:///{get_project_root()}/local.db"
-
-    class Config:
-        case_sensitive = True
-        env_file = ".env"
+    model_config = SettingsConfigDict(case_sensitive=True, env_file=".env")
 
 
 settings = Settings()

@@ -42,7 +42,7 @@ def test_error_on_negative_self_discharge(schema: type[BaseModel], data: dict[st
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("self_discharge",)
-    assert exc_info.value.errors()[0]["msg"] == "Self discharge must be between 0 and 1."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Self discharge must be between 0 and 1."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -56,7 +56,7 @@ def test_error_on_positive_self_discharge(schema: type[BaseModel], data: dict[st
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("self_discharge",)
-    assert exc_info.value.errors()[0]["msg"] == "Self discharge must be between 0 and 1."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Self discharge must be between 0 and 1."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

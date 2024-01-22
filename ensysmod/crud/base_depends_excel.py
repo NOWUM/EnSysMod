@@ -28,7 +28,7 @@ class CRUDBaseDependsExcel(CRUDBaseDependsComponentRegion, Generic[ModelType, Cr
         return db.execute(query).scalar_one_or_none()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
-        obj_in_dict = obj_in.dict()
+        obj_in_dict = obj_in.model_dump()
 
         # If the data is a list, the length must match the number_of_time_steps of the dataset.
         if isinstance(obj_in_dict[self.data_column], list):

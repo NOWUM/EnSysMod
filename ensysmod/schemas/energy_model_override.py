@@ -1,26 +1,22 @@
-from pydantic import BaseModel, Field
+from pydantic import Field
 
-from ensysmod.model.energy_model_override import (
-    EnergyModelOverrideAttribute,
-    EnergyModelOverrideOperation,
-)
-from ensysmod.schemas.base_ref_component_region import (
-    RefCRBase,
-    RefCRBaseBase,
-    RefCRBaseCreate,
-    RefCRBaseUpdate,
-)
+from ensysmod.model.energy_model_override import EnergyModelOverrideAttribute, EnergyModelOverrideOperation
+from ensysmod.schemas.base_ref_component_region import RefCRBase, RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate
 from ensysmod.schemas.region import Region
 
 
-class EnergyModelOverrideBase(RefCRBaseBase, BaseModel):
+class EnergyModelOverrideBase(RefCRBaseBase):
     """
     Shared attributes for a model parameter override. Used as a base class for all schemas.
     """
 
-    attribute: EnergyModelOverrideAttribute = Field(..., description="The attribute of the parameter.", example="yearly_limit")
-    operation: EnergyModelOverrideOperation = Field(..., description="The operation of the parameter.", example="set")
-    value: float = Field(..., description="The value of the parameter.", example=-5.5)
+    attribute: EnergyModelOverrideAttribute = Field(
+        default=..., description="The attribute of the parameter.", examples=[EnergyModelOverrideAttribute.yearlyLimit]
+    )
+    operation: EnergyModelOverrideOperation = Field(
+        default=..., description="The operation of the parameter.", examples=[EnergyModelOverrideOperation.set]
+    )
+    value: float = Field(default=..., description="The value of the parameter.", examples=[-5.5])
 
 
 class EnergyModelOverrideCreate(EnergyModelOverrideBase, RefCRBaseCreate):
@@ -53,9 +49,4 @@ class EnergyModelOverride(EnergyModelOverrideBase, RefCRBase):
     """
 
     id: int
-
-    # Region is optional.
     region: Region | None = None
-
-    class Config:
-        orm_mode = True

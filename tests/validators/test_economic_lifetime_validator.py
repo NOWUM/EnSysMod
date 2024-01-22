@@ -42,7 +42,7 @@ def test_error_on_zero_economic_lifetime(schema: type[BaseModel], data: dict[str
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("economic_lifetime",)
-    assert exc_info.value.errors()[0]["msg"] == "Economic lifetime must be positive."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Economic lifetime must be positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -56,7 +56,7 @@ def test_error_on_negative_economic_lifetime(schema: type[BaseModel], data: dict
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("economic_lifetime",)
-    assert exc_info.value.errors()[0]["msg"] == "Economic lifetime must be positive."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Economic lifetime must be positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

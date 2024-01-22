@@ -47,8 +47,8 @@ def test_error_missing_type(schema: type[BaseModel], data: dict[str, Any]) -> No
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("type",)
-    assert exc_info.value.errors()[0]["msg"] == "field required"
-    assert exc_info.value.errors()[0]["type"] == "value_error.missing"
+    assert exc_info.value.errors()[0]["msg"] == "Field required"
+    assert exc_info.value.errors()[0]["type"] == "missing"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_implicit_type)
@@ -69,7 +69,7 @@ def test_error_undefined_type(schema: type[BaseModel], data: dict[str, Any]) -> 
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("type",)
-    assert exc_info.value.errors()[0]["msg"] == "Energy component type must not be undefined."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Energy component type must not be undefined."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -83,5 +83,5 @@ def test_error_empty_type(schema: type[BaseModel], data: dict[str, Any]) -> None
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("type",)
-    assert "value is not a valid enumeration member;" in exc_info.value.errors()[0]["msg"]
-    assert exc_info.value.errors()[0]["type"] == "type_error.enum"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be 'UNDEFINED', 'SOURCE', 'SINK', 'CONVERSION', 'TRANSMISSION' or 'STORAGE'"
+    assert exc_info.value.errors()[0]["type"] == "enum"

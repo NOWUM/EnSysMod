@@ -46,7 +46,7 @@ def test_create_dataset(db: Session, client: TestClient, user_header: dict[str, 
     """
     create_request = dataset_create_request(db, user_header)
 
-    response = client.post("/datasets/", headers=user_header, content=create_request.json())
+    response = client.post("/datasets/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
 
     created_dataset = response.json()
@@ -59,9 +59,9 @@ def test_create_existing_dataset(db: Session, client: TestClient, user_header: d
     Test creating an existing dataset.
     """
     create_request = dataset_create_request(db, user_header)
-    response = client.post("/datasets/", headers=user_header, content=create_request.json())
+    response = client.post("/datasets/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
-    response = client.post("/datasets/", headers=user_header, content=create_request.json())
+    response = client.post("/datasets/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
@@ -75,7 +75,7 @@ def test_update_dataset(db: Session, client: TestClient, user_header: dict[str, 
     update_request.name = f"New Dataset Name-{random_string()}"
     update_request.description = f"New Dataset Description-{random_string()}"
 
-    response = client.put(f"/datasets/{existing_dataset.id}", headers=user_header, content=update_request.json())
+    response = client.put(f"/datasets/{existing_dataset.id}", headers=user_header, content=update_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
 
     updated_dataset = response.json()

@@ -32,7 +32,7 @@ def test_create_storage(db: Session, client: TestClient, user_header: dict[str, 
     Test creating an energy storage.
     """
     create_request = storage_create_request(db, user_header)
-    response = client.post("/storages/", headers=user_header, content=create_request.json())
+    response = client.post("/storages/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
 
     created_storage = response.json()
@@ -45,9 +45,9 @@ def test_create_existing_storage(db: Session, client: TestClient, user_header: d
     Test creating an existing energy storage.
     """
     create_request = storage_create_request(db, user_header)
-    response = client.post("/storages/", headers=user_header, content=create_request.json())
+    response = client.post("/storages/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
-    response = client.post("/storages/", headers=user_header, content=create_request.json())
+    response = client.post("/storages/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
@@ -57,7 +57,7 @@ def test_create_storage_unknown_dataset(db: Session, client: TestClient, user_he
     """
     create_request = storage_create_request(db, user_header)
     create_request.ref_dataset = 123456  # ungültige Anfrage
-    response = client.post("/storages/", headers=user_header, content=create_request.json())
+    response = client.post("/storages/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
@@ -67,7 +67,7 @@ def test_create_storage_unknown_commodity(db: Session, client: TestClient, user_
     """
     create_request = storage_create_request(db, user_header)
     create_request.commodity = "0"  # ungültige Anfrage
-    response = client.post("/storages/", headers=user_header, content=create_request.json())
+    response = client.post("/storages/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 

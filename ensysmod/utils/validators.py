@@ -1,8 +1,13 @@
-from typing import Any
+from __future__ import annotations
 
-from pydantic.errors import MissingError
+from typing import TYPE_CHECKING, Any
 
 from ensysmod.model import EnergyComponentType
+
+if TYPE_CHECKING:
+    from ensysmod.schemas.energy_model_optimization import EnergyModelOptimizationBase
+    from ensysmod.schemas.energy_sink import EnergySinkBase
+    from ensysmod.schemas.energy_source import EnergySourceBase
 
 
 def validate_name(name: str) -> str:
@@ -273,7 +278,7 @@ def validate_conversion_factors(conversion_factors: list[Any]) -> list[Any]:
     :return: The validated conversion_factor.
     """
     if conversion_factors is None:
-        raise MissingError
+        raise ValueError("List of conversion factors must not be empty.")
     if len(conversion_factors) == 0:
         raise ValueError("List of conversion factors must not be empty.")
 
@@ -295,7 +300,7 @@ def validate_commodity_cost(commodity_cost: float) -> float | None:
     return commodity_cost
 
 
-def validate_yearly_limit_and_commodity_limit_id(cls, values):  # noqa: ARG001
+def validate_yearly_limit_and_commodity_limit_id(model: EnergySourceBase | EnergySinkBase) -> EnergySourceBase | EnergySinkBase:
     """
     Validates the yearly limit and the commodity limit ID of an object.
 
@@ -303,11 +308,11 @@ def validate_yearly_limit_and_commodity_limit_id(cls, values):  # noqa: ARG001
     :param commodity_limit_id: The commodity limit id of the object.
     :return: The validated yearly limit and commodity limit id.
     """
-    yearly_limit, commodity_limit_id = values.get("yearly_limit"), values.get("commodity_limit_id")
+    yearly_limit, commodity_limit_id = model.yearly_limit, model.commodity_limit_id
 
     if yearly_limit is None and commodity_limit_id is None:
         # Skip validation if no value provided
-        return values
+        return model
     if yearly_limit is not None and commodity_limit_id is None:
         raise ValueError("If yearly_limit is specified, commodity_limit_id must be specified as well.")
 
@@ -316,7 +321,7 @@ def validate_yearly_limit_and_commodity_limit_id(cls, values):  # noqa: ARG001
     if len(commodity_limit_id) > 100:
         raise ValueError("Commodity limit ID must not be longer than 100 characters.")
 
-    return values
+    return model
 
 
 def validate_charge_efficiency(charge_efficiency: float | None) -> float | None:
@@ -480,7 +485,7 @@ def validate_loss(loss: float) -> float:
     return loss
 
 
-def validate_optimization_timeframe(cls, values):  # noqa: ARG001
+def validate_optimization_timeframe(model: EnergyModelOptimizationBase) -> EnergyModelOptimizationBase:
     """
     Validates the optimization timeframe of an object.
 
@@ -491,10 +496,10 @@ def validate_optimization_timeframe(cls, values):  # noqa: ARG001
 
     :return: the validated optimization timeframe parameters.
     """
-    start_year = values.get("start_year")
-    end_year = values.get("end_year")
-    number_of_steps = values.get("number_of_steps")
-    years_per_step = values.get("years_per_step")
+    start_year = model.start_year
+    end_year = model.end_year
+    number_of_steps = model.number_of_steps
+    years_per_step = model.years_per_step
 
     if start_year is None:
         raise ValueError("start_year must be specified.")
@@ -518,15 +523,15 @@ def validate_optimization_timeframe(cls, values):  # noqa: ARG001
     if (end_year - start_year) != number_of_steps * years_per_step:
         raise ValueError("The parameters must satisfy the equation: (end_year - start_year) = number_of_steps * years_per_step.")
 
-    values["start_year"] = start_year
-    values["end_year"] = end_year
-    values["number_of_steps"] = number_of_steps
-    values["years_per_step"] = years_per_step
+    model.start_year = start_year
+    model.end_year = end_year
+    model.number_of_steps = number_of_steps
+    model.years_per_step = years_per_step
 
-    return values
+    return model
 
 
-def validate_CO2_optimization(cls, values):  # noqa: ARG001
+def validate_CO2_optimization(model: EnergyModelOptimizationBase) -> EnergyModelOptimizationBase:
     """
     Validates the CO2 optimization.
 
@@ -535,12 +540,12 @@ def validate_CO2_optimization(cls, values):  # noqa: ARG001
 
     :return: The validated CO2 optimization parameters.
     """  # noqa: E501
-    CO2_reference = values.get("CO2_reference")
-    CO2_reduction_targets = values.get("CO2_reduction_targets")
-    number_of_steps = values.get("number_of_steps")
+    CO2_reference = model.CO2_reference
+    CO2_reduction_targets = model.CO2_reduction_targets
+    number_of_steps = model.number_of_steps
 
     if (CO2_reference is None) & (CO2_reduction_targets is None):
-        return values
+        return model
     if (CO2_reference is not None) & (CO2_reduction_targets is None):
         raise ValueError("If CO2_reference is specified, CO2_reduction_targets must also be specified.")
     if (CO2_reference is None) & (CO2_reduction_targets is not None):
@@ -557,4 +562,4 @@ def validate_CO2_optimization(cls, values):  # noqa: ARG001
             f"The number of values given in CO2_reduction_targets must match the number of optimization runs. Expected: {number_of_steps+1}, given: {len(CO2_reduction_targets)}.",  # noqa: E501
         )
 
-    return values
+    return model

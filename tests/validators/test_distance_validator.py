@@ -41,8 +41,8 @@ def test_error_missing_distance(schema: type[BaseModel], data: dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("distance",)
-    assert exc_info.value.errors()[0]["msg"] == "field required"
-    assert exc_info.value.errors()[0]["type"] == "value_error.missing"
+    assert exc_info.value.errors()[0]["msg"] == "Field required"
+    assert exc_info.value.errors()[0]["type"] == "missing"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_distance)
@@ -55,7 +55,7 @@ def test_error_negative_distance(schema: type[BaseModel], data: dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("distance",)
-    assert exc_info.value.errors()[0]["msg"] == "The distance must be zero or positive."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, The distance must be zero or positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

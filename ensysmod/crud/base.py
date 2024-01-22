@@ -38,7 +38,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             data = {k: v for k, v in obj_in.items() if k in self.model.__table__.columns}
             db_obj = self.model(**data)
         else:
-            obj_in_data = jsonable_encoder(obj_in, include=self.model.__table__.columns.keys())
+            obj_in_data = jsonable_encoder(obj_in, include=set(self.model.__table__.columns.keys()))
             db_obj = self.model(**obj_in_data)
         db.add(db_obj)
         db.commit()
@@ -47,7 +47,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     def update(self, db: Session, *, db_obj: ModelType, obj_in: UpdateSchemaType | dict[str, Any]) -> ModelType:
         obj_data = jsonable_encoder(db_obj)
-        update_data = obj_in if isinstance(obj_in, dict) else obj_in.dict(exclude_unset=True)
+        update_data = obj_in if isinstance(obj_in, dict) else obj_in.model_dump(exclude_unset=True)
         for field in obj_data:
             if field in update_data:
                 setattr(db_obj, field, update_data[field])

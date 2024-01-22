@@ -20,7 +20,7 @@ def create_request(create_schema: type[CreateSchemaType], json_dict: dict, datas
     Set the ref_dataset to dataset_id, then convert the json_dict into the create schema type.
     """
     json_dict["ref_dataset"] = dataset_id
-    return create_schema.parse_obj(json_dict)
+    return create_schema.model_validate(json_dict)
 
 
 def process_dataset_zip_archive(zip_archive: ZipFile, dataset_id: int, db: Session) -> ZipArchiveUploadResult:

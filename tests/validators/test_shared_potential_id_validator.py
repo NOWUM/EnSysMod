@@ -43,7 +43,7 @@ def test_error_long_shared_potential_id(schema: type[BaseModel], data: dict[str,
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("shared_potential_id",)
-    assert exc_info.value.errors()[0]["msg"] == "Shared potential id must not be longer than 100 characters."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Shared potential id must not be longer than 100 characters."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

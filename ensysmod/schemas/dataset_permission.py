@@ -1,10 +1,11 @@
-from pydantic import BaseModel, Field
+from pydantic import Field
 
+from ensysmod.schemas.base_schema import BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
 from ensysmod.schemas.dataset import Dataset
 from ensysmod.schemas.user import User
 
 
-class DatasetPermissionBase(BaseModel):
+class DatasetPermissionBase(BaseSchema):
     """
     Shared attributes for a DatasetPermission. Used as a base class for all schemas.
     """
@@ -15,29 +16,26 @@ class DatasetPermissionBase(BaseModel):
     allow_permission_revoke: bool = Field(default=True, description="Whether the user is allowed to revoke permissions.")
 
 
-class DatasetPermissionCreate(DatasetPermissionBase):
+class DatasetPermissionCreate(DatasetPermissionBase, CreateSchema):
     """
     Attributes to receive via API on creation of a DatasetPermission.
     """
 
-    ref_dataset: int | None = Field(None, description="The ID of the dataset. You must have access to grant permissions to this dataset.")
-    ref_user: int | None = Field(None, description="The ID of the user that receive the permissions.")
+    ref_dataset: int | None = Field(default=None, description="The ID of the dataset. You must have access to grant permissions to this dataset.")
+    ref_user: int | None = Field(default=None, description="The ID of the user that receive the permissions.")
 
 
-class DatasetPermissionUpdate(DatasetPermissionBase):
+class DatasetPermissionUpdate(DatasetPermissionBase, UpdateSchema):
     """
     Attributes to receive via API on update of a DatasetPermission.
     """
 
 
-class DatasetPermission(DatasetPermissionBase):
+class DatasetPermission(DatasetPermissionBase, ReturnSchema):
     """
     Attributes to return via API for a DatasetPermission.
     """
 
-    id: int = Field(..., description="The unique ID of the DatasetPermission.")
-    dataset: Dataset = Field(..., description="The dataset that the permissions are granted to.")
-    user: User = Field(..., description="The user that the permissions are granted to.")
-
-    class Config:
-        orm_mode = True
+    id: int = Field(default=..., description="The unique ID of the DatasetPermission.")
+    dataset: Dataset = Field(default=..., description="The dataset that the permissions are granted to.")
+    user: User = Field(default=..., description="The user that the permissions are granted to.")

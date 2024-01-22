@@ -1,19 +1,19 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import Field, field_validator
 
 from ensysmod.schemas.base_ref_component_region import RefCRBase, RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate
 from ensysmod.schemas.region import Region
 from ensysmod.utils import validators
 
 
-class TransmissionDistanceBase(RefCRBaseBase, BaseModel):
+class TransmissionDistanceBase(RefCRBaseBase):
     """
     Shared attributes for an TransmissionDistance. Used as a base class for all schemas.
     """
 
-    distance: float = Field(..., description="Distance between two regions in unit of dataset.", example=133.4)
+    distance: float = Field(default=..., description="Distance between two regions in unit of dataset.", examples=[133.4])
 
     # validators
-    _valid_distance = validator("distance", allow_reuse=True)(validators.validate_distance)
+    _valid_distance = field_validator("distance")(validators.validate_distance)
 
 
 class TransmissionDistanceCreate(TransmissionDistanceBase, RefCRBaseCreate):
@@ -21,7 +21,7 @@ class TransmissionDistanceCreate(TransmissionDistanceBase, RefCRBaseCreate):
     Attributes to receive via API on creation of an TransmissionDistance.
     """
 
-    region_to: str = Field(..., description="The name of the target region.", example="france")
+    region_to: str = Field(default=..., description="The name of the target region.", examples=["france"])
 
 
 class TransmissionDistanceUpdate(TransmissionDistanceBase, RefCRBaseUpdate):
@@ -36,6 +36,3 @@ class TransmissionDistance(TransmissionDistanceBase, RefCRBase):
     """
 
     region_to: Region
-
-    class Config:
-        orm_mode = True

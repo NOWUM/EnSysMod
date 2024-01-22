@@ -97,7 +97,7 @@ def test_create_transmission_loss(db: Session, client: TestClient, user_header: 
     """
     create_request = excel_file_type_create_request(TRANSMISSION_LOSS, db, user_header, transmission_component=True)
 
-    response = client.post("/transmission-losses/", headers=user_header, content=create_request.json())
+    response = client.post("/transmission-losses/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
 
     created_entry = response.json()
@@ -115,7 +115,7 @@ def test_create_transmission_loss_dataset_not_found(db: Session, client: TestCli
     create_request = excel_file_type_create_request(TRANSMISSION_LOSS, db, user_header, transmission_component=True)
     create_request.ref_dataset = 123456  # invalid
 
-    response = client.post("/transmission-losses/", headers=user_header, content=create_request.json())
+    response = client.post("/transmission-losses/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
@@ -129,7 +129,7 @@ def test_create_transmission_loss_component_not_found(db: Session, client: TestC
     create_request = excel_file_type_create_request(TRANSMISSION_LOSS, db, user_header, transmission_component=True)
     create_request.component = "Invalid component name"  # invalid
 
-    response = client.post("/transmission-losses/", headers=user_header, content=create_request.json())
+    response = client.post("/transmission-losses/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
@@ -143,7 +143,7 @@ def test_create_transmission_loss_region_not_found(db: Session, client: TestClie
     create_request = excel_file_type_create_request(TRANSMISSION_LOSS, db, user_header, transmission_component=True)
     create_request.region = "Invalid region name"  # invalid
 
-    response = client.post("/transmission-losses/", headers=user_header, content=create_request.json())
+    response = client.post("/transmission-losses/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
@@ -157,7 +157,7 @@ def test_create_transmission_loss_region_to_not_found(db: Session, client: TestC
     create_request = excel_file_type_create_request(TRANSMISSION_LOSS, db, user_header, transmission_component=True)
     create_request.region_to = "Invalid region_to name"  # invalid
 
-    response = client.post("/transmission-losses/", headers=user_header, content=create_request.json())
+    response = client.post("/transmission-losses/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
@@ -170,9 +170,9 @@ def test_create_existing_transmission_loss(db: Session, client: TestClient, user
     """
     create_request = excel_file_type_create_request(TRANSMISSION_LOSS, db, user_header, transmission_component=True)
 
-    response = client.post("/transmission-losses/", headers=user_header, content=create_request.json())
+    response = client.post("/transmission-losses/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
-    response = client.post("/transmission-losses/", headers=user_header, content=create_request.json())
+    response = client.post("/transmission-losses/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 

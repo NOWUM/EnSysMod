@@ -42,7 +42,7 @@ def test_error_on_negative_interest_rate(schema: type[BaseModel], data: dict[str
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("interest_rate",)
-    assert exc_info.value.errors()[0]["msg"] == "Interest rate must be between 0 and 1."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Interest rate must be between 0 and 1."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -56,7 +56,7 @@ def test_error_on_positive_interest_rate(schema: type[BaseModel], data: dict[str
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("interest_rate",)
-    assert exc_info.value.errors()[0]["msg"] == "Interest rate must be between 0 and 1."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Interest rate must be between 0 and 1."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

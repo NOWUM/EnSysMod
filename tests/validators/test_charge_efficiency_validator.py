@@ -42,7 +42,7 @@ def test_error_on_negative_charge_efficiency(schema: type[BaseModel], data: dict
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("charge_efficiency",)
-    assert exc_info.value.errors()[0]["msg"] == "Charge efficiency must be between 0 and 1."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Charge efficiency must be between 0 and 1."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -56,7 +56,7 @@ def test_error_on_positive_charge_efficiency(schema: type[BaseModel], data: dict
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("charge_efficiency",)
-    assert exc_info.value.errors()[0]["msg"] == "Charge efficiency must be between 0 and 1."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Charge efficiency must be between 0 and 1."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

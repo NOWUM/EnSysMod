@@ -46,7 +46,7 @@ def test_create_commodity(db: Session, client: TestClient, user_header: dict[str
     Test creating an energy commodity.
     """
     create_request = commodity_create_request(db, user_header)
-    response = client.post("/commodities/", headers=user_header, content=create_request.json())
+    response = client.post("/commodities/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
 
     created_commodity = response.json()
@@ -61,9 +61,9 @@ def test_create_existing_commodity(db: Session, client: TestClient, user_header:
     Test creating an existing energy commodity.
     """
     create_request = commodity_create_request(db, user_header)
-    response = client.post("/commodities/", headers=user_header, content=create_request.json())
+    response = client.post("/commodities/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
-    response = client.post("/commodities/", headers=user_header, content=create_request.json())
+    response = client.post("/commodities/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_409_CONFLICT
 
 
@@ -73,7 +73,7 @@ def test_create_commodity_unknown_dataset(db: Session, client: TestClient, user_
     """
     create_request = commodity_create_request(db, user_header)
     create_request.ref_dataset = 123456  # ungültige Anfrage
-    response = client.post("/commodities/", headers=user_header, content=create_request.json())
+    response = client.post("/commodities/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
@@ -88,7 +88,7 @@ def test_create_multiple_commodities_same_dataset(db: Session, client: TestClien
     create_request = commodity_create_request(db, user_header)
     create_request.ref_dataset = dataset_id
 
-    response = client.post("/commodities/", headers=user_header, content=create_request.json())
+    response = client.post("/commodities/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
     second_commodity = response.json()
 
@@ -115,7 +115,7 @@ def test_update_commodity(db: Session, client: TestClient, user_header: dict[str
     update_request.unit = f"New Commodity Unit-{random_string()}"
     update_request.description = f"New Commodity Description-{random_string()}"
 
-    response = client.put(f"/commodities/{existing_commodity.id}", headers=user_header, content=update_request.json())
+    response = client.put(f"/commodities/{existing_commodity.id}", headers=user_header, content=update_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
 
     updated_commodity = response.json()

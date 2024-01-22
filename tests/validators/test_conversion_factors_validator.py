@@ -37,7 +37,7 @@ def test_error_empty_conversion_factors(schema: type[BaseModel], data: dict[str,
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("conversion_factors",)
-    assert exc_info.value.errors()[0]["msg"] == "List of conversion factors must not be empty."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, List of conversion factors must not be empty."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

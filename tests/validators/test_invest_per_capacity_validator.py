@@ -42,7 +42,7 @@ def test_error_on_negative_invest_per_capacity(schema: type[BaseModel], data: di
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("invest_per_capacity",)
-    assert exc_info.value.errors()[0]["msg"] == "Invest per capacity must be zero or positive."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Invest per capacity must be zero or positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

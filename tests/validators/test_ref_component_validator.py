@@ -24,8 +24,8 @@ def test_error_missing_ref_component(schema: type[BaseModel], data: dict[str, An
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("ref_component",)
-    assert exc_info.value.errors()[0]["msg"] == "field required"
-    assert exc_info.value.errors()[0]["type"] == "value_error.missing"
+    assert exc_info.value.errors()[0]["msg"] == "Field required"
+    assert exc_info.value.errors()[0]["type"] == "missing"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_ref_component_optional)
@@ -46,7 +46,7 @@ def test_error_on_zero_ref_component(schema: type[BaseModel], data: dict[str, An
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("ref_component",)
-    assert exc_info.value.errors()[0]["msg"] == "Reference to a component must be positive."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Reference to a component must be positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 
@@ -60,7 +60,7 @@ def test_error_on_negative_ref_component(schema: type[BaseModel], data: dict[str
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("ref_component",)
-    assert exc_info.value.errors()[0]["msg"] == "Reference to a component must be positive."
+    assert exc_info.value.errors()[0]["msg"] == "Value error, Reference to a component must be positive."
     assert exc_info.value.errors()[0]["type"] == "value_error"
 
 

@@ -22,7 +22,7 @@ class CRUDBaseDependsComponentRegion(CRUDBaseDependsDataset, Generic[ModelType, 
         return db.execute(query).scalar_one_or_none()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType | dict[str, Any]) -> ModelType:
-        obj_in_dict = obj_in if isinstance(obj_in, dict) else obj_in.dict()
+        obj_in_dict = obj_in if isinstance(obj_in, dict) else obj_in.model_dump()
 
         if "ref_component" not in obj_in_dict:
             component = crud.energy_component.get_by_dataset_and_name(db, name=obj_in_dict["component"], dataset_id=obj_in_dict["ref_dataset"])

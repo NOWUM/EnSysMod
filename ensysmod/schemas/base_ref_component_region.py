@@ -1,40 +1,41 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import Field, field_validator
 
+from ensysmod.schemas.base_schema import BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
 from ensysmod.schemas.dataset import Dataset
 from ensysmod.schemas.energy_component import EnergyComponent
 from ensysmod.schemas.region import Region
 from ensysmod.utils import validators
 
 
-class RefCRBaseBase(BaseModel):
+class RefCRBaseBase(BaseSchema):
     """
-    Shared attributes for a referenced component region model. Used as a base class for all schemas.
-    """
-
-
-class RefCRBaseCreate(RefCRBaseBase):
-    """
-    Attributes to receive via API on creation of a referenced component region model.
+    Shared attributes for an object with a reference to a component and region. Used as a base class for all schemas.
     """
 
-    ref_dataset: int = Field(..., description="The ID of the referenced dataset. Current dataset is used as default.")
-    component: str = Field(..., description="The name of the component.", example="heat_pump")
-    region: str = Field(..., description="The name of the region.", example="germany")
-    region_to: str | None = Field(None, description="Optional region to name, if needed.", example="france")
+
+class RefCRBaseCreate(CreateSchema):
+    """
+    Attributes to receive via API on creation of an object with a reference to a component and region.
+    """
+
+    ref_dataset: int = Field(default=..., description="The ID of the referenced dataset. Current dataset is used as default.")
+    component: str = Field(default=..., description="The name of the component.", examples=["heat_pump"])
+    region: str = Field(default=..., description="The name of the region.", examples=["germany"])
+    region_to: str | None = Field(default=None, description="Optional region to name, if needed.", examples=["france"])
 
     # validators
-    _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_required)
+    _valid_ref_dataset = field_validator("ref_dataset")(validators.validate_ref_dataset_required)
 
 
-class RefCRBaseUpdate(RefCRBaseBase):
+class RefCRBaseUpdate(UpdateSchema):
     """
-    Attributes to receive via API on update of a referenced component region model.
+    Attributes to receive via API on update of an object with a reference to a component and region.
     """
 
 
-class RefCRBase(RefCRBaseBase):
+class RefCRBase(ReturnSchema):
     """
-    Attributes to return via API for a referenced component region model.
+    Attributes to return via API for an object with a reference to a component and region.
     """
 
     id: int
@@ -42,6 +43,3 @@ class RefCRBase(RefCRBaseBase):
     component: EnergyComponent
     region: Region
     region_to: Region | None = None
-
-    class Config:
-        orm_mode = True
