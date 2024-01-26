@@ -1,19 +1,19 @@
 from typing import Any, Generic, TypeVar
 
 from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ensysmod.database.base_class import Base
+from ensysmod.schemas.base_schema import CreateSchema, UpdateSchema
 
 ModelType = TypeVar("ModelType", bound=Base)
-CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
-UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
+CreateSchemaType = TypeVar("CreateSchemaType", bound=CreateSchema)
+UpdateSchemaType = TypeVar("UpdateSchemaType", bound=UpdateSchema)
 
 
 class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
-    def __init__(self, model: type[ModelType]):
+    def __init__(self, model: type[ModelType]) -> None:
         """
         CRUD object with default methods to Create, Read, Update, Delete (CRUD).
         **Parameters**

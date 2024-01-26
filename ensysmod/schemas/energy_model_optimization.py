@@ -76,7 +76,7 @@ class EnergyModelOptimizationUpdate(EnergyModelOptimizationBase, UpdateSchema):
     _valid_CO2_optimization = model_validator(mode="after")(validators.validate_CO2_optimization)
 
 
-class EnergyModelOptimization(EnergyModelOptimizationBase, ReturnSchema):
+class EnergyModelOptimizationSchema(EnergyModelOptimizationBase, ReturnSchema):
     """
     Attributes to return via API for a model optimization parameter.
     """

@@ -1,17 +1,19 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from ensysmod import crud, model, schemas
+from ensysmod import crud
 from ensysmod.api import deps, permissions
+from ensysmod.model import User
+from ensysmod.schemas import EnergyTransmissionCreate, EnergyTransmissionSchema
 
 router = APIRouter()
 
 
-@router.get("/", response_model=list[schemas.EnergyTransmission])
+@router.get("/", response_model=list[EnergyTransmissionSchema])
 def get_energy_transmission_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
 ):
@@ -22,11 +24,11 @@ def get_energy_transmission_by_dataset(
     return crud.energy_transmission.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
-@router.post("/", response_model=schemas.EnergyTransmission, responses={409: {"description": "EnergyTransmission with same name already exists."}})
+@router.post("/", response_model=EnergyTransmissionSchema, responses={409: {"description": "EnergyTransmission with same name already exists."}})
 def create_transmission(
-    request: schemas.EnergyTransmissionCreate,
+    request: EnergyTransmissionCreate,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Create a new energy transmission.

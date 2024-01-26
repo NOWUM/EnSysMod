@@ -1,7 +1,7 @@
 from pydantic import Field
 
 from ensysmod.schemas.base_schema import MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
-from ensysmod.schemas.dataset import Dataset
+from ensysmod.schemas.dataset import DatasetSchema
 
 
 class RegionBase(BaseSchema):
@@ -45,10 +45,10 @@ class RegionUpdate(RegionBase, UpdateSchema):
     )
 
 
-class Region(RegionBase, ReturnSchema):
+class RegionSchema(RegionBase, ReturnSchema):
     """
     Attributes to return via API for a region.
     """
 
     id: int
-    dataset: Dataset
+    dataset: DatasetSchema

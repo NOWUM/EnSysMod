@@ -4,23 +4,23 @@ from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from starlette.background import BackgroundTask
 
-from ensysmod import crud, model
+from ensysmod import crud
 from ensysmod.api import deps, permissions
 from ensysmod.core.file_download import dump_excel_file
 from ensysmod.core.file_upload import process_excel_file
-from ensysmod.schemas import TransmissionDistance, TransmissionDistanceCreate
-from ensysmod.schemas.file_upload import FileStatus, FileUploadResult
+from ensysmod.model import User
+from ensysmod.schemas import FileStatus, FileUploadResult, TransmissionDistanceCreate, TransmissionDistanceSchema
 from ensysmod.utils.utils import create_temp_file, remove_file
 
 router = APIRouter()
 
 
-@router.get("/{entry_id}", response_model=TransmissionDistance)
+@router.get("/{entry_id}", response_model=TransmissionDistanceSchema)
 def get_transmission_distance(
     entry_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> TransmissionDistance:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Get a TransmissionDistance by its id.
     """
@@ -33,14 +33,14 @@ def get_transmission_distance(
     return entry
 
 
-@router.get("/dataset/{dataset_id}", response_model=list[TransmissionDistance])
+@router.get("/dataset/{dataset_id}", response_model=list[TransmissionDistanceSchema])
 def get_transmission_distance_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
-) -> list[TransmissionDistance]:
+):
     """
     Get all TransmissionDistance of a dataset.
     """
@@ -53,12 +53,12 @@ def get_transmission_distance_by_dataset(
     return entry_list
 
 
-@router.get("/component/{component_id}", response_model=list[TransmissionDistance])
+@router.get("/component/{component_id}", response_model=list[TransmissionDistanceSchema])
 def get_transmission_distance_by_component(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> list[TransmissionDistance] | None:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Get all TransmissionDistance of a component.
     """
@@ -71,11 +71,11 @@ def get_transmission_distance_by_component(
     return entry_list
 
 
-@router.post("/", response_model=TransmissionDistance)
+@router.post("/", response_model=TransmissionDistanceSchema)
 def create_transmission_distance(
     request: TransmissionDistanceCreate,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Create a new TransmissionDistance.
@@ -116,11 +116,11 @@ def create_transmission_distance(
     return crud.transmission_distance.create(db=db, obj_in=request)
 
 
-@router.delete("/{entry_id}", response_model=TransmissionDistance)
+@router.delete("/{entry_id}", response_model=TransmissionDistanceSchema)
 def remove_transmission_distance(
     entry_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Remove a TransmissionDistance.
@@ -134,11 +134,11 @@ def remove_transmission_distance(
     return crud.transmission_distance.remove(db=db, id=entry_id)
 
 
-@router.delete("/component/{component_id}", response_model=list[TransmissionDistance])
+@router.delete("/component/{component_id}", response_model=list[TransmissionDistanceSchema])
 def remove_transmission_distance_by_component(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Remove all TransmissionDistance of a component.
@@ -157,8 +157,8 @@ def upload_transmission_distance(
     component_id: int,
     file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> FileUploadResult:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Upload TransmissionDistance of a component.
     """
@@ -188,8 +188,8 @@ def upload_transmission_distance(
 def download_transmission_distance(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> FileResponse:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Download TransmissionDistance of a component.
     """

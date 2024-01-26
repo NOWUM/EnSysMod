@@ -8,6 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from ensysmod.database.base_class import Base
 
 if TYPE_CHECKING:
+    from ensysmod.model import User
     from ensysmod.model.dataset_permission import DatasetPermission
     from ensysmod.model.energy_commodity import EnergyCommodity
     from ensysmod.model.energy_component import EnergyComponent
@@ -18,7 +19,6 @@ if TYPE_CHECKING:
     from ensysmod.model.energy_storage import EnergyStorage
     from ensysmod.model.energy_transmission import EnergyTransmission
     from ensysmod.model.region import Region
-    from ensysmod.model.user import User
 
 
 class Dataset(Base):

@@ -3,19 +3,18 @@ from typing import Any
 from zipfile import ZipFile
 
 import pandas as pd
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from starlette.datastructures import UploadFile
 
 from ensysmod.core.file_folder_types import EXCEL_FILE_TYPES, FOLDER_TYPES, JSON_FILE_TYPES
-from ensysmod.crud.base import CreateSchemaType
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
 from ensysmod.crud.base_depends_excel import CRUDBaseDependsExcel
 from ensysmod.schemas import FileStatus, FileUploadResult, ZipArchiveUploadResult
+from ensysmod.schemas.base_schema import CreateSchema
 
 
-def create_request(create_schema: type[CreateSchemaType], json_dict: dict, dataset_id: int) -> CreateSchemaType:
+def create_request(create_schema: type[CreateSchema], json_dict: dict, dataset_id: int) -> CreateSchema:
     """
     Set the ref_dataset to dataset_id, then convert the json_dict into the create schema type.
     """
@@ -89,7 +88,7 @@ def process_json_list_file(
     zip_archive: ZipFile,
     file_name: str,
     crud_repo: CRUDBaseDependsDataset,
-    create_schema: type[CreateSchemaType],
+    create_schema: type[CreateSchema],
 ) -> FileUploadResult:
     """
     Process a json file containing a list of objects.
@@ -120,7 +119,7 @@ def process_components_folder(
     folder_name: str,
     component_file_name: str,
     crud_repo: CRUDBaseDependsComponent,
-    create_schema: type[CreateSchemaType],
+    create_schema: type[CreateSchema],
     as_matrix: bool = False,
 ) -> list[FileUploadResult]:
     """
@@ -205,7 +204,7 @@ def process_excel_file(
     dataset_id: int,
     component_name: str,
     crud_repo: CRUDBaseDependsExcel,
-    create_schema: type[BaseModel],
+    create_schema: type[CreateSchema],
     as_list: bool = False,
     as_matrix: bool = False,
 ) -> FileUploadResult:

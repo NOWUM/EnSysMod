@@ -6,13 +6,13 @@ from tempfile import TemporaryDirectory
 from typing import Any
 
 from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from ensysmod import schemas
 from ensysmod.core.file_folder_types import EXCEL_FILE_TYPES, FOLDER_TYPES, JSON_FILE_TYPES
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.crud.base_depends_excel import CRUDBaseDependsExcel
+from ensysmod.schemas import EnergyCommoditySchema, EnergyConversionFactorSchema
+from ensysmod.schemas.base_schema import CreateSchema
 from ensysmod.utils.utils import create_temp_file
 
 
@@ -58,8 +58,8 @@ def dump_energy_component(
     component_type_folder: Path,
     file_name: str,
     crud_repo: CRUDBaseDependsComponent,
-    create_schema: type[BaseModel],
-):
+    create_schema: type[CreateSchema],
+) -> None:
     """
     Dump all energy components to folders.
 
@@ -107,15 +107,15 @@ def dump_energy_component(
 def conversion_factors_json(component) -> list[dict[str, Any]]:
     return [
         jsonable_encoder(
-            obj=dict(schemas.EnergyConversionFactor.model_validate(factor)),
+            obj=dict(EnergyConversionFactorSchema.model_validate(factor)),
             include={"conversion_factor", "commodity"},
-            custom_encoder={schemas.EnergyCommodity: lambda x: x.name},
+            custom_encoder={EnergyCommoditySchema: lambda x: x.name},
         )
         for factor in component.conversion_factors
     ]
 
 
-def dump_json(*, obj: Any, fields: set[str], file_path: Path):
+def dump_json(*, obj: Any, fields: set[str], file_path: Path) -> None:
     """
     Dump the object to a json file.
 
@@ -130,7 +130,7 @@ def dump_json(*, obj: Any, fields: set[str], file_path: Path):
         json.dump(json_obj, file, ensure_ascii=False, indent=4)
 
 
-def dump_excel_file(*, db: Session, component_id: int, crud_repo: CRUDBaseDependsExcel, file_path: Path):
+def dump_excel_file(*, db: Session, component_id: int, crud_repo: CRUDBaseDependsExcel, file_path: Path) -> None:
     """
     Export excel data from database to an excel file.
 

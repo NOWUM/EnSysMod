@@ -1,17 +1,19 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from ensysmod import crud, model, schemas
+from ensysmod import crud
 from ensysmod.api import deps, permissions
+from ensysmod.model import User
+from ensysmod.schemas import RegionCreate, RegionSchema, RegionUpdate
 
 router = APIRouter()
 
 
-@router.get("/{region_id}", response_model=schemas.Region)
+@router.get("/{region_id}", response_model=RegionSchema)
 def get_region(
     region_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Get a region by its id.
@@ -25,11 +27,11 @@ def get_region(
     return region
 
 
-@router.get("/", response_model=list[schemas.Region])
+@router.get("/", response_model=list[RegionSchema])
 def get_region_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
 ):
@@ -40,11 +42,11 @@ def get_region_by_dataset(
     return crud.region.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
-@router.post("/", response_model=schemas.Region, responses={409: {"description": "Region with same name already exists."}})
+@router.post("/", response_model=RegionSchema, responses={409: {"description": "Region with same name already exists."}})
 def create_region(
-    request: schemas.RegionCreate,
+    request: RegionCreate,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Create a new region.
@@ -62,12 +64,12 @@ def create_region(
     return crud.region.create(db=db, obj_in=request)
 
 
-@router.put("/{region_id}", response_model=schemas.Region)
+@router.put("/{region_id}", response_model=RegionSchema)
 def update_region(
     region_id: int,
-    request: schemas.RegionUpdate,
+    request: RegionUpdate,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Update a region.
@@ -79,11 +81,11 @@ def update_region(
     return crud.region.update(db=db, db_obj=region, obj_in=request)
 
 
-@router.delete("/{region_id}", response_model=schemas.Region)
+@router.delete("/{region_id}", response_model=RegionSchema)
 def remove_region(
     region_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Delete a region.

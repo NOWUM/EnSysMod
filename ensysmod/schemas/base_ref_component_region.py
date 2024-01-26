@@ -1,9 +1,9 @@
 from pydantic import Field
 
 from ensysmod.schemas.base_schema import BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
-from ensysmod.schemas.dataset import Dataset
-from ensysmod.schemas.energy_component import EnergyComponent
-from ensysmod.schemas.region import Region
+from ensysmod.schemas.dataset import DatasetSchema
+from ensysmod.schemas.energy_component import EnergyComponentSchema
+from ensysmod.schemas.region import RegionSchema
 
 
 class RefCRBaseBase(BaseSchema):
@@ -51,7 +51,7 @@ class RefCRBase(ReturnSchema):
     """
 
     id: int
-    dataset: Dataset
-    component: EnergyComponent
-    region: Region
-    region_to: Region | None = None
+    dataset: DatasetSchema
+    component: EnergyComponentSchema
+    region: RegionSchema
+    region_to: RegionSchema | None = None

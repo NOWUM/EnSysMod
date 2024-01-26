@@ -4,24 +4,23 @@ from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from starlette.background import BackgroundTask
 
-from ensysmod import crud, model
+from ensysmod import crud
 from ensysmod.api import deps, permissions
 from ensysmod.core.file_download import dump_excel_file
 from ensysmod.core.file_upload import process_excel_file
-from ensysmod.model.energy_component import EnergyComponentType
-from ensysmod.schemas import CapacityMax, CapacityMaxCreate
-from ensysmod.schemas.file_upload import FileStatus, FileUploadResult
+from ensysmod.model import EnergyComponentType, User
+from ensysmod.schemas import CapacityMaxCreate, CapacityMaxSchema, FileStatus, FileUploadResult
 from ensysmod.utils.utils import create_temp_file, remove_file
 
 router = APIRouter()
 
 
-@router.get("/{entry_id}", response_model=CapacityMax)
+@router.get("/{entry_id}", response_model=CapacityMaxSchema)
 def get_capacity_max(
     entry_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> CapacityMax:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Get a CapacityMax by its id.
     """
@@ -34,14 +33,14 @@ def get_capacity_max(
     return entry
 
 
-@router.get("/dataset/{dataset_id}", response_model=list[CapacityMax])
+@router.get("/dataset/{dataset_id}", response_model=list[CapacityMaxSchema])
 def get_capacity_max_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
-) -> list[CapacityMax]:
+):
     """
     Get all CapacityMax of a dataset.
     """
@@ -54,12 +53,12 @@ def get_capacity_max_by_dataset(
     return entry_list
 
 
-@router.get("/component/{component_id}", response_model=list[CapacityMax])
+@router.get("/component/{component_id}", response_model=list[CapacityMaxSchema])
 def get_capacity_max_by_component(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> list[CapacityMax] | None:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Get all CapacityMax of a component.
     """
@@ -72,11 +71,11 @@ def get_capacity_max_by_component(
     return entry_list
 
 
-@router.post("/", response_model=CapacityMax)
+@router.post("/", response_model=CapacityMaxSchema)
 def create_capacity_max(
     request: CapacityMaxCreate,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Create a new CapacityMax.
@@ -107,11 +106,11 @@ def create_capacity_max(
     return crud.capacity_max.create(db=db, obj_in=request)
 
 
-@router.delete("/{entry_id}", response_model=CapacityMax)
+@router.delete("/{entry_id}", response_model=CapacityMaxSchema)
 def remove_capacity_max(
     entry_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Remove a CapacityMax.
@@ -125,11 +124,11 @@ def remove_capacity_max(
     return crud.capacity_max.remove(db=db, id=entry_id)
 
 
-@router.delete("/component/{component_id}", response_model=list[CapacityMax])
+@router.delete("/component/{component_id}", response_model=list[CapacityMaxSchema])
 def remove_capacity_max_by_component(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Remove all CapacityMax of a component.
@@ -148,8 +147,8 @@ def upload_capacity_max(
     component_id: int,
     file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> FileUploadResult:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Upload CapacityMax of a component.
     """
@@ -179,8 +178,8 @@ def upload_capacity_max(
 def download_capacity_max(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> FileResponse:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Download CapacityMax of a component.
     """

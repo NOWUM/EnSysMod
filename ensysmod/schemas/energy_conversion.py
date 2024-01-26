@@ -2,9 +2,9 @@ from pydantic import Field, field_validator
 
 from ensysmod.model import EnergyComponentType
 from ensysmod.schemas.base_schema import MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, ReturnSchema
-from ensysmod.schemas.energy_commodity import EnergyCommodity
-from ensysmod.schemas.energy_component import EnergyComponent, EnergyComponentCreate, EnergyComponentUpdate
-from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactor, EnergyConversionFactorCreate
+from ensysmod.schemas.energy_commodity import EnergyCommoditySchema
+from ensysmod.schemas.energy_component import EnergyComponentCreate, EnergyComponentSchema, EnergyComponentUpdate
+from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactorCreate, EnergyConversionFactorSchema
 from ensysmod.utils import validators
 
 
@@ -67,11 +67,11 @@ class EnergyConversionUpdate(EnergyConversionBase, EnergyComponentUpdate):
     )
 
 
-class EnergyConversion(EnergyConversionBase, ReturnSchema):
+class EnergyConversionSchema(EnergyConversionBase, ReturnSchema):
     """
     Attributes to return via API for an energy conversion.
     """
 
-    component: EnergyComponent = Field(default=..., description="The energy component")
-    commodity_unit: EnergyCommodity = Field(default=..., description="Commodity the conversion component is based on.")
-    conversion_factors: list[EnergyConversionFactor] = Field(default=..., description="List of conversion factors")
+    component: EnergyComponentSchema = Field(default=..., description="The energy component")
+    commodity_unit: EnergyCommoditySchema = Field(default=..., description="Commodity the conversion component is based on.")
+    conversion_factors: list[EnergyConversionFactorSchema] = Field(default=..., description="List of conversion factors")

@@ -4,7 +4,7 @@ import pytest
 from pydantic import BaseModel, ValidationError
 
 from ensysmod.model import EnergyComponentType
-from ensysmod.schemas.energy_storage import EnergyStorageCreate, EnergyStorageUpdate
+from ensysmod.schemas import EnergyStorageCreate, EnergyStorageUpdate
 
 schemas_with_discharge_rate_required: list[tuple[type[BaseModel], dict[str, Any]]] = []
 

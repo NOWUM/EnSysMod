@@ -1,7 +1,7 @@
 from pydantic import Field
 
 from ensysmod.schemas.base_ref_component_region import RefCRBase, RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate
-from ensysmod.schemas.region import Region
+from ensysmod.schemas.region import RegionSchema
 
 
 class TransmissionLossBase(RefCRBaseBase):
@@ -36,9 +36,9 @@ class TransmissionLossUpdate(TransmissionLossBase, RefCRBaseUpdate):
     """
 
 
-class TransmissionLoss(TransmissionLossBase, RefCRBase):
+class TransmissionLossSchema(TransmissionLossBase, RefCRBase):
     """
     Attributes to return via API for an TransmissionLoss.
     """
 
-    region_to: Region
+    region_to: RegionSchema

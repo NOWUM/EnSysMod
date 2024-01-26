@@ -99,7 +99,7 @@ class EnergyComponentUpdate(EnergyComponentBase, UpdateSchema):
     )
 
 
-class EnergyComponent(EnergyComponentBase, ReturnSchema):
+class EnergyComponentSchema(EnergyComponentBase, ReturnSchema):
     """
     Attributes to return via API for an energy component.
     """

@@ -28,7 +28,7 @@ class YearlyFullLoadHoursMaxUpdate(YearlyFullLoadHoursMaxBase, RefCRBaseUpdate):
     """
 
 
-class YearlyFullLoadHoursMax(YearlyFullLoadHoursMaxBase, RefCRBase):
+class YearlyFullLoadHoursMaxSchema(YearlyFullLoadHoursMaxBase, RefCRBase):
     """
     Attributes to return via API for a YearlyFullLoadHoursMax.
     """

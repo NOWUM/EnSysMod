@@ -28,7 +28,7 @@ class YearlyFullLoadHoursMinUpdate(YearlyFullLoadHoursMinBase, RefCRBaseUpdate):
     """
 
 
-class YearlyFullLoadHoursMin(YearlyFullLoadHoursMinBase, RefCRBase):
+class YearlyFullLoadHoursMinSchema(YearlyFullLoadHoursMinBase, RefCRBase):
     """
     Attributes to return via API for a YearlyFullLoadHoursMin.
     """

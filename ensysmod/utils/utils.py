@@ -1,4 +1,5 @@
 import os
+from collections.abc import Generator
 from contextlib import contextmanager
 from pathlib import Path
 from tempfile import mkstemp
@@ -21,7 +22,7 @@ def remove_file(file_path: Path) -> None:
 
 
 @contextmanager
-def chdir(path: Path | str):
+def chdir(path: Path | str) -> Generator[None, None, None]:
     # In Python 3.11 use contextlib.chdir().
     current_dir = Path.cwd()
     try:

@@ -2,8 +2,8 @@ from pydantic import Field
 
 from ensysmod.model import EnergyComponentType
 from ensysmod.schemas.base_schema import MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, ReturnSchema
-from ensysmod.schemas.energy_commodity import EnergyCommodity
-from ensysmod.schemas.energy_component import EnergyComponent, EnergyComponentCreate, EnergyComponentUpdate
+from ensysmod.schemas.energy_commodity import EnergyCommoditySchema
+from ensysmod.schemas.energy_component import EnergyComponentCreate, EnergyComponentSchema, EnergyComponentUpdate
 
 
 class EnergyTransmissionBase(BaseSchema):
@@ -42,10 +42,10 @@ class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):
     )
 
 
-class EnergyTransmission(EnergyTransmissionBase, ReturnSchema):
+class EnergyTransmissionSchema(EnergyTransmissionBase, ReturnSchema):
     """
     Attributes to return via API for an energy transmission.
     """
 
-    component: EnergyComponent
-    commodity: EnergyCommodity
+    component: EnergyComponentSchema
+    commodity: EnergyCommoditySchema

@@ -1,17 +1,19 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from ensysmod import crud, model, schemas
+from ensysmod import crud
 from ensysmod.api import deps, permissions
+from ensysmod.model import User
+from ensysmod.schemas import EnergySinkCreate, EnergySinkSchema
 
 router = APIRouter()
 
 
-@router.get("/", response_model=list[schemas.EnergySink])
+@router.get("/", response_model=list[EnergySinkSchema])
 def get_energy_sink_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
 ):
@@ -22,11 +24,11 @@ def get_energy_sink_by_dataset(
     return crud.energy_sink.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
-@router.post("/", response_model=schemas.EnergySink, responses={409: {"description": "EnergySink with same name already exists."}})
+@router.post("/", response_model=EnergySinkSchema, responses={409: {"description": "EnergySink with same name already exists."}})
 def create_sink(
-    request: schemas.EnergySinkCreate,
+    request: EnergySinkCreate,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Create a new energy sink.

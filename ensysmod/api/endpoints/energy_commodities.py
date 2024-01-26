@@ -1,17 +1,19 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from ensysmod import crud, model, schemas
+from ensysmod import crud
 from ensysmod.api import deps, permissions
+from ensysmod.model import User
+from ensysmod.schemas import EnergyCommodityCreate, EnergyCommoditySchema, EnergyCommodityUpdate
 
 router = APIRouter()
 
 
-@router.get("/{commodity_id}", response_model=schemas.EnergyCommodity)
+@router.get("/{commodity_id}", response_model=EnergyCommoditySchema)
 def get_commodity(
     commodity_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Get an energy commodity by its id.
@@ -25,11 +27,11 @@ def get_commodity(
     return commodity
 
 
-@router.get("/", response_model=list[schemas.EnergyCommodity])
+@router.get("/", response_model=list[EnergyCommoditySchema])
 def get_commodity_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
 ):
@@ -40,11 +42,11 @@ def get_commodity_by_dataset(
     return crud.energy_commodity.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
-@router.post("/", response_model=schemas.EnergyCommodity, responses={409: {"description": "EnergyCommodity with same name already exists."}})
+@router.post("/", response_model=EnergyCommoditySchema, responses={409: {"description": "EnergyCommodity with same name already exists."}})
 def create_commodity(
-    request: schemas.EnergyCommodityCreate,
+    request: EnergyCommodityCreate,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Create a new energy commodity.
@@ -65,12 +67,12 @@ def create_commodity(
     return crud.energy_commodity.create(db=db, obj_in=request)
 
 
-@router.put("/{commodity_id}", response_model=schemas.EnergyCommodity)
+@router.put("/{commodity_id}", response_model=EnergyCommoditySchema)
 def update_commodity(
     commodity_id: int,
-    request: schemas.EnergyCommodityUpdate,
+    request: EnergyCommodityUpdate,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Update an energy commodity.
@@ -82,11 +84,11 @@ def update_commodity(
     return crud.energy_commodity.update(db=db, db_obj=commodity, obj_in=request)
 
 
-@router.delete("/{commodity_id}", response_model=schemas.EnergyCommodity)
+@router.delete("/{commodity_id}", response_model=EnergyCommoditySchema)
 def remove_commodity(
     commodity_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Delete an energy commodity.

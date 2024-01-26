@@ -1,17 +1,19 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from ensysmod import crud, model, schemas
+from ensysmod import crud
 from ensysmod.api import deps, permissions
+from ensysmod.model import User
+from ensysmod.schemas import EnergySourceCreate, EnergySourceSchema
 
 router = APIRouter()
 
 
-@router.get("/", response_model=list[schemas.EnergySource])
+@router.get("/", response_model=list[EnergySourceSchema])
 def get_energy_source_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
 ):
@@ -22,11 +24,11 @@ def get_energy_source_by_dataset(
     return crud.energy_source.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
-@router.post("/", response_model=schemas.EnergySource, responses={409: {"description": "EnergySource with same name already exists."}})
+@router.post("/", response_model=EnergySourceSchema, responses={409: {"description": "EnergySource with same name already exists."}})
 def create_source(
-    request: schemas.EnergySourceCreate,
+    request: EnergySourceCreate,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Create a new energy source.

@@ -1,8 +1,7 @@
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
-from ensysmod.model import EnergyModel
-from ensysmod.model.energy_model_override import EnergyModelOverrideAttribute, EnergyModelOverrideOperation
+from ensysmod.model import EnergyModel, EnergyModelOverrideAttribute, EnergyModelOverrideOperation
 from ensysmod.schemas import EnergyModelCreate, EnergyModelOptimizationCreate, EnergyModelOverrideCreate
 from tests.utils.data_generator.datasets import get_example_dataset, new_dataset
 from tests.utils.data_generator.energy_sinks import new_sink

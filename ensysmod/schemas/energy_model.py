@@ -1,10 +1,10 @@
 from pydantic import Field
 
-from ensysmod.model.energy_model_override import EnergyModelOverrideAttribute, EnergyModelOverrideOperation
+from ensysmod.model import EnergyModelOverrideAttribute, EnergyModelOverrideOperation
 from ensysmod.schemas.base_schema import MAX_DESC_LENGTH, MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
-from ensysmod.schemas.dataset import Dataset
-from ensysmod.schemas.energy_model_optimization import EnergyModelOptimization, EnergyModelOptimizationCreate, EnergyModelOptimizationUpdate
-from ensysmod.schemas.energy_model_override import EnergyModelOverride, EnergyModelOverrideCreate, EnergyModelOverrideUpdate
+from ensysmod.schemas.dataset import DatasetSchema
+from ensysmod.schemas.energy_model_optimization import EnergyModelOptimizationCreate, EnergyModelOptimizationSchema, EnergyModelOptimizationUpdate
+from ensysmod.schemas.energy_model_override import EnergyModelOverrideCreate, EnergyModelOverrideSchema, EnergyModelOverrideUpdate
 
 
 class EnergyModelBase(BaseSchema):
@@ -84,12 +84,12 @@ class EnergyModelUpdate(EnergyModelBase, UpdateSchema):
     optimization_parameters: list[EnergyModelOptimizationUpdate] | None = None
 
 
-class EnergyModel(EnergyModelBase, ReturnSchema):
+class EnergyModelSchema(EnergyModelBase, ReturnSchema):
     """
     Attributes to return via API for an energy model.
     """
 
     id: int
-    dataset: Dataset
-    override_parameters: list[EnergyModelOverride]
-    optimization_parameters: list[EnergyModelOptimization]
+    dataset: DatasetSchema
+    override_parameters: list[EnergyModelOverrideSchema]
+    optimization_parameters: list[EnergyModelOptimizationSchema]

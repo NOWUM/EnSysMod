@@ -1,7 +1,7 @@
 from pydantic import Field
 
 from ensysmod.schemas.base_schema import MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
-from ensysmod.schemas.energy_commodity import EnergyCommodity
+from ensysmod.schemas.energy_commodity import EnergyCommoditySchema
 
 
 class EnergyConversionFactorBase(BaseSchema):
@@ -56,10 +56,10 @@ class EnergyConversionFactorUpdate(EnergyConversionFactorBase, UpdateSchema):
     )
 
 
-class EnergyConversionFactor(EnergyConversionFactorBase, ReturnSchema):
+class EnergyConversionFactorSchema(EnergyConversionFactorBase, ReturnSchema):
     """
     Attributes to return via API for a energy conversion factor.
     """
 
     id: int
-    commodity: EnergyCommodity
+    commodity: EnergyCommoditySchema

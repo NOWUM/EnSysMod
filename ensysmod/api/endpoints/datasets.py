@@ -7,33 +7,34 @@ from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from starlette.background import BackgroundTask
 
-from ensysmod import crud, model, schemas
+from ensysmod import crud
 from ensysmod.api import deps, permissions
 from ensysmod.core.file_download import export_data
 from ensysmod.core.file_upload import process_dataset_zip_archive
-from ensysmod.schemas import FileStatus
+from ensysmod.model import User
+from ensysmod.schemas import DatasetCreate, DatasetSchema, DatasetUpdate, FileStatus, ZipArchiveUploadResult
 from ensysmod.utils.utils import remove_file
 
 router = APIRouter()
 
 
-@router.get("/", response_model=list[schemas.Dataset])
+@router.get("/", response_model=list[DatasetSchema])
 def get_all_datasets(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
-) -> list[schemas.Dataset]:
+):
     """
     Retrieve all datasets.
     """
     return crud.dataset.get_multi(db=db, skip=skip, limit=limit)
 
 
-@router.get("/{dataset_id}", response_model=schemas.Dataset)
+@router.get("/{dataset_id}", response_model=DatasetSchema)
 def get_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Get a dataset by its id.
@@ -47,11 +48,11 @@ def get_dataset(
     return dataset
 
 
-@router.post("/", response_model=schemas.Dataset, responses={409: {"description": "Dataset with same name already exists."}})
+@router.post("/", response_model=DatasetSchema, responses={409: {"description": "Dataset with same name already exists."}})
 def create_dataset(
-    request: schemas.DatasetCreate,
+    request: DatasetCreate,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Create a new dataset.
@@ -63,12 +64,12 @@ def create_dataset(
     return crud.dataset.create(db=db, obj_in=request)
 
 
-@router.put("/{dataset_id}", response_model=schemas.Dataset)
+@router.put("/{dataset_id}", response_model=DatasetSchema)
 def update_dataset(
     dataset_id: int,
-    request: schemas.DatasetUpdate,
+    request: DatasetUpdate,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Update a dataset.
@@ -80,11 +81,11 @@ def update_dataset(
     return crud.dataset.update(db=db, db_obj=dataset, obj_in=request)
 
 
-@router.delete("/{dataset_id}", response_model=schemas.Dataset)
+@router.delete("/{dataset_id}", response_model=DatasetSchema)
 def remove_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Delete a dataset.
@@ -93,12 +94,12 @@ def remove_dataset(
     return crud.dataset.remove(db=db, id=dataset_id)
 
 
-@router.post("/{dataset_id}/upload", response_model=schemas.ZipArchiveUploadResult)
+@router.post("/{dataset_id}/upload", response_model=ZipArchiveUploadResult)
 def upload_dataset_zip(
     dataset_id: int,
     file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Upload a dataset as zip.
@@ -125,7 +126,7 @@ def upload_dataset_zip(
 def download_dataset_zip(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Download a dataset as zip.

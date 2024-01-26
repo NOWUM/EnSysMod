@@ -1,8 +1,8 @@
 from pydantic import Field
 
-from ensysmod.model.energy_model_override import EnergyModelOverrideAttribute, EnergyModelOverrideOperation
+from ensysmod.model import EnergyModelOverrideAttribute, EnergyModelOverrideOperation
 from ensysmod.schemas.base_ref_component_region import RefCRBase, RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate
-from ensysmod.schemas.region import Region
+from ensysmod.schemas.region import RegionSchema
 
 
 class EnergyModelOverrideBase(RefCRBaseBase):
@@ -47,10 +47,10 @@ class EnergyModelOverrideUpdate(EnergyModelOverrideBase, RefCRBaseUpdate):
     value: float | None = None
 
 
-class EnergyModelOverride(EnergyModelOverrideBase, RefCRBase):
+class EnergyModelOverrideSchema(EnergyModelOverrideBase, RefCRBase):
     """
     Attributes to return via API for a model parameter override.
     """
 
     id: int
-    region: Region | None = None
+    region: RegionSchema | None = None

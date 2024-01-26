@@ -27,7 +27,7 @@ class OperationRateMaxUpdate(OperationRateMaxBase, RefCRBaseUpdate):
     """
 
 
-class OperationRateMax(OperationRateMaxBase, RefCRBase):
+class OperationRateMaxSchema(OperationRateMaxBase, RefCRBase):
     """
     Attributes to return via API for a OperationRateMax.
     """

@@ -12,7 +12,7 @@ class CRUDEnergyConversionFactor(CRUDBase[EnergyConversionFactor, EnergyConversi
     CRUD operations for EnergyConversionFactor
     """
 
-    def create(self, db: Session, obj_in: EnergyConversionFactorCreate):
+    def create(self, db: Session, obj_in: EnergyConversionFactorCreate) -> EnergyConversionFactor:
         """
         Creates a new EnergyConversionFactor entry.
 

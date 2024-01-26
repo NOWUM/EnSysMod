@@ -11,10 +11,11 @@ from ensysmod.schemas import (
     EnergyCommodityUpdate,
     EnergyComponentCreate,
     EnergyComponentUpdate,
+    EnergyModelCreate,
+    EnergyModelUpdate,
     RegionCreate,
     RegionUpdate,
 )
-from ensysmod.schemas.energy_model import EnergyModelCreate, EnergyModelUpdate
 
 schemas_with_name_required: list[tuple[type[BaseModel], dict[str, Any]]] = [
     (DatasetCreate, {"description": "foo"}),

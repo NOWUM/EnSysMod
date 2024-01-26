@@ -6,12 +6,12 @@ from pydantic import BaseModel, ValidationError
 from ensysmod.schemas import (
     EnergyComponentCreate,
     EnergyConversionCreate,
+    EnergyConversionFactorCreate,
     EnergySinkCreate,
     EnergySourceCreate,
     EnergyStorageCreate,
     EnergyTransmissionCreate,
 )
-from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactorCreate
 
 schemas_with_type_required: list[tuple[type[BaseModel], dict[str, Any]]] = [
     (EnergyComponentCreate, {"name": "foo", "ref_dataset": 42}),

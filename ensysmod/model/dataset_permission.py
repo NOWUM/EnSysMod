@@ -9,7 +9,7 @@ from ensysmod.database.base_class import Base
 from ensysmod.database.ref_base_class import RefDataset
 
 if TYPE_CHECKING:
-    from ensysmod.model.user import User
+    from ensysmod.model import User
 
 
 class DatasetPermission(RefDataset, Base):

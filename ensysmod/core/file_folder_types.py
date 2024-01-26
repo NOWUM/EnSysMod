@@ -1,31 +1,30 @@
 from typing import NamedTuple
 
-from pydantic import BaseModel
-
 from ensysmod import crud, schemas
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
 from ensysmod.crud.base_depends_excel import CRUDBaseDependsExcel
+from ensysmod.schemas.base_schema import CreateSchema
 
 
 class FolderType(NamedTuple):
     folder_name: str
     file_name: str
     crud_repo: CRUDBaseDependsComponent
-    create_schema: type[BaseModel]
+    create_schema: type[CreateSchema]
     as_matrix: bool = False
 
 
 class JsonFileType(NamedTuple):
     file_name: str
     crud_repo: CRUDBaseDependsDataset
-    create_schema: type[BaseModel]
+    create_schema: type[CreateSchema]
 
 
 class ExcelFileType(NamedTuple):
     file_name: str
     crud_repo: CRUDBaseDependsExcel
-    create_schema: type[BaseModel]
+    create_schema: type[CreateSchema]
     data_column: str
     as_list: bool = False
 

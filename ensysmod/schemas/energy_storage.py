@@ -2,8 +2,8 @@ from pydantic import Field
 
 from ensysmod.model import EnergyComponentType
 from ensysmod.schemas.base_schema import MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, ReturnSchema
-from ensysmod.schemas.energy_commodity import EnergyCommodity
-from ensysmod.schemas.energy_component import EnergyComponent, EnergyComponentCreate, EnergyComponentUpdate
+from ensysmod.schemas.energy_commodity import EnergyCommoditySchema
+from ensysmod.schemas.energy_component import EnergyComponentCreate, EnergyComponentSchema, EnergyComponentUpdate
 
 
 class EnergyStorageBase(BaseSchema):
@@ -98,10 +98,10 @@ class EnergyStorageUpdate(EnergyStorageBase, EnergyComponentUpdate):
     )
 
 
-class EnergyStorage(EnergyStorageBase, ReturnSchema):
+class EnergyStorageSchema(EnergyStorageBase, ReturnSchema):
     """
     Attributes to return via API for an energy storage.
     """
 
-    component: EnergyComponent
-    commodity: EnergyCommodity
+    component: EnergyComponentSchema
+    commodity: EnergyCommoditySchema

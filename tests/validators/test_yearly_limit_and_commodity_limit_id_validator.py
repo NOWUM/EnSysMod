@@ -4,8 +4,7 @@ import pytest
 from pydantic import BaseModel, ValidationError
 
 from ensysmod.model import EnergyComponentType
-from ensysmod.schemas.energy_sink import EnergySinkCreate, EnergySinkUpdate
-from ensysmod.schemas.energy_source import EnergySourceCreate, EnergySourceUpdate
+from ensysmod.schemas import EnergySinkCreate, EnergySinkUpdate, EnergySourceCreate, EnergySourceUpdate
 
 schemas_with_yearly_limit_required: list[tuple[type[BaseModel], dict[str, Any]]] = []
 

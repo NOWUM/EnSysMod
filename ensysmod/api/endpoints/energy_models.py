@@ -4,18 +4,20 @@ from sqlalchemy.orm import Session
 from starlette.background import BackgroundTask
 from utils.utils import remove_file
 
-from ensysmod import crud, model, schemas
+from ensysmod import crud
 from ensysmod.api import deps, permissions
 from ensysmod.core.fine_esm import generate_esm_from_model, myopic_optimize_esm, optimize_esm
+from ensysmod.model import User
+from ensysmod.schemas import EnergyModelCreate, EnergyModelSchema, EnergyModelUpdate
 
 router = APIRouter()
 
 
-@router.get("/{model_id}", response_model=schemas.EnergyModel)
+@router.get("/{model_id}", response_model=EnergyModelSchema)
 def get_model(
     model_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Get an energy model by its id.
@@ -29,11 +31,11 @@ def get_model(
     return model
 
 
-@router.get("/", response_model=list[schemas.EnergyModel])
+@router.get("/", response_model=list[EnergyModelSchema])
 def get_energy_model_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
 ):
@@ -44,11 +46,11 @@ def get_energy_model_by_dataset(
     return crud.energy_model.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
-@router.post("/", response_model=schemas.EnergyModel, responses={409: {"description": "EnergyModel with same name already exists."}})
+@router.post("/", response_model=EnergyModelSchema, responses={409: {"description": "EnergyModel with same name already exists."}})
 def create_model(
-    request: schemas.EnergyModelCreate,
+    request: EnergyModelCreate,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Create a new energy model.
@@ -69,12 +71,12 @@ def create_model(
     return crud.energy_model.create(db=db, obj_in=request)
 
 
-@router.put("/{model_id}", response_model=schemas.EnergyModel)
+@router.put("/{model_id}", response_model=EnergyModelSchema)
 def update_model(
     model_id: int,
-    request: schemas.EnergyModelUpdate,
+    request: EnergyModelUpdate,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Update an energy model.
@@ -86,11 +88,11 @@ def update_model(
     return crud.energy_model.update(db=db, db_obj=energy_model, obj_in=request)
 
 
-@router.delete("/{model_id}", response_model=schemas.EnergyModel)
+@router.delete("/{model_id}", response_model=EnergyModelSchema)
 def remove_model(
     model_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Delete an energy model.
@@ -102,11 +104,11 @@ def remove_model(
     return crud.energy_model.remove(db=db, id=model_id)
 
 
-@router.get("/{model_id}/esm", response_model=schemas.EnergyModel)
+@router.get("/{model_id}/esm", response_model=EnergyModelSchema)
 def validate_model(
     model_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Create FINE energy system model from model.
@@ -128,7 +130,7 @@ def validate_model(
 def optimize_model(
     model_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Create FINE energy system model from model and optimizes it.
@@ -157,7 +159,7 @@ def optimize_model(
 def myopic_optimize_model(
     model_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Create FINE energy system model from model and optimizes it based on myopic approach.

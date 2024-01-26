@@ -6,10 +6,7 @@ from sqlalchemy.orm import Mapped, declared_attr, mapped_column, relationship
 from sqlalchemy.sql.schema import ForeignKey
 
 if TYPE_CHECKING:
-    from ensysmod.model.dataset import Dataset
-    from ensysmod.model.energy_commodity import EnergyCommodity
-    from ensysmod.model.energy_component import EnergyComponent
-    from ensysmod.model.region import Region
+    from ensysmod.model import Dataset, EnergyCommodity, EnergyComponent, Region
 
 
 class RefDataset:

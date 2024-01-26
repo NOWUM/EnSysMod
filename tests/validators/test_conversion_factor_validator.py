@@ -3,7 +3,7 @@ from typing import Any
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactorCreate, EnergyConversionFactorUpdate
+from ensysmod.schemas import EnergyConversionFactorCreate, EnergyConversionFactorUpdate
 
 schemas_with_conversion_factor_required: list[tuple[type[BaseModel], dict[str, Any]]] = [
     (EnergyConversionFactorCreate, {"commodity": "bar"}),

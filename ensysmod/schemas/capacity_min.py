@@ -28,7 +28,7 @@ class CapacityMinUpdate(CapacityMinBase, RefCRBaseUpdate):
     """
 
 
-class CapacityMin(CapacityMinBase, RefCRBase):
+class CapacityMinSchema(CapacityMinBase, RefCRBase):
     """
     Attributes to return via API for a CapacityMin.
     """

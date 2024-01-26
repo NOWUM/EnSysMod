@@ -1,7 +1,7 @@
 from pydantic import Field
 
 from ensysmod.schemas.base_ref_component_region import RefCRBase, RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate
-from ensysmod.schemas.region import Region
+from ensysmod.schemas.region import RegionSchema
 
 
 class TransmissionDistanceBase(RefCRBaseBase):
@@ -31,9 +31,9 @@ class TransmissionDistanceUpdate(TransmissionDistanceBase, RefCRBaseUpdate):
     """
 
 
-class TransmissionDistance(TransmissionDistanceBase, RefCRBase):
+class TransmissionDistanceSchema(TransmissionDistanceBase, RefCRBase):
     """
     Attributes to return via API for an TransmissionDistance.
     """
 
-    region_to: Region
+    region_to: RegionSchema

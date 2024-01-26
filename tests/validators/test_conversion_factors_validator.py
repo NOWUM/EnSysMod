@@ -4,8 +4,7 @@ import pytest
 from pydantic import BaseModel, ValidationError
 
 from ensysmod.model import EnergyComponentType
-from ensysmod.schemas.energy_conversion import EnergyConversionCreate
-from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactorCreate
+from ensysmod.schemas import EnergyConversionCreate, EnergyConversionFactorCreate
 
 schemas_with_conversion_factors_required: list[tuple[type[BaseModel], dict[str, Any]]] = [
     (

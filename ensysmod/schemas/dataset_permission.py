@@ -1,8 +1,8 @@
 from pydantic import Field
 
 from ensysmod.schemas.base_schema import BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
-from ensysmod.schemas.dataset import Dataset
-from ensysmod.schemas.user import User
+from ensysmod.schemas.dataset import DatasetSchema
+from ensysmod.schemas.user import UserSchema
 
 
 class DatasetPermissionBase(BaseSchema):
@@ -51,11 +51,11 @@ class DatasetPermissionUpdate(DatasetPermissionBase, UpdateSchema):
     """
 
 
-class DatasetPermission(DatasetPermissionBase, ReturnSchema):
+class DatasetPermissionSchema(DatasetPermissionBase, ReturnSchema):
     """
     Attributes to return via API for a DatasetPermission.
     """
 
     id: int = Field(default=..., description="The unique ID of the DatasetPermission.")
-    dataset: Dataset = Field(default=..., description="The dataset that the permissions are granted to.")
-    user: User = Field(default=..., description="The user that the permissions are granted to.")
+    dataset: DatasetSchema = Field(default=..., description="The dataset that the permissions are granted to.")
+    user: UserSchema = Field(default=..., description="The user that the permissions are granted to.")

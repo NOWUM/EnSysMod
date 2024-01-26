@@ -23,7 +23,7 @@ def get_current_user_from_header(db: Session, header: dict[str, str]) -> User:
     return get_current_user(db=db, token=auth_token)
 
 
-def clear_database(db: Session):
+def clear_database(db: Session) -> None:
     """
     Clear entries in the database but keep the database structure intact.
     """
@@ -32,7 +32,7 @@ def clear_database(db: Session):
             db.execute(delete(table))
 
 
-def clear_users_except_current_user(db: Session, user_header: dict[str, str]):
+def clear_users_except_current_user(db: Session, user_header: dict[str, str]) -> None:
     """
     Delete all users except the current user.
     """

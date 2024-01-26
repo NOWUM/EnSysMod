@@ -3,16 +3,16 @@ from typing import Any
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from ensysmod.model.energy_component import EnergyComponentType
+from ensysmod.model import EnergyComponentType
 from ensysmod.schemas import (
     EnergyCommodityCreate,
     EnergyComponentCreate,
     EnergyConversionFactorCreate,
+    EnergyModelCreate,
+    RegionCreate,
     TransmissionDistanceCreate,
     TransmissionLossCreate,
 )
-from ensysmod.schemas.energy_model import EnergyModelCreate
-from ensysmod.schemas.region import RegionCreate
 
 schemas_with_ref_dataset_required: list[tuple[type[BaseModel], dict[str, Any]]] = [
     (EnergyCommodityCreate, {"name": "test", "description": "foo", "unit": "bar"}),

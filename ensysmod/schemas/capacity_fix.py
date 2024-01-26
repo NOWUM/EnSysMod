@@ -28,7 +28,7 @@ class CapacityFixUpdate(CapacityFixBase, RefCRBaseUpdate):
     """
 
 
-class CapacityFix(CapacityFixBase, RefCRBase):
+class CapacityFixSchema(CapacityFixBase, RefCRBase):
     """
     Attributes to return via API for a CapacityFix.
     """

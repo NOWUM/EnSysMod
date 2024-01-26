@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from ensysmod import crud
 from ensysmod.app import app
 from ensysmod.database.session import SessionLocal
-from ensysmod.schemas.user import UserCreate
+from ensysmod.schemas import UserCreate
 from tests.utils.utils import random_string
 
 

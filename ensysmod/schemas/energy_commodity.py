@@ -1,7 +1,7 @@
 from pydantic import Field
 
 from ensysmod.schemas.base_schema import MAX_DESC_LENGTH, MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
-from ensysmod.schemas.dataset import Dataset
+from ensysmod.schemas.dataset import DatasetSchema
 
 
 class EnergyCommodityBase(BaseSchema):
@@ -63,10 +63,10 @@ class EnergyCommodityUpdate(EnergyCommodityBase, UpdateSchema):
     )
 
 
-class EnergyCommodity(EnergyCommodityBase, ReturnSchema):
+class EnergyCommoditySchema(EnergyCommodityBase, ReturnSchema):
     """
     Attributes to return via API for an energy commodity.
     """
 
     id: int = Field(default=..., description="The unique ID of the energy commodity.")
-    dataset: Dataset = Field(default=..., description="Dataset object where the energy commodity belongs to.")
+    dataset: DatasetSchema = Field(default=..., description="Dataset object where the energy commodity belongs to.")

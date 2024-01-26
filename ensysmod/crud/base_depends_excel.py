@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from ensysmod import crud
 from ensysmod.crud.base import CreateSchemaType, ModelType, UpdateSchemaType
 from ensysmod.crud.base_depends_component_region import CRUDBaseDependsComponentRegion
-from ensysmod.model.region import Region
+from ensysmod.model import Region
 
 
 class CRUDBaseDependsExcel(CRUDBaseDependsComponentRegion, Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
@@ -15,7 +15,7 @@ class CRUDBaseDependsExcel(CRUDBaseDependsComponentRegion, Generic[ModelType, Cr
     Base class for all CRUD classes that depend on an excel file.
     """
 
-    def __init__(self, model: type[ModelType], data_column: str):
+    def __init__(self, model: type[ModelType], data_column: str) -> None:
         super().__init__(model=model)
         self.data_column = data_column
 

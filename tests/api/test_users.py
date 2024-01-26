@@ -1,9 +1,9 @@
 from fastapi import status
 from fastapi.testclient import TestClient
-from schemas.user import UserCreate
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
+from ensysmod.schemas import UserCreate
 from tests.utils.utils import clear_users_except_current_user, get_current_user_from_header, random_string
 
 

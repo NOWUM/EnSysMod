@@ -1,7 +1,7 @@
 from pydantic import Field
 
 from ensysmod.schemas.base_schema import MAX_DESC_LENGTH, MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
-from ensysmod.schemas.user import User
+from ensysmod.schemas.user import UserSchema
 
 
 class DatasetBase(BaseSchema):
@@ -76,10 +76,10 @@ class DatasetUpdate(DatasetBase, UpdateSchema):
     )
 
 
-class Dataset(DatasetBase, ReturnSchema):
+class DatasetSchema(DatasetBase, ReturnSchema):
     """
     Attributes to return via API for a dataset.
     """
 
     id: int = Field(default=..., description="The unique ID of the dataset.")
-    user: User = Field(default=..., description="User that created the dataset.")
+    user: UserSchema = Field(default=..., description="User that created the dataset.")

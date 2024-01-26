@@ -20,7 +20,7 @@ def validate_conversion_factors(conversion_factors: list[Any]) -> list[Any]:
     return conversion_factors
 
 
-def validate_yearly_limit_and_commodity_limit_id(model: EnergySourceBase | EnergySinkBase) -> EnergySourceBase | EnergySinkBase:
+def validate_yearly_limit_and_commodity_limit_id(schema: EnergySourceBase | EnergySinkBase) -> EnergySourceBase | EnergySinkBase:
     """
     Validates the yearly limit and the commodity limit ID of an object.
 
@@ -28,17 +28,17 @@ def validate_yearly_limit_and_commodity_limit_id(model: EnergySourceBase | Energ
     :param commodity_limit_id: The commodity limit id of the object.
     :return: The validated yearly limit and commodity limit id.
     """
-    yearly_limit, commodity_limit_id = model.yearly_limit, model.commodity_limit_id
+    yearly_limit, commodity_limit_id = schema.yearly_limit, schema.commodity_limit_id
 
     if yearly_limit is None and commodity_limit_id is None:
         # Skip validation if no value provided
-        return model
+        return schema
     if yearly_limit is not None and commodity_limit_id is None:
         raise ValueError("If yearly_limit is specified, commodity_limit_id must be specified as well.")
-    return model
+    return schema
 
 
-def validate_optimization_timeframe(model: EnergyModelOptimizationBase) -> EnergyModelOptimizationBase:
+def validate_optimization_timeframe(schema: EnergyModelOptimizationBase) -> EnergyModelOptimizationBase:
     """
     Validates the optimization timeframe of an object.
 
@@ -49,10 +49,10 @@ def validate_optimization_timeframe(model: EnergyModelOptimizationBase) -> Energ
 
     :return: the validated optimization timeframe parameters.
     """
-    start_year = model.start_year
-    end_year = model.end_year
-    number_of_steps = model.number_of_steps
-    years_per_step = model.years_per_step
+    start_year = schema.start_year
+    end_year = schema.end_year
+    number_of_steps = schema.number_of_steps
+    years_per_step = schema.years_per_step
 
     if (end_year is None) & (number_of_steps is None) & (years_per_step is None):
         raise ValueError("At least two of the parameters end_year, number_of_steps or years_per_step must be specified.")
@@ -74,11 +74,11 @@ def validate_optimization_timeframe(model: EnergyModelOptimizationBase) -> Energ
     if (end_year - start_year) != number_of_steps * years_per_step:
         raise ValueError("The parameters must satisfy the equation: (end_year - start_year) = number_of_steps * years_per_step.")
 
-    model.end_year = end_year
-    model.number_of_steps = number_of_steps
-    model.years_per_step = years_per_step
+    schema.end_year = end_year
+    schema.number_of_steps = number_of_steps
+    schema.years_per_step = years_per_step
 
-    return model
+    return schema
 
 
 def validate_CO2_optimization(model: EnergyModelOptimizationBase) -> EnergyModelOptimizationBase:

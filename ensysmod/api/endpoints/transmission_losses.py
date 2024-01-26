@@ -4,23 +4,23 @@ from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from starlette.background import BackgroundTask
 
-from ensysmod import crud, model
+from ensysmod import crud
 from ensysmod.api import deps, permissions
 from ensysmod.core.file_download import dump_excel_file
 from ensysmod.core.file_upload import process_excel_file
-from ensysmod.schemas import TransmissionLoss, TransmissionLossCreate
-from ensysmod.schemas.file_upload import FileStatus, FileUploadResult
+from ensysmod.model import User
+from ensysmod.schemas import FileStatus, FileUploadResult, TransmissionLossCreate, TransmissionLossSchema
 from ensysmod.utils.utils import create_temp_file, remove_file
 
 router = APIRouter()
 
 
-@router.get("/{entry_id}", response_model=TransmissionLoss)
+@router.get("/{entry_id}", response_model=TransmissionLossSchema)
 def get_transmission_loss(
     entry_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> TransmissionLoss:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Get a TransmissionLoss by its id.
     """
@@ -33,14 +33,14 @@ def get_transmission_loss(
     return entry
 
 
-@router.get("/dataset/{dataset_id}", response_model=list[TransmissionLoss])
+@router.get("/dataset/{dataset_id}", response_model=list[TransmissionLossSchema])
 def get_transmission_loss_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
-) -> list[TransmissionLoss]:
+):
     """
     Get all TransmissionLoss of a dataset.
     """
@@ -53,12 +53,12 @@ def get_transmission_loss_by_dataset(
     return entry_list
 
 
-@router.get("/component/{component_id}", response_model=list[TransmissionLoss])
+@router.get("/component/{component_id}", response_model=list[TransmissionLossSchema])
 def get_transmission_loss_by_component(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> list[TransmissionLoss] | None:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Get all TransmissionLoss of a component.
     """
@@ -71,11 +71,11 @@ def get_transmission_loss_by_component(
     return entry_list
 
 
-@router.post("/", response_model=TransmissionLoss)
+@router.post("/", response_model=TransmissionLossSchema)
 def create_transmission_loss(
     request: TransmissionLossCreate,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Create a new TransmissionLoss.
@@ -116,11 +116,11 @@ def create_transmission_loss(
     return crud.transmission_loss.create(db=db, obj_in=request)
 
 
-@router.delete("/{entry_id}", response_model=TransmissionLoss)
+@router.delete("/{entry_id}", response_model=TransmissionLossSchema)
 def remove_transmission_loss(
     entry_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Remove a TransmissionLoss.
@@ -134,11 +134,11 @@ def remove_transmission_loss(
     return crud.transmission_loss.remove(db=db, id=entry_id)
 
 
-@router.delete("/component/{component_id}", response_model=list[TransmissionLoss])
+@router.delete("/component/{component_id}", response_model=list[TransmissionLossSchema])
 def remove_transmission_loss_by_component(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Remove all TransmissionLoss of a component.
@@ -157,8 +157,8 @@ def upload_transmission_loss(
     component_id: int,
     file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> FileUploadResult:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Upload TransmissionLoss of a component.
     """
@@ -188,8 +188,8 @@ def upload_transmission_loss(
 def download_transmission_loss(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> FileResponse:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Download TransmissionLoss of a component.
     """

@@ -28,7 +28,7 @@ class CapacityMaxUpdate(CapacityMaxBase, RefCRBaseUpdate):
     """
 
 
-class CapacityMax(CapacityMaxBase, RefCRBase):
+class CapacityMaxSchema(CapacityMaxBase, RefCRBase):
     """
     Attributes to return via API for a CapacityMax.
     """

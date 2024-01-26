@@ -4,24 +4,23 @@ from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from starlette.background import BackgroundTask
 
-from ensysmod import crud, model
+from ensysmod import crud
 from ensysmod.api import deps, permissions
 from ensysmod.core.file_download import dump_excel_file
 from ensysmod.core.file_upload import process_excel_file
-from ensysmod.model.energy_component import EnergyComponentType
-from ensysmod.schemas import OperationRateMax, OperationRateMaxCreate
-from ensysmod.schemas.file_upload import FileStatus, FileUploadResult
+from ensysmod.model import EnergyComponentType, User
+from ensysmod.schemas import FileStatus, FileUploadResult, OperationRateMaxCreate, OperationRateMaxSchema
 from ensysmod.utils.utils import create_temp_file, remove_file
 
 router = APIRouter()
 
 
-@router.get("/{entry_id}", response_model=OperationRateMax)
+@router.get("/{entry_id}", response_model=OperationRateMaxSchema)
 def get_operation_rate_max(
     entry_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> OperationRateMax:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Get a OperationRateMax by its id.
     """
@@ -34,14 +33,14 @@ def get_operation_rate_max(
     return entry
 
 
-@router.get("/dataset/{dataset_id}", response_model=list[OperationRateMax])
+@router.get("/dataset/{dataset_id}", response_model=list[OperationRateMaxSchema])
 def get_operation_rate_max_by_dataset(
     dataset_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
     skip: int = 0,
     limit: int = 100,
-) -> list[OperationRateMax]:
+):
     """
     Get all OperationRateMax of a dataset.
     """
@@ -54,12 +53,12 @@ def get_operation_rate_max_by_dataset(
     return entry_list
 
 
-@router.get("/component/{component_id}", response_model=list[OperationRateMax])
+@router.get("/component/{component_id}", response_model=list[OperationRateMaxSchema])
 def get_operation_rate_max_by_component(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> list[OperationRateMax] | None:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Get all OperationRateMax of a component.
     """
@@ -72,11 +71,11 @@ def get_operation_rate_max_by_component(
     return entry_list
 
 
-@router.post("/", response_model=OperationRateMax)
+@router.post("/", response_model=OperationRateMaxSchema)
 def create_operation_rate_max(
     request: OperationRateMaxCreate,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Create a new OperationRateMax.
@@ -116,11 +115,11 @@ def create_operation_rate_max(
     return crud.operation_rate_max.create(db=db, obj_in=request)
 
 
-@router.delete("/{entry_id}", response_model=OperationRateMax)
+@router.delete("/{entry_id}", response_model=OperationRateMaxSchema)
 def remove_operation_rate_max(
     entry_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Remove a OperationRateMax.
@@ -134,11 +133,11 @@ def remove_operation_rate_max(
     return crud.operation_rate_max.remove(db=db, id=entry_id)
 
 
-@router.delete("/component/{component_id}", response_model=list[OperationRateMax])
+@router.delete("/component/{component_id}", response_model=list[OperationRateMaxSchema])
 def remove_operation_rate_max_by_component(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Remove all OperationRateMax of a component.
@@ -157,8 +156,8 @@ def upload_operation_rate_max(
     component_id: int,
     file: UploadFile = File(...),
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> FileUploadResult:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Upload OperationRateMax of a component.
     """
@@ -188,8 +187,8 @@ def upload_operation_rate_max(
 def download_operation_rate_max(
     component_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: model.User = Depends(deps.get_current_user),
-) -> FileResponse:
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Download OperationRateMax of a component.
     """

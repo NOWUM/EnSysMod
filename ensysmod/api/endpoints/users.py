@@ -1,18 +1,19 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from ensysmod import crud, schemas
+from ensysmod import crud
 from ensysmod.api import deps
+from ensysmod.schemas import UserSchema
 
 router = APIRouter()
 
 
-@router.get("/", response_model=list[schemas.User])
+@router.get("/", response_model=list[UserSchema])
 def get_all_users(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
-) -> list[schemas.User]:
+):
     """
     Retrieve all users.
     """

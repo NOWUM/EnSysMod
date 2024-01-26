@@ -3,7 +3,7 @@ from typing import Any
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from ensysmod.schemas.energy_model import EnergyModelOptimizationCreate
+from ensysmod.schemas import EnergyModelOptimizationCreate
 
 schemas_with_optimization_parameters_required: list[tuple[type[BaseModel], dict[str, Any]]] = [
     (

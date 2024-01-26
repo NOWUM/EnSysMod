@@ -27,7 +27,7 @@ class UserUpdate(UserBase, UpdateSchema):
     password: str | None = None
 
 
-class User(UserBase, ReturnSchema):
+class UserSchema(UserBase, ReturnSchema):
     """
     Attributes to return via API for a User.
     """

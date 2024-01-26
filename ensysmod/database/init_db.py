@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def check_connection():
+def check_connection() -> None:
     try:
         db = SessionLocal()
         db.execute(text("SELECT 1"))
@@ -21,5 +21,5 @@ def check_connection():
         raise e
 
 
-def create_all():
+def create_all() -> None:
     Base.metadata.create_all(engine)

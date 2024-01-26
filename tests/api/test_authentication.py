@@ -6,7 +6,7 @@ from ensysmod import crud
 from tests.utils.utils import random_string
 
 
-def get_register_payload():
+def get_register_payload() -> dict[str, str]:
     return {"username": random_string(), "password": random_string()}
 
 

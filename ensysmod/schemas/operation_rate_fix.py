@@ -27,7 +27,7 @@ class OperationRateFixUpdate(OperationRateFixBase, RefCRBaseUpdate):
     """
 
 
-class OperationRateFix(OperationRateFixBase, RefCRBase):
+class OperationRateFixSchema(OperationRateFixBase, RefCRBase):
     """
     Attributes to return via API for a OperationRateFix.
     """
