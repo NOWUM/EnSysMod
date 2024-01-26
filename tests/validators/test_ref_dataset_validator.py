@@ -62,8 +62,8 @@ def test_error_on_zero_ref_dataset(schema: type[BaseModel], data: dict[str, Any]
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("ref_dataset",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Reference to a dataset must be positive."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than 0"
+    assert exc_info.value.errors()[0]["type"] == "greater_than"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_ref_dataset)
@@ -76,8 +76,8 @@ def test_error_on_negative_ref_dataset(schema: type[BaseModel], data: dict[str, 
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("ref_dataset",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Reference to a dataset must be positive."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than 0"
+    assert exc_info.value.errors()[0]["type"] == "greater_than"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_ref_dataset)

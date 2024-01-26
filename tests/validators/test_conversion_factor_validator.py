@@ -56,8 +56,8 @@ def test_error_too_high_conversion_factor(schema: type[BaseModel], data: dict[st
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("conversion_factor",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Conversion factor must be between -5 and 5."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be less than or equal to 5"
+    assert exc_info.value.errors()[0]["type"] == "less_than_equal"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_conversion_factor)
@@ -70,8 +70,8 @@ def test_error_too_low_conversion_factor(schema: type[BaseModel], data: dict[str
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("conversion_factor",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Conversion factor must be between -5 and 5."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than or equal to -5"
+    assert exc_info.value.errors()[0]["type"] == "greater_than_equal"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_conversion_factor)

@@ -55,6 +55,20 @@ def test_error_missing_start_year(schema: type[BaseModel], data: dict[str, Any])
     assert exc_info.value.errors()[0]["type"] == "missing"
 
 
+@pytest.mark.parametrize(("schema", "data"), schemas_with_optimization_parameters_required)
+def test_error_negative_start_year(schema: type[BaseModel], data: dict[str, Any]):
+    """
+    Test that a start year is not negative
+    """
+    with pytest.raises(ValidationError) as exc_info:
+        schema(start_year=-1, **data)
+
+    assert len(exc_info.value.errors()) == 1
+    assert exc_info.value.errors()[0]["loc"] == ("start_year",)
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than or equal to 0"
+    assert exc_info.value.errors()[0]["type"] == "greater_than_equal"
+
+
 @pytest.mark.parametrize(("schema", "data"), schemas_with_optimization_parameters_optional)
 def test_error_missing_timeframe_parameters(schema: type[BaseModel], data: dict[str, Any]):
     """
@@ -194,9 +208,9 @@ def test_error_negative_CO2_reference(schema: type[BaseModel], data: dict[str, A
         schema(end_year=2050, number_of_steps=3, years_per_step=10, CO2_reference=-366, CO2_reduction_targets=[0, 25, 50, 100], **data)
 
     assert len(exc_info.value.errors()) == 1
-    assert exc_info.value.errors()[0]["loc"] == ()
-    assert exc_info.value.errors()[0]["msg"] == "Value error, CO2_reference must be zero or positive."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["loc"] == ("CO2_reference",)
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than or equal to 0"
+    assert exc_info.value.errors()[0]["type"] == "greater_than_equal"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_optimization_parameters_optional)

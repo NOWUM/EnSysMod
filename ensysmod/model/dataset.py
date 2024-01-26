@@ -26,10 +26,10 @@ class Dataset(Base):
 
     name: Mapped[str] = mapped_column(index=True)
     description: Mapped[str | None]
-    hours_per_time_step: Mapped[int] = mapped_column(default=1)
-    number_of_time_steps: Mapped[int] = mapped_column(default=8760)
-    cost_unit: Mapped[str] = mapped_column(default="1e9 Euro")
-    length_unit: Mapped[str] = mapped_column(default="km")
+    hours_per_time_step: Mapped[int]
+    number_of_time_steps: Mapped[int]
+    cost_unit: Mapped[str]
+    length_unit: Mapped[str]
 
     # relationships
     user: Mapped[User] = relationship()

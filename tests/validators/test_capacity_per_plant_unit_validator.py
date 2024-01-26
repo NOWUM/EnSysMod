@@ -56,8 +56,8 @@ def test_error_on_zero_capacity_per_plant_unit(schema: type[BaseModel], data: di
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("capacity_per_plant_unit",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Capacity per plant per unit must be positive."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than 0"
+    assert exc_info.value.errors()[0]["type"] == "greater_than"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_capacity_per_plant_unit)
@@ -70,8 +70,8 @@ def test_error_on_negative_capacity_per_plant_unit(schema: type[BaseModel], data
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("capacity_per_plant_unit",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Capacity per plant per unit must be positive."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than 0"
+    assert exc_info.value.errors()[0]["type"] == "greater_than"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_capacity_per_plant_unit)

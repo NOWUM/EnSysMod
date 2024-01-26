@@ -42,8 +42,8 @@ def test_error_on_negative_discharge_efficiency(schema: type[BaseModel], data: d
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("discharge_efficiency",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Discharge efficiency must be between 0 and 1."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than or equal to 0"
+    assert exc_info.value.errors()[0]["type"] == "greater_than_equal"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_discharge_efficiency)
@@ -56,8 +56,8 @@ def test_error_on_positive_discharge_efficiency(schema: type[BaseModel], data: d
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("discharge_efficiency",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Discharge efficiency must be between 0 and 1."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be less than or equal to 1"
+    assert exc_info.value.errors()[0]["type"] == "less_than_equal"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_discharge_efficiency)

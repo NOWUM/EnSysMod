@@ -42,8 +42,8 @@ def test_error_on_negative_cyclic_lifetime(schema: type[BaseModel], data: dict[s
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("cyclic_lifetime",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Cyclic lifetime must be positive."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than 0"
+    assert exc_info.value.errors()[0]["type"] == "greater_than"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_cyclic_lifetime)
@@ -56,8 +56,8 @@ def test_error_on_zero_cyclic_lifetime(schema: type[BaseModel], data: dict[str, 
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("cyclic_lifetime",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Cyclic lifetime must be positive."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than 0"
+    assert exc_info.value.errors()[0]["type"] == "greater_than"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_cyclic_lifetime)

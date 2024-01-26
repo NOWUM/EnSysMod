@@ -36,21 +36,21 @@ def test_ok_none_shared_potential_id(schema: type[BaseModel], data: dict[str, An
 @pytest.mark.parametrize(("schema", "data"), schemas_with_shared_potential_id)
 def test_error_long_shared_potential_id(schema: type[BaseModel], data: dict[str, Any]):
     """
-    Test that a shared potential id is not longer than 100 characters
+    Test that a shared potential id is not longer than 255 characters
     """
     with pytest.raises(ValidationError) as exc_info:
-        schema(shared_potential_id="a" * 101, **data)
+        schema(shared_potential_id="a" * 256, **data)
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("shared_potential_id",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Shared potential id must not be longer than 100 characters."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "String should have at most 255 characters"
+    assert exc_info.value.errors()[0]["type"] == "string_too_long"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_shared_potential_id)
 def test_ok_shared_potential_ids(schema: type[BaseModel], data: dict[str, Any]):
     """
-    Test that a shared potential id between 1 and 100 characters is valid
+    Test that a shared potential id between 1 and 255 characters is valid
     """
     schema(shared_potential_id="a", **data)
-    schema(shared_potential_id="a" * 100, **data)
+    schema(shared_potential_id="a" * 255, **data)

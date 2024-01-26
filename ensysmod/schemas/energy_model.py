@@ -1,11 +1,10 @@
-from pydantic import Field, field_validator
+from pydantic import Field
 
 from ensysmod.model.energy_model_override import EnergyModelOverrideAttribute, EnergyModelOverrideOperation
-from ensysmod.schemas.base_schema import BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
+from ensysmod.schemas.base_schema import MAX_DESC_LENGTH, MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
 from ensysmod.schemas.dataset import Dataset
 from ensysmod.schemas.energy_model_optimization import EnergyModelOptimization, EnergyModelOptimizationCreate, EnergyModelOptimizationUpdate
 from ensysmod.schemas.energy_model_override import EnergyModelOverride, EnergyModelOverrideCreate, EnergyModelOverrideUpdate
-from ensysmod.utils import validators
 
 
 class EnergyModelBase(BaseSchema):
@@ -13,15 +12,19 @@ class EnergyModelBase(BaseSchema):
     Shared attributes for an energy model. Used as a base class for all schemas.
     """
 
-    name: str = Field(default=..., description="Name of the energy model.", examples=["100% CO2 reduction"])
-
-    description: str | None = Field(
-        default=None, description="Description of the energy model", examples=["A model that reduces CO2 emissions by 100%"]
+    name: str = Field(
+        default=...,
+        description="Name of the energy model.",
+        examples=["100% CO2 reduction"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
     )
-
-    # validators
-    _valid_name = field_validator("name")(validators.validate_name)
-    _valid_description = field_validator("description")(validators.validate_description)
+    description: str | None = Field(
+        default=None,
+        description="Description of the energy model",
+        examples=["A model that reduces CO2 emissions by 100%"],
+        max_length=MAX_DESC_LENGTH,
+    )
 
 
 class EnergyModelCreate(EnergyModelBase, CreateSchema):
@@ -29,8 +32,12 @@ class EnergyModelCreate(EnergyModelBase, CreateSchema):
     Attributes to receive via API on creation of an energy model.
     """
 
-    ref_dataset: int = Field(default=..., description="ID of the dataset that the energy model is based on.", examples=[1])
-
+    ref_dataset: int = Field(
+        default=...,
+        description="ID of the dataset that the energy model is based on.",
+        examples=[1],
+        gt=0,
+    )
     override_parameters: list[EnergyModelOverrideCreate] | None = Field(
         default=None,
         description="Override parameters of the energy model. If given, overrides the values of the referenced dataset.",
@@ -60,16 +67,19 @@ class EnergyModelCreate(EnergyModelBase, CreateSchema):
         ],
     )
 
-    # validators
-    _valid_ref_dataset = field_validator("ref_dataset")(validators.validate_ref_dataset_required)
-
 
 class EnergyModelUpdate(EnergyModelBase, UpdateSchema):
     """
     Attributes to receive via API on update of an energy model.
     """
 
-    name: str | None = None
+    name: str | None = Field(
+        default=None,
+        description="Name of the energy model.",
+        examples=["100% CO2 reduction"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
     override_parameters: list[EnergyModelOverrideUpdate] | None = None
     optimization_parameters: list[EnergyModelOptimizationUpdate] | None = None
 

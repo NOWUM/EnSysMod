@@ -1,5 +1,9 @@
 from pydantic import BaseModel, ConfigDict
 
+MIN_STR_LENGTH = 1
+MAX_STR_LENGTH = 255
+MAX_DESC_LENGTH = 1024
+
 
 class BaseSchema(BaseModel):
     """

@@ -1,4 +1,4 @@
-from pydantic import Field, NonNegativeFloat
+from pydantic import Field
 
 from ensysmod.schemas.base_ref_component_region import RefCRBase, RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate
 
@@ -8,10 +8,11 @@ class YearlyFullLoadHoursMinBase(RefCRBaseBase):
     Shared attributes for a YearlyFullLoadHoursMin. Used as a base class for all schemas.
     """
 
-    yearly_full_load_hours_min: NonNegativeFloat = Field(
+    yearly_full_load_hours_min: float = Field(
         default=...,
         description="YearlyFullLoadHoursMin for a component in a region.",
         examples=[3000.0],
+        ge=0,
     )
 
 

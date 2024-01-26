@@ -1,10 +1,9 @@
-from pydantic import Field, field_validator
+from pydantic import Field
 
 from ensysmod.model import EnergyComponentType
-from ensysmod.schemas.base_schema import BaseSchema, ReturnSchema
+from ensysmod.schemas.base_schema import MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, ReturnSchema
 from ensysmod.schemas.energy_commodity import EnergyCommodity
 from ensysmod.schemas.energy_component import EnergyComponent, EnergyComponentCreate, EnergyComponentUpdate
-from ensysmod.utils import validators
 
 
 class EnergyTransmissionBase(BaseSchema):
@@ -14,19 +13,19 @@ class EnergyTransmissionBase(BaseSchema):
 
     type: EnergyComponentType = EnergyComponentType.TRANSMISSION
 
-    # validators
-    _valid_type = field_validator("type")(validators.validate_energy_component_type)
-
 
 class EnergyTransmissionCreate(EnergyTransmissionBase, EnergyComponentCreate):
     """
     Attributes to receive via API on creation of an energy transmission.
     """
 
-    commodity: str = Field(default=..., description="Commodity of energy transmission.", examples=["electricity"])
-
-    # validators
-    _valid_commodity = field_validator("commodity")(validators.validate_commodity)
+    commodity: str = Field(
+        default=...,
+        description="Commodity the energy sink is based on.",
+        examples=["electricity"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
 
 
 class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):
@@ -34,10 +33,13 @@ class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):
     Attributes to receive via API on update of an energy transmission.
     """
 
-    commodity: str | None = None
-
-    # validators
-    _valid_commodity = field_validator("commodity")(validators.validate_commodity)
+    commodity: str | None = Field(
+        default=None,
+        description="Commodity the energy sink is based on.",
+        examples=["electricity"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
 
 
 class EnergyTransmission(EnergyTransmissionBase, ReturnSchema):

@@ -42,8 +42,8 @@ def test_error_on_negative_charge_rate(schema: type[BaseModel], data: dict[str, 
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("charge_rate",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Charge rate must be between 0 and 1."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than or equal to 0"
+    assert exc_info.value.errors()[0]["type"] == "greater_than_equal"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_charge_rate)
@@ -56,8 +56,8 @@ def test_error_on_positive_charge_rate(schema: type[BaseModel], data: dict[str, 
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("charge_rate",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Charge rate must be between 0 and 1."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be less than or equal to 1"
+    assert exc_info.value.errors()[0]["type"] == "less_than_equal"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_charge_rate)

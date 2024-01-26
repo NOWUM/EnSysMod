@@ -11,10 +11,14 @@ class EnergyModelOverrideBase(RefCRBaseBase):
     """
 
     attribute: EnergyModelOverrideAttribute = Field(
-        default=..., description="The attribute of the parameter.", examples=[EnergyModelOverrideAttribute.yearlyLimit]
+        default=...,
+        description="The attribute of the parameter.",
+        examples=[EnergyModelOverrideAttribute.yearlyLimit],
     )
     operation: EnergyModelOverrideOperation = Field(
-        default=..., description="The operation of the parameter.", examples=[EnergyModelOverrideOperation.set]
+        default=...,
+        description="The operation of the parameter.",
+        examples=[EnergyModelOverrideOperation.set],
     )
     value: float = Field(default=..., description="The value of the parameter.", examples=[-5.5])
 

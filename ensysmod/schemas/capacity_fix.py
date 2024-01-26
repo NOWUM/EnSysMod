@@ -1,4 +1,4 @@
-from pydantic import Field, NonNegativeFloat
+from pydantic import Field
 
 from ensysmod.schemas.base_ref_component_region import RefCRBase, RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate
 
@@ -8,10 +8,11 @@ class CapacityFixBase(RefCRBaseBase):
     Shared attributes for a CapacityFix. Used as a base class for all schemas.
     """
 
-    capacity_fix: NonNegativeFloat = Field(
+    capacity_fix: float = Field(
         default=...,
         description="Fixed capacity for a component in a specific region.",
         examples=[1.0],
+        ge=0,
     )
 
 

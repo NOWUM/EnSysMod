@@ -55,8 +55,8 @@ def test_error_negative_loss(schema: type[BaseModel], data: dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("loss",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, The loss must be between zero and one."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than or equal to 0"
+    assert exc_info.value.errors()[0]["type"] == "greater_than_equal"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_loss)
@@ -69,8 +69,8 @@ def test_error_loss_above_one(schema: type[BaseModel], data: dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("loss",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, The loss must be between zero and one."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be less than or equal to 1"
+    assert exc_info.value.errors()[0]["type"] == "less_than_equal"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_loss)

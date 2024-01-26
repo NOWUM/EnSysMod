@@ -54,8 +54,8 @@ def test_error_empty_commodity(schema: type[BaseModel], data: dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("commodity",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Commodity must not be empty."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "String should have at least 1 character"
+    assert exc_info.value.errors()[0]["type"] == "string_too_short"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_commodity)
@@ -68,8 +68,8 @@ def test_error_long_commodity(schema: type[BaseModel], data: dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("commodity",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Commodity must not be longer than 255 characters."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "String should have at most 255 characters"
+    assert exc_info.value.errors()[0]["type"] == "string_too_long"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_commodity)

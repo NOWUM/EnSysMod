@@ -10,10 +10,22 @@ class DatasetPermissionBase(BaseSchema):
     Shared attributes for a DatasetPermission. Used as a base class for all schemas.
     """
 
-    allow_usage: bool = Field(default=True, description="Whether the user is allowed to use the dataset.")
-    allow_modification: bool = Field(default=True, description="Whether the user is allowed to modify the dataset.")
-    allow_permission_grant: bool = Field(default=True, description="Whether the user is allowed to grant permissions.")
-    allow_permission_revoke: bool = Field(default=True, description="Whether the user is allowed to revoke permissions.")
+    allow_usage: bool = Field(
+        default=True,
+        description="Whether the user is allowed to use the dataset.",
+    )
+    allow_modification: bool = Field(
+        default=True,
+        description="Whether the user is allowed to modify the dataset.",
+    )
+    allow_permission_grant: bool = Field(
+        default=True,
+        description="Whether the user is allowed to grant permissions.",
+    )
+    allow_permission_revoke: bool = Field(
+        default=True,
+        description="Whether the user is allowed to revoke permissions.",
+    )
 
 
 class DatasetPermissionCreate(DatasetPermissionBase, CreateSchema):
@@ -21,8 +33,16 @@ class DatasetPermissionCreate(DatasetPermissionBase, CreateSchema):
     Attributes to receive via API on creation of a DatasetPermission.
     """
 
-    ref_dataset: int | None = Field(default=None, description="The ID of the dataset. You must have access to grant permissions to this dataset.")
-    ref_user: int | None = Field(default=None, description="The ID of the user that receive the permissions.")
+    ref_dataset: int | None = Field(
+        default=None,
+        description="The ID of the dataset. You must have access to grant permissions to this dataset.",
+        gt=0,
+    )
+    ref_user: int | None = Field(
+        default=None,
+        description="The ID of the user that receive the permissions.",
+        gt=0,
+    )
 
 
 class DatasetPermissionUpdate(DatasetPermissionBase, UpdateSchema):

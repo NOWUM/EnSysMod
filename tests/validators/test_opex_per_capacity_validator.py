@@ -42,8 +42,8 @@ def test_error_on_negative_opex_per_capacity(schema: type[BaseModel], data: dict
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("opex_per_capacity",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Opex per capacity must be zero or positive."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than or equal to 0"
+    assert exc_info.value.errors()[0]["type"] == "greater_than_equal"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_opex_per_capacity)

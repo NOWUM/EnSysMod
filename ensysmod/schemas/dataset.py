@@ -1,8 +1,7 @@
-from pydantic import Field, field_validator
+from pydantic import Field
 
-from ensysmod.schemas.base_schema import BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
+from ensysmod.schemas.base_schema import MAX_DESC_LENGTH, MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
 from ensysmod.schemas.user import User
-from ensysmod.utils import validators
 
 
 class DatasetBase(BaseSchema):
@@ -14,36 +13,41 @@ class DatasetBase(BaseSchema):
         default=...,
         description="Unique name of the dataset. Can be used to identify the dataset.",
         examples=["2050 Worldwide"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
     )
     description: str | None = Field(
         default=None,
         description="Description of the dataset. Can be used for a detailed description about the dataset and the modelled data.",
         examples=["Modeling year 2050 with all countries"],
+        max_length=MAX_DESC_LENGTH,
     )
     hours_per_time_step: int | None = Field(
-        default=None,
+        default=1,
         description="Hours per time step in the dataset. Use 1 for hourly data, 24 for daily data. It is needed to calculate annual costs.",
         examples=[1],
+        gt=0,
     )
     number_of_time_steps: int | None = Field(
-        default=None,
+        default=8760,
         description="Number of time steps in the dataset. All provided time series must have the same length.",
         examples=[8760],
+        gt=0,
     )
     cost_unit: str | None = Field(
-        default=None,
+        default="1e9 €",
         description="Cost unit for the whole dataset. All provided costs must be in this unit.",
         examples=["1e9 €"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
     )
     length_unit: str | None = Field(
-        default=None,
+        default="km",
         description="Length unit for the whole dataset. All provided distances must be in this unit.",
         examples=["km"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
     )
-
-    # validators
-    _valid_name = field_validator("name")(validators.validate_name)
-    _valid_description = field_validator("description")(validators.validate_description)
 
 
 class DatasetCreate(DatasetBase, CreateSchema):
@@ -51,7 +55,11 @@ class DatasetCreate(DatasetBase, CreateSchema):
     Attributes to receive via API on creation of a dataset.
     """
 
-    ref_user: int | None = Field(default=None, description="User ID of the creator. If not provided, the current user is used.")
+    ref_user: int | None = Field(
+        default=None,
+        description="User ID of the creator. If not provided, the current user is used.",
+        gt=0,
+    )
 
 
 class DatasetUpdate(DatasetBase, UpdateSchema):
@@ -59,7 +67,13 @@ class DatasetUpdate(DatasetBase, UpdateSchema):
     Attributes to receive via API on update of a dataset.
     """
 
-    name: str | None = Field(default=None, description="New Name of the dataset.", examples=["2051 Worldwide"])
+    name: str | None = Field(
+        default=None,
+        description="Unique name of the dataset. Can be used to identify the dataset.",
+        examples=["2050 Worldwide"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
 
 
 class Dataset(DatasetBase, ReturnSchema):

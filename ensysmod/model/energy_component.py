@@ -27,7 +27,6 @@ if TYPE_CHECKING:
 
 
 class EnergyComponentType(enum.Enum):
-    UNDEFINED = "UNDEFINED"  # Undefined component (should not be used)
     SOURCE = "SOURCE"
     SINK = "SINK"
     CONVERSION = "CONVERSION"
@@ -45,14 +44,14 @@ class EnergyComponent(RefDataset, Base):
     type: Mapped[EnergyComponentType]
     description: Mapped[str | None]
 
-    capacity_variable: Mapped[bool] = mapped_column(default=False)
-    capacity_variable_domain: Mapped[CapacityVariableDomain] = mapped_column(default=CapacityVariableDomain.CONTINUOUS)
-    capacity_per_plant_unit: Mapped[float | None] = mapped_column(default=1.0)
+    capacity_variable: Mapped[bool]
+    capacity_variable_domain: Mapped[CapacityVariableDomain]
+    capacity_per_plant_unit: Mapped[float | None]
 
-    invest_per_capacity: Mapped[float] = mapped_column(default=0.0)
-    opex_per_capacity: Mapped[float] = mapped_column(default=0.0)
-    interest_rate: Mapped[float] = mapped_column(default=0.08)
-    economic_lifetime: Mapped[int] = mapped_column(default=10)
+    invest_per_capacity: Mapped[float]
+    opex_per_capacity: Mapped[float]
+    interest_rate: Mapped[float]
+    economic_lifetime: Mapped[int]
 
     shared_potential_id: Mapped[str | None]
     linked_quantity_id: Mapped[str | None]

@@ -39,37 +39,23 @@ def test_ok_missing_unit(schema: type[BaseModel], data: dict[str, Any]):
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_unit)
-def test_error_empty_unit(schema: type[BaseModel], data: dict[str, Any]):
-    """
-    Test that a unit is not empty, if specified
-    """
-    with pytest.raises(ValidationError) as exc_info:
-        schema(unit="", **data)
-
-    assert len(exc_info.value.errors()) == 1
-    assert exc_info.value.errors()[0]["loc"] == ("unit",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Unit must not be empty."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
-
-
-@pytest.mark.parametrize(("schema", "data"), schemas_with_unit)
 def test_error_long_unit(schema: type[BaseModel], data: dict[str, Any]):
     """
-    Test that a unit is not longer than 100 characters
+    Test that a unit is not longer than 255 characters
     """
     with pytest.raises(ValidationError) as exc_info:
-        schema(unit="a" * 101, **data)
+        schema(unit="a" * 256, **data)
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("unit",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Unit must not be longer than 100 characters."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "String should have at most 255 characters"
+    assert exc_info.value.errors()[0]["type"] == "string_too_long"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_unit)
 def test_ok_units(schema: type[BaseModel], data: dict[str, Any]):
     """
-    Test that a unit with everything between 1 and 100 characters is valid
+    Test that a unit with everything between 1 and 255 characters is valid
     """
     schema(unit="a", **data)
-    schema(unit="a" * 100, **data)
+    schema(unit="a" * 255, **data)

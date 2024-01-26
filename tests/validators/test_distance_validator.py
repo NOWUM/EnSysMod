@@ -55,8 +55,8 @@ def test_error_negative_distance(schema: type[BaseModel], data: dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("distance",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, The distance must be zero or positive."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than or equal to 0"
+    assert exc_info.value.errors()[0]["type"] == "greater_than_equal"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_distance)

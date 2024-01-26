@@ -1,8 +1,7 @@
-from pydantic import Field, field_validator
+from pydantic import Field
 
-from ensysmod.schemas.base_schema import BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
+from ensysmod.schemas.base_schema import MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
 from ensysmod.schemas.dataset import Dataset
-from ensysmod.utils import validators
 
 
 class RegionBase(BaseSchema):
@@ -10,10 +9,13 @@ class RegionBase(BaseSchema):
     Shared attributes for a region. Used as a base class for all schemas.
     """
 
-    name: str = Field(default=..., description="Unique name of the region.", examples=["germany"])
-
-    # validators
-    _valid_name = field_validator("name")(validators.validate_name)
+    name: str = Field(
+        default=...,
+        description="Unique name of the region.",
+        examples=["germany"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
 
 
 class RegionCreate(RegionBase, CreateSchema):
@@ -21,10 +23,12 @@ class RegionCreate(RegionBase, CreateSchema):
     Attributes to receive via API on creation of a region.
     """
 
-    ref_dataset: int = Field(default=..., description="ID of the dataset to use as reference.", examples=[1])
-
-    # validators
-    _valid_ref_dataset = field_validator("ref_dataset")(validators.validate_ref_dataset_required)
+    ref_dataset: int = Field(
+        default=...,
+        description="ID of the dataset to use as reference.",
+        examples=[1],
+        gt=0,
+    )
 
 
 class RegionUpdate(RegionBase, UpdateSchema):
@@ -32,7 +36,13 @@ class RegionUpdate(RegionBase, UpdateSchema):
     Attributes to receive via API on update of a region.
     """
 
-    name: str | None = Field(default=None, description="New name of the region", examples=["germany"])
+    name: str | None = Field(
+        default=None,
+        description="Unique name of the region.",
+        examples=["germany"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
 
 
 class Region(RegionBase, ReturnSchema):

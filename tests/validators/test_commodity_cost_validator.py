@@ -45,8 +45,8 @@ def test_error_on_negative_commodity_cost(schema: type[BaseModel], data: dict[st
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("commodity_cost",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Commodity cost must be zero or positive."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than or equal to 0"
+    assert exc_info.value.errors()[0]["type"] == "greater_than_equal"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_commodity_cost)

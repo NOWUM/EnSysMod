@@ -41,8 +41,8 @@ def test_error_long_description(schema: type[BaseModel], data: dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("description",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Description must not be longer than 1024 characters."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "String should have at most 1024 characters"
+    assert exc_info.value.errors()[0]["type"] == "string_too_long"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_description)

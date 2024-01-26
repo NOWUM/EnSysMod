@@ -1,7 +1,7 @@
 from pydantic import Field, field_validator
 
 from ensysmod.model import EnergyComponentType
-from ensysmod.schemas.base_schema import BaseSchema, ReturnSchema
+from ensysmod.schemas.base_schema import MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, ReturnSchema
 from ensysmod.schemas.energy_commodity import EnergyCommodity
 from ensysmod.schemas.energy_component import EnergyComponent, EnergyComponentCreate, EnergyComponentUpdate
 from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactor, EnergyConversionFactorCreate
@@ -15,17 +15,19 @@ class EnergyConversionBase(BaseSchema):
 
     type: EnergyComponentType = EnergyComponentType.CONVERSION
 
-    # validators
-    _valid_type = field_validator("type")(validators.validate_energy_component_type)
-
 
 class EnergyConversionCreate(EnergyConversionBase, EnergyComponentCreate):
     """
     Attributes to receive via API on creation of an energy conversion.
     """
 
-    commodity_unit: str = Field(default=..., description="Commodity the conversion component is based on.", examples=["electricity"])
-
+    commodity_unit: str = Field(
+        default=...,
+        description="Commodity the conversion component is based on.",
+        examples=["electricity"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
     conversion_factors: list[EnergyConversionFactorCreate] = Field(
         default=...,
         description="List of conversion factors",
@@ -39,7 +41,6 @@ class EnergyConversionCreate(EnergyConversionBase, EnergyComponentCreate):
 
     # validators
     _valid_conversion_factors = field_validator("conversion_factors")(validators.validate_conversion_factors)
-    _valid_commodity_unit = field_validator("commodity_unit")(validators.validate_commodity)
 
 
 class EnergyConversionUpdate(EnergyConversionBase, EnergyComponentUpdate):
@@ -47,10 +48,15 @@ class EnergyConversionUpdate(EnergyConversionBase, EnergyComponentUpdate):
     Attributes to receive via API on update of an energy conversion.
     """
 
-    commodity_unit: str | None = Field(default=None, description="Commodity the conversion component is based on.", examples=["electricity"])
-
+    commodity_unit: str | None = Field(
+        default=None,
+        description="Commodity the conversion component is based on.",
+        examples=["electricity"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
     conversion_factors: list[EnergyConversionFactorCreate] | None = Field(
-        default=...,
+        default=None,
         description="List of conversion factors",
         examples=[
             [
@@ -59,9 +65,6 @@ class EnergyConversionUpdate(EnergyConversionBase, EnergyComponentUpdate):
             ]
         ],
     )
-
-    # validators
-    _valid_commodity_unit = field_validator("commodity_unit")(validators.validate_unit)
 
 
 class EnergyConversion(EnergyConversionBase, ReturnSchema):

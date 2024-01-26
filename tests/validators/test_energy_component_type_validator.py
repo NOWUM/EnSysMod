@@ -3,7 +3,6 @@ from typing import Any
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from ensysmod.model import EnergyComponentType
 from ensysmod.schemas import (
     EnergyComponentCreate,
     EnergyConversionCreate,
@@ -60,17 +59,17 @@ def test_ok_implicit_type(schema: type[BaseModel], data: dict[str, Any]) -> None
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_type)
-def test_error_undefined_type(schema: type[BaseModel], data: dict[str, Any]) -> None:
+def test_error_none_type(schema: type[BaseModel], data: dict[str, Any]) -> None:
     """
     Test that the validator raises an error when the type is not specified.
     """
     with pytest.raises(ValidationError) as exc_info:
-        schema(type=EnergyComponentType.UNDEFINED, **data)
+        schema(type=None, **data)
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("type",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Energy component type must not be undefined."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be 'SOURCE', 'SINK', 'CONVERSION', 'TRANSMISSION' or 'STORAGE'"
+    assert exc_info.value.errors()[0]["type"] == "enum"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_type)
@@ -83,5 +82,5 @@ def test_error_empty_type(schema: type[BaseModel], data: dict[str, Any]) -> None
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("type",)
-    assert exc_info.value.errors()[0]["msg"] == "Input should be 'UNDEFINED', 'SOURCE', 'SINK', 'CONVERSION', 'TRANSMISSION' or 'STORAGE'"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be 'SOURCE', 'SINK', 'CONVERSION', 'TRANSMISSION' or 'STORAGE'"
     assert exc_info.value.errors()[0]["type"] == "enum"

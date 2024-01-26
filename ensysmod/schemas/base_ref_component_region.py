@@ -1,10 +1,9 @@
-from pydantic import Field, field_validator
+from pydantic import Field
 
 from ensysmod.schemas.base_schema import BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
 from ensysmod.schemas.dataset import Dataset
 from ensysmod.schemas.energy_component import EnergyComponent
 from ensysmod.schemas.region import Region
-from ensysmod.utils import validators
 
 
 class RefCRBaseBase(BaseSchema):
@@ -18,13 +17,26 @@ class RefCRBaseCreate(CreateSchema):
     Attributes to receive via API on creation of an object with a reference to a component and region.
     """
 
-    ref_dataset: int = Field(default=..., description="The ID of the referenced dataset. Current dataset is used as default.")
-    component: str = Field(default=..., description="The name of the component.", examples=["heat_pump"])
-    region: str = Field(default=..., description="The name of the region.", examples=["germany"])
-    region_to: str | None = Field(default=None, description="Optional region to name, if needed.", examples=["france"])
-
-    # validators
-    _valid_ref_dataset = field_validator("ref_dataset")(validators.validate_ref_dataset_required)
+    ref_dataset: int = Field(
+        default=...,
+        description="The ID of the referenced dataset. Current dataset is used as default.",
+        gt=0,
+    )
+    component: str = Field(
+        default=...,
+        description="The name of the component.",
+        examples=["heat_pump"],
+    )
+    region: str = Field(
+        default=...,
+        description="The name of the region.",
+        examples=["germany"],
+    )
+    region_to: str | None = Field(
+        default=None,
+        description="Optional region to name, if needed.",
+        examples=["france"],
+    )
 
 
 class RefCRBaseUpdate(UpdateSchema):

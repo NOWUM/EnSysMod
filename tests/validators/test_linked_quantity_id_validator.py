@@ -36,21 +36,21 @@ def test_ok_none_linked_quantity_id(schema: type[BaseModel], data: dict[str, Any
 @pytest.mark.parametrize(("schema", "data"), schemas_with_linked_quantity_id)
 def test_error_long_linked_quantity_id(schema: type[BaseModel], data: dict[str, Any]):
     """
-    Test that a linked quantity id is not longer than 100 characters
+    Test that a linked quantity id is not longer than 255 characters
     """
     with pytest.raises(ValidationError) as exc_info:
-        schema(linked_quantity_id="a" * 101, **data)
+        schema(linked_quantity_id="a" * 256, **data)
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("linked_quantity_id",)
-    assert exc_info.value.errors()[0]["msg"] == "Value error, Linked quantity id must not be longer than 100 characters."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "String should have at most 255 characters"
+    assert exc_info.value.errors()[0]["type"] == "string_too_long"
 
 
 @pytest.mark.parametrize(("schema", "data"), schemas_with_linked_quantity_id)
 def test_ok_linked_quantity_ids(schema: type[BaseModel], data: dict[str, Any]):
     """
-    Test that a linked quantity id between 1 and 100 characters is valid
+    Test that a linked quantity id between 1 and 255 characters is valid
     """
     schema(linked_quantity_id="a", **data)
-    schema(linked_quantity_id="a" * 100, **data)
+    schema(linked_quantity_id="a" * 255, **data)

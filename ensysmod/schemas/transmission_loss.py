@@ -1,8 +1,7 @@
-from pydantic import Field, field_validator
+from pydantic import Field
 
 from ensysmod.schemas.base_ref_component_region import RefCRBase, RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate
 from ensysmod.schemas.region import Region
-from ensysmod.utils import validators
 
 
 class TransmissionLossBase(RefCRBaseBase):
@@ -10,10 +9,13 @@ class TransmissionLossBase(RefCRBaseBase):
     Shared attributes for an TransmissionLoss. Used as a base class for all schemas.
     """
 
-    loss: float = Field(default=..., description="Relative loss per length unit of energy transmission.", examples=[0.00003])
-
-    # validators
-    _valid_distance = field_validator("loss")(validators.validate_loss)
+    loss: float = Field(
+        default=...,
+        description="Relative loss per length unit of energy transmission.",
+        examples=[0.00003],
+        ge=0,
+        le=1,
+    )
 
 
 class TransmissionLossCreate(TransmissionLossBase, RefCRBaseCreate):
@@ -21,7 +23,11 @@ class TransmissionLossCreate(TransmissionLossBase, RefCRBaseCreate):
     Attributes to receive via API on creation of an TransmissionLoss.
     """
 
-    region_to: str = Field(default=..., description="The name of the target region.", examples=["france"])
+    region_to: str = Field(
+        default=...,
+        description="The name of the target region.",
+        examples=["france"],
+    )
 
 
 class TransmissionLossUpdate(TransmissionLossBase, RefCRBaseUpdate):
