@@ -32,8 +32,8 @@ class EnergyConversionCreate(EnergyConversionBase, EnergyComponentCreate):
         description="List of conversion factors",
         examples=[
             [
-                EnergyConversionFactorCreate(commodity="electricity", conversion_factor=1),
-                EnergyConversionFactorCreate(commodity="coal", conversion_factor=-1.6),
+                EnergyConversionFactorCreate(commodity_name="electricity", conversion_factor=1),
+                EnergyConversionFactorCreate(commodity_name="coal", conversion_factor=-1.6),
             ]
         ],
     )
@@ -59,11 +59,14 @@ class EnergyConversionUpdate(EnergyConversionBase, EnergyComponentUpdate):
         description="List of conversion factors",
         examples=[
             [
-                EnergyConversionFactorCreate(commodity="electricity", conversion_factor=1),
-                EnergyConversionFactorCreate(commodity="coal", conversion_factor=-1.6),
+                EnergyConversionFactorCreate(commodity_name="electricity", conversion_factor=1),
+                EnergyConversionFactorCreate(commodity_name="coal", conversion_factor=-1.6),
             ]
         ],
     )
+
+    # validators
+    _valid_conversion_factors = field_validator("conversion_factors")(validators.validate_conversion_factors)
 
 
 class EnergyConversionSchema(EnergyConversionBase, ReturnSchema):

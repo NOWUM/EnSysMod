@@ -55,6 +55,7 @@ class EnergyModelOptimizationCreate(EnergyModelOptimizationBase, CreateSchema):
     ref_model: int | None = Field(
         default=None,
         description="The ID of the referenced model. Current model is used as default.",
+        examples=[1],
         gt=0,
     )
 
@@ -80,5 +81,3 @@ class EnergyModelOptimizationSchema(EnergyModelOptimizationBase, ReturnSchema):
     """
     Attributes to return via API for a model optimization parameter.
     """
-
-    ref_model: int

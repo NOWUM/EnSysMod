@@ -72,7 +72,7 @@ def add_source(
     db: Session,
     *,
     source: EnergySource,
-    override_parameters: list[EnergyModelOverride],
+    override_parameters: list[EnergyModelOverride] | None,
 ) -> None:
     esm_source = component_to_dict(db, source.component)
     esm_source["commodity"] = source.commodity.name
@@ -82,7 +82,10 @@ def add_source(
         esm_source["yearlyLimit"] = -source.yearly_limit  # yearlyLimit for commodity entering the system has to be negative
     if source.commodity_limit_id is not None:
         esm_source["commodityLimitID"] = source.commodity_limit_id
-    esm_source = apply_override_parameters(esm_source, override_parameters)
+
+    if override_parameters is not None:
+        esm_source = apply_override_parameters(esm_source, override_parameters)
+
     esM.add(Source(esM=esM, **esm_source))
 
 
@@ -91,7 +94,7 @@ def add_sink(
     db: Session,
     *,
     sink: EnergySink,
-    override_parameters: list[EnergyModelOverride],
+    override_parameters: list[EnergyModelOverride] | None,
 ) -> None:
     esm_sink = component_to_dict(db, sink.component)
     esm_sink["commodity"] = sink.commodity.name
@@ -101,7 +104,10 @@ def add_sink(
         esm_sink["yearlyLimit"] = sink.yearly_limit
     if sink.commodity_limit_id is not None:
         esm_sink["commodityLimitID"] = sink.commodity_limit_id
-    esm_sink = apply_override_parameters(esm_sink, override_parameters)
+
+    if override_parameters is not None:
+        esm_sink = apply_override_parameters(esm_sink, override_parameters)
+
     esM.add(Sink(esM=esM, **esm_sink))
 
 
@@ -110,12 +116,15 @@ def add_conversion(
     db: Session,
     *,
     conversion: EnergyConversion,
-    override_parameters: list[EnergyModelOverride],
+    override_parameters: list[EnergyModelOverride] | None,
 ) -> None:
     esm_conversion = component_to_dict(db, conversion.component)
     esm_conversion["physicalUnit"] = conversion.physical_unit
     esm_conversion["commodityConversionFactors"] = {x.commodity.name: x.conversion_factor for x in conversion.conversion_factors}
-    esm_conversion = apply_override_parameters(esm_conversion, override_parameters)
+
+    if override_parameters is not None:
+        esm_conversion = apply_override_parameters(esm_conversion, override_parameters)
+
     esM.add(Conversion(esM=esM, **esm_conversion))
 
 
@@ -124,7 +133,7 @@ def add_storage(
     db: Session,
     *,
     storage: EnergyStorage,
-    override_parameters: list[EnergyModelOverride],
+    override_parameters: list[EnergyModelOverride] | None,
 ) -> None:
     esm_storage = component_to_dict(db, storage.component)
     esm_storage["commodity"] = storage.commodity.name
@@ -144,7 +153,10 @@ def add_storage(
         esm_storage["stateOfChargeMin"] = storage.state_of_charge_min
     if storage.state_of_charge_max is not None:
         esm_storage["stateOfChargeMax"] = storage.state_of_charge_max
-    esm_storage = apply_override_parameters(esm_storage, override_parameters)
+
+    if override_parameters is not None:
+        esm_storage = apply_override_parameters(esm_storage, override_parameters)
+
     esM.add(Storage(esM=esM, **esm_storage))
 
 
@@ -153,7 +165,7 @@ def add_transmission(
     db: Session,
     *,
     transmission: EnergyTransmission,
-    override_parameters: list[EnergyModelOverride],
+    override_parameters: list[EnergyModelOverride] | None,
 ) -> None:
     esm_transmission = component_to_dict(db, transmission.component)
     esm_transmission["commodity"] = transmission.commodity.name
@@ -162,7 +174,10 @@ def add_transmission(
         esm_transmission["distances"] = crud.transmission_distance.get_dataframe(db, component_id=component_id)
     if len(transmission.component.losses) > 0:
         esm_transmission["losses"] = crud.transmission_loss.get_dataframe(db, component_id=component_id)
-    esm_transmission = apply_override_parameters(esm_transmission, override_parameters)
+
+    if override_parameters is not None:
+        esm_transmission = apply_override_parameters(esm_transmission, override_parameters)
+
     esM.add(Transmission(esM=esM, **esm_transmission))
 
 

@@ -10,7 +10,7 @@ schemas_with_state_of_charge_min_required: list[tuple[type[BaseModel], dict[str,
 
 schemas_with_state_of_charge_min_optional: list[tuple[type[BaseModel], dict[str, Any]]] = [
     (EnergyStorageUpdate, {}),
-    (EnergyStorageCreate, {"name": "test", "description": "foo", "ref_dataset": 42, "type": EnergyComponentType.STORAGE, "commodity": "bar"}),
+    (EnergyStorageCreate, {"name": "test", "description": "foo", "ref_dataset": 42, "type": EnergyComponentType.STORAGE, "commodity_name": "bar"}),
 ]
 
 schemas_with_state_of_charge_min = schemas_with_state_of_charge_min_required + schemas_with_state_of_charge_min_optional

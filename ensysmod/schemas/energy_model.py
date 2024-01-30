@@ -3,8 +3,8 @@ from pydantic import Field
 from ensysmod.model import EnergyModelOverrideAttribute, EnergyModelOverrideOperation
 from ensysmod.schemas.base_schema import MAX_DESC_LENGTH, MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
 from ensysmod.schemas.dataset import DatasetSchema
-from ensysmod.schemas.energy_model_optimization import EnergyModelOptimizationCreate, EnergyModelOptimizationSchema, EnergyModelOptimizationUpdate
-from ensysmod.schemas.energy_model_override import EnergyModelOverrideCreate, EnergyModelOverrideSchema, EnergyModelOverrideUpdate
+from ensysmod.schemas.energy_model_optimization import EnergyModelOptimizationCreate, EnergyModelOptimizationSchema
+from ensysmod.schemas.energy_model_override import EnergyModelOverrideCreate, EnergyModelOverrideSchema
 
 
 class EnergyModelBase(BaseSchema):
@@ -39,12 +39,12 @@ class EnergyModelCreate(EnergyModelBase, CreateSchema):
         gt=0,
     )
     override_parameters: list[EnergyModelOverrideCreate] | None = Field(
-        default=None,
+        default=[],
         description="Override parameters of the energy model. If given, overrides the values of the referenced dataset.",
         examples=[
             [
                 EnergyModelOverrideCreate(
-                    component="CO2 to environment",
+                    component_name="CO2 to environment",
                     attribute=EnergyModelOverrideAttribute.yearlyLimit,
                     operation=EnergyModelOverrideOperation.set,
                     value=0,
@@ -80,8 +80,6 @@ class EnergyModelUpdate(EnergyModelBase, UpdateSchema):
         min_length=MIN_STR_LENGTH,
         max_length=MAX_STR_LENGTH,
     )
-    override_parameters: list[EnergyModelOverrideUpdate] | None = None
-    optimization_parameters: list[EnergyModelOptimizationUpdate] | None = None
 
 
 class EnergyModelSchema(EnergyModelBase, ReturnSchema):
@@ -91,5 +89,5 @@ class EnergyModelSchema(EnergyModelBase, ReturnSchema):
 
     id: int
     dataset: DatasetSchema
-    override_parameters: list[EnergyModelOverrideSchema]
-    optimization_parameters: list[EnergyModelOptimizationSchema]
+    override_parameters: list[EnergyModelOverrideSchema] | None
+    optimization_parameters: EnergyModelOptimizationSchema | None

@@ -45,4 +45,4 @@ def test_ok_conversion_factors(schema: type[BaseModel], data: dict[str, Any]):
     """
     Test that a conversion factors with everything over 0 is valid
     """
-    schema(conversion_factors=[EnergyConversionFactorCreate(commodity="bar", conversion_factor=3)], **data)
+    schema(conversion_factors=[EnergyConversionFactorCreate(commodity_name="bar", conversion_factor=3)], **data)

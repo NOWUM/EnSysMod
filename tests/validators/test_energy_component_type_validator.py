@@ -24,13 +24,13 @@ schemas_with_implicit_type: list[tuple[type[BaseModel], dict[str, Any]]] = [
             "name": "foo",
             "physical_unit": "bar",
             "ref_dataset": 42,
-            "conversion_factors": [EnergyConversionFactorCreate(commodity="foo", conversion_factor=0.42)],
+            "conversion_factors": [EnergyConversionFactorCreate(commodity_name="foo", conversion_factor=0.42)],
         },
     ),
-    (EnergySourceCreate, {"name": "foo", "ref_dataset": 42, "commodity": "bar"}),
-    (EnergySinkCreate, {"name": "foo", "ref_dataset": 42, "commodity": "bar"}),
-    (EnergyStorageCreate, {"name": "foo", "ref_dataset": 42, "commodity": "bar"}),
-    (EnergyTransmissionCreate, {"name": "foo", "ref_dataset": 42, "commodity": "bar"}),
+    (EnergySourceCreate, {"name": "foo", "ref_dataset": 42, "commodity_name": "bar"}),
+    (EnergySinkCreate, {"name": "foo", "ref_dataset": 42, "commodity_name": "bar"}),
+    (EnergyStorageCreate, {"name": "foo", "ref_dataset": 42, "commodity_name": "bar"}),
+    (EnergyTransmissionCreate, {"name": "foo", "ref_dataset": 42, "commodity_name": "bar"}),
 ]
 
 schemas_with_type = schemas_with_type_required + schemas_with_implicit_type

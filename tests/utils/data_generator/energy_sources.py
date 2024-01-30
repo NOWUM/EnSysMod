@@ -27,7 +27,7 @@ def source_create_request(
         ref_dataset=dataset_id,
         name=f"EnergySource-Dataset{dataset_id}-{random_string()}",
         description=None,
-        commodity=commodity.name,
+        commodity_name=commodity.name,
         commodity_cost=42.3,
     )
 

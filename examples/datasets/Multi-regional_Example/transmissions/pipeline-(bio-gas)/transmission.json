@@ -1,7 +1,7 @@
 {
     "name": "Pipeline (Biogas)",
     "description": "Stellt die Pipeline (Biogas) dar",
-    "commodity": "Biogas",
+    "commodity_name": "Biogas",
     "capacity_variable": true,
     "shared_potential_id": "pipelines",
     "invest_per_capacity": 0.000037,

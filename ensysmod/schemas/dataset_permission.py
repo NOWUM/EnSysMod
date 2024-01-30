@@ -36,11 +36,13 @@ class DatasetPermissionCreate(DatasetPermissionBase, CreateSchema):
     ref_dataset: int = Field(
         default=...,
         description="The ID of the dataset. You must have access to grant permissions to this dataset.",
+        examples=[1],
         gt=0,
     )
     ref_user: int = Field(
         default=...,
         description="The ID of the user that receive the permissions.",
+        examples=[1],
         gt=0,
     )
 
@@ -53,11 +55,13 @@ class DatasetPermissionUpdate(DatasetPermissionBase, UpdateSchema):
     ref_dataset: int = Field(
         default=...,
         description="The ID of the dataset. You must have access to grant permissions to this dataset.",
+        examples=[1],
         gt=0,
     )
     ref_user: int = Field(
         default=...,
         description="The ID of the user that receive the permissions.",
+        examples=[1],
         gt=0,
     )
     allow_usage: bool | None = None

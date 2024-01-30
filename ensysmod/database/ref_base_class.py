@@ -49,14 +49,6 @@ class RefRegion:
         return relationship(foreign_keys=[self.ref_region])
 
 
-class RefRegionOptional:
-    ref_region: Mapped[int | None] = mapped_column(ForeignKey("region.id"))
-
-    @declared_attr
-    def region(self) -> Mapped[Region | None]:
-        return relationship(foreign_keys=[self.ref_region])
-
-
 class RefRegionTo:
     ref_region_to: Mapped[int] = mapped_column(ForeignKey("region.id"))
 

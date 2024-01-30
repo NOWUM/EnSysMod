@@ -35,7 +35,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             db_obj = obj_in
         elif isinstance(obj_in, dict):
             # filter obj_in to only pass fields in model to model's constructor
-            data = {k: v for k, v in obj_in.items() if k in self.model.__table__.columns}
+            data = {k: v for k, v in obj_in.items() if k in self.model.__table__.columns.keys()}  # noqa: SIM118
             db_obj = self.model(**data)
         else:
             obj_in_data = jsonable_encoder(obj_in, include=set(self.model.__table__.columns.keys()))

@@ -5,15 +5,15 @@
     "capacity_variable": true,
     "conversion_factors": [
         {
-            "commodity": "Elektrizität",
+            "commodity_name": "Elektrizität",
             "conversion_factor": 1
         },
         {
-            "commodity": "Methan",
+            "commodity_name": "Methan",
             "conversion_factor": -1.66666667
         },
         {
-            "commodity": "CO2",
+            "commodity_name": "CO2",
             "conversion_factor": 0.000001666666
         }
     ],

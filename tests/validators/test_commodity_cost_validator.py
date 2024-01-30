@@ -10,9 +10,9 @@ schemas_with_commodity_cost_required: list[tuple[type[BaseModel], dict[str, Any]
 
 schemas_with_commodity_cost_optional: list[tuple[type[BaseModel], dict[str, Any]]] = [
     (EnergySourceUpdate, {}),
-    (EnergySourceCreate, {"name": "test", "ref_dataset": 42, "type": EnergyComponentType.SOURCE, "commodity": "bar"}),
+    (EnergySourceCreate, {"name": "test", "ref_dataset": 42, "type": EnergyComponentType.SOURCE, "commodity_name": "bar"}),
     (EnergySinkUpdate, {}),
-    (EnergySinkCreate, {"name": "test", "ref_dataset": 42, "type": EnergyComponentType.SINK, "commodity": "bar"}),
+    (EnergySinkCreate, {"name": "test", "ref_dataset": 42, "type": EnergyComponentType.SINK, "commodity_name": "bar"}),
 ]
 
 schemas_with_commodity_cost = schemas_with_commodity_cost_required + schemas_with_commodity_cost_optional

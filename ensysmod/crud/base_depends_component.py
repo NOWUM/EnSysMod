@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from ensysmod import crud
 from ensysmod.crud.base import CreateSchemaType, ModelType, UpdateSchemaType
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
-from ensysmod.model import EnergyCommodity, EnergyComponent
+from ensysmod.model import EnergyComponent
 
 
 class CRUDBaseDependsComponent(CRUDBaseDependsDataset, Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
@@ -38,16 +38,14 @@ class CRUDBaseDependsComponent(CRUDBaseDependsDataset, Generic[ModelType, Create
         obj_in_dict: dict[str, Any] = obj_in.model_dump()
 
         # Fill in the ref_commodity
-        if "commodity" in obj_in_dict:
-            commodity: EnergyCommodity | None = crud.energy_commodity.get_by_dataset_and_name(
-                db,
-                name=obj_in_dict["commodity"],
-                dataset_id=obj_in_dict["ref_dataset"],
-            )
+        if "commodity_name" in obj_in_dict:
+            commodity = crud.energy_commodity.get_by_dataset_and_name(db, name=obj_in.commodity_name, dataset_id=obj_in.ref_dataset)
+            if commodity is None:
+                raise ValueError(f"Commodity {obj_in.commodity_name} not found in dataset {obj_in.ref_dataset}!")
             obj_in_dict["ref_commodity"] = commodity.id
 
         # Create the component and fill in the ref_component
-        component: EnergyComponent = crud.energy_component.create(db, obj_in=obj_in)
+        component = crud.energy_component.create(db, obj_in=obj_in)
         obj_in_dict["ref_component"] = component.id
 
         return super().create(db, obj_in=obj_in_dict)

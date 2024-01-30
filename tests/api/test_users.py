@@ -2,9 +2,8 @@ from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from ensysmod import crud
-from ensysmod.schemas import UserCreate
-from tests.utils.utils import clear_users_except_current_user, get_current_user_from_header, random_string
+from tests.utils.data_generator.users import new_user
+from tests.utils.utils import assert_response, clear_users_except_current_user, get_current_user_from_header
 
 
 def test_get_all_users(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -13,14 +12,10 @@ def test_get_all_users(db: Session, client: TestClient, user_header: dict[str, s
     """
     clear_users_except_current_user(db, user_header)
     user1 = get_current_user_from_header(db, user_header)
-    user2 = crud.user.create(db=db, obj_in=UserCreate(username=random_string(), password=random_string()))
+    user2 = new_user(db)
 
     response = client.get("/users/", headers=user_header)
     assert response.status_code == status.HTTP_200_OK
-
-    users_list = response.json()
-    assert len(users_list) == 2
-    assert users_list[0]["username"] == user1.username
-    assert users_list[0]["id"] == user1.id
-    assert users_list[1]["username"] == user2.username
-    assert users_list[1]["id"] == user2.id
+    assert len(response.json()) == 2
+    assert_response(response.json()[0], user1)
+    assert_response(response.json()[1], user2)

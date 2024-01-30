@@ -75,10 +75,10 @@ def process_dataset_zip_archive(zip_archive: ZipFile, dataset_id: int, db: Sessi
             ),
         )
 
-    if all(file_result.status == FileStatus.OK for file_result in file_results):
-        return ZipArchiveUploadResult(status=FileStatus.OK, file_results=file_results)
+    if any(file_result.status == FileStatus.ERROR for file_result in file_results):
+        return ZipArchiveUploadResult(status=FileStatus.ERROR, file_results=file_results)
 
-    return ZipArchiveUploadResult(status=FileStatus.ERROR, file_results=file_results)
+    return ZipArchiveUploadResult(status=FileStatus.OK, file_results=file_results)
 
 
 def process_json_list_file(
@@ -230,9 +230,9 @@ def process_excel_file(
 
                     request_dict = {
                         crud_repo.data_column: data,
-                        "component": component_name,
-                        "region": regions[i],
-                        "region_to": regions_to[j],
+                        "component_name": component_name,
+                        "region_name": regions[i],
+                        "region_to_name": regions_to[j],
                     }
                     crud_repo.create(db=db, obj_in=create_request(create_schema, request_dict, dataset_id))
         else:
@@ -246,8 +246,8 @@ def process_excel_file(
 
                 request_dict: dict[str, Any] = {
                     crud_repo.data_column: data,
-                    "component": component_name,
-                    "region": column,
+                    "component_name": component_name,
+                    "region_name": column,
                 }
                 crud_repo.create(db=db, obj_in=create_request(create_schema, request_dict, dataset_id))
 

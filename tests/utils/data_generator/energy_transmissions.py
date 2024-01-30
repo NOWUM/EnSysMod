@@ -27,7 +27,7 @@ def transmission_create_request(
         ref_dataset=dataset_id,
         name=f"EnergyTransmission-Dataset{dataset_id}-{random_string()}",
         description=None,
-        commodity=commodity.name,
+        commodity_name=commodity.name,
     )
 
 

@@ -6,7 +6,7 @@ from pydantic import BaseModel, ValidationError
 from ensysmod.schemas import TransmissionDistanceCreate, TransmissionDistanceUpdate
 
 schemas_with_distance_required: list[tuple[type[BaseModel], dict[str, Any]]] = [
-    (TransmissionDistanceCreate, {"ref_dataset": 1, "component": "test", "region": "Region 1", "region_to": "Region 2"}),
+    (TransmissionDistanceCreate, {"ref_dataset": 1, "component_name": "test", "region_name": "Region 1", "region_to_name": "Region 2"}),
     (TransmissionDistanceUpdate, {}),
 ]
 

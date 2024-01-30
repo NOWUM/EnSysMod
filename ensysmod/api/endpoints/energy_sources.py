@@ -47,11 +47,11 @@ def create_source(
         )
 
     # Check if energy commodity exists
-    commodity = crud.energy_commodity.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.commodity)
+    commodity = crud.energy_commodity.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.commodity_name)
     if commodity is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"EnergyCommodity {request.commodity} not found in dataset {request.ref_dataset}!",
+            detail=f"EnergyCommodity {request.commodity_name} not found in dataset {request.ref_dataset}!",
         )
 
     return crud.energy_source.create(db=db, obj_in=request)

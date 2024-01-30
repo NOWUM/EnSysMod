@@ -16,20 +16,19 @@ class CRUDEnergyModel(CRUDBaseDependsDataset[EnergyModel, EnergyModelCreate, Ene
         """
         Create a new energy model
         """
-        db_obj: EnergyModel = super().create(db, obj_in=obj_in)
+        new_model: EnergyModel = super().create(db, obj_in=obj_in)
 
-        # also create parameters
+        # Also create override and optimiztion parameters and fill in the ref_model
         if obj_in.override_parameters is not None:
-            for parameter in obj_in.override_parameters:
-                parameter.ref_model = db_obj.id
-                parameter.ref_dataset = db_obj.ref_dataset
-                crud.energy_model_override.create(db, obj_in=parameter)
+            for override_parameter in obj_in.override_parameters:
+                override_parameter.ref_model = new_model.id
+                crud.energy_model_override.create(db, obj_in=override_parameter)
 
         if obj_in.optimization_parameters is not None:
-            obj_in.optimization_parameters.ref_model = db_obj.id
+            obj_in.optimization_parameters.ref_model = new_model.id
             crud.energy_model_optimization.create(db, obj_in=obj_in.optimization_parameters)
 
-        return db_obj
+        return new_model
 
 
 energy_model = CRUDEnergyModel(EnergyModel)

@@ -7,7 +7,7 @@ from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ensysmod.database.base_class import Base
-from ensysmod.database.ref_base_class import RefComponent, RefDataset, RefRegionOptional, RefRegionToOptional
+from ensysmod.database.ref_base_class import RefComponent
 
 if TYPE_CHECKING:
     from ensysmod.model.energy_model import EnergyModel
@@ -43,7 +43,7 @@ class EnergyModelOverrideOperation(enum.Enum):
     set = "set"
 
 
-class EnergyModelOverride(RefRegionToOptional, RefRegionOptional, RefComponent, RefDataset, Base):
+class EnergyModelOverride(RefComponent, Base):
     ref_model: Mapped[int] = mapped_column(ForeignKey("energy_model.id"))
 
     attribute: Mapped[EnergyModelOverrideAttribute]

@@ -28,7 +28,7 @@ def conversion_create_request(
         name=f"EnergyConversion-Dataset{dataset_id}-{random_string()}",
         description=None,
         physical_unit=commodity.unit,
-        conversion_factors=[EnergyConversionFactorCreate(commodity=commodity.name, conversion_factor=1.0)],
+        conversion_factors=[EnergyConversionFactorCreate(commodity_name=commodity.name, conversion_factor=1.0)],
     )
 
 

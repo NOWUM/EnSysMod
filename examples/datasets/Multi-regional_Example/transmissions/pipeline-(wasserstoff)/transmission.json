@@ -1,7 +1,7 @@
 {
     "name": "Pipeline (Wasserstoff)",
     "description": "Stellt die Pipeline (Wasserstoff) dar",
-    "commodity": "Wasserstoff",
+    "commodity_name": "Wasserstoff",
     "capacity_variable": true,
     "shared_potential_id": "pipelines",
     "invest_per_capacity": 0.000177,

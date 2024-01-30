@@ -27,7 +27,7 @@ def sink_create_request(
         ref_dataset=dataset_id,
         name=f"EnergySink-Dataset{dataset_id}-{random_string()}",
         description=None,
-        commodity=commodity.name,
+        commodity_name=commodity.name,
         yearly_limit=1000,
         commodity_limit_id="limit_id",
         commodity_cost=999,

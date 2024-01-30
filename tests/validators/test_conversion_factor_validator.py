@@ -6,7 +6,7 @@ from pydantic import BaseModel, ValidationError
 from ensysmod.schemas import EnergyConversionFactorCreate, EnergyConversionFactorUpdate
 
 schemas_with_conversion_factor_required: list[tuple[type[BaseModel], dict[str, Any]]] = [
-    (EnergyConversionFactorCreate, {"commodity": "bar"}),
+    (EnergyConversionFactorCreate, {"commodity_name": "bar"}),
 ]
 
 schemas_with_conversion_factor_optional: list[tuple[type[BaseModel], dict[str, Any]]] = [

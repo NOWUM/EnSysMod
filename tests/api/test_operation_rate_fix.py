@@ -3,11 +3,11 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from ensysmod.core.file_folder_types import OPERATION_RATE_FIX
-from tests.utils.assertions import assert_excel_file_entry
 from tests.utils.data_generator.datasets import new_dataset
 from tests.utils.data_generator.energy_sources import new_source
 from tests.utils.data_generator.excel_files import excel_file_type_create_request, generate_excel_file, new_excel_file_type
 from tests.utils.data_generator.regions import new_region
+from tests.utils.utils import assert_response
 
 
 def test_get_operation_rate_fix(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -19,9 +19,7 @@ def test_get_operation_rate_fix(db: Session, client: TestClient, user_header: di
 
     response = client.get(f"/fix-operation-rates/{entry_id}", headers=user_header)
     assert response.status_code == status.HTTP_200_OK
-
-    retrieved_entry = response.json()
-    assert_excel_file_entry(entry=retrieved_entry, expected=operation_rate_fix, data_column="operation_rate_fix")
+    assert_response(response.json(), operation_rate_fix)
 
 
 def test_get_operation_rate_fix_entry_not_found(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -46,10 +44,7 @@ def test_get_operation_rate_fix_by_dataset(db: Session, client: TestClient, user
 
     response = client.get(f"/fix-operation-rates/dataset/{dataset_id}", headers=user_header)
     assert response.status_code == status.HTTP_200_OK
-
-    retrieved_entry = response.json()[0]
-    assert retrieved_entry["id"] == operation_rate_fix.id
-    assert_excel_file_entry(entry=retrieved_entry, expected=operation_rate_fix, data_column="operation_rate_fix")
+    assert_response(response.json()[0], operation_rate_fix)
 
 
 def test_get_operation_rate_fix_by_dataset_entry_not_found(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -74,10 +69,7 @@ def test_get_operation_rate_fix_by_component(db: Session, client: TestClient, us
 
     response = client.get(f"/fix-operation-rates/component/{component_id}", headers=user_header)
     assert response.status_code == status.HTTP_200_OK
-
-    retrieved_entry = response.json()[0]
-    assert retrieved_entry["id"] == operation_rate_fix.id
-    assert_excel_file_entry(entry=retrieved_entry, expected=operation_rate_fix, data_column="operation_rate_fix")
+    assert_response(response.json()[0], operation_rate_fix)
 
 
 def test_get_operation_rate_fix_by_component_entry_not_found(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -101,12 +93,7 @@ def test_create_operation_rate_fix(db: Session, client: TestClient, user_header:
 
     response = client.post("/fix-operation-rates/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
-
-    created_entry = response.json()
-    assert created_entry["dataset"]["id"] == create_request.ref_dataset
-    assert created_entry["component"]["name"] == create_request.component
-    assert created_entry["region"]["name"] == create_request.region
-    assert created_entry["operation_rate_fix"] == create_request.operation_rate_fix
+    assert_response(response.json(), create_request)
 
 
 def test_create_operation_rate_fix_dataset_not_found(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -128,13 +115,13 @@ def test_create_operation_rate_fix_component_not_found(db: Session, client: Test
     Test creating a OperationRateFix, with invalid component name.
     """
     create_request = excel_file_type_create_request(OPERATION_RATE_FIX, db, user_header)
-    create_request.component = "Invalid component name"  # invalid
+    create_request.component_name = "Invalid component name"  # invalid
 
     response = client.post("/fix-operation-rates/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
-    assert error_detail == f"Component {create_request.component} not found in dataset {create_request.ref_dataset}!"
+    assert error_detail == f"Component {create_request.component_name} not found in dataset {create_request.ref_dataset}!"
 
 
 def test_create_operation_rate_fix_region_not_found(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -142,13 +129,13 @@ def test_create_operation_rate_fix_region_not_found(db: Session, client: TestCli
     Test creating a OperationRateFix, with invalid region name.
     """
     create_request = excel_file_type_create_request(OPERATION_RATE_FIX, db, user_header)
-    create_request.region = "Invalid region name"  # invalid
+    create_request.region_name = "Invalid region name"  # invalid
 
     response = client.post("/fix-operation-rates/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
-    assert error_detail == f"Region {create_request.region} not found in dataset {create_request.ref_dataset}!"
+    assert error_detail == f"Region {create_request.region_name} not found in dataset {create_request.ref_dataset}!"
 
 
 def test_create_operation_rate_fix_invalid_length(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -183,9 +170,7 @@ def test_remove_operation_rate_fix(db: Session, client: TestClient, user_header:
 
     response = client.delete(f"/fix-operation-rates/{entry_id}", headers=user_header)
     assert response.status_code == status.HTTP_200_OK
-
-    deleted_entry = response.json()
-    assert deleted_entry["id"] == entry_id
+    assert_response(response.json(), operation_rate_fix)
 
 
 def test_remove_operation_rate_fix_entry_not_found(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -210,9 +195,7 @@ def test_remove_operation_rate_fix_by_component(db: Session, client: TestClient,
 
     response = client.delete(f"/fix-operation-rates/component/{component_id}", headers=user_header)
     assert response.status_code == status.HTTP_200_OK
-
-    deleted_entry = response.json()[0]
-    assert deleted_entry["component"]["id"] == component_id
+    assert_response(response.json()[0], operation_rate_fix)
 
 
 def test_remove_operation_rate_fix_by_component_entry_not_found(db: Session, client: TestClient, user_header: dict[str, str]):

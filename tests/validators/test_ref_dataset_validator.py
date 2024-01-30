@@ -19,12 +19,12 @@ schemas_with_ref_dataset_required: list[tuple[type[BaseModel], dict[str, Any]]] 
     (EnergyComponentCreate, {"name": "test", "description": "foo", "type": EnergyComponentType.SOURCE}),
     (EnergyModelCreate, {"name": "test"}),
     (RegionCreate, {"name": "test"}),
-    (TransmissionDistanceCreate, {"distance": 1000, "component": "test", "region": "Region 1", "region_to": "Region 2"}),
-    (TransmissionLossCreate, {"loss": 0.00001, "component": "test", "region": "Region 1", "region_to": "Region 2"}),
+    (TransmissionDistanceCreate, {"distance": 1000, "component_name": "test", "region_name": "Region 1", "region_to_name": "Region 2"}),
+    (TransmissionLossCreate, {"loss": 0.00001, "component_name": "test", "region_name": "Region 1", "region_to_name": "Region 2"}),
 ]
 
 schemas_with_ref_dataset_optional: list[tuple[type[BaseModel], dict[str, Any]]] = [
-    (EnergyConversionFactorCreate, {"conversion_factor": 4.2, "commodity": "bar"}),
+    (EnergyConversionFactorCreate, {"conversion_factor": 4.2, "commodity_name": "bar"}),
 ]
 
 schemas_with_ref_dataset = schemas_with_ref_dataset_required + schemas_with_ref_dataset_optional

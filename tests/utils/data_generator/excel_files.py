@@ -48,9 +48,9 @@ def excel_file_type_create_request(
 
     return excel_file_type.create_schema(
         ref_dataset=dataset_id,
-        component=component_name,
-        region=region_name,
-        region_to=region_to_name,
+        component_name=component_name,
+        region_name=region_name,
+        region_to_name=region_to_name,
         **data_column,
     )
 

@@ -6,11 +6,11 @@ from sqlalchemy.orm import Session
 
 from ensysmod import crud
 from ensysmod.crud.base import CreateSchemaType, ModelType, UpdateSchemaType
-from ensysmod.crud.base_depends_component_region import CRUDBaseDependsComponentRegion
+from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
 from ensysmod.model import Region
 
 
-class CRUDBaseDependsExcel(CRUDBaseDependsComponentRegion, Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
+class CRUDBaseDependsExcel(CRUDBaseDependsDataset, Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     """
     Base class for all CRUD classes that depend on an excel file.
     """
@@ -19,12 +19,14 @@ class CRUDBaseDependsExcel(CRUDBaseDependsComponentRegion, Generic[ModelType, Cr
         super().__init__(model=model)
         self.data_column = data_column
 
-    def get_by_component_and_2_regions(self, db: Session, component_id: int, region_id: int, region_to_id: int) -> ModelType | None:
-        query = select(self.model).where(
-            self.model.ref_component == component_id,
-            self.model.ref_region == region_id,
-            self.model.ref_region_to == region_to_id,
-        )
+    def get_multi_by_component(self, db: Session, *, component_id: int) -> list[ModelType]:
+        query = select(self.model).where(self.model.ref_component == component_id)
+        return db.execute(query).scalars().all()
+
+    def get_by_component_and_region(self, db: Session, *, component_id: int, region_id: int, region_to_id: int | None = None) -> ModelType | None:
+        query = select(self.model).where(self.model.ref_component == component_id, self.model.ref_region == region_id)
+        if region_to_id is not None:
+            query = query.where(self.model.ref_region_to == region_to_id)
         return db.execute(query).scalar_one_or_none()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
@@ -36,20 +38,20 @@ class CRUDBaseDependsExcel(CRUDBaseDependsComponentRegion, Generic[ModelType, Cr
             if len(obj_in_dict[self.data_column]) != allowed_len:
                 raise ValueError(f"Number of elements in {self.data_column} must match number of time steps of the dataset: {allowed_len}.")
 
-        component = crud.energy_component.get_by_dataset_and_name(db, name=obj_in.component, dataset_id=obj_in.ref_dataset)
+        component = crud.energy_component.get_by_dataset_and_name(db, name=obj_in.component_name, dataset_id=obj_in.ref_dataset)
         if component is None:
-            raise ValueError(f"Component {obj_in.component} not found in dataset {obj_in.ref_dataset}!")
+            raise ValueError(f"Component {obj_in.component_name} not found in dataset {obj_in.ref_dataset}!")
         obj_in_dict["ref_component"] = component.id
 
-        region = crud.region.get_by_dataset_and_name(db, name=obj_in.region, dataset_id=obj_in.ref_dataset)
+        region = crud.region.get_by_dataset_and_name(db, name=obj_in.region_name, dataset_id=obj_in.ref_dataset)
         if region is None:
-            raise ValueError(f"Region {obj_in.region} not found in dataset {obj_in.ref_dataset}!")
+            raise ValueError(f"Region {obj_in.region_name} not found in dataset {obj_in.ref_dataset}!")
         obj_in_dict["ref_region"] = region.id
 
-        if obj_in.region_to is not None:
-            region_to = crud.region.get_by_dataset_and_name(db, name=obj_in.region_to, dataset_id=obj_in.ref_dataset)
+        if obj_in.region_to_name is not None:
+            region_to = crud.region.get_by_dataset_and_name(db, name=obj_in.region_to_name, dataset_id=obj_in.ref_dataset)
             if region_to is None:
-                raise ValueError(f"Region {obj_in.region_to} not found in dataset {obj_in.ref_dataset}!")
+                raise ValueError(f"Region {obj_in.region_to_name} not found in dataset {obj_in.ref_dataset}!")
             obj_in_dict["ref_region_to"] = region_to.id
 
         return super().create(db=db, obj_in=obj_in_dict)
@@ -79,3 +81,10 @@ class CRUDBaseDependsExcel(CRUDBaseDependsComponentRegion, Generic[ModelType, Cr
             value = getattr(d, self.data_column)
             data_dict[d.region.name] = value if isinstance(value, list) else [value]
         return pd.DataFrame(data=data_dict)
+
+    def remove_multi_by_component(self, db: Session, *, component_id: int) -> list[ModelType]:
+        obj_list = self.get_multi_by_component(db, component_id=component_id)
+        for obj in obj_list:
+            db.delete(obj)
+        db.commit()
+        return obj_list

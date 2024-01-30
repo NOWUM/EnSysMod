@@ -19,9 +19,9 @@ class EnergyTransmissionCreate(EnergyTransmissionBase, EnergyComponentCreate):
     Attributes to receive via API on creation of an energy transmission.
     """
 
-    commodity: str = Field(
+    commodity_name: str = Field(
         default=...,
-        description="Commodity the energy sink is based on.",
+        description="Commodity the energy transmission is based on.",
         examples=["electricity"],
         min_length=MIN_STR_LENGTH,
         max_length=MAX_STR_LENGTH,
@@ -33,9 +33,9 @@ class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):
     Attributes to receive via API on update of an energy transmission.
     """
 
-    commodity: str | None = Field(
+    commodity_name: str | None = Field(
         default=None,
-        description="Commodity the energy sink is based on.",
+        description="Commodity the energy transmission is based on.",
         examples=["electricity"],
         min_length=MIN_STR_LENGTH,
         max_length=MAX_STR_LENGTH,

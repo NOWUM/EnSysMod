@@ -13,6 +13,8 @@ def energy_model_create_request(
     user_header: dict[str, str],
     *,
     dataset_id: int | None = None,
+    generate_override_parameters: bool = False,
+    generate_optimization_parameters: bool = False,
 ) -> EnergyModelCreate:
     """
     Generate an energy model create request with the specified dataset.
@@ -25,18 +27,19 @@ def energy_model_create_request(
         name=f"EnergyModel-Dataset{dataset_id}-{random_string()}",
         ref_dataset=dataset_id,
         description=None,
-        override_parameters=[
+        override_parameters=[]
+        if generate_override_parameters is False
+        else [
             EnergyModelOverrideCreate(
-                ref_dataset=dataset_id,
-                component=component.component.name,
-                region=None,
-                region_to=None,
+                component_name=component.component.name,
                 attribute=EnergyModelOverrideAttribute.yearlyLimit,
                 operation=EnergyModelOverrideOperation.set,
                 value=366.6,
             ),
         ],
-        optimization_parameters=EnergyModelOptimizationCreate(
+        optimization_parameters=None
+        if generate_optimization_parameters is False
+        else EnergyModelOptimizationCreate(
             start_year=2020,
             end_year=2050,
             number_of_steps=3,
@@ -52,12 +55,20 @@ def new_energy_model(
     user_header: dict[str, str],
     *,
     dataset_id: int | None = None,
+    generate_override_parameters: bool = False,
+    generate_optimization_parameters: bool = False,
 ) -> EnergyModel:
     """
     Create an energy model with the specified dataset.
     If dataset_id is not specified, it will be generated.
     """
-    create_request = energy_model_create_request(db, user_header, dataset_id=dataset_id)
+    create_request = energy_model_create_request(
+        db,
+        user_header,
+        dataset_id=dataset_id,
+        generate_override_parameters=generate_override_parameters,
+        generate_optimization_parameters=generate_optimization_parameters,
+    )
     return crud.energy_model.create(db=db, obj_in=create_request)
 
 
@@ -72,7 +83,7 @@ def get_example_model(db: Session, user_header: dict[str, str], *, example_datas
             name=example_dataset,
             ref_dataset=dataset.id,
             description=None,
-            override_parameters=None,
+            override_parameters=[],
             optimization_parameters=None,
         )
         model = crud.energy_model.create(db=db, obj_in=create_request)

@@ -11,7 +11,6 @@ from sqlalchemy.orm import Session
 from ensysmod.core.file_folder_types import EXCEL_FILE_TYPES, FOLDER_TYPES, JSON_FILE_TYPES
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.crud.base_depends_excel import CRUDBaseDependsExcel
-from ensysmod.schemas import EnergyCommoditySchema, EnergyConversionFactorSchema
 from ensysmod.schemas.base_schema import CreateSchema
 from ensysmod.utils.utils import create_temp_file
 
@@ -74,16 +73,18 @@ def dump_energy_component(
     fields.remove("type")
 
     for component in crud_repo.get_multi_by_dataset(db, dataset_id=dataset_id):
+        # create component folder, replace special characters with underscore
         component_name = re.sub(r"[/\\?%*:|\"<>\x7F\x00-\x1F]", "_", component.component.name)
         component_folder = Path(component_type_folder, component_name)
         component_folder.mkdir(parents=True)
 
+        # create the component json file, combining the data from the general component object and the type specific component object
         component_dict: dict[str, Any] = component.component.__dict__.copy()
         component_dict.update(component.__dict__)
 
-        # replace commodity object model with the commodity name
+        # if the component has a commodity, add the commodity name
         if hasattr(component, "commodity"):
-            component_dict["commodity"] = component.commodity.name
+            component_dict["commodity_name"] = component.commodity.name
 
         # replace conversion factors object model with the conversion factors in json list format
         if hasattr(component, "conversion_factors"):
@@ -104,12 +105,8 @@ def dump_energy_component(
 
 def conversion_factors_json(component) -> list[dict[str, Any]]:
     return [
-        jsonable_encoder(
-            obj=dict(EnergyConversionFactorSchema.model_validate(factor)),
-            include={"conversion_factor", "commodity"},
-            custom_encoder={EnergyCommoditySchema: lambda x: x.name},
-        )
-        for factor in component.conversion_factors
+        {"commodity_name": conversion_factor.commodity.name, "conversion_factor": conversion_factor.conversion_factor}
+        for conversion_factor in component.conversion_factors
     ]
 
 

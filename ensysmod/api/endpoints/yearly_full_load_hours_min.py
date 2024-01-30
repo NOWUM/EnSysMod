@@ -86,13 +86,13 @@ def create_yearly_full_load_hours_min(
 
     permissions.check_modification_permission(db=db, user=current_user, dataset_id=dataset.id)
 
-    component = crud.energy_component.get_by_dataset_and_name(db=db, dataset_id=dataset.id, name=request.component)
+    component = crud.energy_component.get_by_dataset_and_name(db=db, dataset_id=dataset.id, name=request.component_name)
     if component is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Component {request.component} not found in dataset {dataset.id}!")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Component {request.component_name} not found in dataset {dataset.id}!")
 
-    region = crud.region.get_by_dataset_and_name(db=db, dataset_id=dataset.id, name=request.region)
+    region = crud.region.get_by_dataset_and_name(db=db, dataset_id=dataset.id, name=request.region_name)
     if region is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Region {request.region} not found in dataset {dataset.id}!")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Region {request.region_name} not found in dataset {dataset.id}!")
 
     entry = crud.yearly_full_load_hours_min.get_by_component_and_region(db=db, component_id=component.id, region_id=region.id)
     if entry is not None:

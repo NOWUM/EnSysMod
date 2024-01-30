@@ -26,14 +26,16 @@ class EnergyConversionFactorCreate(EnergyConversionFactorBase, CreateSchema):
     ref_dataset: int | None = Field(
         default=None,
         description="The reference dataset. The dataset id of the energy conversion component is used.",
+        examples=[1],
         gt=0,
     )
     ref_component: int | None = Field(
         default=None,
         description="The reference component. The component id of the energy conversion component is used.",
+        examples=[1],
         gt=0,
     )
-    commodity: str = Field(
+    commodity_name: str = Field(
         default=...,
         description="Commodity name for this conversion factor.",
         examples=["electricity"],

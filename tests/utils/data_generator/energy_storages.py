@@ -27,7 +27,7 @@ def storage_create_request(
         ref_dataset=dataset_id,
         name=f"EnergyStorage-Dataset{dataset_id}-{random_string()}",
         description=None,
-        commodity=commodity.name,
+        commodity_name=commodity.name,
         charge_efficiency=0.9,
         discharge_efficiency=0.9,
         cyclic_lifetime=100_000,

@@ -20,7 +20,7 @@ class CRUDEnergyConversionFactor(CRUDBase[EnergyConversionFactor, EnergyConversi
         :param obj_in: EnergyConversionFactor entry
         :return: Created EnergyConversionFactor entry
         """
-        commodity = crud.energy_commodity.get_by_dataset_and_name(db, name=obj_in.commodity, dataset_id=obj_in.ref_dataset)
+        commodity = crud.energy_commodity.get_by_dataset_and_name(db, name=obj_in.commodity_name, dataset_id=obj_in.ref_dataset)
 
         db_obj = EnergyConversionFactor(
             ref_component=obj_in.ref_component,

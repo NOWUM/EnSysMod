@@ -2,10 +2,9 @@ from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from ensysmod.model import EnergyComponentType
-from tests.utils.assertions import assert_energy_component
 from tests.utils.data_generator.datasets import new_dataset
 from tests.utils.data_generator.energy_sinks import new_sink, sink_create_request
+from tests.utils.utils import assert_response
 
 
 def test_get_energy_sink_by_dataset(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -18,13 +17,9 @@ def test_get_energy_sink_by_dataset(db: Session, client: TestClient, user_header
 
     response = client.get("/sinks/", headers=user_header, params={"dataset_id": dataset.id})
     assert response.status_code == status.HTTP_200_OK
-
-    sink_list = response.json()
-    assert len(sink_list) == 2
-    assert sink_list[0]["component"]["name"] == sink1.component.name
-    assert sink_list[0]["component"]["id"] == sink1.component.id
-    assert sink_list[1]["component"]["name"] == sink2.component.name
-    assert sink_list[1]["component"]["id"] == sink2.component.id
+    assert len(response.json()) == 2
+    assert_response(response.json()[0], sink1)
+    assert_response(response.json()[1], sink2)
 
 
 def test_create_sink(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -34,10 +29,7 @@ def test_create_sink(db: Session, client: TestClient, user_header: dict[str, str
     create_request = sink_create_request(db, user_header)
     response = client.post("/sinks/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
-
-    created_sinks = response.json()
-    assert_energy_component(created_sinks["component"], create_request, EnergyComponentType.SINK)
-    assert created_sinks["commodity"]["name"] == create_request.commodity
+    assert_response(response.json(), create_request)
 
 
 def test_create_existing_sink(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -66,7 +58,7 @@ def test_create_sink_unknown_commodity(db: Session, client: TestClient, user_hea
     Test creating an energy sink.
     """
     create_request = sink_create_request(db, user_header)
-    create_request.commodity = "0"  # ungültige Anfrage
+    create_request.commodity_name = "0"  # ungültige Anfrage
     response = client.post("/sinks/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 

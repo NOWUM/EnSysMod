@@ -1,6 +1,7 @@
 from pydantic import Field
 
 from ensysmod.schemas.base_ref_component_region import RefCRBase, RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate
+from ensysmod.schemas.base_schema import MAX_STR_LENGTH, MIN_STR_LENGTH
 from ensysmod.schemas.region import RegionSchema
 
 
@@ -22,7 +23,13 @@ class TransmissionDistanceCreate(TransmissionDistanceBase, RefCRBaseCreate):
     Attributes to receive via API on creation of an TransmissionDistance.
     """
 
-    region_to: str = Field(default=..., description="The name of the target region.", examples=["france"])
+    region_to_name: str = Field(
+        default=...,
+        description="The name of the target region.",
+        examples=["france"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
 
 
 class TransmissionDistanceUpdate(TransmissionDistanceBase, RefCRBaseUpdate):

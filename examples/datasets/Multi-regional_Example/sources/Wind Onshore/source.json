@@ -1,7 +1,7 @@
 {
     "name": "Wind Onshore",
     "description": "Stellt die Wind Onshore-Anlagen dar",
-    "commodity": "Elektrizität",
+    "commodity_name": "Elektrizität",
     "capacity_variable": true,
     "invest_per_capacity": 1.1,
     "opex_per_capacity": 0.022,

@@ -1,7 +1,7 @@
 {
     "name": "Wind (onshore)",
     "description": "",
-    "commodity": "electricity",
+    "commodity_name": "electricity",
     "capacity_variable": true,
     "invest_per_capacity": 1.1,
     "opex_per_capacity": 0.022,

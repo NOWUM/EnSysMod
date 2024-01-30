@@ -58,6 +58,7 @@ class DatasetCreate(DatasetBase, CreateSchema):
     ref_user: int | None = Field(
         default=None,
         description="User ID of the creator. If not provided, the current user is used.",
+        examples=[1],
         gt=0,
     )
 

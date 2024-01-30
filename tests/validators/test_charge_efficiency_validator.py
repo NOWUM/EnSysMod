@@ -10,7 +10,7 @@ schemas_with_charge_efficiency_required: list[tuple[type[BaseModel], dict[str, A
 
 schemas_with_charge_efficiency_optional: list[tuple[type[BaseModel], dict[str, Any]]] = [
     (EnergyStorageUpdate, {}),
-    (EnergyStorageCreate, {"name": "test", "description": "foo", "ref_dataset": 42, "type": EnergyComponentType.STORAGE, "commodity": "bar"}),
+    (EnergyStorageCreate, {"name": "test", "description": "foo", "ref_dataset": 42, "type": EnergyComponentType.STORAGE, "commodity_name": "bar"}),
 ]
 
 schemas_with_charge_efficiency = schemas_with_charge_efficiency_required + schemas_with_charge_efficiency_optional

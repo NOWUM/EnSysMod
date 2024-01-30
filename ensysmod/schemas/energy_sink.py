@@ -42,7 +42,7 @@ class EnergySinkCreate(EnergySinkBase, EnergyComponentCreate):
     Attributes to receive via API on creation of an energy sink.
     """
 
-    commodity: str = Field(
+    commodity_name: str = Field(
         default=...,
         description="Commodity the energy sink is based on.",
         examples=["electricity"],
@@ -56,7 +56,7 @@ class EnergySinkUpdate(EnergySinkBase, EnergyComponentUpdate):
     Attributes to receive via API on update of an energy sink.
     """
 
-    commodity: str | None = Field(
+    commodity_name: str | None = Field(
         default=None,
         description="Commodity the energy sink is based on.",
         examples=["electricity"],

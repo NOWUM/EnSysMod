@@ -22,13 +22,13 @@ class EnergySourceBase(BaseSchema):
     )
     yearly_limit: float | None = Field(
         default=None,
-        description="The yearly limit of the energy sink. If specified, commodity_limit_id must be specified as well.",
+        description="The yearly limit of the energy source. If specified, commodity_limit_id must be specified as well.",
         examples=[366.5],
         ge=0,
     )
     commodity_limit_id: str | None = Field(
         default=None,
-        description="Commodity limit ID of the energy sink. If specified, yearly_limit must be specified as well.",
+        description="Commodity limit ID of the energy source. If specified, yearly_limit must be specified as well.",
         examples=["CO2"],
         max_length=MAX_STR_LENGTH,
     )
@@ -42,9 +42,9 @@ class EnergySourceCreate(EnergySourceBase, EnergyComponentCreate):
     Attributes to receive via API on creation of an energy source.
     """
 
-    commodity: str = Field(
+    commodity_name: str = Field(
         default=...,
-        description="Commodity the energy sink is based on.",
+        description="Commodity the energy source is based on.",
         examples=["electricity"],
         min_length=MIN_STR_LENGTH,
         max_length=MAX_STR_LENGTH,
@@ -56,9 +56,9 @@ class EnergySourceUpdate(EnergySourceBase, EnergyComponentUpdate):
     Attributes to receive via API on update of an energy source.
     """
 
-    commodity: str | None = Field(
+    commodity_name: str | None = Field(
         default=None,
-        description="Commodity the energy sink is based on.",
+        description="Commodity the energy source is based on.",
         examples=["electricity"],
         min_length=MIN_STR_LENGTH,
         max_length=MAX_STR_LENGTH,

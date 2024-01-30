@@ -26,7 +26,7 @@ class EnergyComponentBase(BaseSchema):
         description="Whether the energy component should be model with a capacity or not.",
     )
     capacity_variable_domain: CapacityVariableDomain | None = Field(
-        default=CapacityVariableDomain.CONTINUOUS.value,
+        default=CapacityVariableDomain.CONTINUOUS,
         description="Mathematical domain of the capacity variables. 'continuous' means that the capacity is modeled as real values >= 0. 'discrete' means that the capacity is modeled as integer values >= 0.",  # noqa: E501
     )
     capacity_per_plant_unit: float | None = Field(
@@ -80,8 +80,8 @@ class EnergyComponentCreate(EnergyComponentBase, CreateSchema):
     )
     type: EnergyComponentType = Field(
         default=...,
-        description="Type of the energy component.",
-        examples=[EnergyComponentType.SOURCE.value],
+        description="Type of the energy component. Input should be 'SOURCE', 'SINK', 'CONVERSION', 'TRANSMISSION' or 'STORAGE'.",
+        examples=[EnergyComponentType.SOURCE],
     )
 
 

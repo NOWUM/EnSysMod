@@ -1,7 +1,7 @@
 {
     "name": "Salt caverns (hydrogen)",
     "description": "",
-    "commodity": "hydrogen",
+    "commodity_name": "hydrogen",
     "capacity_variable": true,
     "capacity_variable_domain": "CONTINUOUS",
     "capacity_per_plant_unit": 133,

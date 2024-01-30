@@ -3,11 +3,11 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from ensysmod.core.file_folder_types import TRANSMISSION_DISTANCE
-from tests.utils.assertions import assert_excel_file_entry
 from tests.utils.data_generator.datasets import new_dataset
 from tests.utils.data_generator.energy_sources import new_source
 from tests.utils.data_generator.excel_files import excel_file_type_create_request, generate_excel_file, new_excel_file_type
 from tests.utils.data_generator.regions import new_region
+from tests.utils.utils import assert_response
 
 
 def test_get_transmission_distance(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -19,9 +19,7 @@ def test_get_transmission_distance(db: Session, client: TestClient, user_header:
 
     response = client.get(f"/transmission-distances/{entry_id}", headers=user_header)
     assert response.status_code == status.HTTP_200_OK
-
-    retrieved_entry = response.json()
-    assert_excel_file_entry(entry=retrieved_entry, expected=transmission_distance, data_column="distance")
+    assert_response(response.json(), transmission_distance)
 
 
 def test_get_transmission_distance_entry_not_found(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -46,9 +44,7 @@ def test_get_transmission_distance_by_dataset(db: Session, client: TestClient, u
 
     response = client.get(f"/transmission-distances/dataset/{dataset_id}", headers=user_header)
     assert response.status_code == status.HTTP_200_OK
-
-    retrieved_entry = response.json()[0]
-    assert_excel_file_entry(entry=retrieved_entry, expected=transmission_distance, data_column="distance")
+    assert_response(response.json()[0], transmission_distance)
 
 
 def test_get_transmission_distance_by_dataset_entry_not_found(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -73,9 +69,7 @@ def test_get_transmission_distance_by_component(db: Session, client: TestClient,
 
     response = client.get(f"/transmission-distances/component/{component_id}", headers=user_header)
     assert response.status_code == status.HTTP_200_OK
-
-    retrieved_entry = response.json()[0]
-    assert_excel_file_entry(entry=retrieved_entry, expected=transmission_distance, data_column="distance")
+    assert_response(response.json()[0], transmission_distance)
 
 
 def test_get_transmission_distance_by_component_entry_not_found(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -99,13 +93,7 @@ def test_create_transmission_distance(db: Session, client: TestClient, user_head
 
     response = client.post("/transmission-distances/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
-
-    created_entry = response.json()
-    assert created_entry["dataset"]["id"] == create_request.ref_dataset
-    assert created_entry["component"]["name"] == create_request.component
-    assert created_entry["region"]["name"] == create_request.region
-    assert created_entry["region_to"]["name"] == create_request.region_to
-    assert created_entry["distance"] == create_request.distance
+    assert_response(response.json(), create_request)
 
 
 def test_create_transmission_distance_dataset_not_found(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -127,13 +115,13 @@ def test_create_transmission_distance_component_not_found(db: Session, client: T
     Test creating a TransmissionDistance, with invalid component name.
     """
     create_request = excel_file_type_create_request(TRANSMISSION_DISTANCE, db, user_header, transmission_component=True)
-    create_request.component = "Invalid component name"  # invalid
+    create_request.component_name = "Invalid component name"  # invalid
 
     response = client.post("/transmission-distances/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
-    assert error_detail == f"Component {create_request.component} not found in dataset {create_request.ref_dataset}!"
+    assert error_detail == f"Component {create_request.component_name} not found in dataset {create_request.ref_dataset}!"
 
 
 def test_create_transmission_distance_region_not_found(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -141,13 +129,13 @@ def test_create_transmission_distance_region_not_found(db: Session, client: Test
     Test creating a TransmissionDistance, with invalid region name.
     """
     create_request = excel_file_type_create_request(TRANSMISSION_DISTANCE, db, user_header, transmission_component=True)
-    create_request.region = "Invalid region name"  # invalid
+    create_request.region_name = "Invalid region name"  # invalid
 
     response = client.post("/transmission-distances/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
-    assert error_detail == f"Region {create_request.region} not found in dataset {create_request.ref_dataset}!"
+    assert error_detail == f"Region {create_request.region_name} not found in dataset {create_request.ref_dataset}!"
 
 
 def test_create_transmission_distance_region_to_not_found(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -155,13 +143,13 @@ def test_create_transmission_distance_region_to_not_found(db: Session, client: T
     Test creating a TransmissionDistance, with invalid region_to name.
     """
     create_request = excel_file_type_create_request(TRANSMISSION_DISTANCE, db, user_header, transmission_component=True)
-    create_request.region_to = "Invalid region_to name"  # invalid
+    create_request.region_to_name = "Invalid region_to name"  # invalid
 
     response = client.post("/transmission-distances/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
     error_detail = response.json()["detail"]
-    assert error_detail == f"Region {create_request.region_to} not found in dataset {create_request.ref_dataset}!"
+    assert error_detail == f"Region {create_request.region_to_name} not found in dataset {create_request.ref_dataset}!"
 
 
 def test_create_existing_transmission_distance(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -185,9 +173,7 @@ def test_remove_transmission_distance(db: Session, client: TestClient, user_head
 
     response = client.delete(f"/transmission-distances/{entry_id}", headers=user_header)
     assert response.status_code == status.HTTP_200_OK
-
-    deleted_entry = response.json()
-    assert deleted_entry["id"] == entry_id
+    assert_response(response.json(), transmission_distance)
 
 
 def test_remove_transmission_distance_entry_not_found(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -212,9 +198,7 @@ def test_remove_transmission_distance_by_component(db: Session, client: TestClie
 
     response = client.delete(f"/transmission-distances/component/{component_id}", headers=user_header)
     assert response.status_code == status.HTTP_200_OK
-
-    deleted_entry = response.json()[0]
-    assert deleted_entry["component"]["id"] == component_id
+    assert_response(response.json()[0], transmission_distance)
 
 
 def test_remove_transmission_distance_by_component_entry_not_found(db: Session, client: TestClient, user_header: dict[str, str]):

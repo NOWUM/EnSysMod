@@ -75,9 +75,9 @@ class EnergyStorageCreate(EnergyStorageBase, EnergyComponentCreate):
     Attributes to receive via API on creation of an energy storage.
     """
 
-    commodity: str = Field(
+    commodity_name: str = Field(
         default=...,
-        description="Commodity the energy sink is based on.",
+        description="Commodity the energy storage is based on.",
         examples=["electricity"],
         min_length=MIN_STR_LENGTH,
         max_length=MAX_STR_LENGTH,
@@ -89,9 +89,9 @@ class EnergyStorageUpdate(EnergyStorageBase, EnergyComponentUpdate):
     Attributes to receive via API on update of an energy storage.
     """
 
-    commodity: str | None = Field(
+    commodity_name: str | None = Field(
         default=None,
-        description="Commodity the energy sink is based on.",
+        description="Commodity the energy storage is based on.",
         examples=["electricity"],
         min_length=MIN_STR_LENGTH,
         max_length=MAX_STR_LENGTH,
