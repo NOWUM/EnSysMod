@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from ensysmod import crud
 from ensysmod.api import deps, permissions
-from ensysmod.model import User
+from ensysmod.model import EnergyCommodity, User
 from ensysmod.schemas import EnergyConversionCreate, EnergyConversionSchema
 
 router = APIRouter()
@@ -43,15 +43,16 @@ def create_conversion(
     if existing is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"EnergyConversion {request.name} already for dataset {request.ref_dataset} exists!",
+            detail=f"EnergyConversion {request.name} already exists in dataset {request.ref_dataset}!",
         )
 
-    # Check if energy commodity exists
-    commodity = crud.energy_commodity.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.commodity_unit)
-    if commodity is None:
+    # Check if physical unit is a unit of commodity in the dataset
+    commodities: list[EnergyCommodity] = crud.energy_commodity.get_multi_by_dataset(db=db, dataset_id=request.ref_dataset)
+    commodity_units: list[str] = [commodity.unit for commodity in commodities]
+    if request.physical_unit not in commodity_units:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"EnergyCommodity {request.commodity_unit} in dataset {request.ref_dataset} not found!",
+            detail=f"Physical unit {request.physical_unit} not found in dataset {request.ref_dataset}!",
         )
 
     # TODO Check commodities for conversion factors

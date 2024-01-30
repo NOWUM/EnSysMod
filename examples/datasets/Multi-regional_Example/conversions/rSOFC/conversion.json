@@ -1,7 +1,7 @@
 {
     "name": "rSOFC",
     "description": "Stellt rSOFC dar",
-    "commodity_unit": "Wasserstoff",
+    "physical_unit": "GW",
     "capacity_variable": true,
     "linked_conversion_capacity_id": "rSOC",
     "conversion_factors": [

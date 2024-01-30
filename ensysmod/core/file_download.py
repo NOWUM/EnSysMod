@@ -81,11 +81,9 @@ def dump_energy_component(
         component_dict: dict[str, Any] = component.component.__dict__.copy()
         component_dict.update(component.__dict__)
 
-        # replace commodity and commodity unit object model with the commodity name
+        # replace commodity object model with the commodity name
         if hasattr(component, "commodity"):
             component_dict["commodity"] = component.commodity.name
-        if hasattr(component, "commodity_unit"):
-            component_dict["commodity_unit"] = component.commodity_unit.name
 
         # replace conversion factors object model with the conversion factors in json list format
         if hasattr(component, "conversion_factors"):

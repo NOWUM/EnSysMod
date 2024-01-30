@@ -61,7 +61,7 @@ def create_commodity(
     if existing is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"EnergyCommodity {request.name} already for dataset {request.ref_dataset} exists!",
+            detail=f"EnergyCommodity {request.name} already exists in dataset {request.ref_dataset}!",
         )
 
     return crud.energy_commodity.create(db=db, obj_in=request)

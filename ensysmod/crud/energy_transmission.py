@@ -1,6 +1,3 @@
-from sqlalchemy.orm import Session
-
-from ensysmod import crud
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.model import EnergyTransmission
 from ensysmod.schemas import EnergyTransmissionCreate, EnergyTransmissionUpdate
@@ -11,12 +8,6 @@ class CRUDEnergyTransmission(CRUDBaseDependsComponent[EnergyTransmission, Energy
     """
     CRUD operations for EnergyTransmission
     """
-
-    def create(self, db: Session, *, obj_in: EnergyTransmissionCreate) -> EnergyTransmission:
-        commodity = crud.energy_commodity.get_by_dataset_and_name(db, name=obj_in.commodity, dataset_id=obj_in.ref_dataset)
-        obj_in_dict = obj_in.model_dump()
-        obj_in_dict["ref_commodity"] = commodity.id
-        return super().create(db=db, obj_in=obj_in_dict)
 
 
 energy_transmission = CRUDEnergyTransmission(EnergyTransmission)

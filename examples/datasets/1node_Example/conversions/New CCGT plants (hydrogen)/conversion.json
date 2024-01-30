@@ -1,7 +1,7 @@
 {
     "name": "New CCGT plants (hydrogen)",
     "description": "",
-    "commodity_unit": "electricity",
+    "physical_unit": "GW_el",
     "capacity_variable": true,
     "conversion_factors": [
         {

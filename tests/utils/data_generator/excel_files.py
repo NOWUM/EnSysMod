@@ -34,11 +34,11 @@ def excel_file_type_create_request(
     if dataset_id is None:
         dataset_id = new_dataset(db, user_header, number_of_time_steps=number_of_time_steps).id
     if component_name is None:
-        commodity_name = new_commodity(db, user_header, dataset_id=dataset_id).name
+        commodity = new_commodity(db, user_header, dataset_id=dataset_id)
         if transmission_component:
-            component_name = new_transmission(db, user_header, dataset_id=dataset_id, commodity_name=commodity_name).component.name
+            component_name = new_transmission(db, user_header, dataset_id=dataset_id, commodity=commodity).component.name
         else:
-            component_name = new_source(db, user_header, dataset_id=dataset_id, commodity_name=commodity_name).component.name
+            component_name = new_source(db, user_header, dataset_id=dataset_id, commodity=commodity).component.name
     if region_name is None:
         region_name = new_region(db, user_header, dataset_id=dataset_id).name
     if region_to_name is None and transmission_component:

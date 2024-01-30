@@ -22,7 +22,7 @@ schemas_with_implicit_type: list[tuple[type[BaseModel], dict[str, Any]]] = [
         EnergyConversionCreate,
         {
             "name": "foo",
-            "commodity_unit": "bar",
+            "physical_unit": "bar",
             "ref_dataset": 42,
             "conversion_factors": [EnergyConversionFactorCreate(commodity="foo", conversion_factor=0.42)],
         },

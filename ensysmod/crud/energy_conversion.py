@@ -13,18 +13,15 @@ class CRUDEnergyConversion(CRUDBaseDependsComponent[EnergyConversion, EnergyConv
     """
 
     def create(self, db: Session, *, obj_in: EnergyConversionCreate) -> EnergyConversion:
-        commodity = crud.energy_commodity.get_by_dataset_and_name(db, name=obj_in.commodity_unit, dataset_id=obj_in.ref_dataset)
-        obj_in_dict = obj_in.model_dump()
-        obj_in_dict["ref_commodity_unit"] = commodity.id
-        db_obj = super().create(db=db, obj_in=obj_in_dict)
+        new_conversion: EnergyConversion = super().create(db, obj_in=obj_in)
 
-        # save energy conversion factors
-        for factor_create in obj_in.conversion_factors:
-            factor_create.ref_dataset = obj_in.ref_dataset
-            factor_create.ref_component = db_obj.component.id
-            crud.energy_conversion_factor.create(db, obj_in=factor_create)
+        # Add energy conversion factors
+        for conversion_factor_create in obj_in.conversion_factors:
+            conversion_factor_create.ref_dataset = obj_in.ref_dataset
+            conversion_factor_create.ref_component = new_conversion.component.id
+            crud.energy_conversion_factor.create(db, obj_in=conversion_factor_create)
 
-        return db_obj
+        return new_conversion
 
 
 energy_conversion = CRUDEnergyConversion(EnergyConversion)

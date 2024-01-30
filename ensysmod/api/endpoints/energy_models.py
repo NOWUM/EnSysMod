@@ -65,7 +65,7 @@ def create_model(
     if existing is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"EnergyModel {request.name} already for dataset {request.ref_dataset} exists!",
+            detail=f"EnergyModel {request.name} already exists in dataset {request.ref_dataset}!",
         )
 
     return crud.energy_model.create(db=db, obj_in=request)

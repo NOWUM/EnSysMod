@@ -43,7 +43,7 @@ def create_sink(
     if existing is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"EnergySink {request.name} already for dataset {request.ref_dataset} exists!",
+            detail=f"EnergySink {request.name} already exists in dataset {request.ref_dataset}!",
         )
 
     # Check if energy commodity exists
@@ -51,7 +51,7 @@ def create_sink(
     if commodity is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"EnergyCommodity {request.commodity} in dataset {request.ref_dataset} not found!",
+            detail=f"EnergyCommodity {request.commodity} not found in dataset {request.ref_dataset}!",
         )
 
     return crud.energy_sink.create(db=db, obj_in=request)

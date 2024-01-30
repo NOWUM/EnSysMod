@@ -37,7 +37,7 @@ def test_create_conversion(db: Session, client: TestClient, user_header: dict[st
 
     created_conversion = response.json()
     assert_energy_component(created_conversion["component"], create_request, EnergyComponentType.CONVERSION)
-    assert created_conversion["commodity_unit"]["name"] == create_request.commodity_unit
+    assert created_conversion["physical_unit"] == create_request.physical_unit
 
 
 def test_create_existing_conversion(db: Session, client: TestClient, user_header: dict[str, str]):
@@ -66,7 +66,7 @@ def test_create_conversion_unknown_commodity(db: Session, client: TestClient, us
     Test creating an energy conversion.
     """
     create_request = conversion_create_request(db, user_header)
-    create_request.commodity_unit = "0"  # ungültige Anfrage
+    create_request.physical_unit = "0"  # ungültige Anfrage
     response = client.post("/conversions/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 

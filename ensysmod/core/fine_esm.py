@@ -113,7 +113,7 @@ def add_conversion(
     override_parameters: list[EnergyModelOverride],
 ) -> None:
     esm_conversion = component_to_dict(db, conversion.component)
-    esm_conversion["physicalUnit"] = conversion.commodity_unit.unit
+    esm_conversion["physicalUnit"] = conversion.physical_unit
     esm_conversion["commodityConversionFactors"] = {x.commodity.name: x.conversion_factor for x in conversion.conversion_factors}
     esm_conversion = apply_override_parameters(esm_conversion, override_parameters)
     esM.add(Conversion(esM=esM, **esm_conversion))

@@ -1,7 +1,7 @@
 {
     "name": "GuD-Turbine (Wasserstoff)",
     "description": "Stellt Gas-und Dampfturbinen für Wasserstoff dar",
-    "commodity_unit": "Wasserstoff",
+    "physical_unit": "GW",
     "capacity_variable": true,
     "conversion_factors": [
         {

@@ -2,7 +2,6 @@ from pydantic import Field, field_validator
 
 from ensysmod.model import EnergyComponentType
 from ensysmod.schemas.base_schema import MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, ReturnSchema
-from ensysmod.schemas.energy_commodity import EnergyCommoditySchema
 from ensysmod.schemas.energy_component import EnergyComponentCreate, EnergyComponentSchema, EnergyComponentUpdate
 from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactorCreate, EnergyConversionFactorSchema
 from ensysmod.utils import validators
@@ -21,10 +20,10 @@ class EnergyConversionCreate(EnergyConversionBase, EnergyComponentCreate):
     Attributes to receive via API on creation of an energy conversion.
     """
 
-    commodity_unit: str = Field(
+    physical_unit: str = Field(
         default=...,
-        description="Commodity the conversion component is based on.",
-        examples=["electricity"],
+        description="The physical unit the conversion component is based on. It must be one of the commodity units in the dataset.",
+        examples=["GW"],
         min_length=MIN_STR_LENGTH,
         max_length=MAX_STR_LENGTH,
     )
@@ -48,10 +47,10 @@ class EnergyConversionUpdate(EnergyConversionBase, EnergyComponentUpdate):
     Attributes to receive via API on update of an energy conversion.
     """
 
-    commodity_unit: str | None = Field(
+    physical_unit: str | None = Field(
         default=None,
-        description="Commodity the conversion component is based on.",
-        examples=["electricity"],
+        description="The physical unit the conversion component is based on. It must be one of the commodity units in the dataset.",
+        examples=["GW"],
         min_length=MIN_STR_LENGTH,
         max_length=MAX_STR_LENGTH,
     )
@@ -72,6 +71,6 @@ class EnergyConversionSchema(EnergyConversionBase, ReturnSchema):
     Attributes to return via API for an energy conversion.
     """
 
-    component: EnergyComponentSchema = Field(default=..., description="The energy component")
-    commodity_unit: EnergyCommoditySchema = Field(default=..., description="Commodity the conversion component is based on.")
-    conversion_factors: list[EnergyConversionFactorSchema] = Field(default=..., description="List of conversion factors")
+    component: EnergyComponentSchema
+    physical_unit: str
+    conversion_factors: list[EnergyConversionFactorSchema]

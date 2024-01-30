@@ -1,7 +1,7 @@
 {
     "name": "GuD-Turbine (Methan)",
     "description": "Stellt Gas-und Dampfturbinen für Methan dar",
-    "commodity_unit": "Methan",
+    "physical_unit": "GW",
     "capacity_variable": true,
     "conversion_factors": [
         {

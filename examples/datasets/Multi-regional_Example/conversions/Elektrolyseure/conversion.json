@@ -1,7 +1,7 @@
 {
     "name": "Elektrolyseure",
     "description": "Stellt Elektrolyseure dar",
-    "commodity_unit": "Wasserstoff",
+    "physical_unit": "GW",
     "capacity_variable": true,
     "conversion_factors": [
         {

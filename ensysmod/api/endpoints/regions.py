@@ -59,7 +59,10 @@ def create_region(
 
     existing = crud.region.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.name)
     if existing is not None:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Region {request.name} already for dataset {request.ref_dataset} exists!")
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Region {request.name} already exists in dataset {request.ref_dataset}!",
+        )
 
     return crud.region.create(db=db, obj_in=request)
 
