@@ -51,9 +51,7 @@ class CRUDDatasetPermission(CRUDBaseDependsDataset[DatasetPermission, DatasetCre
 
     def is_permission_check_allowed(self, db: Session, *, dataset_id: int, user_id: int) -> bool:
         permission = self.get_by_dataset_and_user(db=db, dataset_id=dataset_id, user_id=user_id)
-        if permission is None:
-            return False
-        return permission.allow_permission_grant or permission.allow_permission_revoke
+        return permission is not None
 
 
 dataset_permission = CRUDDatasetPermission(DatasetPermission)

@@ -33,13 +33,13 @@ class DatasetPermissionCreate(DatasetPermissionBase, CreateSchema):
     Attributes to receive via API on creation of a DatasetPermission.
     """
 
-    ref_dataset: int | None = Field(
-        default=None,
+    ref_dataset: int = Field(
+        default=...,
         description="The ID of the dataset. You must have access to grant permissions to this dataset.",
         gt=0,
     )
-    ref_user: int | None = Field(
-        default=None,
+    ref_user: int = Field(
+        default=...,
         description="The ID of the user that receive the permissions.",
         gt=0,
     )
@@ -49,6 +49,21 @@ class DatasetPermissionUpdate(DatasetPermissionBase, UpdateSchema):
     """
     Attributes to receive via API on update of a DatasetPermission.
     """
+
+    ref_dataset: int = Field(
+        default=...,
+        description="The ID of the dataset. You must have access to grant permissions to this dataset.",
+        gt=0,
+    )
+    ref_user: int = Field(
+        default=...,
+        description="The ID of the user that receive the permissions.",
+        gt=0,
+    )
+    allow_usage: bool | None = None
+    allow_modification: bool | None = None
+    allow_permission_grant: bool | None = None
+    allow_permission_revoke: bool | None = None
 
 
 class DatasetPermissionSchema(DatasetPermissionBase, ReturnSchema):
