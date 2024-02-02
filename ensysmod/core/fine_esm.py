@@ -3,7 +3,7 @@ from tempfile import TemporaryDirectory
 from typing import Any
 from zipfile import ZipFile
 
-from FINE import (
+from fine import (
     Conversion,
     EnergySystemModel,
     Sink,
