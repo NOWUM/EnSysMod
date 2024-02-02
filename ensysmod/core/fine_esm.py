@@ -1,3 +1,4 @@
+from contextlib import chdir
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Any
@@ -28,7 +29,7 @@ from ensysmod.model import (
     EnergyStorage,
     EnergyTransmission,
 )
-from ensysmod.utils.utils import chdir, create_temp_file, df_or_s
+from ensysmod.utils.utils import create_temp_file, df_or_s
 
 
 def generate_esm_from_model(db: Session, model: EnergyModel) -> EnergySystemModel:

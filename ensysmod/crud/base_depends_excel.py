@@ -70,9 +70,9 @@ class CRUDBaseDependsExcel(CRUDBaseDependsDataset, Generic[ModelType, CreateSche
             dataset_id = crud.energy_component.get(db, id=component_id).ref_dataset
             region_names = list(db.execute(select(Region.name).where(Region.ref_dataset == dataset_id)).scalars().all())
 
-            dataframe = pd.DataFrame(0, index=region_names, columns=region_names)
+            dataframe = pd.DataFrame(0, index=region_names, columns=region_names, dtype=float)
             for d in data:
-                dataframe[d.region_to.name][d.region.name] = getattr(d, self.data_column)
+                dataframe.loc[d.region.name, d.region_to.name] = getattr(d, self.data_column)
             return dataframe
 
         # otherwise return dataframe with 1 row and regions as columns

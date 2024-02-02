@@ -1,4 +1,5 @@
 import json
+from io import BytesIO
 from typing import Any
 from zipfile import ZipFile
 
@@ -260,8 +261,8 @@ def process_excel_file(
 def read_excel_file(file: UploadFile | tuple[ZipFile, str]) -> tuple[str, pd.DataFrame]:
     if isinstance(file, UploadFile):
         file_path = file.filename if file.filename is not None else ""
-        content = file.file.read()
-        df: pd.DataFrame = pd.read_excel(content, engine="openpyxl")
+        with BytesIO(file.file.read()) as content:
+            df: pd.DataFrame = pd.read_excel(content, engine="openpyxl")
     elif isinstance(file, tuple):
         zip_archive, file_path = file
         with zip_archive.open(file_path) as content:

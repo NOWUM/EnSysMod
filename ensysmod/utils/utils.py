@@ -1,6 +1,4 @@
 import os
-from collections.abc import Generator
-from contextlib import contextmanager
 from pathlib import Path
 from tempfile import mkstemp
 
@@ -21,19 +19,6 @@ def remove_file(file_path: Path) -> None:
     file_path.unlink()
 
 
-@contextmanager
-def chdir(path: Path | str) -> Generator[None, None, None]:
-    # In Python 3.11 use contextlib.chdir().
-    current_dir = Path.cwd()
-    try:
-        os.chdir(path)
-        yield
-    finally:
-        os.chdir(current_dir)
-
-
 def df_or_s(df: pd.DataFrame) -> pd.DataFrame | pd.Series:
-    # Convert a dataframe to a series if it has only one row.
-    if df.shape[0] == 1:
-        return df.squeeze(axis=0)
-    return df
+    """Convert a dataframe to a series if it has only one row."""
+    return df.squeeze(axis=0) if df.shape[0] == 1 else df

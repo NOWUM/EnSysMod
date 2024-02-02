@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 from jose import jwt
@@ -12,10 +12,10 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def create_access_token(subject: str | Any, expires_delta: timedelta | None = None) -> str:
-    if expires_delta:
-        expire = datetime.now(tz=timezone.utc) + expires_delta
+    if expires_delta is not None:
+        expire = datetime.now(tz=UTC) + expires_delta
     else:
-        expire = datetime.now(tz=timezone.utc) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+        expire = datetime.now(tz=UTC) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode = {"exp": expire, "sub": str(subject)}
     return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=ALGORITHM)
 
