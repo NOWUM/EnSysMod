@@ -14,8 +14,8 @@ def test_get_all_datasets_permissions_for_current_user(db: Session, client: Test
     """
     clear_database(db)
     current_user = get_current_user_from_header(db, user_header)
-    dataset1 = new_dataset(db, user_header, user_id=current_user.id)
-    dataset2 = new_dataset(db, user_header, user_id=current_user.id)
+    dataset1 = new_dataset(db, user_header, ref_user=current_user.id)
+    dataset2 = new_dataset(db, user_header, ref_user=current_user.id)
 
     response = client.get("/datasets/permissions/", headers=user_header)
     assert response.status_code == status.HTTP_200_OK
@@ -29,7 +29,7 @@ def test_get_all_datasets_permissions_for_dataset(db: Session, client: TestClien
     Test retrieving all datasets permissions for a specific dataset.
     """
     current_user = get_current_user_from_header(db, user_header)
-    dataset = new_dataset(db, user_header, user_id=current_user.id)
+    dataset = new_dataset(db, user_header, ref_user=current_user.id)
 
     response = client.get("/datasets/permissions/", headers=user_header, params={"dataset_id": dataset.id})
     assert response.status_code == status.HTTP_200_OK
@@ -42,7 +42,7 @@ def test_get_dataset_permission(db: Session, client: TestClient, user_header: di
     Test retrieving a dataset permission.
     """
     current_user = get_current_user_from_header(db, user_header)
-    dataset = new_dataset(db, user_header, user_id=current_user.id)
+    dataset = new_dataset(db, user_header, ref_user=current_user.id)
 
     response = client.get(f"/datasets/permissions/{dataset.id}", headers=user_header)
     assert response.status_code == status.HTTP_200_OK
@@ -54,7 +54,7 @@ def test_get_dataset_permission_not_found(db: Session, client: TestClient, user_
     Test retrieving a dataset permission, with invalid dataset_id.
     """
     other_user = new_user(db)
-    dataset = new_dataset(db, user_header, user_id=other_user.id)
+    dataset = new_dataset(db, user_header, ref_user=other_user.id)
 
     response = client.get(f"/datasets/permissions/{dataset.id}", headers=user_header)
     assert response.status_code == status.HTTP_404_NOT_FOUND

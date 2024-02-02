@@ -52,13 +52,6 @@ class EnergyModelOptimizationCreate(EnergyModelOptimizationBase, CreateSchema):
     Attributes to receive via API on creation of a model optimization parameter.
     """
 
-    ref_model: int | None = Field(
-        default=None,
-        description="The ID of the referenced model. Current model is used as default.",
-        examples=[1],
-        gt=0,
-    )
-
 
 class EnergyModelOptimizationUpdate(EnergyModelOptimizationBase, UpdateSchema):
     """

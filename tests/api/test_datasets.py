@@ -36,7 +36,7 @@ def test_create_dataset(db: Session, client: TestClient, user_header: dict[str, 
     """
     Test creating a dataset.
     """
-    create_request = dataset_create_request(db, user_header)
+    create_request = dataset_create_request()
 
     response = client.post("/datasets/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
@@ -47,7 +47,7 @@ def test_create_existing_dataset(db: Session, client: TestClient, user_header: d
     """
     Test creating an existing dataset.
     """
-    create_request = dataset_create_request(db, user_header)
+    create_request = dataset_create_request()
     response = client.post("/datasets/", headers=user_header, content=create_request.model_dump_json())
     assert response.status_code == status.HTTP_200_OK
     response = client.post("/datasets/", headers=user_header, content=create_request.model_dump_json())

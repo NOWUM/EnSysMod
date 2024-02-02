@@ -7,7 +7,6 @@ from ensysmod.model import EnergyComponentType
 from ensysmod.schemas import (
     EnergyCommodityCreate,
     EnergyComponentCreate,
-    EnergyConversionFactorCreate,
     EnergyModelCreate,
     RegionCreate,
     TransmissionDistanceCreate,
@@ -23,9 +22,7 @@ schemas_with_ref_dataset_required: list[tuple[type[BaseModel], dict[str, Any]]] 
     (TransmissionLossCreate, {"loss": 0.00001, "component_name": "test", "region_name": "Region 1", "region_to_name": "Region 2"}),
 ]
 
-schemas_with_ref_dataset_optional: list[tuple[type[BaseModel], dict[str, Any]]] = [
-    (EnergyConversionFactorCreate, {"conversion_factor": 4.2, "commodity_name": "bar"}),
-]
+schemas_with_ref_dataset_optional: list[tuple[type[BaseModel], dict[str, Any]]] = []
 
 schemas_with_ref_dataset = schemas_with_ref_dataset_required + schemas_with_ref_dataset_optional
 

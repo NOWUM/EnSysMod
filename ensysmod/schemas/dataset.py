@@ -55,13 +55,6 @@ class DatasetCreate(DatasetBase, CreateSchema):
     Attributes to receive via API on creation of a dataset.
     """
 
-    ref_user: int | None = Field(
-        default=None,
-        description="User ID of the creator. If not provided, the current user is used.",
-        examples=[1],
-        gt=0,
-    )
-
 
 class DatasetUpdate(DatasetBase, UpdateSchema):
     """

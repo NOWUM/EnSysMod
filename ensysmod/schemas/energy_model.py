@@ -38,7 +38,7 @@ class EnergyModelCreate(EnergyModelBase, CreateSchema):
         examples=[1],
         gt=0,
     )
-    override_parameters: list[EnergyModelOverrideCreate] | None = Field(
+    override_parameters: list[EnergyModelOverrideCreate] = Field(
         default=[],
         description="Override parameters of the energy model. If given, overrides the values of the referenced dataset.",
         examples=[

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
 from sqlalchemy import UniqueConstraint
@@ -16,8 +18,8 @@ class EnergyModel(RefDataset, Base):
     description: Mapped[str | None]
 
     # relationships
-    override_parameters: Mapped[list["EnergyModelOverride"] | None] = relationship(back_populates="model", cascade="all, delete-orphan")
-    optimization_parameters: Mapped["EnergyModelOptimization | None"] = relationship(back_populates="model", cascade="all, delete-orphan")
+    override_parameters: Mapped[list[EnergyModelOverride]] = relationship(back_populates="model", cascade="all, delete-orphan")
+    optimization_parameters: Mapped[EnergyModelOptimization | None] = relationship(back_populates="model", cascade="all, delete-orphan")
 
     # table constraints
     __table_args__ = (UniqueConstraint("ref_dataset", "name", name="_model_name_dataset_uc"),)

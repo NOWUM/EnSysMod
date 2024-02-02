@@ -23,18 +23,6 @@ class EnergyConversionFactorCreate(EnergyConversionFactorBase, CreateSchema):
     Attributes to receive via API on creation of a energy conversion factor.
     """
 
-    ref_dataset: int | None = Field(
-        default=None,
-        description="The reference dataset. The dataset id of the energy conversion component is used.",
-        examples=[1],
-        gt=0,
-    )
-    ref_component: int | None = Field(
-        default=None,
-        description="The reference component. The component id of the energy conversion component is used.",
-        examples=[1],
-        gt=0,
-    )
     commodity_name: str = Field(
         default=...,
         description="Commodity name for this conversion factor.",
