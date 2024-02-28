@@ -1,10 +1,9 @@
 import json
+from io import BytesIO
 from typing import Any
 from zipfile import ZipFile
 
 import pandas as pd
-from crud.base import CreateSchemaType
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from starlette.datastructures import UploadFile
 
@@ -13,14 +12,15 @@ from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.crud.base_depends_dataset import CRUDBaseDependsDataset
 from ensysmod.crud.base_depends_excel import CRUDBaseDependsExcel
 from ensysmod.schemas import FileStatus, FileUploadResult, ZipArchiveUploadResult
+from ensysmod.schemas.base_schema import CreateSchema
 
 
-def create_request(create_schema: type[CreateSchemaType], json_dict: dict, dataset_id: int) -> CreateSchemaType:
+def create_request(create_schema: type[CreateSchema], json_dict: dict, dataset_id: int) -> CreateSchema:
     """
     Set the ref_dataset to dataset_id, then convert the json_dict into the create schema type.
     """
     json_dict["ref_dataset"] = dataset_id
-    return create_schema.parse_obj(json_dict)
+    return create_schema.model_validate(json_dict)
 
 
 def process_dataset_zip_archive(zip_archive: ZipFile, dataset_id: int, db: Session) -> ZipArchiveUploadResult:
@@ -76,10 +76,10 @@ def process_dataset_zip_archive(zip_archive: ZipFile, dataset_id: int, db: Sessi
             ),
         )
 
-    if all(file_result.status == FileStatus.OK for file_result in file_results):
-        return ZipArchiveUploadResult(status=FileStatus.OK, file_results=file_results)
+    if any(file_result.status == FileStatus.ERROR for file_result in file_results):
+        return ZipArchiveUploadResult(status=FileStatus.ERROR, file_results=file_results)
 
-    return ZipArchiveUploadResult(status=FileStatus.ERROR, file_results=file_results)
+    return ZipArchiveUploadResult(status=FileStatus.OK, file_results=file_results)
 
 
 def process_json_list_file(
@@ -89,7 +89,7 @@ def process_json_list_file(
     zip_archive: ZipFile,
     file_name: str,
     crud_repo: CRUDBaseDependsDataset,
-    create_schema: type[CreateSchemaType],
+    create_schema: type[CreateSchema],
 ) -> FileUploadResult:
     """
     Process a json file containing a list of objects.
@@ -120,7 +120,7 @@ def process_components_folder(
     folder_name: str,
     component_file_name: str,
     crud_repo: CRUDBaseDependsComponent,
-    create_schema: type[CreateSchemaType],
+    create_schema: type[CreateSchema],
     as_matrix: bool = False,
 ) -> list[FileUploadResult]:
     """
@@ -205,7 +205,7 @@ def process_excel_file(
     dataset_id: int,
     component_name: str,
     crud_repo: CRUDBaseDependsExcel,
-    create_schema: type[BaseModel],
+    create_schema: type[CreateSchema],
     as_list: bool = False,
     as_matrix: bool = False,
 ) -> FileUploadResult:
@@ -219,9 +219,9 @@ def process_excel_file(
 
         if as_matrix:
             # determine the labels (region and region_to) of rows and columns
-            regions = df.iloc[:, 0].tolist()
-            df = df.drop(df.columns[0], axis=1)
-            regions_to = df.columns.tolist()
+            regions: list[str] = df.iloc[:, 0].tolist()
+            df: pd.DataFrame = df.drop(df.columns[0], axis=1)
+            regions_to: list[str] = df.columns.tolist()
 
             df_array = df.to_numpy()
             # for each element of matrix
@@ -231,9 +231,9 @@ def process_excel_file(
 
                     request_dict = {
                         crud_repo.data_column: data,
-                        "component": component_name,
-                        "region": regions[i],
-                        "region_to": regions_to[j],
+                        "component_name": component_name,
+                        "region_name": regions[i],
+                        "region_to_name": regions_to[j],
                     }
                     crud_repo.create(db=db, obj_in=create_request(create_schema, request_dict, dataset_id))
         else:
@@ -247,8 +247,8 @@ def process_excel_file(
 
                 request_dict: dict[str, Any] = {
                     crud_repo.data_column: data,
-                    "component": component_name,
-                    "region": column,
+                    "component_name": component_name,
+                    "region_name": column,
                 }
                 crud_repo.create(db=db, obj_in=create_request(create_schema, request_dict, dataset_id))
 
@@ -261,8 +261,8 @@ def process_excel_file(
 def read_excel_file(file: UploadFile | tuple[ZipFile, str]) -> tuple[str, pd.DataFrame]:
     if isinstance(file, UploadFile):
         file_path = file.filename if file.filename is not None else ""
-        content = file.file.read()
-        df: pd.DataFrame = pd.read_excel(content, engine="openpyxl")
+        with BytesIO(file.file.read()) as content:
+            df: pd.DataFrame = pd.read_excel(content, engine="openpyxl")
     elif isinstance(file, tuple):
         zip_archive, file_path = file
         with zip_archive.open(file_path) as content:

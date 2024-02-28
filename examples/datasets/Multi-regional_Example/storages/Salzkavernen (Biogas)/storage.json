@@ -1,7 +1,7 @@
 {
     "name": "Salzkavernen (Biogas)",
     "description": "Stellt Salzkavernen (Biogas) dar",
-    "commodity": "Biogas",
+    "commodity_name": "Biogas",
     "capacity_variable": true,
     "capacity_variable_domain": "CONTINUOUS",
     "capacity_per_plant_unit": 443,

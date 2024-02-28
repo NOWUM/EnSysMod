@@ -1,17 +1,38 @@
 # Requirements for EnSysMod
 
-fastapi==0.100.0
-sqlalchemy==2.0.19
-uvicorn==0.23.0
-pydantic[dotenv]==1.10.11
-
-python-multipart==0.0.6
+fastapi[all]==0.109.0
+sqlalchemy==2.0.25
+uvicorn==0.27.0
+pydantic==2.6.0
+pydantic-settings==2.1.0
 python-jose==3.3.0
-passlib==1.7.4
-bcrypt==3.2.0
+passlib[bcrypt]==1.7.4
 
-numpy==1.24.4
-pandas==1.5.3
-openpyxl==3.0.9
+# Requirements for FINE
+# https://github.com/FZJ-IEK3-VSA/FINE/blob/master/requirements.yml
 
-FINE==2.2.2
+# libiconv
+# gdal==3.4.3
+geopandas==0.14.3
+# jupyter
+# notebook
+# libpysal
+# descartes
+openpyxl==3.1.2
+matplotlib==3.8.2
+xlrd==2.0.1
+pyomo==6.7.0
+numpy==1.26.3
+pandas==2.2.0
+networkx==3.2.1
+scipy==1.12.0
+scikit-learn==1.4.0
+xarray==2024.1.1
+rasterio==1.3.9
+netcdf4==1.6.5
+tsam==2.3.1
+pwlf==2.2.1
+psutil==5.9.8
+gurobi-logtools==3.0.0
+
+FINE==2.3.3

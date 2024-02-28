@@ -13,7 +13,7 @@ Checklist for Contributors
       Unit tests are needed for new features or to reproduce the bug solved by this PR.
 - [ ] Documentation updated?
 - [ ] Unit tests successful
-- [ ] Code smells (flake8) checked 
+- [ ] Code smells checked
 
 
 Checklist for Reviewers

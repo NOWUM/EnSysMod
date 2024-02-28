@@ -47,7 +47,8 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
+          architecture: 'x64'
 
       - name: Cache pip
         uses: actions/cache@v3
@@ -57,12 +58,10 @@ jobs:
 
       - name: Install requirements
         run: |
-          pip install -e .[test]
+          pip install --upgrade --upgrade-strategy eager -r requirements-dev.txt -e .
 
-      - name: flake8 Lint
-        uses: reviewdog/action-flake8@v3
-        with:
-          github_token: ${{ github.token }}
+      - name: Run Ruff
+        run: ruff check --output-format=github .
 
 
   # Checks if all tests pass
@@ -75,7 +74,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
           architecture: 'x64'
 
       - name: Cache pip

@@ -1,17 +1,18 @@
 import logging
 
+from sqlalchemy import text
+
 # Import all models
 # noinspection PyUnresolvedReferences
 from ensysmod import model  # noqa: F401
 from ensysmod.database.base_class import Base
-from ensysmod.database.session import engine, SessionLocal
-from sqlalchemy import text
+from ensysmod.database.session import SessionLocal, engine
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def check_connection():
+def check_connection() -> None:
     try:
         db = SessionLocal()
         db.execute(text("SELECT 1"))
@@ -20,5 +21,5 @@ def check_connection():
         raise e
 
 
-def create_all():
+def create_all() -> None:
     Base.metadata.create_all(engine)

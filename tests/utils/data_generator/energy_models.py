@@ -1,45 +1,45 @@
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
-from ensysmod.model import EnergyModel
-from ensysmod.schemas import (
-    EnergyModelCreate,
-    EnergyModelOptimizationCreate,
-    EnergyModelOverrideCreate,
-)
-from tests.utils.data_generator.datasets import create_example_dataset, dataset_create
-from tests.utils.data_generator.energy_sinks import sink_create
-from tests.utils.utils import random_lower_string
+from ensysmod.model import EnergyModel, EnergyModelOverrideAttribute, EnergyModelOverrideOperation
+from ensysmod.schemas import EnergyModelCreate, EnergyModelOptimizationCreate, EnergyModelOverrideCreate
+from tests.utils.data_generator.datasets import get_example_dataset, new_dataset
+from tests.utils.data_generator.energy_sinks import new_sink
+from tests.utils.utils import random_string
 
 
 def energy_model_create_request(
     db: Session,
-    current_user_header: dict[str, str],
+    user_header: dict[str, str],
+    *,
     dataset_id: int | None = None,
+    generate_override_parameters: bool = False,
+    generate_optimization_parameters: bool = False,
 ) -> EnergyModelCreate:
     """
     Generate an energy model create request with the specified dataset.
     If dataset_id is not specified, it will be generated.
     """
     if dataset_id is None:
-        dataset_id = dataset_create(db, current_user_header).id
-    component = sink_create(db, current_user_header, dataset_id)
+        dataset_id = new_dataset(db, user_header).id
+    component = new_sink(db, user_header, dataset_id=dataset_id)
     return EnergyModelCreate(
-        name=f"EnergyModel-Dataset{dataset_id}-{random_lower_string()}",
+        name=f"EnergyModel-Dataset{dataset_id}-{random_string()}",
         ref_dataset=dataset_id,
-        description="EnergyModel description",
-        override_parameters=[
+        description=None,
+        override_parameters=[]
+        if generate_override_parameters is False
+        else [
             EnergyModelOverrideCreate(
-                ref_dataset=dataset_id,
-                component=component.component.name,
-                region=None,
-                region_to=None,
-                attribute="yearly_limit",
-                operation="set",
+                component_name=component.component.name,
+                attribute=EnergyModelOverrideAttribute.yearlyLimit,
+                operation=EnergyModelOverrideOperation.set,
                 value=366.6,
             ),
         ],
-        optimization_parameters=EnergyModelOptimizationCreate(
+        optimization_parameters=None
+        if generate_optimization_parameters is False
+        else EnergyModelOptimizationCreate(
             start_year=2020,
             end_year=2050,
             number_of_steps=3,
@@ -50,32 +50,41 @@ def energy_model_create_request(
     )
 
 
-def energy_model_create(
+def new_energy_model(
     db: Session,
-    current_user_header: dict[str, str],
+    user_header: dict[str, str],
+    *,
     dataset_id: int | None = None,
+    generate_override_parameters: bool = False,
+    generate_optimization_parameters: bool = False,
 ) -> EnergyModel:
     """
     Create an energy model with the specified dataset.
     If dataset_id is not specified, it will be generated.
     """
-    create_request = energy_model_create_request(db, current_user_header, dataset_id)
+    create_request = energy_model_create_request(
+        db,
+        user_header,
+        dataset_id=dataset_id,
+        generate_override_parameters=generate_override_parameters,
+        generate_optimization_parameters=generate_optimization_parameters,
+    )
     return crud.energy_model.create(db=db, obj_in=create_request)
 
 
-def create_example_model(db: Session, data_folder: str):
+def get_example_model(db: Session, user_header: dict[str, str], *, example_dataset: str) -> EnergyModel:
     """
-    Create model from example dataset.
+    Return example model entry in db if it exists, otherwise create it.
     """
-    dataset = create_example_dataset(db, data_folder)
-
-    create_request = EnergyModelCreate(
-        name=f"Example_Model-{data_folder}-" + random_lower_string(),
-        ref_dataset=dataset.id,
-        description="Example_Model description",
-        override_parameters=None,
-        optimization_parameters=None,
-    )
-    model = crud.energy_model.create(db=db, obj_in=create_request)
-
+    dataset = get_example_dataset(db, user_header, example_dataset=example_dataset)
+    model = crud.energy_model.get_by_dataset_and_name(db, dataset_id=dataset.id, name=dataset.name)
+    if model is None:
+        create_request = EnergyModelCreate(
+            name=example_dataset,
+            ref_dataset=dataset.id,
+            description=None,
+            override_parameters=[],
+            optimization_parameters=None,
+        )
+        model = crud.energy_model.create(db=db, obj_in=create_request)
     return model

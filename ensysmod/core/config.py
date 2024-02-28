@@ -1,8 +1,8 @@
-import pathlib
 import secrets
-from typing import Optional, Dict, Any
 
-from pydantic import BaseSettings, validator, PostgresDsn
+from pydantic import PostgresDsn, ValidationInfo, field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from utils.utils import get_project_root
 
 
 class Settings(BaseSettings):
@@ -23,31 +23,28 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
 
     # Database access
-    POSTGRES_SERVER: Optional[str] = None
-    POSTGRES_USER: Optional[str] = None
-    POSTGRES_PASSWORD: Optional[str] = None
-    POSTGRES_DB: Optional[str] = None
-    SQLALCHEMY_DATABASE_URI: Optional[str] = None
+    POSTGRES_SERVER: str | None = None
+    POSTGRES_USER: str | None = None
+    POSTGRES_PASSWORD: str | None = None
+    POSTGRES_DB: str | None = None
+    SQLALCHEMY_DATABASE_URI: str | None = None
 
-    @validator("SQLALCHEMY_DATABASE_URI", pre=True)
-    def assemble_db_connection(cls, v: Optional[str], values: Dict[str, Any]) -> str:
+    @field_validator("SQLALCHEMY_DATABASE_URI", mode="before")
+    @classmethod
+    def assemble_db_connection(cls, v: str | None, values: ValidationInfo) -> str:
+        if v is None:
+            return f"sqlite:///{get_project_root()}/ensysmod/local.db"
         if isinstance(v, str):
             return v
-        if all(isinstance(values[key], str) for key in ("POSTGRES_USER", "POSTGRES_PASSWORD", "POSTGRES_SERVER")):
-            return PostgresDsn.build(
-                scheme="postgresql",
-                user=values.get("POSTGRES_USER"),
-                password=values.get("POSTGRES_PASSWORD"),
-                host=values.get("POSTGRES_SERVER"),
-                path=f"/{values.get('POSTGRES_DB') or ''}",
-            )
+        return PostgresDsn.build(
+            scheme="postgresql",
+            username=values.data.get("POSTGRES_USER"),
+            password=values.data.get("POSTGRES_PASSWORD"),
+            host=values.data.get("POSTGRES_SERVER"),
+            path=f"{values.data.get('POSTGRES_DB') or ''}",
+        ).unicode_string()
 
-        config_folder = pathlib.Path(__file__).parent.resolve()
-        return f"sqlite:///{config_folder}/../local.db"
-
-    class Config:
-        case_sensitive = True
-        env_file = ".env"
+    model_config = SettingsConfigDict(case_sensitive=True, env_file=".env")
 
 
 settings = Settings()

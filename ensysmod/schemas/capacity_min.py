@@ -1,22 +1,18 @@
-from pydantic import BaseModel, Field, NonNegativeFloat
+from pydantic import Field
 
-from ensysmod.schemas.base_ref_component_region import (
-    RefCRBase,
-    RefCRBaseBase,
-    RefCRBaseCreate,
-    RefCRBaseUpdate,
-)
+from ensysmod.schemas.base_ref_component_region import RefCRBase, RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate
 
 
-class CapacityMinBase(RefCRBaseBase, BaseModel):
+class CapacityMinBase(RefCRBaseBase):
     """
     Shared attributes for a CapacityMin. Used as a base class for all schemas.
     """
 
-    capacity_min: NonNegativeFloat = Field(
-        ...,
+    capacity_min: float = Field(
+        default=...,
         description="Minimum capacity for a component in a specific region.",
-        example=1.0,
+        examples=[1.0],
+        ge=0,
     )
 
 
@@ -32,10 +28,7 @@ class CapacityMinUpdate(CapacityMinBase, RefCRBaseUpdate):
     """
 
 
-class CapacityMin(CapacityMinBase, RefCRBase):
+class CapacityMinSchema(CapacityMinBase, RefCRBase):
     """
     Attributes to return via API for a CapacityMin.
     """
-
-    class Config:
-        orm_mode = True

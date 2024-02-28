@@ -6,13 +6,12 @@ from tempfile import TemporaryDirectory
 from typing import Any
 
 from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from ensysmod import schemas
 from ensysmod.core.file_folder_types import EXCEL_FILE_TYPES, FOLDER_TYPES, JSON_FILE_TYPES
 from ensysmod.crud.base_depends_component import CRUDBaseDependsComponent
 from ensysmod.crud.base_depends_excel import CRUDBaseDependsExcel
+from ensysmod.schemas.base_schema import CreateSchema
 from ensysmod.utils.utils import create_temp_file
 
 
@@ -31,7 +30,7 @@ def export_data(db: Session, dataset_id: int) -> Path:
         for json_file in JSON_FILE_TYPES:
             dump_json(
                 obj=json_file.crud_repo.get_multi_by_dataset(db, dataset_id=dataset_id),
-                fields=set(json_file.create_schema.__fields__.keys()),
+                fields=set(json_file.create_schema.model_fields),
                 file_path=Path(export_dir, json_file.file_name),
             )
 
@@ -58,8 +57,8 @@ def dump_energy_component(
     component_type_folder: Path,
     file_name: str,
     crud_repo: CRUDBaseDependsComponent,
-    create_schema: type[BaseModel],
-):
+    create_schema: type[CreateSchema],
+) -> None:
     """
     Dump all energy components to folders.
 
@@ -70,22 +69,22 @@ def dump_energy_component(
     :param crud_repo: CRUD repository
     :param create_schema: create schema
     """
-    fields = set(create_schema.__fields__.keys())
+    fields = set(create_schema.model_fields)
     fields.remove("type")
 
     for component in crud_repo.get_multi_by_dataset(db, dataset_id=dataset_id):
+        # create component folder, replace special characters with underscore
         component_name = re.sub(r"[/\\?%*:|\"<>\x7F\x00-\x1F]", "_", component.component.name)
         component_folder = Path(component_type_folder, component_name)
         component_folder.mkdir(parents=True)
 
+        # create the component json file, combining the data from the general component object and the type specific component object
         component_dict: dict[str, Any] = component.component.__dict__.copy()
         component_dict.update(component.__dict__)
 
-        # replace commodity and commodity unit object model with the commodity name
+        # if the component has a commodity, add the commodity name
         if hasattr(component, "commodity"):
-            component_dict["commodity"] = component.commodity.name
-        if hasattr(component, "commodity_unit"):
-            component_dict["commodity_unit"] = component.commodity_unit.name
+            component_dict["commodity_name"] = component.commodity.name
 
         # replace conversion factors object model with the conversion factors in json list format
         if hasattr(component, "conversion_factors"):
@@ -106,16 +105,12 @@ def dump_energy_component(
 
 def conversion_factors_json(component) -> list[dict[str, Any]]:
     return [
-        jsonable_encoder(
-            obj=dict(schemas.EnergyConversionFactor.from_orm(factor)),
-            include={"conversion_factor", "commodity"},
-            custom_encoder={schemas.EnergyCommodity: lambda x: x.name},
-        )
-        for factor in component.conversion_factors
+        {"commodity_name": conversion_factor.commodity.name, "conversion_factor": conversion_factor.conversion_factor}
+        for conversion_factor in component.conversion_factors
     ]
 
 
-def dump_json(*, obj: Any, fields: set[str], file_path: Path):
+def dump_json(*, obj: Any, fields: set[str], file_path: Path) -> None:
     """
     Dump the object to a json file.
 
@@ -130,7 +125,7 @@ def dump_json(*, obj: Any, fields: set[str], file_path: Path):
         json.dump(json_obj, file, ensure_ascii=False, indent=4)
 
 
-def dump_excel_file(*, db: Session, component_id: int, crud_repo: CRUDBaseDependsExcel, file_path: Path):
+def dump_excel_file(*, db: Session, component_id: int, crud_repo: CRUDBaseDependsExcel, file_path: Path) -> None:
     """
     Export excel data from database to an excel file.
 

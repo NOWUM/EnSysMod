@@ -1,74 +1,32 @@
 import string
-from pathlib import Path
+from enum import Enum
+from typing import Any
 
 import numpy as np
-from fastapi.testclient import TestClient
 from sqlalchemy import delete
 from sqlalchemy.orm import Session
 
-from ensysmod import crud
 from ensysmod.api.deps import get_current_user
 from ensysmod.database.base_class import Base
 from ensysmod.model import User
-from ensysmod.schemas import UserCreate, UserUpdate
+from ensysmod.schemas.base_schema import CreateSchema, UpdateSchema
 
 
-def get_project_root() -> Path:
-    return Path(__file__).parents[2].resolve()
-
-
-def random_lower_string(length: int = 10) -> str:
-    return "".join(np.random.default_rng().choice(list(string.ascii_lowercase), size=length))
+def random_string(length: int = 10) -> str:
+    return "".join(np.random.default_rng().choice(list(string.ascii_letters + string.digits), size=length))
 
 
 def random_float_number(size: int | tuple[int, int] | None = None):
-    if isinstance(size, int):
-        return np.random.default_rng().uniform(size=size).tolist()
-    if isinstance(size, tuple):
-        return np.random.default_rng().uniform(size=size)
-    return np.random.default_rng().uniform()
+    result = np.random.default_rng().uniform(size=size)
+    return result.tolist() if isinstance(size, int) else result
 
 
-def user_authentication_headers(*, client: TestClient, username: str, password: str) -> dict[str, str]:
-    data = {"username": username, "password": password}
-
-    r = client.post("/auth/login", data=data, headers={"content-type": "application/x-www-form-urlencoded"})
-    response = r.json()
-    auth_token = response["access_token"]
-    return {"Authorization": f"Bearer {auth_token}"}
+def get_current_user_from_header(db: Session, header: dict[str, str]) -> User:
+    auth_token = header["Authorization"].split()[1]
+    return get_current_user(db=db, token=auth_token)
 
 
-def create_random_user(db: Session) -> User:
-    user_in = UserCreate(
-        username=random_lower_string(),
-        password=random_lower_string(),
-    )
-    return crud.user.create(db=db, obj_in=user_in)
-
-
-def authentication_token_from_username(*, client: TestClient, username: str, db: Session) -> dict[str, str]:
-    """
-    Return a valid token for the user with given username.
-    If the user doesn't exist it is created first.
-    """
-    password = random_lower_string()
-    user = crud.user.get_by_username(db, username=username)
-    if not user:
-        user_in_create = UserCreate(username=username, password=password)
-        crud.user.create(db, obj_in=user_in_create)
-    else:
-        user_in_update = UserUpdate(password=password)
-        crud.user.update(db, db_obj=user, obj_in=user_in_update)
-
-    return user_authentication_headers(client=client, username=username, password=password)
-
-
-def get_current_user_from_headers(db: Session, headers: dict[str, str]) -> User:
-    token = headers["Authorization"].split()[1]
-    return get_current_user(db=db, token=token)
-
-
-def clear_database(db: Session):
+def clear_database(db: Session) -> None:
     """
     Clear entries in the database but keep the database structure intact.
     """
@@ -77,9 +35,34 @@ def clear_database(db: Session):
             db.execute(delete(table))
 
 
-def clear_users_except_current_user(db: Session, current_user_header: dict[str, str]):
+def clear_users_except_current_user(db: Session, user_header: dict[str, str]) -> None:
     """
     Delete all users except the current user.
     """
-    current_user = get_current_user_from_headers(db, current_user_header)
+    current_user = get_current_user_from_header(db, user_header)
     db.execute(delete(User).where(User.id != current_user.id))
+
+
+def assert_response(response_json: dict[str, Any], expected: Base | CreateSchema | UpdateSchema) -> None:
+    """
+    Assert that the response JSON attributes from the API matches the attributes of the given database object or create/update schema.
+    If the response is a dictionary or a list, it is recursively checked for the same attributes.
+    """
+    response_json_attributes = set(response_json.keys())
+    expected_attributes = set(expected.__table__.columns.keys()) if isinstance(expected, Base) else set(expected.model_fields.keys())
+
+    for attribute in set.intersection(response_json_attributes, expected_attributes):
+        response_json_value = response_json[attribute]
+        expected_value = getattr(expected, attribute)
+
+        if isinstance(response_json_value, dict):
+            # if the response json value is a dict, recursively check it against the expected value
+            assert_response(response_json_value, expected_value)
+        elif isinstance(response_json_value, list):
+            # if the response json value is a list, check that it has the same length as the expected value
+            assert len(response_json_value) == len(expected_value)
+        elif isinstance(expected_value, Enum):
+            # if the expected value is an enum, check that the response json value is the same as the enum value
+            assert response_json_value == expected_value.value
+        else:
+            assert response_json_value == expected_value

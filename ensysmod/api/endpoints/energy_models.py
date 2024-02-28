@@ -1,52 +1,57 @@
-from typing import List, Optional
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from starlette.background import BackgroundTask
 from utils.utils import remove_file
 
-from ensysmod import crud, model, schemas
+from ensysmod import crud
 from ensysmod.api import deps, permissions
-from ensysmod.core.fine_esm import (
-    generate_esm_from_model,
-    myopic_optimize_esm,
-    optimize_esm,
-)
+from ensysmod.core.fine_esm import generate_esm_from_model, myopic_optimize_esm, optimize_esm
+from ensysmod.model import User
+from ensysmod.schemas import EnergyModelCreate, EnergyModelSchema, EnergyModelUpdate
 
 router = APIRouter()
 
 
-@router.get("/", response_model=List[schemas.EnergyModel])
-def get_all_models(db: Session = Depends(deps.get_db),
-                   current: model.User = Depends(deps.get_current_user),
-                   skip: int = 0,
-                   limit: int = 100,
-                   dataset_id: Optional[int] = None) -> List[schemas.EnergyModel]:
+@router.get("/{model_id}", response_model=EnergyModelSchema)
+def get_model(
+    model_id: int,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_user),
+):
     """
-    Retrieve all energy models.
+    Get an energy model by its id.
     """
-    if dataset_id is None:
-        return crud.energy_model.get_multi(db=db, skip=skip, limit=limit)
-    else:
-        return crud.energy_model.get_multi_by_dataset(db=db, dataset_id=dataset_id, skip=skip, limit=limit)
+    model = crud.energy_model.get(db, id=model_id)
+    if model is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Energy Model {model_id} not found!")
+
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=model.ref_dataset)
+
+    return model
 
 
-@router.get("/{model_id}", response_model=schemas.EnergyModel)
-def get_model(model_id: int,
-              db: Session = Depends(deps.get_db),
-              current: model.User = Depends(deps.get_current_user)):
+@router.get("/", response_model=list[EnergyModelSchema])
+def get_energy_model_by_dataset(
+    dataset_id: int,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_user),
+    skip: int = 0,
+    limit: int = 100,
+):
     """
-    Retrieve an energy model.
+    Get all energy models of a dataset.
     """
-    return crud.energy_model.get(db, id=model_id)
+    permissions.check_usage_permission(db=db, user=current_user, dataset_id=dataset_id)
+    return crud.energy_model.get_multi_by_dataset(db=db, skip=skip, limit=limit, dataset_id=dataset_id)
 
 
-@router.post("/", response_model=schemas.EnergyModel,
-             responses={409: {"description": "EnergyModel with same name already exists."}})
-def create_model(request: schemas.EnergyModelCreate,
-                 db: Session = Depends(deps.get_db),
-                 current: model.User = Depends(deps.get_current_user)):
+@router.post("/", response_model=EnergyModelSchema, responses={409: {"description": "EnergyModel with same name already exists."}})
+def create_model(
+    request: EnergyModelCreate,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Create a new energy model.
     """
@@ -54,49 +59,57 @@ def create_model(request: schemas.EnergyModelCreate,
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dataset {request.ref_dataset} not found!")
 
-    permissions.check_usage_permission(db, user=current, dataset_id=request.ref_dataset)
+    permissions.check_usage_permission(db, user=current_user, dataset_id=request.ref_dataset)
 
     existing = crud.energy_model.get_by_dataset_and_name(db=db, dataset_id=request.ref_dataset, name=request.name)
     if existing is not None:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
-                            detail=f"EnergyModel {request.name} already for dataset {request.ref_dataset} exists!")
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"EnergyModel {request.name} already exists in dataset {request.ref_dataset}!",
+        )
 
     return crud.energy_model.create(db=db, obj_in=request)
 
 
-@router.put("/{model_id}", response_model=schemas.EnergyModel)
-def update_model(model_id: int,
-                 request: schemas.EnergyModelUpdate,
-                 db: Session = Depends(deps.get_db),
-                 current: model.User = Depends(deps.get_current_user)):
+@router.put("/{model_id}", response_model=EnergyModelSchema)
+def update_model(
+    model_id: int,
+    request: EnergyModelUpdate,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Update an energy model.
     """
     energy_model = crud.energy_model.get(db=db, id=model_id)
     if energy_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyModel {model_id} not found!")
-    permissions.check_usage_permission(db, user=current, dataset_id=energy_model.ref_dataset)
+    permissions.check_usage_permission(db, user=current_user, dataset_id=energy_model.ref_dataset)
     return crud.energy_model.update(db=db, db_obj=energy_model, obj_in=request)
 
 
-@router.delete("/{model_id}", response_model=schemas.EnergyModel)
-def remove_model(model_id: int,
-                 db: Session = Depends(deps.get_db),
-                 current: model.User = Depends(deps.get_current_user)):
+@router.delete("/{model_id}", response_model=EnergyModelSchema)
+def remove_model(
+    model_id: int,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Delete an energy model.
     """
     energy_model = crud.energy_model.get(db=db, id=model_id)
     if energy_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyModel {model_id} not found!")
-    permissions.check_usage_permission(db, user=current, dataset_id=energy_model.ref_dataset)
+    permissions.check_usage_permission(db, user=current_user, dataset_id=energy_model.ref_dataset)
     return crud.energy_model.remove(db=db, id=model_id)
 
 
-@router.get("/{model_id}/esm", response_model=schemas.EnergyModel)
-def validate_model(model_id: int,
-                   db: Session = Depends(deps.get_db),
-                   current: model.User = Depends(deps.get_current_user)):
+@router.get("/{model_id}/esm", response_model=EnergyModelSchema)
+def validate_model(
+    model_id: int,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Create FINE energy system model from model.
 
@@ -107,16 +120,18 @@ def validate_model(model_id: int,
     if energy_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyModel {model_id} not found!")
 
-    permissions.check_usage_permission(db, user=current, dataset_id=energy_model.ref_dataset)
+    permissions.check_usage_permission(db, user=current_user, dataset_id=energy_model.ref_dataset)
 
     generate_esm_from_model(db=db, model=energy_model)
     return energy_model
 
 
 @router.get("/{model_id}/optimize")
-def optimize_model(model_id: int,
-                   db: Session = Depends(deps.get_db),
-                   current: model.User = Depends(deps.get_current_user)):
+def optimize_model(
+    model_id: int,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Create FINE energy system model from model and optimizes it.
 
@@ -127,7 +142,7 @@ def optimize_model(model_id: int,
     if energy_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyModel {model_id} not found!")
 
-    permissions.check_usage_permission(db, user=current, dataset_id=energy_model.ref_dataset)
+    permissions.check_usage_permission(db, user=current_user, dataset_id=energy_model.ref_dataset)
 
     esM = generate_esm_from_model(db=db, model=energy_model)
     result_file_path = optimize_esm(esM=esM)
@@ -141,27 +156,29 @@ def optimize_model(model_id: int,
 
 
 @router.get("/{model_id}/myopic_optimize")
-def myopic_optimize_model(model_id: int,
-                          db: Session = Depends(deps.get_db),
-                          current: model.User = Depends(deps.get_current_user)):
+def myopic_optimize_model(
+    model_id: int,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Create FINE energy system model from model and optimizes it based on myopic approach.
     """
     energy_model = crud.energy_model.get(db=db, id=model_id)
     if energy_model is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"EnergyModel {model_id} not found!")
-    energy_model_optimization_parameters = crud.energy_model_optimization.get_by_ref_model(db=db, ref_model=model_id)
-    if energy_model_optimization_parameters is None:
+    optimization_parameters = crud.energy_model_optimization.get_by_ref_model(db=db, ref_model=model_id)
+    if optimization_parameters is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Optimization parameters for EnergyModel {model_id} not found!")
 
-    permissions.check_usage_permission(db, user=current, dataset_id=energy_model.ref_dataset)
+    permissions.check_usage_permission(db, user=current_user, dataset_id=energy_model.ref_dataset)
 
     esM = generate_esm_from_model(db=db, model=energy_model)
-    zipped_result_file_path = myopic_optimize_esm(esM=esM, optimization_parameters=energy_model_optimization_parameters)
+    zipped_result_file_path = myopic_optimize_esm(esM=esM, optimization_parameters=optimization_parameters)
 
     return FileResponse(
         path=zipped_result_file_path,
         media_type="application/zip",
-        filename=f"{energy_model.name} {energy_model_optimization_parameters.start_year}-{energy_model_optimization_parameters.end_year}.zip",
+        filename=f"{energy_model.name} {optimization_parameters.start_year}-{optimization_parameters.end_year}.zip",
         background=BackgroundTask(remove_file, zipped_result_file_path),
     )

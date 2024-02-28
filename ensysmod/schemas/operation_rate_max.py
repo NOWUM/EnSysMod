@@ -1,22 +1,17 @@
-from pydantic import BaseModel, Field, NonNegativeFloat
+from pydantic import Field, NonNegativeFloat
 
-from ensysmod.schemas.base_ref_component_region import (
-    RefCRBase,
-    RefCRBaseBase,
-    RefCRBaseCreate,
-    RefCRBaseUpdate,
-)
+from ensysmod.schemas.base_ref_component_region import RefCRBase, RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate
 
 
-class OperationRateMaxBase(RefCRBaseBase, BaseModel):
+class OperationRateMaxBase(RefCRBaseBase):
     """
     Shared attributes for a OperationRateMax. Used as a base class for all schemas.
     """
 
     operation_rate_max: list[NonNegativeFloat] = Field(
-        ...,
+        default=...,
         description="Maximum operation rate for a component in a specific region.",
-        example=[0.95, 0.6, 0.7],
+        examples=[[0.95, 0.6, 0.7]],
     )
 
 
@@ -32,10 +27,7 @@ class OperationRateMaxUpdate(OperationRateMaxBase, RefCRBaseUpdate):
     """
 
 
-class OperationRateMax(OperationRateMaxBase, RefCRBase):
+class OperationRateMaxSchema(OperationRateMaxBase, RefCRBase):
     """
     Attributes to return via API for a OperationRateMax.
     """
-
-    class Config:
-        orm_mode = True

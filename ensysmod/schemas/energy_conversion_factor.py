@@ -1,59 +1,55 @@
-from typing import Optional
+from pydantic import Field
 
-from pydantic import BaseModel, Field, validator
-
-from ensysmod.schemas.energy_commodity import EnergyCommodity
-from ensysmod.utils import validators
+from ensysmod.schemas.base_schema import MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
+from ensysmod.schemas.energy_commodity import EnergyCommoditySchema
 
 
-class EnergyConversionFactorBase(BaseModel):
+class EnergyConversionFactorBase(BaseSchema):
     """
     Shared attributes for a energy conversion factor. Used as a base class for all schemas.
     """
-    conversion_factor: float = Field(...,
-                                     description="The conversion factor.",
-                                     example=0.9)
 
-    # validators
-    _valid_conversion_factor = validator("conversion_factor", allow_reuse=True)(validators.validate_conversion_factor)
+    conversion_factor: float = Field(
+        default=...,
+        description="The conversion factor.",
+        examples=[0.9],
+        ge=-5,
+        le=5,
+    )
 
 
-class EnergyConversionFactorCreate(EnergyConversionFactorBase):
+class EnergyConversionFactorCreate(EnergyConversionFactorBase, CreateSchema):
     """
     Attributes to receive via API on creation of a energy conversion factor.
     """
-    ref_dataset: Optional[int] = Field(None,
-                                       description="The reference dataset. The dataset id of the energy conversion "
-                                                   "component is used.")
 
-    ref_component: Optional[int] = Field(None,
-                                         description="The reference component. The component id of the energy "
-                                                     "conversion component is used.")
-
-    commodity: str = Field(...,
-                           description="Commodity name for this conversion factor.",
-                           example="electricity")
-
-    # validators
-    _valid_ref_dataset = validator("ref_dataset", allow_reuse=True)(validators.validate_ref_dataset_optional)
-    _valid_ref_component = validator("ref_component", allow_reuse=True)(validators.validate_ref_component_optional)
-    _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
+    commodity_name: str = Field(
+        default=...,
+        description="Commodity name for this conversion factor.",
+        examples=["electricity"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
 
 
-class EnergyConversionFactorUpdate(EnergyConversionFactorBase):
+class EnergyConversionFactorUpdate(EnergyConversionFactorBase, UpdateSchema):
     """
     Attributes to receive via API on update of a energy conversion factor.
     """
-    conversion_factor: Optional[float] = None
+
+    conversion_factor: float | None = Field(
+        default=None,
+        description="The conversion factor.",
+        examples=[0.9],
+        ge=-5,
+        le=5,
+    )
 
 
-class EnergyConversionFactor(EnergyConversionFactorBase):
+class EnergyConversionFactorSchema(EnergyConversionFactorBase, ReturnSchema):
     """
     Attributes to return via API for a energy conversion factor.
     """
+
     id: int
-
-    commodity: EnergyCommodity
-
-    class Config:
-        orm_mode = True
+    commodity: EnergyCommoditySchema

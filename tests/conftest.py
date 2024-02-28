@@ -1,35 +1,37 @@
-from typing import Generator
+from collections.abc import Generator
 
 import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy.orm import Session
 
 from ensysmod import crud
 from ensysmod.app import app
 from ensysmod.database.session import SessionLocal
-from tests.utils.utils import authentication_token_from_username, create_random_user
+from tests.utils.data_generator.users import generate_credentials, new_user
 
 
-@pytest.fixture(scope="function")
-def db() -> Generator:
-    db = None
+@pytest.fixture(scope="session", autouse=True)
+def db() -> Generator[Session, None, None]:
+    db = SessionLocal()
     try:
-        db = SessionLocal()
         yield db
     finally:
-        if db is not None:
-            db.close()
+        db.close()
 
 
-@pytest.fixture(scope="session")
-def client() -> Generator:
+@pytest.fixture(scope="session", autouse=True)
+def client() -> Generator[TestClient, None, None]:
     with TestClient(app) as c:
         yield c
 
 
-@pytest.fixture(scope="session")
-def normal_user_headers(client: TestClient) -> Generator:
-    db = SessionLocal()
-    user = crud.user.get(db, id=1)
-    if user is None:
-        user = create_random_user(db)
-    yield authentication_token_from_username(db=db, client=client, username=user.username)
+@pytest.fixture(scope="session", autouse=True)
+def user_header(db: Session) -> dict[str, str]:
+    """
+    Return a valid user header.
+    If the user doesn't exist it is created first.
+    """
+    credentials = generate_credentials()
+    if crud.user.get_by_username(db, username=credentials["username"]) is None:
+        new_user(db, **credentials)
+    return {"Authorization": f"Bearer {crud.user.authenticate(db, **credentials).access_token}"}

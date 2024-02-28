@@ -1,24 +1,20 @@
 import enum
-from typing import Optional, List
 
-from pydantic import BaseModel
+from ensysmod.schemas.base_schema import ReturnSchema
 
 
 class FileStatus(enum.Enum):
-    OK = 'OK'
-    ERROR = 'ERROR'
-    SKIPPED = 'SKIPPED'
+    OK = "OK"
+    ERROR = "ERROR"
+    SKIPPED = "SKIPPED"
 
 
-class FileUploadResult(BaseModel):
+class FileUploadResult(ReturnSchema):
     file: str
     status: FileStatus
-    message: Optional[str] = None
+    message: str | None = None
 
 
-class ZipArchiveUploadResult(BaseModel):
+class ZipArchiveUploadResult(ReturnSchema):
     status: FileStatus
-    file_results: List[FileUploadResult]
-
-    class Config:
-        orm_mode = True
+    file_results: list[FileUploadResult]

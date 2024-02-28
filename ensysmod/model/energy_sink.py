@@ -1,22 +1,10 @@
-from sqlalchemy import Column, Float, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Mapped
 
 from ensysmod.database.base_class import Base
+from ensysmod.database.ref_base_class import RefCommodity, RefComponentUnique, RefDataset
 
 
-class EnergySink(Base):
-    """
-    EnergySink table definition
-
-    See https://vsa-fine.readthedocs.io/en/latest/sourceSinkClassDoc.html
-    """
-    ref_component = Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False, primary_key=True)
-    ref_commodity = Column(Integer, ForeignKey("energy_commodity.id"), index=True, nullable=False)
-
-    commodity_cost = Column(Float, nullable=True)
-    yearly_limit = Column(Float, nullable=True)
-    commodity_limit_id = Column(String, nullable=True)
-
-    # Relationships
-    component = relationship("EnergyComponent")
-    commodity = relationship("EnergyCommodity", back_populates="energy_sinks")
+class EnergySink(RefCommodity, RefComponentUnique, RefDataset, Base):
+    commodity_cost: Mapped[float | None]
+    yearly_limit: Mapped[float | None]
+    commodity_limit_id: Mapped[str | None]

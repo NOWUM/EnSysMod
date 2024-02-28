@@ -1,8 +1,8 @@
-from sqlalchemy import Column, Float
+from sqlalchemy.orm import Mapped
 
 from ensysmod.database.base_class import Base
-from ensysmod.database.ref_base_class import RefCRBase
+from ensysmod.database.ref_base_class import RefComponent, RefDataset, RefRegion, RefRegionToOptional
 
 
-class CapacityFix(RefCRBase, Base):
-    capacity_fix = Column(Float, nullable=False)
+class CapacityFix(RefRegionToOptional, RefRegion, RefComponent, RefDataset, Base):
+    capacity_fix: Mapped[float]

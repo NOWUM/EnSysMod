@@ -1,36 +1,37 @@
-from typing import Optional
+from pydantic import Field
 
-from pydantic import BaseModel
-
-
-# Shared attributes
-class UserBase(BaseModel):
-    username: Optional[str] = None
+from ensysmod.schemas.base_schema import BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
 
 
-# Attributes to receive via API on creation
-class UserCreate(UserBase):
+class UserBase(BaseSchema):
+    """
+    Shared attributes for a User. Used as a base class for all schemas.
+    """
+
+
+class UserCreate(UserBase, CreateSchema):
+    """
+    Attributes to receive via API on creation of a User.
+    """
+
     username: str
     password: str
 
 
-# Attributes to receive via API on update
-class UserUpdate(UserBase):
-    password: Optional[str] = None
+class UserUpdate(UserBase, UpdateSchema):
+    """
+    Attributes to receive via API on update of a User.
+    """
+
+    username: str | None = None
+    password: str | None = None
 
 
-class UserInDBBase(UserBase):
-    id: Optional[int] = None
+class UserSchema(UserBase, ReturnSchema):
+    """
+    Attributes to return via API for a User.
+    """
 
-    class Config:
-        orm_mode = True
-
-
-# Additional properties to return via API
-class User(UserInDBBase):
-    pass
-
-
-# Additional properties stored in DB
-class UserInDB(UserInDBBase):
-    hashed_password: str
+    id: int
+    username: str
+    hashed_password: str = Field(exclude=True)

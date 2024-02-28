@@ -1,18 +1,19 @@
 from typing import Any, Generic, TypeVar
 
 from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ensysmod.database.base_class import Base
+from ensysmod.schemas.base_schema import CreateSchema, UpdateSchema
 
 ModelType = TypeVar("ModelType", bound=Base)
-CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
-UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
+CreateSchemaType = TypeVar("CreateSchemaType", bound=CreateSchema)
+UpdateSchemaType = TypeVar("UpdateSchemaType", bound=UpdateSchema)
 
 
 class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
-    def __init__(self, model: type[ModelType]):
+    def __init__(self, model: type[ModelType]) -> None:
         """
         CRUD object with default methods to Create, Read, Update, Delete (CRUD).
         **Parameters**
@@ -22,21 +23,21 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         self.model = model
 
     def get(self, db: Session, id: int) -> ModelType | None:
-        return db.query(self.model).filter(self.model.id == id).first()
+        query = select(self.model).where(self.model.id == id)
+        return db.execute(query).scalar_one_or_none()
 
     def get_multi(self, db: Session, *, skip: int = 0, limit: int = 100) -> list[ModelType]:
-        return db.query(self.model).offset(skip).limit(limit).all()
+        query = select(self.model).offset(skip).limit(limit)
+        return db.execute(query).scalars().all()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType | ModelType | dict[str, Any]) -> ModelType:
         if isinstance(obj_in, self.model):
             db_obj = obj_in
-        elif isinstance(obj_in, dict):
-            # filter obj_in to only pass fields in model to model's constructor
-            data = {k: v for k, v in obj_in.items() if k in self.model.__table__.columns.keys()}
-            db_obj = self.model(**data)
         else:
-            obj_in_data = jsonable_encoder(obj_in, include=self.model.__table__.columns.keys())
-            db_obj = self.model(**obj_in_data)  # type: ignore
+            # filter obj_in to only pass fields in model to model's constructor
+            model_fields = set(self.model.__table__.columns.keys())
+            data = {k: v for k, v in obj_in.items() if k in model_fields} if isinstance(obj_in, dict) else obj_in.model_dump(include=model_fields)
+            db_obj = self.model(**data)
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
@@ -44,7 +45,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     def update(self, db: Session, *, db_obj: ModelType, obj_in: UpdateSchemaType | dict[str, Any]) -> ModelType:
         obj_data = jsonable_encoder(db_obj)
-        update_data = obj_in if isinstance(obj_in, dict) else obj_in.dict(exclude_unset=True)
+        update_data = obj_in if isinstance(obj_in, dict) else obj_in.model_dump(exclude_unset=True)
         for field in obj_data:
             if field in update_data:
                 setattr(db_obj, field, update_data[field])
@@ -54,7 +55,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return db_obj
 
     def remove(self, db: Session, *, id: int) -> ModelType:
-        obj = db.query(self.model).get(id)
+        obj = db.get(self.model, id)
         db.delete(obj)
         db.commit()
         return obj

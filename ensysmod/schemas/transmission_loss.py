@@ -1,19 +1,22 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import Field
 
 from ensysmod.schemas.base_ref_component_region import RefCRBase, RefCRBaseBase, RefCRBaseCreate, RefCRBaseUpdate
-from ensysmod.schemas.region import Region
-from ensysmod.utils import validators
+from ensysmod.schemas.base_schema import MAX_STR_LENGTH, MIN_STR_LENGTH
+from ensysmod.schemas.region import RegionSchema
 
 
-class TransmissionLossBase(RefCRBaseBase, BaseModel):
+class TransmissionLossBase(RefCRBaseBase):
     """
     Shared attributes for an TransmissionLoss. Used as a base class for all schemas.
     """
 
-    loss: float = Field(..., description="Relative loss per length unit of energy transmission.", example=0.00003)
-
-    # validators
-    _valid_distance = validator("loss", allow_reuse=True)(validators.validate_loss)
+    loss: float = Field(
+        default=...,
+        description="Relative loss per length unit of energy transmission.",
+        examples=[0.00003],
+        ge=0,
+        le=1,
+    )
 
 
 class TransmissionLossCreate(TransmissionLossBase, RefCRBaseCreate):
@@ -21,7 +24,13 @@ class TransmissionLossCreate(TransmissionLossBase, RefCRBaseCreate):
     Attributes to receive via API on creation of an TransmissionLoss.
     """
 
-    region_to: str = Field(..., description="The name of the target region.", example="france")
+    region_to_name: str = Field(
+        default=...,
+        description="The name of the target region.",
+        examples=["france"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
 
 
 class TransmissionLossUpdate(TransmissionLossBase, RefCRBaseUpdate):
@@ -30,12 +39,9 @@ class TransmissionLossUpdate(TransmissionLossBase, RefCRBaseUpdate):
     """
 
 
-class TransmissionLoss(TransmissionLossBase, RefCRBase):
+class TransmissionLossSchema(TransmissionLossBase, RefCRBase):
     """
     Attributes to return via API for an TransmissionLoss.
     """
 
-    region_to: Region
-
-    class Config:
-        orm_mode = True
+    region_to: RegionSchema

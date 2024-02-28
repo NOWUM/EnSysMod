@@ -1,85 +1,107 @@
-from typing import Optional
-
-from pydantic import BaseModel, Field
-from pydantic.class_validators import validator
+from pydantic import Field
 
 from ensysmod.model import EnergyComponentType
-from ensysmod.schemas import (
-    EnergyCommodity,
-    EnergyComponent,
-    EnergyComponentCreate,
-    EnergyComponentUpdate,
-)
-from ensysmod.utils import validators
+from ensysmod.schemas.base_schema import MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, ReturnSchema
+from ensysmod.schemas.energy_commodity import EnergyCommoditySchema
+from ensysmod.schemas.energy_component import EnergyComponentCreate, EnergyComponentSchema, EnergyComponentUpdate
 
 
-class EnergyStorageBase(BaseModel):
+class EnergyStorageBase(BaseSchema):
     """
     Shared attributes for an energy storage. Used as a base class for all schemas.
     """
-    type = EnergyComponentType.STORAGE
 
-    charge_efficiency: Optional[float] = Field(None,
-                                               description="The efficiency of charging the storage.", example=0.9)
-    discharge_efficiency: Optional[float] = Field(None,
-                                                  description="The efficiency of discharging the storage.", example=0.9)
-    self_discharge: Optional[float] = Field(None,
-                                            description="The self-discharge of the storage.", example=0.00009)
-    cyclic_lifetime: Optional[int] = Field(None,
-                                           description="The cyclic lifetime of the storage.", example=100)
-    charge_rate: Optional[float] = Field(None,
-                                         description="The charge rate of the storage.", example=0.3)
-    discharge_rate: Optional[float] = Field(None,
-                                            description="The discharge rate of the storage.", example=0.2)
-    state_of_charge_min: Optional[float] = Field(None,
-                                                 description="The minimum state of charge of the storage.", example=0.1)
-    state_of_charge_max: Optional[float] = Field(None,
-                                                 description="The maximum state of charge of the storage.", example=0.9)
+    type: EnergyComponentType = EnergyComponentType.STORAGE
 
-    # validators
-    _valid_type = validator("type", allow_reuse=True)(validators.validate_energy_component_type)
-
-    _valid_charge_efficiency = validator("charge_efficiency", allow_reuse=True)(validators.validate_charge_efficiency)
-    _valid_discharge_efficiency = validator("discharge_efficiency", allow_reuse=True)(
-        validators.validate_discharge_efficiency)
-    _valid_self_discharge = validator("self_discharge", allow_reuse=True)(validators.validate_self_discharge)
-    _valid_cyclic_lifetime = validator("cyclic_lifetime", allow_reuse=True)(validators.validate_cyclic_lifetime)
-    _valid_charge_rate = validator("charge_rate", allow_reuse=True)(validators.validate_charge_rate)
-    _valid_discharge_rate = validator("discharge_rate", allow_reuse=True)(validators.validate_discharge_rate)
-    _valid_state_of_charge_min = validator("state_of_charge_min", allow_reuse=True)(
-        validators.validate_state_of_charge_min)
-    _valid_state_of_charge_max = validator("state_of_charge_max", allow_reuse=True)(
-        validators.validate_state_of_charge_max)
+    charge_efficiency: float | None = Field(
+        default=None,
+        description="The efficiency of charging the storage.",
+        examples=[0.9],
+        ge=0,
+        le=1,
+    )
+    discharge_efficiency: float | None = Field(
+        default=None,
+        description="The efficiency of discharging the storage.",
+        examples=[0.9],
+        ge=0,
+        le=1,
+    )
+    self_discharge: float | None = Field(
+        default=None,
+        description="The self-discharge of the storage.",
+        examples=[0.00009],
+        ge=0,
+        le=1,
+    )
+    cyclic_lifetime: int | None = Field(
+        default=None,
+        description="The cyclic lifetime of the storage.",
+        examples=[100],
+        gt=0,
+    )
+    charge_rate: float | None = Field(
+        default=None,
+        description="The charge rate of the storage.",
+        examples=[0.3],
+        ge=0,
+        le=1,
+    )
+    discharge_rate: float | None = Field(
+        default=None,
+        description="The discharge rate of the storage.",
+        examples=[0.2],
+        ge=0,
+        le=1,
+    )
+    state_of_charge_min: float | None = Field(
+        default=None,
+        description="The minimum state of charge of the storage.",
+        examples=[0.1],
+        ge=0,
+        le=1,
+    )
+    state_of_charge_max: float | None = Field(
+        default=None,
+        description="The maximum state of charge of the storage.",
+        examples=[0.9],
+        ge=0,
+        le=1,
+    )
 
 
 class EnergyStorageCreate(EnergyStorageBase, EnergyComponentCreate):
     """
     Attributes to receive via API on creation of an energy storage.
     """
-    commodity: str = Field(...,
-                           description="Commodity to be stored in the energy storage.",
-                           example="electricity")
 
-    # validators
-    _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
+    commodity_name: str = Field(
+        default=...,
+        description="Commodity the energy storage is based on.",
+        examples=["electricity"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
 
 
 class EnergyStorageUpdate(EnergyStorageBase, EnergyComponentUpdate):
     """
     Attributes to receive via API on update of an energy storage.
     """
-    commodity: Optional[str] = None
 
-    # validators
-    _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
+    commodity_name: str | None = Field(
+        default=None,
+        description="Commodity the energy storage is based on.",
+        examples=["electricity"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
 
 
-class EnergyStorage(EnergyStorageBase):
+class EnergyStorageSchema(EnergyStorageBase, ReturnSchema):
     """
     Attributes to return via API for an energy storage.
     """
-    component: EnergyComponent
-    commodity: EnergyCommodity
 
-    class Config:
-        orm_mode = True
+    component: EnergyComponentSchema
+    commodity: EnergyCommoditySchema

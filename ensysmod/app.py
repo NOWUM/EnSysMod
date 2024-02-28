@@ -1,4 +1,4 @@
-from fastapi import FastAPI, status, Request
+from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
 
 from ensysmod.api import api_router
@@ -18,7 +18,7 @@ def init_database():
 
 
 @app.exception_handler(Exception)
-async def exception_handler(request: Request, exc: Exception):
+async def exception_handler(request: Request, exc: Exception):  # noqa: ARG001
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         content={"detail": str(exc)},

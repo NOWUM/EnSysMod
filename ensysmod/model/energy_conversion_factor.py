@@ -1,26 +1,23 @@
-from sqlalchemy import Column, Integer, ForeignKey, UniqueConstraint, Float
-from sqlalchemy.orm import relationship
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from sqlalchemy import ForeignKey, UniqueConstraint
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ensysmod.database.base_class import Base
-from ensysmod.model.energy_commodity import EnergyCommodity
+from ensysmod.database.ref_base_class import RefCommodity
+
+if TYPE_CHECKING:
+    from ensysmod.model.energy_conversion import EnergyConversion
 
 
-class EnergyConversionFactor(Base):
-    """
-    EnergyConversionFactors table
+class EnergyConversionFactor(RefCommodity, Base):
+    ref_component: Mapped[int] = mapped_column(ForeignKey("energy_conversion.ref_component"))
+    conversion_factor: Mapped[float]
 
-    This class is used to store the energy conversion factors for a energy conversion component.
-    """
-    id = Column(Integer, primary_key=True, index=True)
-    ref_component = Column(Integer, ForeignKey("energy_conversion.ref_component"), index=True, nullable=False)
-    ref_commodity = Column(Integer, ForeignKey("energy_commodity.id"), index=True, nullable=False)
-    conversion_factor = Column(Float, nullable=False)
-
-    # Relationships
-    conversion = relationship("EnergyConversion", back_populates="conversion_factors")
-    commodity: EnergyCommodity = relationship("EnergyCommodity")
+    # relationships
+    conversion: Mapped[EnergyConversion] = relationship(back_populates="conversion_factors")
 
     # table constraints
-    __table_args__ = (
-        UniqueConstraint("ref_component", "ref_commodity", name="_conversion_factors_component_commodity_uc"),
-    )
+    __table_args__ = (UniqueConstraint("ref_component", "ref_commodity", name="_conversion_factors_component_commodity_uc"),)

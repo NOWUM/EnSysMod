@@ -1,27 +1,17 @@
-from typing import Optional
-
-from pydantic import BaseModel, Field
-from pydantic.class_validators import validator
+from pydantic import Field
 
 from ensysmod.model import EnergyComponentType
-from ensysmod.schemas import (
-    EnergyCommodity,
-    EnergyComponent,
-    EnergyComponentCreate,
-    EnergyComponentUpdate,
-)
-from ensysmod.utils import validators
+from ensysmod.schemas.base_schema import MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, ReturnSchema
+from ensysmod.schemas.energy_commodity import EnergyCommoditySchema
+from ensysmod.schemas.energy_component import EnergyComponentCreate, EnergyComponentSchema, EnergyComponentUpdate
 
 
-class EnergyTransmissionBase(BaseModel):
+class EnergyTransmissionBase(BaseSchema):
     """
     Shared attributes for an energy transmission. Used as a base class for all schemas.
     """
 
-    type = EnergyComponentType.TRANSMISSION
-
-    # validators
-    _valid_type = validator("type", allow_reuse=True)(validators.validate_energy_component_type)
+    type: EnergyComponentType = EnergyComponentType.TRANSMISSION
 
 
 class EnergyTransmissionCreate(EnergyTransmissionBase, EnergyComponentCreate):
@@ -29,10 +19,13 @@ class EnergyTransmissionCreate(EnergyTransmissionBase, EnergyComponentCreate):
     Attributes to receive via API on creation of an energy transmission.
     """
 
-    commodity: str = Field(..., description="Commodity of energy transmission.", example="electricity")
-
-    # validators
-    _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
+    commodity_name: str = Field(
+        default=...,
+        description="Commodity the energy transmission is based on.",
+        examples=["electricity"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
 
 
 class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):
@@ -40,19 +33,19 @@ class EnergyTransmissionUpdate(EnergyTransmissionBase, EnergyComponentUpdate):
     Attributes to receive via API on update of an energy transmission.
     """
 
-    commodity: Optional[str] = None
+    commodity_name: str | None = Field(
+        default=None,
+        description="Commodity the energy transmission is based on.",
+        examples=["electricity"],
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
 
-    # validators
-    _valid_commodity = validator("commodity", allow_reuse=True)(validators.validate_commodity)
 
-
-class EnergyTransmission(EnergyTransmissionBase):
+class EnergyTransmissionSchema(EnergyTransmissionBase, ReturnSchema):
     """
     Attributes to return via API for an energy transmission.
     """
 
-    component: EnergyComponent
-    commodity: EnergyCommodity
-
-    class Config:
-        orm_mode = True
+    component: EnergyComponentSchema
+    commodity: EnergyCommoditySchema

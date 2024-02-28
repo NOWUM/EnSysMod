@@ -5,7 +5,6 @@ cd "$(git rev-parse --show-toplevel)" || (
   exit 1
 )
 
-flake8 ./ensysmod
-flake8 ./tests
+ruff check
 
-echo "Flake8 complete. Check for code smells above."
+echo "Lint complete. Check for code smells above."

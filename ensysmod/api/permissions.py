@@ -1,11 +1,11 @@
-from fastapi import status, HTTPException
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
-from ensysmod.schemas import User
+from ensysmod.model import User
 
 
-def check_modification_permission(db: Session, user: User, dataset_id: int):
+def check_modification_permission(db: Session, user: User, dataset_id: int) -> None:
     """Check if the user has permission to modify the dataset.
 
     Args:
@@ -17,7 +17,7 @@ def check_modification_permission(db: Session, user: User, dataset_id: int):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You are not allowed to modify this dataset!")
 
 
-def check_usage_permission(db: Session, user: User, dataset_id: int):
+def check_usage_permission(db: Session, user: User, dataset_id: int) -> None:
     """Check if the user has permission to use the dataset.
 
     Args:

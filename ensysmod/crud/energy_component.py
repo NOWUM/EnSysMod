@@ -8,7 +8,6 @@ class CRUDEnergyComponent(CRUDBaseDependsDataset[EnergyComponent, EnergyComponen
     """
     CRUD operations for EnergyComponent
     """
-    pass
 
 
 energy_component = CRUDEnergyComponent(EnergyComponent)

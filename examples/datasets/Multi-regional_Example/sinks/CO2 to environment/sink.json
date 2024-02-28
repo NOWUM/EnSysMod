@@ -1,7 +1,7 @@
 {
     "name": "CO2 to environment",
     "description": "Stellt den CO2-Verbrauch dar",
-    "commodity": "CO2",
+    "commodity_name": "CO2",
     "capacity_variable": false,
     "yearly_limit": 366,
     "commodity_limit_id": "CO2",

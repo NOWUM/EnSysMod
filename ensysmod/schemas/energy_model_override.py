@@ -1,61 +1,53 @@
-from typing import Optional
+from pydantic import Field
 
-from pydantic import BaseModel, Field
-
-from ensysmod.model.energy_model_override import (
-    EnergyModelOverrideAttribute,
-    EnergyModelOverrideOperation,
-)
-from ensysmod.schemas.base_ref_component_region import (
-    RefCRBase,
-    RefCRBaseBase,
-    RefCRBaseCreate,
-    RefCRBaseUpdate,
-)
-from ensysmod.schemas.region import Region
+from ensysmod.model import EnergyModelOverrideAttribute, EnergyModelOverrideOperation
+from ensysmod.schemas.base_schema import MAX_STR_LENGTH, MIN_STR_LENGTH, BaseSchema, CreateSchema, ReturnSchema, UpdateSchema
 
 
-class EnergyModelOverrideBase(RefCRBaseBase, BaseModel):
+class EnergyModelOverrideBase(BaseSchema):
     """
     Shared attributes for a model parameter override. Used as a base class for all schemas.
     """
-    attribute: EnergyModelOverrideAttribute = Field(..., description="The attribute of the parameter.",
-                                                    example="yearly_limit")
-    operation: EnergyModelOverrideOperation = Field(..., description="The operation of the parameter.",
-                                                    example="set")
-    value: float = Field(..., description="The value of the parameter.", example=-5.5)
+
+    attribute: EnergyModelOverrideAttribute = Field(
+        default=...,
+        description="The attribute of the component to be overridden.",
+        examples=[EnergyModelOverrideAttribute.yearlyLimit],
+    )
+    operation: EnergyModelOverrideOperation = Field(
+        default=...,
+        description="The operation of the override. Input should be 'set', 'add' or 'multiply'.",
+        examples=[EnergyModelOverrideOperation.set],
+    )
+    value: float = Field(default=..., description="The value of the parameter.", examples=[-5.5])
 
 
-class EnergyModelOverrideCreate(EnergyModelOverrideBase, RefCRBaseCreate):
+class EnergyModelOverrideCreate(EnergyModelOverrideBase, CreateSchema):
     """
     Attributes to receive via API on creation of a model parameter override.
-
-    ref_model and ref_dataset are overridden on create.
-
-    Region is optional.
     """
-    ref_model: Optional[int] = None
-    ref_dataset: Optional[int] = None
-    region: Optional[str] = None
+
+    component_name: str = Field(
+        default=...,
+        description="The name of the component which attribute is overridden.",
+        min_length=MIN_STR_LENGTH,
+        max_length=MAX_STR_LENGTH,
+    )
 
 
-class EnergyModelOverrideUpdate(EnergyModelOverrideBase, RefCRBaseUpdate):
+class EnergyModelOverrideUpdate(EnergyModelOverrideBase, UpdateSchema):
     """
     Attributes to receive via API on update of a model parameter override.
     """
-    attribute: Optional[EnergyModelOverrideAttribute] = None
-    operation: Optional[EnergyModelOverrideOperation] = None
-    value: Optional[float] = None
+
+    attribute: EnergyModelOverrideAttribute | None = None
+    operation: EnergyModelOverrideOperation | None = None
+    value: float | None = None
 
 
-class EnergyModelOverride(EnergyModelOverrideBase, RefCRBase):
+class EnergyModelOverrideSchema(EnergyModelOverrideBase, ReturnSchema):
     """
     Attributes to return via API for a model parameter override.
     """
+
     id: int
-
-    # Region is optional.
-    region: Optional[Region] = None
-
-    class Config:
-        orm_mode = True

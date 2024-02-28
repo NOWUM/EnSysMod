@@ -1,34 +1,43 @@
-from typing import Type, List, Tuple, Dict, Any
+from typing import Any
 
 import pytest
 from pydantic import BaseModel, ValidationError
 
 from ensysmod.model import EnergyComponentType
-from ensysmod.schemas import DatasetCreate, DatasetUpdate, EnergyCommodityCreate, EnergyCommodityUpdate, \
-    EnergyComponentCreate, RegionCreate, EnergyComponentUpdate, RegionUpdate
-from ensysmod.schemas.energy_model import EnergyModelCreate, EnergyModelUpdate
+from ensysmod.schemas import (
+    DatasetCreate,
+    DatasetUpdate,
+    EnergyCommodityCreate,
+    EnergyCommodityUpdate,
+    EnergyComponentCreate,
+    EnergyComponentUpdate,
+    EnergyModelCreate,
+    EnergyModelUpdate,
+    RegionCreate,
+    RegionUpdate,
+)
 
-schemas_with_name_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
+schemas_with_name_required: list[tuple[type[BaseModel], dict[str, Any]]] = [
     (DatasetCreate, {"description": "foo"}),
     (EnergyCommodityCreate, {"description": "foo", "unit": "bar", "ref_dataset": 42}),
     (EnergyComponentCreate, {"type": EnergyComponentType.SOURCE, "ref_dataset": 42}),
     (RegionCreate, {"ref_dataset": 42}),
-    (EnergyModelCreate, {"ref_dataset": 42})
+    (EnergyModelCreate, {"ref_dataset": 42}),
 ]
 
-schemas_with_name_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
+schemas_with_name_optional: list[tuple[type[BaseModel], dict[str, Any]]] = [
     (DatasetUpdate, {}),
     (EnergyCommodityUpdate, {}),
     (EnergyComponentUpdate, {}),
     (RegionUpdate, {}),
-    (EnergyModelUpdate, {})
+    (EnergyModelUpdate, {}),
 ]
 
 schemas_with_name = schemas_with_name_required + schemas_with_name_optional
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_name_required)
-def test_error_missing_name(schema: Type[BaseModel], data: Dict[str, Any]):
+@pytest.mark.parametrize(("schema", "data"), schemas_with_name_required)
+def test_error_missing_name(schema: type[BaseModel], data: dict[str, Any]):
     """
     Test that a name is required for a schema
     """
@@ -37,20 +46,20 @@ def test_error_missing_name(schema: Type[BaseModel], data: Dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("name",)
-    assert exc_info.value.errors()[0]["msg"] == "field required"
-    assert exc_info.value.errors()[0]["type"] == "value_error.missing"
+    assert exc_info.value.errors()[0]["msg"] == "Field required"
+    assert exc_info.value.errors()[0]["type"] == "missing"
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_name_optional)
-def test_ok_missing_name(schema: Type[BaseModel], data: Dict[str, Any]):
+@pytest.mark.parametrize(("schema", "data"), schemas_with_name_optional)
+def test_ok_missing_name(schema: type[BaseModel], data: dict[str, Any]):
     """
     Test that a name is optional for a schema
     """
     schema(**data)
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_name)
-def test_error_empty_name(schema: Type[BaseModel], data: Dict[str, Any]):
+@pytest.mark.parametrize(("schema", "data"), schemas_with_name)
+def test_error_empty_name(schema: type[BaseModel], data: dict[str, Any]):
     """
     Test that a name is not empty, if specified
     """
@@ -59,12 +68,12 @@ def test_error_empty_name(schema: Type[BaseModel], data: Dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("name",)
-    assert exc_info.value.errors()[0]["msg"] == "Name must not be empty."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "String should have at least 1 character"
+    assert exc_info.value.errors()[0]["type"] == "string_too_short"
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_name)
-def test_error_long_name(schema: Type[BaseModel], data: Dict[str, Any]):
+@pytest.mark.parametrize(("schema", "data"), schemas_with_name)
+def test_error_long_name(schema: type[BaseModel], data: dict[str, Any]):
     """
     Test that a name is not longer than 255 characters
     """
@@ -73,12 +82,12 @@ def test_error_long_name(schema: Type[BaseModel], data: Dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("name",)
-    assert exc_info.value.errors()[0]["msg"] == "Name must not be longer than 255 characters."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "String should have at most 255 characters"
+    assert exc_info.value.errors()[0]["type"] == "string_too_long"
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_name)
-def test_ok_names(schema: Type[BaseModel], data: Dict[str, Any]):
+@pytest.mark.parametrize(("schema", "data"), schemas_with_name)
+def test_ok_names(schema: type[BaseModel], data: dict[str, Any]):
     """
     Test that a name with everything between 1 and 255 characters is valid
     """

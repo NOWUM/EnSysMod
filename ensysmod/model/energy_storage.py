@@ -1,27 +1,15 @@
-from sqlalchemy import Column, Integer, ForeignKey, Float
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Mapped
 
 from ensysmod.database.base_class import Base
+from ensysmod.database.ref_base_class import RefCommodity, RefComponentUnique, RefDataset
 
 
-class EnergyStorage(Base):
-    """
-    EnergyStorage table definition
-
-    See https://vsa-fine.readthedocs.io/en/latest/storageClassDoc.html
-    """
-    ref_component = Column(Integer, ForeignKey("energy_component.id"), index=True, nullable=False, primary_key=True)
-    ref_commodity = Column(Integer, ForeignKey("energy_commodity.id"), index=True, nullable=False)
-
-    charge_efficiency = Column(Float, nullable=True)
-    discharge_efficiency = Column(Float, nullable=True)
-    self_discharge = Column(Float, nullable=True)
-    cyclic_lifetime = Column(Integer, nullable=True)
-    charge_rate = Column(Float, nullable=True)
-    discharge_rate = Column(Float, nullable=True)
-    state_of_charge_min = Column(Float, nullable=True)
-    state_of_charge_max = Column(Float, nullable=True)
-
-    # Relationships
-    component = relationship("EnergyComponent")
-    commodity = relationship("EnergyCommodity", back_populates="energy_storages")
+class EnergyStorage(RefCommodity, RefComponentUnique, RefDataset, Base):
+    charge_efficiency: Mapped[float | None]
+    discharge_efficiency: Mapped[float | None]
+    self_discharge: Mapped[float | None]
+    cyclic_lifetime: Mapped[int | None]
+    charge_rate: Mapped[float | None]
+    discharge_rate: Mapped[float | None]
+    state_of_charge_min: Mapped[float | None]
+    state_of_charge_max: Mapped[float | None]

@@ -1,6 +1,3 @@
-from typing import Optional
-
-from sqlalchemy import delete
 from sqlalchemy.orm import Session
 
 from ensysmod import crud
@@ -19,33 +16,33 @@ class CRUDEnergyModel(CRUDBaseDependsDataset[EnergyModel, EnergyModelCreate, Ene
         """
         Create a new energy model
         """
-        db_obj: EnergyModel = super().create(db, obj_in=obj_in)
+        new_model: EnergyModel = super().create(db, obj_in=obj_in)
 
-        # also create parameters
-        if obj_in.override_parameters is not None:
-            for parameter in obj_in.override_parameters:
-                parameter.ref_model = db_obj.id
-                parameter.ref_dataset = db_obj.ref_dataset
-                crud.energy_model_override.create(db, obj_in=parameter)
+        # Create override and optimization parameters
+        override_parameter_fields = set(EnergyModelOverride.__table__.columns.keys())
+        for override_parameter_create in obj_in.override_parameters:
+            component = crud.energy_component.get_by_dataset_and_name(
+                db, name=override_parameter_create.component_name, dataset_id=new_model.ref_dataset
+            )
+            if component is None:
+                raise ValueError(f"Component {override_parameter_create.component_name} not found in dataset {new_model.ref_dataset}!")
+
+            override_parameter = EnergyModelOverride(
+                ref_model=new_model.id,
+                ref_component=component.id,
+                **override_parameter_create.model_dump(include=override_parameter_fields),
+            )
+            crud.energy_model_override.create(db, obj_in=override_parameter)
 
         if obj_in.optimization_parameters is not None:
-            obj_in.optimization_parameters.ref_model = db_obj.id
-            crud.energy_model_optimization.create(db, obj_in=obj_in.optimization_parameters)
+            optimization_parameter_fields = set(EnergyModelOptimization.__table__.columns.keys())
+            optimization_parameters = EnergyModelOptimization(
+                ref_model=new_model.id,
+                **obj_in.optimization_parameters.model_dump(include=optimization_parameter_fields),
+            )
+            crud.energy_model_optimization.create(db, obj_in=optimization_parameters)
 
-        return db_obj
-
-    def remove(self, db: Session, *, id: int) -> Optional[EnergyModel]:
-        if self.model.override_parameters is not None:
-            db.execute(delete(EnergyModelOverride).filter(EnergyModelOverride.ref_model == id))
-
-        if self.model.optimization_parameters is not None:
-            db.execute(delete(EnergyModelOptimization).filter(EnergyModelOptimization.ref_model == id))
-
-        model = db.query(self.model).get(id)
-        db.delete(model)
-
-        db.commit()
-        return model
+        return new_model
 
 
 energy_model = CRUDEnergyModel(EnergyModel)

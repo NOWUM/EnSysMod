@@ -1,39 +1,39 @@
-from typing import Type, List, Tuple, Dict, Any
+from typing import Any
 
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from ensysmod.schemas.energy_conversion_factor import EnergyConversionFactorCreate, EnergyConversionFactorUpdate
+from ensysmod.schemas import EnergyConversionFactorCreate, EnergyConversionFactorUpdate
 
-schemas_with_conversion_factor_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
-    (EnergyConversionFactorCreate, {"commodity": "bar"})
+schemas_with_conversion_factor_required: list[tuple[type[BaseModel], dict[str, Any]]] = [
+    (EnergyConversionFactorCreate, {"commodity_name": "bar"}),
 ]
 
-schemas_with_conversion_factor_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
-    (EnergyConversionFactorUpdate, {})
+schemas_with_conversion_factor_optional: list[tuple[type[BaseModel], dict[str, Any]]] = [
+    (EnergyConversionFactorUpdate, {}),
 ]
 
 schemas_with_conversion_factor = schemas_with_conversion_factor_required + schemas_with_conversion_factor_optional
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_conversion_factor_optional)
-def test_ok_missing_conversion_factor(schema: Type[BaseModel], data: Dict[str, Any]):
+@pytest.mark.parametrize(("schema", "data"), schemas_with_conversion_factor_optional)
+def test_ok_missing_conversion_factor(schema: type[BaseModel], data: dict[str, Any]):
     """
     Test that a conversion factor is optional for a schema
     """
     schema(**data)
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_conversion_factor_optional)
-def test_ok_none_conversion_factor(schema: Type[BaseModel], data: Dict[str, Any]):
+@pytest.mark.parametrize(("schema", "data"), schemas_with_conversion_factor_optional)
+def test_ok_none_conversion_factor(schema: type[BaseModel], data: dict[str, Any]):
     """
     Test that a conversion factor is optional for a schema
     """
     schema(conversion_factor=None, **data)
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_conversion_factor_required)
-def test_error_missing_conversion_factor(schema: Type[BaseModel], data: Dict[str, Any]):
+@pytest.mark.parametrize(("schema", "data"), schemas_with_conversion_factor_required)
+def test_error_missing_conversion_factor(schema: type[BaseModel], data: dict[str, Any]):
     """
     Test that a conversion factor is required for a schema
     """
@@ -42,12 +42,12 @@ def test_error_missing_conversion_factor(schema: Type[BaseModel], data: Dict[str
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("conversion_factor",)
-    assert exc_info.value.errors()[0]["msg"] == "field required"
-    assert exc_info.value.errors()[0]["type"] == "value_error.missing"
+    assert exc_info.value.errors()[0]["msg"] == "Field required"
+    assert exc_info.value.errors()[0]["type"] == "missing"
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_conversion_factor)
-def test_error_too_high_conversion_factor(schema: Type[BaseModel], data: Dict[str, Any]):
+@pytest.mark.parametrize(("schema", "data"), schemas_with_conversion_factor)
+def test_error_too_high_conversion_factor(schema: type[BaseModel], data: dict[str, Any]):
     """
     Test that a conversion factor is not greater than 5
     """
@@ -56,12 +56,12 @@ def test_error_too_high_conversion_factor(schema: Type[BaseModel], data: Dict[st
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("conversion_factor",)
-    assert exc_info.value.errors()[0]["msg"] == "Conversion factor must be between -5 and 5."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be less than or equal to 5"
+    assert exc_info.value.errors()[0]["type"] == "less_than_equal"
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_conversion_factor)
-def test_error_too_low_conversion_factor(schema: Type[BaseModel], data: Dict[str, Any]):
+@pytest.mark.parametrize(("schema", "data"), schemas_with_conversion_factor)
+def test_error_too_low_conversion_factor(schema: type[BaseModel], data: dict[str, Any]):
     """
     Test that a conversion factor is not less than -5
     """
@@ -70,12 +70,12 @@ def test_error_too_low_conversion_factor(schema: Type[BaseModel], data: Dict[str
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("conversion_factor",)
-    assert exc_info.value.errors()[0]["msg"] == "Conversion factor must be between -5 and 5."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "Input should be greater than or equal to -5"
+    assert exc_info.value.errors()[0]["type"] == "greater_than_equal"
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_conversion_factor)
-def test_ok_conversion_factors(schema: Type[BaseModel], data: Dict[str, Any]):
+@pytest.mark.parametrize(("schema", "data"), schemas_with_conversion_factor)
+def test_ok_conversion_factors(schema: type[BaseModel], data: dict[str, Any]):
     """
     Test that a conversion factor with everything between -5 and 5 is valid
     """

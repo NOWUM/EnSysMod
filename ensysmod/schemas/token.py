@@ -1,12 +1,10 @@
-from typing import Optional
-
-from pydantic import BaseModel
+from ensysmod.schemas.base_schema import BaseSchema
 
 
-class Token(BaseModel):
+class Token(BaseSchema):
     access_token: str
     token_type: str
 
 
-class TokenPayload(BaseModel):
-    sub: Optional[int] = None
+class TokenPayload(BaseSchema):
+    sub: int

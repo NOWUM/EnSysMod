@@ -1,23 +1,12 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint
-from sqlalchemy.orm import relationship
+from sqlalchemy import UniqueConstraint
+from sqlalchemy.orm import Mapped, mapped_column
 
 from ensysmod.database.base_class import Base
+from ensysmod.database.ref_base_class import RefDataset
 
 
-class Region(Base):
-    """
-    Region table
-
-    Stores the region information in database.
-    """
-    id = Column(Integer, primary_key=True, index=True)
-    ref_dataset = Column(Integer, ForeignKey("dataset.id"), index=True, nullable=False)
-    name = Column(String, index=True, nullable=False)
-
-    # relationships
-    dataset = relationship("Dataset")
+class Region(RefDataset, Base):
+    name: Mapped[str] = mapped_column(index=True)
 
     # table constraints
-    __table_args__ = (
-        UniqueConstraint("ref_dataset", "name", name="_region_dataset_name_uc"),
-    )
+    __table_args__ = (UniqueConstraint("ref_dataset", "name", name="_region_name_dataset_uc"),)

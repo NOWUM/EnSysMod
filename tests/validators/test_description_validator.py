@@ -1,16 +1,22 @@
-from typing import Type, List, Tuple, Dict, Any
+from typing import Any
 
 import pytest
 from pydantic import BaseModel, ValidationError
 
 from ensysmod.model import EnergyComponentType
-from ensysmod.schemas import DatasetCreate, DatasetUpdate, EnergyCommodityCreate, EnergyCommodityUpdate, \
-    EnergyComponentCreate
-from ensysmod.schemas.energy_model import EnergyModelCreate, EnergyModelUpdate
+from ensysmod.schemas import (
+    DatasetCreate,
+    DatasetUpdate,
+    EnergyCommodityCreate,
+    EnergyCommodityUpdate,
+    EnergyComponentCreate,
+    EnergyModelCreate,
+    EnergyModelUpdate,
+)
 
-schemas_with_description_required: List[Tuple[Type[BaseModel], Dict[str, Any]]] = []
+schemas_with_description_required: list[tuple[type[BaseModel], dict[str, Any]]] = []
 
-schemas_with_description_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] = [
+schemas_with_description_optional: list[tuple[type[BaseModel], dict[str, Any]]] = [
     (DatasetCreate, {"name": "foo"}),
     (EnergyCommodityCreate, {"name": "foo", "unit": "bar", "ref_dataset": 42}),
     (EnergyComponentCreate, {"name": "foo", "type": EnergyComponentType.SOURCE, "ref_dataset": 42}),
@@ -18,22 +24,22 @@ schemas_with_description_optional: List[Tuple[Type[BaseModel], Dict[str, Any]]] 
     (DatasetUpdate, {}),
     (EnergyCommodityUpdate, {}),
     (EnergyCommodityUpdate, {}),
-    (EnergyModelUpdate, {})
+    (EnergyModelUpdate, {}),
 ]
 
 schemas_with_description = schemas_with_description_required + schemas_with_description_optional
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_description_optional)
-def test_ok_empty_description(schema: Type[BaseModel], data: Dict[str, Any]):
+@pytest.mark.parametrize(("schema", "data"), schemas_with_description_optional)
+def test_ok_empty_description(schema: type[BaseModel], data: dict[str, Any]):
     """
     Test that a description is optional for a schema
     """
     schema(**data)
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_description)
-def test_error_long_description(schema: Type[BaseModel], data: Dict[str, Any]):
+@pytest.mark.parametrize(("schema", "data"), schemas_with_description)
+def test_error_long_description(schema: type[BaseModel], data: dict[str, Any]):
     """
     Test that a description is not longer than 1024 characters
     """
@@ -42,12 +48,12 @@ def test_error_long_description(schema: Type[BaseModel], data: Dict[str, Any]):
 
     assert len(exc_info.value.errors()) == 1
     assert exc_info.value.errors()[0]["loc"] == ("description",)
-    assert exc_info.value.errors()[0]["msg"] == "Description must not be longer than 1024 characters."
-    assert exc_info.value.errors()[0]["type"] == "value_error"
+    assert exc_info.value.errors()[0]["msg"] == "String should have at most 1024 characters"
+    assert exc_info.value.errors()[0]["type"] == "string_too_long"
 
 
-@pytest.mark.parametrize("schema,data", schemas_with_description)
-def test_ok_descriptions(schema: Type[BaseModel], data: Dict[str, Any]):
+@pytest.mark.parametrize(("schema", "data"), schemas_with_description)
+def test_ok_descriptions(schema: type[BaseModel], data: dict[str, Any]):
     """
     Test that a description with everything between 1 and 1024 characters is valid
     """
