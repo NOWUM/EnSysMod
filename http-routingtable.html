@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HTTP Routing Table &mdash; EnSysMod 0.0.3 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+  <title>HTTP Routing Table &mdash; EnSysMod 0.0.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=282f96c0"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -32,11 +35,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> EnSysMod
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            EnSysMod
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -63,8 +70,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>HTTP Routing Table</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">HTTP Routing Table</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -85,11 +92,16 @@
    <a href="#cap-/fix-operation-rates"><strong>/fix-operation-rates</strong></a> | 
    <a href="#cap-/max-capacities"><strong>/max-capacities</strong></a> | 
    <a href="#cap-/max-operation-rates"><strong>/max-operation-rates</strong></a> | 
+   <a href="#cap-/max-yearly-full-load-hours"><strong>/max-yearly-full-load-hours</strong></a> | 
+   <a href="#cap-/min-capacities"><strong>/min-capacities</strong></a> | 
+   <a href="#cap-/min-yearly-full-load-hours"><strong>/min-yearly-full-load-hours</strong></a> | 
    <a href="#cap-/models"><strong>/models</strong></a> | 
    <a href="#cap-/regions"><strong>/regions</strong></a> | 
    <a href="#cap-/sinks"><strong>/sinks</strong></a> | 
    <a href="#cap-/sources"><strong>/sources</strong></a> | 
    <a href="#cap-/storages"><strong>/storages</strong></a> | 
+   <a href="#cap-/transmission-distances"><strong>/transmission-distances</strong></a> | 
+   <a href="#cap-/transmission-losses"><strong>/transmission-losses</strong></a> | 
    <a href="#cap-/transmissions"><strong>/transmissions</strong></a> | 
    <a href="#cap-/users"><strong>/users</strong></a>
    </div>
@@ -120,7 +132,7 @@
        <td></td>
        <td>
        <a href="endpoints.html#get--commodities-"><code class="xref">GET /commodities/</code></a></td><td>
-       <em>All Commodities</em></td></tr>
+       <em>Get Commodity By Dataset</em></td></tr>
      <tr>
        <td></td>
        <td>
@@ -148,7 +160,7 @@
        <td></td>
        <td>
        <a href="endpoints.html#get--conversions-"><code class="xref">GET /conversions/</code></a></td><td>
-       <em>All Energy Conversions</em></td></tr>
+       <em>Get Energy Conversion By Dataset</em></td></tr>
      <tr>
        <td></td>
        <td>
@@ -161,16 +173,16 @@
        <td></td>
        <td>
        <a href="userguide/dataset.html#get--datasets-"><code class="xref">GET /datasets/</code></a></td><td>
-       <em>All Datasets</em></td></tr>
+       <em>Get All Datasets</em></td></tr>
      <tr>
        <td></td>
        <td>
        <a href="endpoints.html#get--datasets-permissions-"><code class="xref">GET /datasets/permissions/</code></a></td><td>
-       <em>All Dataset Permission</em></td></tr>
+       <em>Get All Dataset Permissions</em></td></tr>
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#get--datasets-permissions-permission_id"><code class="xref">GET /datasets/permissions/{permission_id}</code></a></td><td>
+       <a href="endpoints.html#get--datasets-permissions-dataset_id"><code class="xref">GET /datasets/permissions/{dataset_id}</code></a></td><td>
        <em>Get Dataset Permission</em></td></tr>
      <tr>
        <td></td>
@@ -181,7 +193,7 @@
        <td></td>
        <td>
        <a href="endpoints.html#get--datasets-dataset_id-download"><code class="xref">GET /datasets/{dataset_id}/download</code></a></td><td>
-       <em>Download Zip Archive</em></td></tr>
+       <em>Download Dataset Zip</em></td></tr>
      <tr>
        <td></td>
        <td>
@@ -196,11 +208,11 @@
        <td></td>
        <td>
        <a href="endpoints.html#post--datasets-dataset_id-upload"><code class="xref">POST /datasets/{dataset_id}/upload</code></a></td><td>
-       <em>Upload Zip Archive</em></td></tr>
+       <em>Upload Dataset Zip</em></td></tr>
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#put--datasets-permissions-permission_id"><code class="xref">PUT /datasets/permissions/{permission_id}</code></a></td><td>
+       <a href="endpoints.html#put--datasets-permissions-"><code class="xref">PUT /datasets/permissions/</code></a></td><td>
        <em>Update Dataset Permission</em></td></tr>
      <tr>
        <td></td>
@@ -223,12 +235,22 @@
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#get--fix-capacities-"><code class="xref">GET /fix-capacities/</code></a></td><td>
-       <em>All Fix Capacities</em></td></tr>
+       <a href="endpoints.html#get--fix-capacities-component-component_id"><code class="xref">GET /fix-capacities/component/{component_id}</code></a></td><td>
+       <em>Get Capacity Fix By Component</em></td></tr>
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#get--fix-capacities-ts_id"><code class="xref">GET /fix-capacities/{ts_id}</code></a></td><td>
+       <a href="endpoints.html#get--fix-capacities-component-component_id-download"><code class="xref">GET /fix-capacities/component/{component_id}/download</code></a></td><td>
+       <em>Download Capacity Fix</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--fix-capacities-dataset-dataset_id"><code class="xref">GET /fix-capacities/dataset/{dataset_id}</code></a></td><td>
+       <em>Get Capacity Fix By Dataset</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--fix-capacities-entry_id"><code class="xref">GET /fix-capacities/{entry_id}</code></a></td><td>
        <em>Get Capacity Fix</em></td></tr>
      <tr>
        <td></td>
@@ -238,12 +260,17 @@
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#put--fix-capacities-ts_id"><code class="xref">PUT /fix-capacities/{ts_id}</code></a></td><td>
-       <em>Update Capacity Fix</em></td></tr>
+       <a href="endpoints.html#post--fix-capacities-component-component_id-upload"><code class="xref">POST /fix-capacities/component/{component_id}/upload</code></a></td><td>
+       <em>Upload Capacity Fix</em></td></tr>
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#delete--fix-capacities-ts_id"><code class="xref">DELETE /fix-capacities/{ts_id}</code></a></td><td>
+       <a href="endpoints.html#delete--fix-capacities-component-component_id"><code class="xref">DELETE /fix-capacities/component/{component_id}</code></a></td><td>
+       <em>Remove Capacity Fix By Component</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--fix-capacities-entry_id"><code class="xref">DELETE /fix-capacities/{entry_id}</code></a></td><td>
        <em>Remove Capacity Fix</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-/fix-operation-rates"><td></td><td>
@@ -251,12 +278,22 @@
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#get--fix-operation-rates-"><code class="xref">GET /fix-operation-rates/</code></a></td><td>
-       <em>All Fix Operation Rates</em></td></tr>
+       <a href="endpoints.html#get--fix-operation-rates-component-component_id"><code class="xref">GET /fix-operation-rates/component/{component_id}</code></a></td><td>
+       <em>Get Operation Rate Fix By Component</em></td></tr>
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#get--fix-operation-rates-ts_id"><code class="xref">GET /fix-operation-rates/{ts_id}</code></a></td><td>
+       <a href="endpoints.html#get--fix-operation-rates-component-component_id-download"><code class="xref">GET /fix-operation-rates/component/{component_id}/download</code></a></td><td>
+       <em>Download Operation Rate Fix</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--fix-operation-rates-dataset-dataset_id"><code class="xref">GET /fix-operation-rates/dataset/{dataset_id}</code></a></td><td>
+       <em>Get Operation Rate Fix By Dataset</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--fix-operation-rates-entry_id"><code class="xref">GET /fix-operation-rates/{entry_id}</code></a></td><td>
        <em>Get Operation Rate Fix</em></td></tr>
      <tr>
        <td></td>
@@ -266,12 +303,17 @@
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#put--fix-operation-rates-ts_id"><code class="xref">PUT /fix-operation-rates/{ts_id}</code></a></td><td>
-       <em>Update Operation Rate Fix</em></td></tr>
+       <a href="endpoints.html#post--fix-operation-rates-component-component_id-upload"><code class="xref">POST /fix-operation-rates/component/{component_id}/upload</code></a></td><td>
+       <em>Upload Operation Rate Fix</em></td></tr>
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#delete--fix-operation-rates-ts_id"><code class="xref">DELETE /fix-operation-rates/{ts_id}</code></a></td><td>
+       <a href="endpoints.html#delete--fix-operation-rates-component-component_id"><code class="xref">DELETE /fix-operation-rates/component/{component_id}</code></a></td><td>
+       <em>Remove Operation Rate Fix By Component</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--fix-operation-rates-entry_id"><code class="xref">DELETE /fix-operation-rates/{entry_id}</code></a></td><td>
        <em>Remove Operation Rate Fix</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-/max-capacities"><td></td><td>
@@ -279,12 +321,22 @@
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#get--max-capacities-"><code class="xref">GET /max-capacities/</code></a></td><td>
-       <em>All Max Capacities</em></td></tr>
+       <a href="endpoints.html#get--max-capacities-component-component_id"><code class="xref">GET /max-capacities/component/{component_id}</code></a></td><td>
+       <em>Get Capacity Max By Component</em></td></tr>
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#get--max-capacities-ts_id"><code class="xref">GET /max-capacities/{ts_id}</code></a></td><td>
+       <a href="endpoints.html#get--max-capacities-component-component_id-download"><code class="xref">GET /max-capacities/component/{component_id}/download</code></a></td><td>
+       <em>Download Capacity Max</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--max-capacities-dataset-dataset_id"><code class="xref">GET /max-capacities/dataset/{dataset_id}</code></a></td><td>
+       <em>Get Capacity Max By Dataset</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--max-capacities-entry_id"><code class="xref">GET /max-capacities/{entry_id}</code></a></td><td>
        <em>Get Capacity Max</em></td></tr>
      <tr>
        <td></td>
@@ -294,12 +346,17 @@
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#put--max-capacities-ts_id"><code class="xref">PUT /max-capacities/{ts_id}</code></a></td><td>
-       <em>Update Capacity Max</em></td></tr>
+       <a href="endpoints.html#post--max-capacities-component-component_id-upload"><code class="xref">POST /max-capacities/component/{component_id}/upload</code></a></td><td>
+       <em>Upload Capacity Max</em></td></tr>
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#delete--max-capacities-ts_id"><code class="xref">DELETE /max-capacities/{ts_id}</code></a></td><td>
+       <a href="endpoints.html#delete--max-capacities-component-component_id"><code class="xref">DELETE /max-capacities/component/{component_id}</code></a></td><td>
+       <em>Remove Capacity Max By Component</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--max-capacities-entry_id"><code class="xref">DELETE /max-capacities/{entry_id}</code></a></td><td>
        <em>Remove Capacity Max</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-/max-operation-rates"><td></td><td>
@@ -307,12 +364,22 @@
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#get--max-operation-rates-"><code class="xref">GET /max-operation-rates/</code></a></td><td>
-       <em>All Max Operation Rates</em></td></tr>
+       <a href="endpoints.html#get--max-operation-rates-component-component_id"><code class="xref">GET /max-operation-rates/component/{component_id}</code></a></td><td>
+       <em>Get Operation Rate Max By Component</em></td></tr>
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#get--max-operation-rates-ts_id"><code class="xref">GET /max-operation-rates/{ts_id}</code></a></td><td>
+       <a href="endpoints.html#get--max-operation-rates-component-component_id-download"><code class="xref">GET /max-operation-rates/component/{component_id}/download</code></a></td><td>
+       <em>Download Operation Rate Max</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--max-operation-rates-dataset-dataset_id"><code class="xref">GET /max-operation-rates/dataset/{dataset_id}</code></a></td><td>
+       <em>Get Operation Rate Max By Dataset</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--max-operation-rates-entry_id"><code class="xref">GET /max-operation-rates/{entry_id}</code></a></td><td>
        <em>Get Operation Rate Max</em></td></tr>
      <tr>
        <td></td>
@@ -322,13 +389,147 @@
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#put--max-operation-rates-ts_id"><code class="xref">PUT /max-operation-rates/{ts_id}</code></a></td><td>
-       <em>Update Operation Rate Max</em></td></tr>
+       <a href="endpoints.html#post--max-operation-rates-component-component_id-upload"><code class="xref">POST /max-operation-rates/component/{component_id}/upload</code></a></td><td>
+       <em>Upload Operation Rate Max</em></td></tr>
      <tr>
        <td></td>
        <td>
-       <a href="endpoints.html#delete--max-operation-rates-ts_id"><code class="xref">DELETE /max-operation-rates/{ts_id}</code></a></td><td>
+       <a href="endpoints.html#delete--max-operation-rates-component-component_id"><code class="xref">DELETE /max-operation-rates/component/{component_id}</code></a></td><td>
+       <em>Remove Operation Rate Max By Component</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--max-operation-rates-entry_id"><code class="xref">DELETE /max-operation-rates/{entry_id}</code></a></td><td>
        <em>Remove Operation Rate Max</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/max-yearly-full-load-hours"><td></td><td>
+       <strong>/max-yearly-full-load-hours</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--max-yearly-full-load-hours-component-component_id"><code class="xref">GET /max-yearly-full-load-hours/component/{component_id}</code></a></td><td>
+       <em>Get Yearly Full Load Hours Max By Component</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--max-yearly-full-load-hours-component-component_id-download"><code class="xref">GET /max-yearly-full-load-hours/component/{component_id}/download</code></a></td><td>
+       <em>Download Yearly Full Load Hours Max</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--max-yearly-full-load-hours-dataset-dataset_id"><code class="xref">GET /max-yearly-full-load-hours/dataset/{dataset_id}</code></a></td><td>
+       <em>Get Yearly Full Load Hours Max By Dataset</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--max-yearly-full-load-hours-entry_id"><code class="xref">GET /max-yearly-full-load-hours/{entry_id}</code></a></td><td>
+       <em>Get Yearly Full Load Hours Max</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--max-yearly-full-load-hours-"><code class="xref">POST /max-yearly-full-load-hours/</code></a></td><td>
+       <em>Create Yearly Full Load Hours Max</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--max-yearly-full-load-hours-component-component_id-upload"><code class="xref">POST /max-yearly-full-load-hours/component/{component_id}/upload</code></a></td><td>
+       <em>Upload Yearly Full Load Hours Max</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--max-yearly-full-load-hours-component-component_id"><code class="xref">DELETE /max-yearly-full-load-hours/component/{component_id}</code></a></td><td>
+       <em>Remove Yearly Full Load Hours Max By Component</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--max-yearly-full-load-hours-entry_id"><code class="xref">DELETE /max-yearly-full-load-hours/{entry_id}</code></a></td><td>
+       <em>Remove Yearly Full Load Hours Max</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/min-capacities"><td></td><td>
+       <strong>/min-capacities</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--min-capacities-component-component_id"><code class="xref">GET /min-capacities/component/{component_id}</code></a></td><td>
+       <em>Get Capacity Min By Component</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--min-capacities-component-component_id-download"><code class="xref">GET /min-capacities/component/{component_id}/download</code></a></td><td>
+       <em>Download Capacity Min</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--min-capacities-dataset-dataset_id"><code class="xref">GET /min-capacities/dataset/{dataset_id}</code></a></td><td>
+       <em>Get Capacity Min By Dataset</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--min-capacities-entry_id"><code class="xref">GET /min-capacities/{entry_id}</code></a></td><td>
+       <em>Get Capacity Min</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--min-capacities-"><code class="xref">POST /min-capacities/</code></a></td><td>
+       <em>Create Capacity Min</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--min-capacities-component-component_id-upload"><code class="xref">POST /min-capacities/component/{component_id}/upload</code></a></td><td>
+       <em>Upload Capacity Min</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--min-capacities-component-component_id"><code class="xref">DELETE /min-capacities/component/{component_id}</code></a></td><td>
+       <em>Remove Capacity Min By Component</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--min-capacities-entry_id"><code class="xref">DELETE /min-capacities/{entry_id}</code></a></td><td>
+       <em>Remove Capacity Min</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/min-yearly-full-load-hours"><td></td><td>
+       <strong>/min-yearly-full-load-hours</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--min-yearly-full-load-hours-component-component_id"><code class="xref">GET /min-yearly-full-load-hours/component/{component_id}</code></a></td><td>
+       <em>Get Yearly Full Load Hours Min By Component</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--min-yearly-full-load-hours-component-component_id-download"><code class="xref">GET /min-yearly-full-load-hours/component/{component_id}/download</code></a></td><td>
+       <em>Download Yearly Full Load Hours Min</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--min-yearly-full-load-hours-dataset-dataset_id"><code class="xref">GET /min-yearly-full-load-hours/dataset/{dataset_id}</code></a></td><td>
+       <em>Get Yearly Full Load Hours Min By Dataset</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--min-yearly-full-load-hours-entry_id"><code class="xref">GET /min-yearly-full-load-hours/{entry_id}</code></a></td><td>
+       <em>Get Yearly Full Load Hours Min</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--min-yearly-full-load-hours-"><code class="xref">POST /min-yearly-full-load-hours/</code></a></td><td>
+       <em>Create Yearly Full Load Hours Min</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--min-yearly-full-load-hours-component-component_id-upload"><code class="xref">POST /min-yearly-full-load-hours/component/{component_id}/upload</code></a></td><td>
+       <em>Upload Yearly Full Load Hours Min</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--min-yearly-full-load-hours-component-component_id"><code class="xref">DELETE /min-yearly-full-load-hours/component/{component_id}</code></a></td><td>
+       <em>Remove Yearly Full Load Hours Min By Component</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--min-yearly-full-load-hours-entry_id"><code class="xref">DELETE /min-yearly-full-load-hours/{entry_id}</code></a></td><td>
+       <em>Remove Yearly Full Load Hours Min</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-/models"><td></td><td>
        <strong>/models</strong></td><td></td></tr>
@@ -336,7 +537,7 @@
        <td></td>
        <td>
        <a href="userguide/model.html#get--models-"><code class="xref">GET /models/</code></a></td><td>
-       <em>All Models</em></td></tr>
+       <em>Get Energy Model By Dataset</em></td></tr>
      <tr>
        <td></td>
        <td>
@@ -347,6 +548,11 @@
        <td>
        <a href="userguide/optimization.html#get--models-model_id-esm"><code class="xref">GET /models/{model_id}/esm</code></a></td><td>
        <em>Validate Model</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--models-model_id-myopic_optimize"><code class="xref">GET /models/{model_id}/myopic_optimize</code></a></td><td>
+       <em>Myopic Optimize Model</em></td></tr>
      <tr>
        <td></td>
        <td>
@@ -374,7 +580,7 @@
        <td></td>
        <td>
        <a href="endpoints.html#get--regions-"><code class="xref">GET /regions/</code></a></td><td>
-       <em>All Regions</em></td></tr>
+       <em>Get Region By Dataset</em></td></tr>
      <tr>
        <td></td>
        <td>
@@ -402,7 +608,7 @@
        <td></td>
        <td>
        <a href="endpoints.html#get--sinks-"><code class="xref">GET /sinks/</code></a></td><td>
-       <em>All Energy Sinks</em></td></tr>
+       <em>Get Energy Sink By Dataset</em></td></tr>
      <tr>
        <td></td>
        <td>
@@ -415,7 +621,7 @@
        <td></td>
        <td>
        <a href="endpoints.html#get--sources-"><code class="xref">GET /sources/</code></a></td><td>
-       <em>All Energy Sources</em></td></tr>
+       <em>Get Energy Source By Dataset</em></td></tr>
      <tr>
        <td></td>
        <td>
@@ -428,12 +634,98 @@
        <td></td>
        <td>
        <a href="endpoints.html#get--storages-"><code class="xref">GET /storages/</code></a></td><td>
-       <em>All Energy Storages</em></td></tr>
+       <em>Get Energy Storage By Dataset</em></td></tr>
      <tr>
        <td></td>
        <td>
        <a href="endpoints.html#post--storages-"><code class="xref">POST /storages/</code></a></td><td>
        <em>Create Storage</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/transmission-distances"><td></td><td>
+       <strong>/transmission-distances</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--transmission-distances-component-component_id"><code class="xref">GET /transmission-distances/component/{component_id}</code></a></td><td>
+       <em>Get Transmission Distance By Component</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--transmission-distances-component-component_id-download"><code class="xref">GET /transmission-distances/component/{component_id}/download</code></a></td><td>
+       <em>Download Transmission Distance</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--transmission-distances-dataset-dataset_id"><code class="xref">GET /transmission-distances/dataset/{dataset_id}</code></a></td><td>
+       <em>Get Transmission Distance By Dataset</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--transmission-distances-entry_id"><code class="xref">GET /transmission-distances/{entry_id}</code></a></td><td>
+       <em>Get Transmission Distance</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--transmission-distances-"><code class="xref">POST /transmission-distances/</code></a></td><td>
+       <em>Create Transmission Distance</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--transmission-distances-component-component_id-upload"><code class="xref">POST /transmission-distances/component/{component_id}/upload</code></a></td><td>
+       <em>Upload Transmission Distance</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--transmission-distances-component-component_id"><code class="xref">DELETE /transmission-distances/component/{component_id}</code></a></td><td>
+       <em>Remove Transmission Distance By Component</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--transmission-distances-entry_id"><code class="xref">DELETE /transmission-distances/{entry_id}</code></a></td><td>
+       <em>Remove Transmission Distance</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-/transmission-losses"><td></td><td>
+       <strong>/transmission-losses</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--transmission-losses-component-component_id"><code class="xref">GET /transmission-losses/component/{component_id}</code></a></td><td>
+       <em>Get Transmission Loss By Component</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--transmission-losses-component-component_id-download"><code class="xref">GET /transmission-losses/component/{component_id}/download</code></a></td><td>
+       <em>Download Transmission Loss</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--transmission-losses-dataset-dataset_id"><code class="xref">GET /transmission-losses/dataset/{dataset_id}</code></a></td><td>
+       <em>Get Transmission Loss By Dataset</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#get--transmission-losses-entry_id"><code class="xref">GET /transmission-losses/{entry_id}</code></a></td><td>
+       <em>Get Transmission Loss</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--transmission-losses-"><code class="xref">POST /transmission-losses/</code></a></td><td>
+       <em>Create Transmission Loss</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#post--transmission-losses-component-component_id-upload"><code class="xref">POST /transmission-losses/component/{component_id}/upload</code></a></td><td>
+       <em>Upload Transmission Loss</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--transmission-losses-component-component_id"><code class="xref">DELETE /transmission-losses/component/{component_id}</code></a></td><td>
+       <em>Remove Transmission Loss By Component</em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="endpoints.html#delete--transmission-losses-entry_id"><code class="xref">DELETE /transmission-losses/{entry_id}</code></a></td><td>
+       <em>Remove Transmission Loss</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-/transmissions"><td></td><td>
        <strong>/transmissions</strong></td><td></td></tr>
@@ -441,7 +733,7 @@
        <td></td>
        <td>
        <a href="endpoints.html#get--transmissions-"><code class="xref">GET /transmissions/</code></a></td><td>
-       <em>All Energy Transmissions</em></td></tr>
+       <em>Get Energy Transmission By Dataset</em></td></tr>
      <tr>
        <td></td>
        <td>
@@ -454,7 +746,7 @@
        <td></td>
        <td>
        <a href="endpoints.html#get--users-"><code class="xref">GET /users/</code></a></td><td>
-       <em>All Users</em></td></tr>
+       <em>Get All Users</em></td></tr>
    </table>
 
 

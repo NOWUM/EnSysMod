@@ -149,7 +149,7 @@ Here is an part of such an excel file which contains a time series for a region.
 The parameter that are needed for each object are documented :ref:`here. <dataset_description>`.
 All of the parameters can be set, but not all of them have to.
 
-To show the structure of the zip file, we have created an example. This can be found `here <https://github.com/NOWUM/EnSysMod/tree/main/examples/data/dataset-1/>`_.
+To show the structure of the zip file, we have created an example. This can be found `here <https://github.com/NOWUM/EnSysMod/tree/main/examples>`_.
 
 Upload data per REST API interfaces individually
 ------------------------------------------------
@@ -187,7 +187,7 @@ The zip archive contains files and folders in which the regions, commodities and
 You can modify the data inside the zip archive locally and use the zip upload (again) to commit your changes.
 
 To show the structure of the zip file, we have created an example.
-This can be found `here <https://github.com/NOWUM/EnSysMod/tree/main/examples/data/dataset-2/>`_.
+This can be found `here <https://github.com/NOWUM/EnSysMod/tree/main/examples>`_.
 
 Access data per REST API interfaces individually
 ------------------------------------------------

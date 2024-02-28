@@ -1,26 +1,29 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Optimize model &mdash; EnSysMod 0.0.3 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
+  <title>Optimize model &mdash; EnSysMod 0.0.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=282f96c0"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Datamodel" href="../datamodel.html" />
-    <link rel="prev" title="Modell" href="model.html" /> 
+    <link rel="prev" title="Model" href="model.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -28,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> EnSysMod
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            EnSysMod
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -44,7 +51,7 @@
 <li class="toctree-l2"><a class="reference internal" href="how_to_use.html">How to use EnSysMod</a></li>
 <li class="toctree-l2"><a class="reference internal" href="authentication.html">Authentication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dataset.html">Dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="model.html">Modell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html">Model</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Optimize model</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#model-validation">Model validation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#model-optimization">Model optimization</a></li>
@@ -71,9 +78,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../userguide.html">User Guide</a> &raquo;</li>
-      <li>Optimize model</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../userguide.html">User Guide</a></li>
+      <li class="breadcrumb-item active">Optimize model</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/NOWUM/ensysmod/blob/main/docs/source/userguide/optimization.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -84,32 +91,32 @@
            <div itemprop="articleBody">
              
   <section id="optimize-model">
-<h1>Optimize model<a class="headerlink" href="#optimize-model" title="Permalink to this headline"></a></h1>
+<h1>Optimize model<a class="headerlink" href="#optimize-model" title="Link to this heading"></a></h1>
 <p>The following article describes how to optimize the model based on a dataset.
 The EnSysMod uses the FINE framework inside to optimize the model for lowest total costs.</p>
 <p>All restrictions (like CO2 limit) are taken into account.</p>
 <section id="model-validation">
-<h2>Model validation<a class="headerlink" href="#model-validation" title="Permalink to this headline"></a></h2>
+<h2>Model validation<a class="headerlink" href="#model-validation" title="Link to this heading"></a></h2>
 <p>The validation endpoint allows to validate the dataset and model parameters. All energy components are transformed to
 a energy system model (esm) from FINE. If any parameters are missing or invalid, the validation endpoint returns an
 error.</p>
 <dl class="http get">
 <dt class="sig sig-object http" id="get--models-model_id-esm">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}/esm</span></span><a class="headerlink" href="#get--models-model_id-esm" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}/esm</span></span><a class="headerlink" href="#get--models-model_id-esm" title="Link to this definition"></a></dt>
 <dd><p><strong>Validate Model</strong></p>
 <p>Create FINE energy system model from model.</p>
 <p>Might take a while.
 And return errors if dataset is not valid.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -117,27 +124,27 @@ And return errors if dataset is not valid.</p>
 
 </section>
 <section id="model-optimization">
-<h2>Model optimization<a class="headerlink" href="#model-optimization" title="Permalink to this headline"></a></h2>
+<h2>Model optimization<a class="headerlink" href="#model-optimization" title="Link to this heading"></a></h2>
 <p>When the model is validated you can use the optimization endpoint to optimize the model.</p>
 <p>After transforming the dataset to an energy system model by FINE, the model is optimized with the GUROBI solver (or
 a free solver alternative).</p>
 <dl class="http get">
 <dt class="sig sig-object http" id="get--models-model_id-optimize">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}/optimize</span></span><a class="headerlink" href="#get--models-model_id-optimize" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}/optimize</span></span><a class="headerlink" href="#get--models-model_id-optimize" title="Link to this definition"></a></dt>
 <dd><p><strong>Optimize Model</strong></p>
 <p>Create FINE energy system model from model and optimizes it.</p>
 <p>Might take a while.
 And return errors if dataset is not valid.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -146,7 +153,7 @@ And return errors if dataset is not valid.</p>
 <p>The optimization endpoint returns the optimized model as excel file. The output is described below.</p>
 </section>
 <section id="result-of-optimization">
-<h2>Result of optimization<a class="headerlink" href="#result-of-optimization" title="Permalink to this headline"></a></h2>
+<h2>Result of optimization<a class="headerlink" href="#result-of-optimization" title="Link to this heading"></a></h2>
 <p>The Excel file that you receive as a result contains several spreadsheets. A spreadsheet refers to one of the categories Sink &amp; Source, Conversion, Storage and Transmission.
 Currently, each of the categories has three spreadsheets. The structure of these three sheets is the same, but the contained values have to be considered in a different context.</p>
 <p>Of particular interest are the spreadsheets “&lt;category&gt;OptSummary_1dim”. The rest can be neglected.</p>
@@ -192,7 +199,7 @@ Also in this table the structure for transmission has a different structure. In 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="model.html" class="btn btn-neutral float-left" title="Modell" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="model.html" class="btn btn-neutral float-left" title="Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../datamodel.html" class="btn btn-neutral float-right" title="Datamodel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

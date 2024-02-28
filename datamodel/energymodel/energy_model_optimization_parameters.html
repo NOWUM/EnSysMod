@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Energy model optimization parameters &mdash; EnSysMod 0.0.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=282f96c0"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Endpoints of REST-API" href="../../endpoints.html" />
+    <link rel="prev" title="Energy model override parameters" href="energy_model_override_parameters.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            EnSysMod
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../userguide.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../datamodel.html">Datamodel</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../dataset.html">Dataset</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../energy_model.html">Energy Model</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="energy_model.html">Energy model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_model_override_parameters.html">Energy model override parameters</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Energy model optimization parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ensysmod.schemas.EnergyModelOptimizationCreate"><code class="docutils literal notranslate"><span class="pre">EnergyModelOptimizationCreate</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../endpoints.html">Endpoints of REST-API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../projectStructure.html">Project structure</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">EnSysMod</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../datamodel.html">Datamodel</a></li>
+          <li class="breadcrumb-item"><a href="../energy_model.html">Energy Model</a></li>
+      <li class="breadcrumb-item active">Energy model optimization parameters</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/NOWUM/ensysmod/blob/main/docs/source/datamodel/energymodel/energy_model_optimization_parameters.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="energy-model-optimization-parameters">
+<h1>Energy model optimization parameters<a class="headerlink" href="#energy-model-optimization-parameters" title="Link to this heading"></a></h1>
+<p>The energy model optimization parameters specify the parameters for the myopic optimization function.</p>
+<p>In order to perform a myopic optimization, the following parameter must be given:</p>
+<ul class="simple">
+<li><p><cite>start_year</cite>: Year of the first optimization.</p></li>
+</ul>
+<p>In addition, at least two of the following parameters must also be specified:</p>
+<ul class="simple">
+<li><p><cite>end_year</cite>: Year of the last optimization.</p></li>
+<li><p><cite>number_of_steps</cite>: Number of optimization runs excluding the start year.</p></li>
+<li><p><cite>years_per_step</cite>: Number of years represented by one optimization run.</p></li>
+</ul>
+<p>The following parameters are optional, but both must be provided if the CO2 reduction is used:</p>
+<ul class="simple">
+<li><p><cite>CO2_reference</cite>: CO2 emission reference value to which the reduction should be applied to.</p></li>
+<li><p><cite>CO2_reduction_targets</cite>: CO2 reduction targets for all optimization periods, in percentages. If specified, the length of the list must equal the number of optimization steps, and a sink component named ‘CO2 to environment’ is required.</p></li>
+</ul>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelOptimizationCreate">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">EnergyModelOptimizationCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/energy_model_optimization.html#EnergyModelOptimizationCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.EnergyModelOptimizationCreate" title="Link to this definition"></a></dt>
+<dd><p>Attributes to receive via API on creation of a model optimization parameter.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelOptimizationCreate.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelOptimizationCreate.model_computed_fields" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelOptimizationCreate.start_year">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start_year</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelOptimizationCreate.start_year" title="Link to this definition"></a></dt>
+<dd><p>Year of the first optimization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelOptimizationCreate.end_year">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">end_year</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelOptimizationCreate.end_year" title="Link to this definition"></a></dt>
+<dd><p>Year of the last optimization</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelOptimizationCreate.number_of_steps">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelOptimizationCreate.number_of_steps" title="Link to this definition"></a></dt>
+<dd><p>Number of optimization runs excluding the start year</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelOptimizationCreate.years_per_step">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">years_per_step</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelOptimizationCreate.years_per_step" title="Link to this definition"></a></dt>
+<dd><p>Number of years represented by one optimization run</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelOptimizationCreate.CO2_reference">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CO2_reference</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelOptimizationCreate.CO2_reference" title="Link to this definition"></a></dt>
+<dd><p>CO2 emission reference value to which the reduction should be applied to</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelOptimizationCreate.CO2_reduction_targets">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CO2_reduction_targets</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelOptimizationCreate.CO2_reduction_targets" title="Link to this definition"></a></dt>
+<dd><p>CO2 reduction targets for all optimization periods, in percentages. If specified, the length of the list must equal the number of optimization steps, and a sink component named ‘CO2 to environment’ is required.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="energy_model_override_parameters.html" class="btn btn-neutral float-left" title="Energy model override parameters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../endpoints.html" class="btn btn-neutral float-right" title="Endpoints of REST-API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, NOWUM.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

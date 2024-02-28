@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Modell &mdash; EnSysMod 0.0.3 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
+  <title>Model &mdash; EnSysMod 0.0.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=282f96c0"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -28,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> EnSysMod
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            EnSysMod
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -44,7 +51,7 @@
 <li class="toctree-l2"><a class="reference internal" href="how_to_use.html">How to use EnSysMod</a></li>
 <li class="toctree-l2"><a class="reference internal" href="authentication.html">Authentication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dataset.html">Dataset</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Modell</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Model</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#create-a-new-model">Create a new Model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#get-model-information">Get Model information</a></li>
@@ -71,9 +78,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../userguide.html">User Guide</a> &raquo;</li>
-      <li>Modell</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../userguide.html">User Guide</a></li>
+      <li class="breadcrumb-item active">Model</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/NOWUM/ensysmod/blob/main/docs/source/userguide/model.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -83,16 +90,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="modell">
-<span id="id1"></span><h1>Modell<a class="headerlink" href="#modell" title="Permalink to this headline"></a></h1>
+  <section id="model">
+<span id="id1"></span><h1>Model<a class="headerlink" href="#model" title="Link to this heading"></a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
 <p>After creating a dataset, you can create a energy model based on it.
 The energy model allows you to create multiple simulations based on one dataset with different parameters.
 Therefore you need to specify model parameters, that overrides the default values provided within the dataset.</p>
 </section>
 <section id="create-a-new-model">
-<span id="newmodel"></span><h2>Create a new Model<a class="headerlink" href="#create-a-new-model" title="Permalink to this headline"></a></h2>
+<span id="newmodel"></span><h2>Create a new Model<a class="headerlink" href="#create-a-new-model" title="Link to this heading"></a></h2>
 <p>To create a new model, the API REST interface <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/models/</span></code> is addressed. The following parameters should be
 provided:</p>
 <ul class="simple">
@@ -105,21 +112,21 @@ provided:</p>
 <p>A full documentation of the API is available <a class="reference external" href="http://10.13.10.51:9000/redoc">as redoc documentation</a>.</p>
 <dl class="http get">
 <dt class="sig sig-object http" id="get--models-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/</span></span><a class="headerlink" href="#get--models-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Models</strong></p>
-<p>Retrieve all energy models.</p>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/</span></span><a class="headerlink" href="#get--models-" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Energy Model By Dataset</strong></p>
+<p>Get all energy models of a dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Query Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – (Required)</p></li>
 <li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
 <li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
-<li><p><strong>dataset</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -127,39 +134,23 @@ provided:</p>
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--models-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/models/</span></span><a class="headerlink" href="#post--models-" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/models/</span></span><a class="headerlink" href="#post--models-" title="Link to this definition"></a></dt>
 <dd><p><strong>Create Model</strong></p>
 <p>Create a new energy model.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – EnergyModel with same name already exists.</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<p>An example of the request body is given below:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100% CO2 reduction&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A model that reduces CO2 emissions by 100%&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="nt">&quot;ref_dataset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;component&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CO2 to environment&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;attribute&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;yearly_limit&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;operation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;set&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">]</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
 </section>
 <section id="get-model-information">
-<h2>Get Model information<a class="headerlink" href="#get-model-information" title="Permalink to this headline"></a></h2>
+<h2>Get Model information<a class="headerlink" href="#get-model-information" title="Link to this heading"></a></h2>
 <p>To get model information, the API REST interface <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/models/</span></code> is addressed.
 Requires the model_id. The endpoint returns the corresponding model information.</p>
 </section>

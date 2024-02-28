@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Region &mdash; EnSysMod 0.0.3 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/autodoc_pydantic.css" type="text/css" />
+  <title>Region &mdash; EnSysMod 0.0.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=282f96c0"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -28,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> EnSysMod
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            EnSysMod
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -44,14 +51,17 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../../datamodel.html">Datamodel</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../dataset.html">Dataset</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="dataset.html">Dataset</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Region</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Region</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ensysmod.schemas.RegionCreate"><code class="docutils literal notranslate"><span class="pre">RegionCreate</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="energy_commodity.html">Energy commodity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="energy_source.html">Energy source</a></li>
 <li class="toctree-l3"><a class="reference internal" href="energy_sink.html">Energy sink</a></li>
 <li class="toctree-l3"><a class="reference internal" href="energy_conversion.html">Energy conversion</a></li>
 <li class="toctree-l3"><a class="reference internal" href="energy_storage.html">Energy storage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="energy_transmission.html">Energy transmission</a></li>
-<li class="toctree-l3"><a class="reference internal" href="time_series_data.html">Time series data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="excel_data.html">Excel data</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../energy_model.html">Energy Model</a></li>
@@ -74,10 +84,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../datamodel.html">Datamodel</a> &raquo;</li>
-          <li><a href="../dataset.html">Dataset</a> &raquo;</li>
-      <li>Region</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../datamodel.html">Datamodel</a></li>
+          <li class="breadcrumb-item"><a href="../dataset.html">Dataset</a></li>
+      <li class="breadcrumb-item active">Region</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/NOWUM/ensysmod/blob/main/docs/source/datamodel/dataset/region.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -88,34 +98,41 @@
            <div itemprop="articleBody">
              
   <section id="region">
-<h1>Region<a class="headerlink" href="#region" title="Permalink to this headline"></a></h1>
+<h1>Region<a class="headerlink" href="#region" title="Link to this heading"></a></h1>
 <p>An energy system model is based on multiple regions. Therefore you can define regions inside the dataset.</p>
 <p>The following attributes are available:</p>
 <dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="ensysmod.schemas.RegionCreate">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">RegionCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/region.html#RegionCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.RegionCreate" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">RegionCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/region.html#RegionCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.RegionCreate" title="Link to this definition"></a></dt>
 <dd><p>Attributes to receive via API on creation of a region.</p>
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.RegionCreate.name">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.RegionCreate.name" title="Permalink to this definition"></a></dt>
-<dd><p>Unique name of the region.</p>
+<dt class="sig sig-object py" id="ensysmod.schemas.RegionCreate.ref_dataset">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.RegionCreate.ref_dataset" title="Link to this definition"></a></dt>
+<dd><p>ID of the dataset to use as reference.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = germany</p></li>
+<li><p><strong>gt</strong> = 0</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ensysmod.schemas.RegionCreate.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#ensysmod.schemas.RegionCreate.model_computed_fields" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.RegionCreate.ref_dataset">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.RegionCreate.ref_dataset" title="Permalink to this definition"></a></dt>
-<dd><p>ID of the dataset to use as reference.</p>
+<dt class="sig sig-object py" id="ensysmod.schemas.RegionCreate.name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.RegionCreate.name" title="Link to this definition"></a></dt>
+<dd><p>Unique name of the region.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 1</p></li>
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
 </ul>
 </dd>
 </dl>

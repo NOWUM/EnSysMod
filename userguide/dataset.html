@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dataset &mdash; EnSysMod 0.0.3 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
+  <title>Dataset &mdash; EnSysMod 0.0.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=282f96c0"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Modell" href="model.html" />
+    <link rel="next" title="Model" href="model.html" />
     <link rel="prev" title="Authentication" href="authentication.html" /> 
 </head>
 
@@ -28,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> EnSysMod
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            EnSysMod
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -58,7 +65,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="model.html">Modell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html">Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="optimization.html">Optimize model</a></li>
 </ul>
 </li>
@@ -80,9 +87,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../userguide.html">User Guide</a> &raquo;</li>
-      <li>Dataset</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../userguide.html">User Guide</a></li>
+      <li class="breadcrumb-item active">Dataset</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/NOWUM/ensysmod/blob/main/docs/source/userguide/dataset.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -93,15 +100,15 @@
            <div itemprop="articleBody">
              
   <section id="dataset">
-<span id="usage-dataset"></span><h1>Dataset<a class="headerlink" href="#dataset" title="Permalink to this headline"></a></h1>
+<span id="usage-dataset"></span><h1>Dataset<a class="headerlink" href="#dataset" title="Link to this heading"></a></h1>
 <section id="introduction">
-<span id="introduction-dataset"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
+<span id="introduction-dataset"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
 <p>A dataset has different components. It contains commodities, as which energy source is used in the energy system, and the regions, your energy system is based on.
 Furthermore the dataset consists of energy sources, sinks, storages, conversions and transmissions.</p>
 <p>With one dataset several modeling runs can be performed.</p>
 </section>
 <section id="create-a-new-dataset">
-<span id="newdataset"></span><h2>Create a new dataset<a class="headerlink" href="#create-a-new-dataset" title="Permalink to this headline"></a></h2>
+<span id="newdataset"></span><h2>Create a new dataset<a class="headerlink" href="#create-a-new-dataset" title="Link to this heading"></a></h2>
 <p>To create a new dataset, the API REST interface <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/datasets/</span></code> is addressed. The following parameters should be
 provided:</p>
 <ul class="simple">
@@ -112,20 +119,20 @@ provided:</p>
 <p>A full documentation of the API is available <a class="reference external" href="https://http://10.13.10.51:9000/redoc">as redoc documentation</a>.</p>
 <dl class="http get">
 <dt class="sig sig-object http" id="get--datasets-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/</span></span><a class="headerlink" href="#get--datasets-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Datasets</strong></p>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/</span></span><a class="headerlink" href="#get--datasets-" title="Link to this definition"></a></dt>
+<dd><p><strong>Get All Datasets</strong></p>
 <p>Retrieve all datasets.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Query Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
 <li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -133,15 +140,15 @@ provided:</p>
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--datasets-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/datasets/</span></span><a class="headerlink" href="#post--datasets-" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/datasets/</span></span><a class="headerlink" href="#post--datasets-" title="Link to this definition"></a></dt>
 <dd><p><strong>Create Dataset</strong></p>
 <p>Create a new dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – Dataset with same name already exists.</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -152,83 +159,83 @@ If you want to share the dataset with other users,
 you have to grant permissions to them as described <a class="reference internal" href="../datamodel/dataset/dataset.html#dataset-permissions"><span class="std std-ref">here</span></a>.</p>
 </section>
 <section id="provide-data">
-<span id="providedata"></span><h2>Provide data<a class="headerlink" href="#provide-data" title="Permalink to this headline"></a></h2>
+<span id="providedata"></span><h2>Provide data<a class="headerlink" href="#provide-data" title="Link to this heading"></a></h2>
 <p>There are two ways to add data to a dataset. For both ways you need to provide the id of the dataset.</p>
 <section id="zip-upload">
-<h3>ZIP-Upload<a class="headerlink" href="#zip-upload" title="Permalink to this headline"></a></h3>
+<h3>ZIP-Upload<a class="headerlink" href="#zip-upload" title="Link to this heading"></a></h3>
 <p>With the Zip-Upload, we’ve created a way to enter the data in the database with only one use of a API REST interface.
 Once a zip archive is created in a certain format and with certain files, it can be uploaded with the API REST interface.
 A dataset id is needed.</p>
 <p>The zip archive contains other files and folder in which the regions, commodities and components to the energy system
 are described. The zip archive is structured as follows:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dataset.zip
- │   commodities.json
- │   regions.json
- ├───conversions/
- ├───sinks/
- ├───sources/
- ├───storages/
- └───transmissions/
+<span class="w"> </span>│<span class="w">   </span>commodities.json
+<span class="w"> </span>│<span class="w">   </span>regions.json
+<span class="w"> </span>├───conversions/
+<span class="w"> </span>├───sinks/
+<span class="w"> </span>├───sources/
+<span class="w"> </span>├───storages/
+<span class="w"> </span>└───transmissions/
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">commodities.json</span></code> contains all commodities, which are used in the energy system.
 The json file is structured as a list of commodities with name, unit and description.
 The unit is used for all values in the energy system with that specific commodity.
 Example:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">     </span><span class="p">{</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;electricity&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;kWh&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example description&quot;</span><span class="w"></span>
-<span class="w">     </span><span class="p">},</span><span class="w"></span>
-<span class="w">     </span><span class="p">{</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;heat&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;kWh&quot;</span><span class="w"></span>
-<span class="w">     </span><span class="p">}</span><span class="w"></span>
-<span class="p">]</span><span class="w"></span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="p">[</span>
+<span class="w">     </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;electricity&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;kWh&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example description&quot;</span>
+<span class="w">     </span><span class="p">},</span>
+<span class="w">     </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;heat&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;kWh&quot;</span>
+<span class="w">     </span><span class="p">}</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">regions.json</span></code> contains all regions, which are used in the energy system.
 The json file is structured as a list of regions with name and description. Example:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">     </span><span class="p">{</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;region1&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example description&quot;</span><span class="w"></span>
-<span class="w">     </span><span class="p">},</span><span class="w"></span>
-<span class="w">     </span><span class="p">{</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;region2&quot;</span><span class="w"></span>
-<span class="w">     </span><span class="p">}</span><span class="w"></span>
-<span class="p">]</span><span class="w"></span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="p">[</span>
+<span class="w">     </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;region1&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example description&quot;</span>
+<span class="w">     </span><span class="p">},</span>
+<span class="w">     </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;region2&quot;</span>
+<span class="w">     </span><span class="p">}</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 <p>For each of the sections for energy sources, sinks, storages, conversions and transmissions exists a folder.
 These folders contain other folders that are used as a listing of the various objects.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dataset.zip
- └───sources/
-     ├───source-1/
-     │       capacity.xlsx
-     │       operationRateMax.xlsx
-     │       source.json
-     └───source-2/
-             capacity.xlsx
-             operationRateFix.xlsx
-             source.json
+<span class="w"> </span>└───sources/
+<span class="w">     </span>├───source-1/
+<span class="w">     </span>│<span class="w">       </span>capacity.xlsx
+<span class="w">     </span>│<span class="w">       </span>operationRateMax.xlsx
+<span class="w">     </span>│<span class="w">       </span>source.json
+<span class="w">     </span>└───source-2/
+<span class="w">             </span>capacity.xlsx
+<span class="w">             </span>operationRateFix.xlsx
+<span class="w">             </span>source.json
 </pre></div>
 </div>
 <p>For example, there are two folders in the source folder that contains data for two different energy sources.
 A folder that maps an object contains a .json file that contains the parameters for the object, which are the same across all regions.</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="w"></span>
-<span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;wind onshore&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;source for the wind onshore plants&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="nt">&quot;commodity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;electricity&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="nt">&quot;capacity_variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="nt">&quot;invest_per_capacity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.1</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="nt">&quot;opex_per_capacity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.022</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="nt">&quot;interest_rate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.08</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="nt">&quot;economic_lifetime&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="w"></span>
-<span class="w">     </span><span class="p">}</span><span class="w"></span>
-<span class="p">]</span><span class="w"></span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;wind onshore&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;source for the wind onshore plants&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;commodity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;electricity&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;capacity_variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;invest_per_capacity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;opex_per_capacity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.022</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;interest_rate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.08</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;economic_lifetime&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span>
+<span class="w">     </span><span class="p">}</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 <p>If there are parameters that are different for each region, these parameters (for example
@@ -238,37 +245,37 @@ Here is an part of such an excel file which contains a time series for a region.
 <img alt="Part of an Excel file that contains time series" src="../_images/BSP_excel.PNG" />
 <p>The parameter that are needed for each object are documented <a class="reference internal" href="../datamodel/dataset.html#dataset-description"><span class="std std-ref">here.</span></a>.
 All of the parameters can be set, but not all of them have to.</p>
-<p>To show the structure of the zip file, we have created an example. This can be found <a class="reference external" href="https://github.com/NOWUM/EnSysMod/tree/main/examples/data/dataset-1/">here</a>.</p>
+<p>To show the structure of the zip file, we have created an example. This can be found <a class="reference external" href="https://github.com/NOWUM/EnSysMod/tree/main/examples">here</a>.</p>
 </section>
 <section id="upload-data-per-rest-api-interfaces-individually">
-<h3>Upload data per REST API interfaces individually<a class="headerlink" href="#upload-data-per-rest-api-interfaces-individually" title="Permalink to this headline"></a></h3>
+<h3>Upload data per REST API interfaces individually<a class="headerlink" href="#upload-data-per-rest-api-interfaces-individually" title="Link to this heading"></a></h3>
 <p>Another way is to upload the data in small pieces via the individual REST interfaces. A list of the interfaces can be found <a class="reference internal" href="../endpoints.html#rest-endpoints"><span class="std std-ref">here.</span></a></p>
 </section>
 </section>
 <section id="retrieve-data">
-<h2>Retrieve data<a class="headerlink" href="#retrieve-data" title="Permalink to this headline"></a></h2>
+<h2>Retrieve data<a class="headerlink" href="#retrieve-data" title="Link to this heading"></a></h2>
 <p>After adding some data to the database, you can retrieve the data. You can use the zip download or the REST API.</p>
 <section id="zip-download">
-<h3>ZIP-Download<a class="headerlink" href="#zip-download" title="Permalink to this headline"></a></h3>
+<h3>ZIP-Download<a class="headerlink" href="#zip-download" title="Link to this heading"></a></h3>
 <p>The zip download allows you to download the data in a zip archive for a dataset.
 Therefore you need to provide the dataset id.</p>
 <p>The zip archive contains files and folders in which the regions, commodities and components of the energy system are stored. The zip archive is structured as follows:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dataset.zip
- │   commodities.json
- │   regions.json
- ├───conversions/
- ├───sinks/
- ├───sources/
- ├───storages/
- └───transmissions/
+<span class="w"> </span>│<span class="w">   </span>commodities.json
+<span class="w"> </span>│<span class="w">   </span>regions.json
+<span class="w"> </span>├───conversions/
+<span class="w"> </span>├───sinks/
+<span class="w"> </span>├───sources/
+<span class="w"> </span>├───storages/
+<span class="w"> </span>└───transmissions/
 </pre></div>
 </div>
 <p>You can modify the data inside the zip archive locally and use the zip upload (again) to commit your changes.</p>
 <p>To show the structure of the zip file, we have created an example.
-This can be found <a class="reference external" href="https://github.com/NOWUM/EnSysMod/tree/main/examples/data/dataset-2/">here</a>.</p>
+This can be found <a class="reference external" href="https://github.com/NOWUM/EnSysMod/tree/main/examples">here</a>.</p>
 </section>
 <section id="access-data-per-rest-api-interfaces-individually">
-<h3>Access data per REST API interfaces individually<a class="headerlink" href="#access-data-per-rest-api-interfaces-individually" title="Permalink to this headline"></a></h3>
+<h3>Access data per REST API interfaces individually<a class="headerlink" href="#access-data-per-rest-api-interfaces-individually" title="Link to this heading"></a></h3>
 <p>Another way is to access the data in small pieces via the individual REST interfaces. A list of the interfaces can be found <a class="reference internal" href="../endpoints.html#rest-endpoints"><span class="std std-ref">here.</span></a></p>
 </section>
 </section>
@@ -279,7 +286,7 @@ This can be found <a class="reference external" href="https://github.com/NOWUM/E
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="authentication.html" class="btn btn-neutral float-left" title="Authentication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="model.html" class="btn btn-neutral float-right" title="Modell" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="model.html" class="btn btn-neutral float-right" title="Model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

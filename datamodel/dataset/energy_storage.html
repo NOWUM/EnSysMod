@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Energy storage &mdash; EnSysMod 0.0.3 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/autodoc_pydantic.css" type="text/css" />
+  <title>Energy storage &mdash; EnSysMod 0.0.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=282f96c0"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -28,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> EnSysMod
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            EnSysMod
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -49,9 +56,12 @@
 <li class="toctree-l3"><a class="reference internal" href="energy_source.html">Energy source</a></li>
 <li class="toctree-l3"><a class="reference internal" href="energy_sink.html">Energy sink</a></li>
 <li class="toctree-l3"><a class="reference internal" href="energy_conversion.html">Energy conversion</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Energy storage</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Energy storage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ensysmod.schemas.EnergyStorageCreate"><code class="docutils literal notranslate"><span class="pre">EnergyStorageCreate</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="energy_transmission.html">Energy transmission</a></li>
-<li class="toctree-l3"><a class="reference internal" href="time_series_data.html">Time series data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="excel_data.html">Excel data</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../energy_model.html">Energy Model</a></li>
@@ -74,10 +84,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../datamodel.html">Datamodel</a> &raquo;</li>
-          <li><a href="../dataset.html">Dataset</a> &raquo;</li>
-      <li>Energy storage</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../datamodel.html">Datamodel</a></li>
+          <li class="breadcrumb-item"><a href="../dataset.html">Dataset</a></li>
+      <li class="breadcrumb-item active">Energy storage</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/NOWUM/ensysmod/blob/main/docs/source/datamodel/dataset/energy_storage.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -88,160 +98,61 @@
            <div itemprop="articleBody">
              
   <section id="energy-storage">
-<h1>Energy storage<a class="headerlink" href="#energy-storage" title="Permalink to this headline"></a></h1>
+<h1>Energy storage<a class="headerlink" href="#energy-storage" title="Link to this heading"></a></h1>
 <p>The energy storage component is used to store commodities and transfer them between time steps.</p>
 <p>The following attributes are available:</p>
 <dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">EnergyStorageCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/energy_storage.html#EnergyStorageCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">EnergyStorageCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/energy_storage.html#EnergyStorageCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate" title="Link to this definition"></a></dt>
 <dd><p>Attributes to receive via API on creation of an energy storage.</p>
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.capacity_per_plant_unit">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">capacity_per_plant_unit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.capacity_per_plant_unit" title="Permalink to this definition"></a></dt>
-<dd><p>Capacity per plant unit. By default is 1, thus the number of plants is the equal to the installed capacity.</p>
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.commodity_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">commodity_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.commodity_name" title="Link to this definition"></a></dt>
+<dd><p>Commodity the energy storage is based on.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.model_computed_fields" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.capacity_variable">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">capacity_variable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.capacity_variable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the energy component should be model with a capacity or not.</p>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.capacity_variable_domain">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">capacity_variable_domain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">CapacityVariableDomain</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.capacity_variable_domain" title="Permalink to this definition"></a></dt>
-<dd><p>Mathematical domain of the capacity variables.’continuous’ means that the capacity is modeled as real values &gt;= 0.’discrete’ means that the capacity is modeled as integer values &gt;= 0.</p>
-</dd></dl>
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.type">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">EnergyComponentType</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">EnergyComponentType.STORAGE</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.charge_efficiency">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">charge_efficiency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.charge_efficiency" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">charge_efficiency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.charge_efficiency" title="Link to this definition"></a></dt>
 <dd><p>The efficiency of charging the storage.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 0.9</p></li>
+<li><p><strong>ge</strong> = 0</p></li>
+<li><p><strong>le</strong> = 1</p></li>
 </ul>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.charge_rate">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">charge_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.charge_rate" title="Permalink to this definition"></a></dt>
-<dd><p>The charge rate of the storage.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 0.3</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.commodity">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">commodity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.commodity" title="Permalink to this definition"></a></dt>
-<dd><p>Commodity to be stored in the energy storage.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = electricity</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.cyclic_lifetime">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cyclic_lifetime</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.cyclic_lifetime" title="Permalink to this definition"></a></dt>
-<dd><p>The cyclic lifetime of the storage.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 100</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.description">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.description" title="Permalink to this definition"></a></dt>
-<dd><p>Description of the energy component. Can be used to explain the component.</p>
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.discharge_efficiency">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">discharge_efficiency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.discharge_efficiency" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">discharge_efficiency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.discharge_efficiency" title="Link to this definition"></a></dt>
 <dd><p>The efficiency of discharging the storage.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 0.9</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.discharge_rate">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">discharge_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.discharge_rate" title="Permalink to this definition"></a></dt>
-<dd><p>The discharge rate of the storage.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 0.2</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.economic_lifetime">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">economic_lifetime</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.economic_lifetime" title="Permalink to this definition"></a></dt>
-<dd><p>Economic lifetime.</p>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.interest_rate">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interest_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.interest_rate" title="Permalink to this definition"></a></dt>
-<dd><p>Interest rate.</p>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.invest_per_capacity">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">invest_per_capacity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.invest_per_capacity" title="Permalink to this definition"></a></dt>
-<dd><p>Investment per capacity.</p>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.name">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.name" title="Permalink to this definition"></a></dt>
-<dd><p>Unique name of the energy component. It is used to identify the component.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = gas turbine</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.opex_per_capacity">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">opex_per_capacity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.opex_per_capacity" title="Permalink to this definition"></a></dt>
-<dd><p>Operational expenditure per capacity.</p>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.ref_dataset">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.ref_dataset" title="Permalink to this definition"></a></dt>
-<dd><p>Reference to dataset that energy component belongs to.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 1</p></li>
+<li><p><strong>ge</strong> = 0</p></li>
+<li><p><strong>le</strong> = 1</p></li>
 </ul>
 </dd>
 </dl>
@@ -249,31 +160,54 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.self_discharge">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">self_discharge</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.self_discharge" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">self_discharge</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.self_discharge" title="Link to this definition"></a></dt>
 <dd><p>The self-discharge of the storage.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 9e-05</p></li>
+<li><p><strong>ge</strong> = 0</p></li>
+<li><p><strong>le</strong> = 1</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.shared_potential_id">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shared_potential_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.shared_potential_id" title="Permalink to this definition"></a></dt>
-<dd><p>Shared potential ID. If specified the maximum potential capacity is shared among all components of the same shared potential id.</p>
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.cyclic_lifetime">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cyclic_lifetime</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.cyclic_lifetime" title="Link to this definition"></a></dt>
+<dd><p>The cyclic lifetime of the storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.state_of_charge_max">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_of_charge_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.state_of_charge_max" title="Permalink to this definition"></a></dt>
-<dd><p>The maximum state of charge of the storage.</p>
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.charge_rate">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">charge_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.charge_rate" title="Link to this definition"></a></dt>
+<dd><p>The charge rate of the storage.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 0.9</p></li>
+<li><p><strong>ge</strong> = 0</p></li>
+<li><p><strong>le</strong> = 1</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.discharge_rate">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">discharge_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.discharge_rate" title="Link to this definition"></a></dt>
+<dd><p>The discharge rate of the storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0</p></li>
+<li><p><strong>le</strong> = 1</p></li>
 </ul>
 </dd>
 </dl>
@@ -281,21 +215,175 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.state_of_charge_min">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_of_charge_min</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.state_of_charge_min" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_of_charge_min</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.state_of_charge_min" title="Link to this definition"></a></dt>
 <dd><p>The minimum state of charge of the storage.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 0.1</p></li>
+<li><p><strong>ge</strong> = 0</p></li>
+<li><p><strong>le</strong> = 1</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.type">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">EnergyComponentType</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">EnergyComponentType.STORAGE</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.type" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.state_of_charge_max">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_of_charge_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.state_of_charge_max" title="Link to this definition"></a></dt>
+<dd><p>The maximum state of charge of the storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0</p></li>
+<li><p><strong>le</strong> = 1</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.ref_dataset">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.ref_dataset" title="Link to this definition"></a></dt>
+<dd><p>Reference to dataset that energy component belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.name" title="Link to this definition"></a></dt>
+<dd><p>Unique name of the energy component. It is used to identify the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.description">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.description" title="Link to this definition"></a></dt>
+<dd><p>Description of the energy component. Can be used to explain the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_length</strong> = 1024</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.capacity_variable">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">capacity_variable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.capacity_variable" title="Link to this definition"></a></dt>
+<dd><p>Whether the energy component should be model with a capacity or not.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.capacity_variable_domain">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">capacity_variable_domain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">CapacityVariableDomain</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">CapacityVariableDomain.CONTINUOUS</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.capacity_variable_domain" title="Link to this definition"></a></dt>
+<dd><p>Mathematical domain of the capacity variables. ‘continuous’ means that the capacity is modeled as real values &gt;= 0. ‘discrete’ means that the capacity is modeled as integer values &gt;= 0.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.capacity_per_plant_unit">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">capacity_per_plant_unit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.capacity_per_plant_unit" title="Link to this definition"></a></dt>
+<dd><p>Capacity per plant unit. By default is 1, thus the number of plants is the equal to the installed capacity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.invest_per_capacity">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">invest_per_capacity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.invest_per_capacity" title="Link to this definition"></a></dt>
+<dd><p>Investment per capacity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.opex_per_capacity">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">opex_per_capacity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.opex_per_capacity" title="Link to this definition"></a></dt>
+<dd><p>Operational expenditure per capacity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.interest_rate">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interest_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.08</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.interest_rate" title="Link to this definition"></a></dt>
+<dd><p>Interest rate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0</p></li>
+<li><p><strong>le</strong> = 1</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.economic_lifetime">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">economic_lifetime</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.economic_lifetime" title="Link to this definition"></a></dt>
+<dd><p>Economic lifetime.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.shared_potential_id">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shared_potential_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.shared_potential_id" title="Link to this definition"></a></dt>
+<dd><p>Shared potential ID. If specified, the maximum potential capacity is shared among all components of the same shared potential id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyStorageCreate.linked_quantity_id">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">linked_quantity_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyStorageCreate.linked_quantity_id" title="Link to this definition"></a></dt>
+<dd><p>Linked quantity ID. If specified, components of the same linked quantity ID are built with the same quantity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

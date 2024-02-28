@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Excel data &mdash; EnSysMod 0.0.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=282f96c0"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Energy Model" href="../energy_model.html" />
+    <link rel="prev" title="Energy transmission" href="energy_transmission.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            EnSysMod
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../userguide.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../datamodel.html">Datamodel</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../dataset.html">Dataset</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="dataset.html">Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="region.html">Region</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_commodity.html">Energy commodity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_source.html">Energy source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_sink.html">Energy sink</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_conversion.html">Energy conversion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_storage.html">Energy storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_transmission.html">Energy transmission</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Excel data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#all-components">All components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transmission-components">Transmission components</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../energy_model.html">Energy Model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../endpoints.html">Endpoints of REST-API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../projectStructure.html">Project structure</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">EnSysMod</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../datamodel.html">Datamodel</a></li>
+          <li class="breadcrumb-item"><a href="../dataset.html">Dataset</a></li>
+      <li class="breadcrumb-item active">Excel data</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/NOWUM/ensysmod/blob/main/docs/source/datamodel/dataset/excel_data.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="excel-data">
+<h1>Excel data<a class="headerlink" href="#excel-data" title="Link to this heading"></a></h1>
+<section id="all-components">
+<h2>All components<a class="headerlink" href="#all-components" title="Link to this heading"></a></h2>
+<p>For all energy components, these data can be provided via the REST API, or as excel files for easy access.
+If provided as excel files, the number and the name of the columns must correspond to the regions defined in the dataset. For capacities and full load hours, there should be exactly one row. For operation rates, the number of rows must correspond to the number of time steps defined in the dataset.</p>
+<p>Examples can be found <a class="reference external" href="https://github.com/NOWUM/EnSysMod/tree/main/examples">here</a>.</p>
+<section id="fix-capacity">
+<h3>Fix Capacity<a class="headerlink" href="#fix-capacity" title="Link to this heading"></a></h3>
+<p>The following attributes are available for fix capacities:</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityFixCreate">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">CapacityFixCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/capacity_fix.html#CapacityFixCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.CapacityFixCreate" title="Link to this definition"></a></dt>
+<dd><p>Attributes to receive via API on creation of a CapacityFix.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityFixCreate.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityFixCreate.model_computed_fields" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityFixCreate.capacity_fix">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">capacity_fix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityFixCreate.capacity_fix" title="Link to this definition"></a></dt>
+<dd><p>Fixed capacity for a component in a specific region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityFixCreate.ref_dataset">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityFixCreate.ref_dataset" title="Link to this definition"></a></dt>
+<dd><p>The ID of the referenced dataset. Current dataset is used as default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityFixCreate.component_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">component_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityFixCreate.component_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityFixCreate.region_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityFixCreate.region_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityFixCreate.region_to_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_to_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityFixCreate.region_to_name" title="Link to this definition"></a></dt>
+<dd><p>Optional region to name, if needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="max-capacity">
+<h3>Max Capacity<a class="headerlink" href="#max-capacity" title="Link to this heading"></a></h3>
+<p>The following attributes are available for maximum capacities:</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityMaxCreate">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">CapacityMaxCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/capacity_max.html#CapacityMaxCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.CapacityMaxCreate" title="Link to this definition"></a></dt>
+<dd><p>Attributes to receive via API on creation of a CapacityMax.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityMaxCreate.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityMaxCreate.model_computed_fields" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityMaxCreate.capacity_max">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">capacity_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityMaxCreate.capacity_max" title="Link to this definition"></a></dt>
+<dd><p>Maximum capacity for a component in a specific region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityMaxCreate.ref_dataset">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityMaxCreate.ref_dataset" title="Link to this definition"></a></dt>
+<dd><p>The ID of the referenced dataset. Current dataset is used as default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityMaxCreate.component_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">component_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityMaxCreate.component_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityMaxCreate.region_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityMaxCreate.region_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityMaxCreate.region_to_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_to_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityMaxCreate.region_to_name" title="Link to this definition"></a></dt>
+<dd><p>Optional region to name, if needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="min-capacity">
+<h3>Min Capacity<a class="headerlink" href="#min-capacity" title="Link to this heading"></a></h3>
+<p>The following attributes are available for minimum capacities:</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityMinCreate">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">CapacityMinCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/capacity_min.html#CapacityMinCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.CapacityMinCreate" title="Link to this definition"></a></dt>
+<dd><p>Attributes to receive via API on creation of a CapacityMin.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityMinCreate.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityMinCreate.model_computed_fields" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityMinCreate.capacity_min">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">capacity_min</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityMinCreate.capacity_min" title="Link to this definition"></a></dt>
+<dd><p>Minimum capacity for a component in a specific region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityMinCreate.ref_dataset">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityMinCreate.ref_dataset" title="Link to this definition"></a></dt>
+<dd><p>The ID of the referenced dataset. Current dataset is used as default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityMinCreate.component_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">component_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityMinCreate.component_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityMinCreate.region_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityMinCreate.region_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.CapacityMinCreate.region_to_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_to_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.CapacityMinCreate.region_to_name" title="Link to this definition"></a></dt>
+<dd><p>Optional region to name, if needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="fix-operation-rate">
+<h3>Fix Operation Rate<a class="headerlink" href="#fix-operation-rate" title="Link to this heading"></a></h3>
+<p>The following attributes are available for fix operation rate:</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="ensysmod.schemas.OperationRateFixCreate">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">OperationRateFixCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/operation_rate_fix.html#OperationRateFixCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.OperationRateFixCreate" title="Link to this definition"></a></dt>
+<dd><p>Attributes to receive via API on creation of a OperationRateFix.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ensysmod.schemas.OperationRateFixCreate.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#ensysmod.schemas.OperationRateFixCreate.model_computed_fields" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.OperationRateFixCreate.operation_rate_fix">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">operation_rate_fix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">NonNegativeFloat</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.OperationRateFixCreate.operation_rate_fix" title="Link to this definition"></a></dt>
+<dd><p>Fixed operation rate for a component in a specific region.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.OperationRateFixCreate.ref_dataset">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.OperationRateFixCreate.ref_dataset" title="Link to this definition"></a></dt>
+<dd><p>The ID of the referenced dataset. Current dataset is used as default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.OperationRateFixCreate.component_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">component_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.OperationRateFixCreate.component_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.OperationRateFixCreate.region_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.OperationRateFixCreate.region_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.OperationRateFixCreate.region_to_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_to_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.OperationRateFixCreate.region_to_name" title="Link to this definition"></a></dt>
+<dd><p>Optional region to name, if needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="max-operation-rate">
+<h3>Max Operation Rate<a class="headerlink" href="#max-operation-rate" title="Link to this heading"></a></h3>
+<p>The following attributes are available for maximum operation rate:</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="ensysmod.schemas.OperationRateMaxCreate">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">OperationRateMaxCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/operation_rate_max.html#OperationRateMaxCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.OperationRateMaxCreate" title="Link to this definition"></a></dt>
+<dd><p>Attributes to receive via API on creation of a OperationRateMax.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ensysmod.schemas.OperationRateMaxCreate.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#ensysmod.schemas.OperationRateMaxCreate.model_computed_fields" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.OperationRateMaxCreate.operation_rate_max">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">operation_rate_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">NonNegativeFloat</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.OperationRateMaxCreate.operation_rate_max" title="Link to this definition"></a></dt>
+<dd><p>Maximum operation rate for a component in a specific region.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.OperationRateMaxCreate.ref_dataset">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.OperationRateMaxCreate.ref_dataset" title="Link to this definition"></a></dt>
+<dd><p>The ID of the referenced dataset. Current dataset is used as default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.OperationRateMaxCreate.component_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">component_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.OperationRateMaxCreate.component_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.OperationRateMaxCreate.region_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.OperationRateMaxCreate.region_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.OperationRateMaxCreate.region_to_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_to_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.OperationRateMaxCreate.region_to_name" title="Link to this definition"></a></dt>
+<dd><p>Optional region to name, if needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="max-yearly-full-load-hours">
+<h3>Max Yearly Full Load Hours<a class="headerlink" href="#max-yearly-full-load-hours" title="Link to this heading"></a></h3>
+<p>The following attributes are available for maximum yearly full load hours:</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="ensysmod.schemas.YearlyFullLoadHoursMaxCreate">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">YearlyFullLoadHoursMaxCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/yearly_full_load_hours_max.html#YearlyFullLoadHoursMaxCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.YearlyFullLoadHoursMaxCreate" title="Link to this definition"></a></dt>
+<dd><p>Attributes to receive via API on creation of a YearlyFullLoadHoursMax.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ensysmod.schemas.YearlyFullLoadHoursMaxCreate.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#ensysmod.schemas.YearlyFullLoadHoursMaxCreate.model_computed_fields" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.YearlyFullLoadHoursMaxCreate.yearly_full_load_hours_max">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">yearly_full_load_hours_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.YearlyFullLoadHoursMaxCreate.yearly_full_load_hours_max" title="Link to this definition"></a></dt>
+<dd><p>Maximum yearly full load hour for a component in a region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.YearlyFullLoadHoursMaxCreate.ref_dataset">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.YearlyFullLoadHoursMaxCreate.ref_dataset" title="Link to this definition"></a></dt>
+<dd><p>The ID of the referenced dataset. Current dataset is used as default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.YearlyFullLoadHoursMaxCreate.component_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">component_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.YearlyFullLoadHoursMaxCreate.component_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.YearlyFullLoadHoursMaxCreate.region_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.YearlyFullLoadHoursMaxCreate.region_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.YearlyFullLoadHoursMaxCreate.region_to_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_to_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.YearlyFullLoadHoursMaxCreate.region_to_name" title="Link to this definition"></a></dt>
+<dd><p>Optional region to name, if needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="min-yearly-full-load-hours">
+<h3>Min Yearly Full Load Hours<a class="headerlink" href="#min-yearly-full-load-hours" title="Link to this heading"></a></h3>
+<p>The following attributes are available for minimum yearly full load hours:</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="ensysmod.schemas.YearlyFullLoadHoursMinCreate">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">YearlyFullLoadHoursMinCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/yearly_full_load_hours_min.html#YearlyFullLoadHoursMinCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.YearlyFullLoadHoursMinCreate" title="Link to this definition"></a></dt>
+<dd><p>Attributes to receive via API on creation of a YearlyFullLoadHoursMin.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ensysmod.schemas.YearlyFullLoadHoursMinCreate.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#ensysmod.schemas.YearlyFullLoadHoursMinCreate.model_computed_fields" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.YearlyFullLoadHoursMinCreate.yearly_full_load_hours_min">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">yearly_full_load_hours_min</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.YearlyFullLoadHoursMinCreate.yearly_full_load_hours_min" title="Link to this definition"></a></dt>
+<dd><p>YearlyFullLoadHoursMin for a component in a region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.YearlyFullLoadHoursMinCreate.ref_dataset">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.YearlyFullLoadHoursMinCreate.ref_dataset" title="Link to this definition"></a></dt>
+<dd><p>The ID of the referenced dataset. Current dataset is used as default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.YearlyFullLoadHoursMinCreate.component_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">component_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.YearlyFullLoadHoursMinCreate.component_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.YearlyFullLoadHoursMinCreate.region_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.YearlyFullLoadHoursMinCreate.region_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.YearlyFullLoadHoursMinCreate.region_to_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_to_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.YearlyFullLoadHoursMinCreate.region_to_name" title="Link to this definition"></a></dt>
+<dd><p>Optional region to name, if needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="transmission-components">
+<h2>Transmission components<a class="headerlink" href="#transmission-components" title="Link to this heading"></a></h2>
+<p>Additionaly, transmission distances and losses can also be provided for transmission components, via REST API or as excel files.
+If provided as excel files, the number and the name of rows and columns must correspond to the regions defined in the dataset.</p>
+<p>Examples can be found <a class="reference external" href="https://github.com/NOWUM/EnSysMod/tree/main/examples">here</a>.</p>
+<section id="transmission-distance">
+<h3>Transmission Distance<a class="headerlink" href="#transmission-distance" title="Link to this heading"></a></h3>
+<p>The following attributes are available for transmission distances:</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="ensysmod.schemas.TransmissionDistanceCreate">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">TransmissionDistanceCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/transmission_distance.html#TransmissionDistanceCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.TransmissionDistanceCreate" title="Link to this definition"></a></dt>
+<dd><p>Attributes to receive via API on creation of an TransmissionDistance.</p>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.TransmissionDistanceCreate.region_to_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_to_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.TransmissionDistanceCreate.region_to_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the target region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ensysmod.schemas.TransmissionDistanceCreate.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#ensysmod.schemas.TransmissionDistanceCreate.model_computed_fields" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.TransmissionDistanceCreate.distance">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">distance</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.TransmissionDistanceCreate.distance" title="Link to this definition"></a></dt>
+<dd><p>Distance between two regions in unit of dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.TransmissionDistanceCreate.ref_dataset">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.TransmissionDistanceCreate.ref_dataset" title="Link to this definition"></a></dt>
+<dd><p>The ID of the referenced dataset. Current dataset is used as default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.TransmissionDistanceCreate.component_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">component_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.TransmissionDistanceCreate.component_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.TransmissionDistanceCreate.region_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.TransmissionDistanceCreate.region_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="transmission-loss">
+<h3>Transmission Loss<a class="headerlink" href="#transmission-loss" title="Link to this heading"></a></h3>
+<p>The following attributes are available for transmission losses:</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="ensysmod.schemas.TransmissionLossCreate">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">TransmissionLossCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/transmission_loss.html#TransmissionLossCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.TransmissionLossCreate" title="Link to this definition"></a></dt>
+<dd><p>Attributes to receive via API on creation of an TransmissionLoss.</p>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.TransmissionLossCreate.region_to_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_to_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.TransmissionLossCreate.region_to_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the target region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ensysmod.schemas.TransmissionLossCreate.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#ensysmod.schemas.TransmissionLossCreate.model_computed_fields" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.TransmissionLossCreate.loss">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loss</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.TransmissionLossCreate.loss" title="Link to this definition"></a></dt>
+<dd><p>Relative loss per length unit of energy transmission.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0</p></li>
+<li><p><strong>le</strong> = 1</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.TransmissionLossCreate.ref_dataset">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.TransmissionLossCreate.ref_dataset" title="Link to this definition"></a></dt>
+<dd><p>The ID of the referenced dataset. Current dataset is used as default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.TransmissionLossCreate.component_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">component_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.TransmissionLossCreate.component_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.TransmissionLossCreate.region_name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.TransmissionLossCreate.region_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="energy_transmission.html" class="btn btn-neutral float-left" title="Energy transmission" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../energy_model.html" class="btn btn-neutral float-right" title="Energy Model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, NOWUM.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

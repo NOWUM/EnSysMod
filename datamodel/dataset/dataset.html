@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dataset &mdash; EnSysMod 0.0.3 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/autodoc_pydantic.css" type="text/css" />
+  <title>Dataset &mdash; EnSysMod 0.0.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=282f96c0"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -28,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> EnSysMod
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            EnSysMod
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -44,6 +51,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../../datamodel.html">Datamodel</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../dataset.html">Dataset</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Dataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ensysmod.schemas.DatasetCreate"><code class="docutils literal notranslate"><span class="pre">DatasetCreate</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dataset-permissions">Dataset permissions</a></li>
 </ul>
 </li>
@@ -54,7 +62,7 @@
 <li class="toctree-l3"><a class="reference internal" href="energy_conversion.html">Energy conversion</a></li>
 <li class="toctree-l3"><a class="reference internal" href="energy_storage.html">Energy storage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="energy_transmission.html">Energy transmission</a></li>
-<li class="toctree-l3"><a class="reference internal" href="time_series_data.html">Time series data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="excel_data.html">Excel data</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../energy_model.html">Energy Model</a></li>
@@ -77,10 +85,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../datamodel.html">Datamodel</a> &raquo;</li>
-          <li><a href="../dataset.html">Dataset</a> &raquo;</li>
-      <li>Dataset</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../datamodel.html">Datamodel</a></li>
+          <li class="breadcrumb-item"><a href="../dataset.html">Dataset</a></li>
+      <li class="breadcrumb-item active">Dataset</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/NOWUM/ensysmod/blob/main/docs/source/datamodel/dataset/dataset.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -91,23 +99,30 @@
            <div itemprop="articleBody">
              
   <section id="dataset">
-<h1>Dataset<a class="headerlink" href="#dataset" title="Permalink to this headline"></a></h1>
+<h1>Dataset<a class="headerlink" href="#dataset" title="Link to this heading"></a></h1>
 <p>This class is the main class of the dataset. It contains general information about the dataset.</p>
 <p>Follow <a class="reference internal" href="../../userguide/dataset.html#newdataset"><span class="std std-ref">this</span></a> guide to create a new dataset and learn how to provide the data of an energy
 system model.</p>
 <p>The following attributes are available:</p>
 <dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="ensysmod.schemas.DatasetCreate">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">DatasetCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/dataset.html#DatasetCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.DatasetCreate" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">DatasetCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/dataset.html#DatasetCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.DatasetCreate" title="Link to this definition"></a></dt>
 <dd><p>Attributes to receive via API on creation of a dataset.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ensysmod.schemas.DatasetCreate.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetCreate.model_computed_fields" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.DatasetCreate.cost_unit">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cost_unit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetCreate.cost_unit" title="Permalink to this definition"></a></dt>
-<dd><p>Cost unit for the hole dataset. All provided costs must be in this unit.</p>
+<dt class="sig sig-object py" id="ensysmod.schemas.DatasetCreate.name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetCreate.name" title="Link to this definition"></a></dt>
+<dd><p>Unique name of the dataset. Can be used to identify the dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 1e9 €</p></li>
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
 </ul>
 </dd>
 </dl>
@@ -115,12 +130,12 @@ system model.</p>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="ensysmod.schemas.DatasetCreate.description">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetCreate.description" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetCreate.description" title="Link to this definition"></a></dt>
 <dd><p>Description of the dataset. Can be used for a detailed description about the dataset and the modelled data.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = Modeling year 2050 with all countries</p></li>
+<li><p><strong>max_length</strong> = 1024</p></li>
 </ul>
 </dd>
 </dl>
@@ -128,38 +143,12 @@ system model.</p>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="ensysmod.schemas.DatasetCreate.hours_per_time_step">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hours_per_time_step</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetCreate.hours_per_time_step" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hours_per_time_step</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetCreate.hours_per_time_step" title="Link to this definition"></a></dt>
 <dd><p>Hours per time step in the dataset. Use 1 for hourly data, 24 for daily data. It is needed to calculate annual costs.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 1</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.DatasetCreate.length_unit">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">length_unit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetCreate.length_unit" title="Permalink to this definition"></a></dt>
-<dd><p>Length unit for the hole dataset.All provided distances must be in this unit.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = km</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.DatasetCreate.name">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetCreate.name" title="Permalink to this definition"></a></dt>
-<dd><p>Unique name of the dataset. Can be used to identify the dataset.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 2050 Worldwide</p></li>
+<li><p><strong>gt</strong> = 0</p></li>
 </ul>
 </dd>
 </dl>
@@ -167,69 +156,111 @@ system model.</p>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="ensysmod.schemas.DatasetCreate.number_of_time_steps">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_time_steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetCreate.number_of_time_steps" title="Permalink to this definition"></a></dt>
-<dd><p>Number of time steps in the dataset.All provided time series must have the same length.</p>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_time_steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8760</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetCreate.number_of_time_steps" title="Link to this definition"></a></dt>
+<dd><p>Number of time steps in the dataset. All provided time series must have the same length.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 8760</p></li>
+<li><p><strong>gt</strong> = 0</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.DatasetCreate.ref_created_by">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_created_by</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetCreate.ref_created_by" title="Permalink to this definition"></a></dt>
-<dd><p>User ID of the creator. If not provided, the current user is used.</p>
+<dt class="sig sig-object py" id="ensysmod.schemas.DatasetCreate.cost_unit">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cost_unit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1e9</span> <span class="pre">€'</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetCreate.cost_unit" title="Link to this definition"></a></dt>
+<dd><p>Cost unit for the whole dataset. All provided costs must be in this unit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.DatasetCreate.length_unit">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">length_unit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'km'</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetCreate.length_unit" title="Link to this definition"></a></dt>
+<dd><p>Length unit for the whole dataset. All provided distances must be in this unit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
 <section id="dataset-permissions">
-<span id="id1"></span><h2>Dataset permissions<a class="headerlink" href="#dataset-permissions" title="Permalink to this headline"></a></h2>
+<span id="id1"></span><h2>Dataset permissions<a class="headerlink" href="#dataset-permissions" title="Link to this heading"></a></h2>
 <p>After creating a dataset, you can set permissions for the dataset.
 You can grant (or revoke) permissions to other users to access and modify the dataset.
 By default only you can access and modify the dataset.</p>
 <p>The following attributes are available:</p>
 <dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="ensysmod.schemas.DatasetPermissionCreate">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">DatasetPermissionCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/dataset_permission.html#DatasetPermissionCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.DatasetPermissionCreate" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">DatasetPermissionCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/dataset_permission.html#DatasetPermissionCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.DatasetPermissionCreate" title="Link to this definition"></a></dt>
 <dd><p>Attributes to receive via API on creation of a DatasetPermission.</p>
 <dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.DatasetPermissionCreate.ref_dataset">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetPermissionCreate.ref_dataset" title="Link to this definition"></a></dt>
+<dd><p>The ID of the dataset. You must have access to grant permissions to this dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.DatasetPermissionCreate.ref_user">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_user</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetPermissionCreate.ref_user" title="Link to this definition"></a></dt>
+<dd><p>The ID of the user that receive the permissions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ensysmod.schemas.DatasetPermissionCreate.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetPermissionCreate.model_computed_fields" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.DatasetPermissionCreate.allow_usage">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">allow_usage</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetPermissionCreate.allow_usage" title="Link to this definition"></a></dt>
+<dd><p>Whether the user is allowed to use the dataset.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="ensysmod.schemas.DatasetPermissionCreate.allow_modification">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">allow_modification</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetPermissionCreate.allow_modification" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">allow_modification</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetPermissionCreate.allow_modification" title="Link to this definition"></a></dt>
 <dd><p>Whether the user is allowed to modify the dataset.</p>
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="ensysmod.schemas.DatasetPermissionCreate.allow_permission_grant">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">allow_permission_grant</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetPermissionCreate.allow_permission_grant" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">allow_permission_grant</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetPermissionCreate.allow_permission_grant" title="Link to this definition"></a></dt>
 <dd><p>Whether the user is allowed to grant permissions.</p>
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="ensysmod.schemas.DatasetPermissionCreate.allow_permission_revoke">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">allow_permission_revoke</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetPermissionCreate.allow_permission_revoke" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">allow_permission_revoke</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetPermissionCreate.allow_permission_revoke" title="Link to this definition"></a></dt>
 <dd><p>Whether the user is allowed to revoke permissions.</p>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.DatasetPermissionCreate.allow_usage">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">allow_usage</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetPermissionCreate.allow_usage" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the user is allowed to use the dataset.</p>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.DatasetPermissionCreate.ref_dataset">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetPermissionCreate.ref_dataset" title="Permalink to this definition"></a></dt>
-<dd><p>The ID of the dataset. You must have access to grant permissions to this dataset.</p>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.DatasetPermissionCreate.ref_user">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_user</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.DatasetPermissionCreate.ref_user" title="Permalink to this definition"></a></dt>
-<dd><p>The ID of the user that receive the permissions.</p>
 </dd></dl>
 
 </dd></dl>
@@ -237,25 +268,21 @@ By default only you can access and modify the dataset.</p>
 <p>You can modify the permissions for the dataset by using the REST API:</p>
 <dl class="http get">
 <dt class="sig sig-object http" id="get--datasets-permissions-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/</span></span><a class="headerlink" href="#get--datasets-permissions-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Dataset Permission</strong></p>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/</span></span><a class="headerlink" href="#get--datasets-permissions-" title="Link to this definition"></a></dt>
+<dd><p><strong>Get All Dataset Permissions</strong></p>
 <p>Retrieve all dataset permissions.</p>
-<p>If you provide a dataset_id, only the permissions for that dataset will be returned.</p>
-<p>If you provide a user_id, only the permissions for that user will be returned.</p>
-<p>Otherwise, all of your personal permissions will be returned.</p>
+<p>If you provide a dataset_id, only the permissions for that dataset will be returned.
+Otherwise, all permissions for the current user will be returned.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Query Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
-<li><p><strong>user_id</strong> (<em>integer</em>) – </p></li>
-<li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
-<li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>dataset_id</strong> (<em>{'null', 'integer'}</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -263,15 +290,33 @@ By default only you can access and modify the dataset.</p>
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--datasets-permissions-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/</span></span><a class="headerlink" href="#post--datasets-permissions-" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/</span></span><a class="headerlink" href="#post--datasets-permissions-" title="Link to this definition"></a></dt>
 <dd><p><strong>Create Dataset Permission</strong></p>
 <p>Create a new dataset_permission.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – Dataset permission for same user already exists.</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – Dataset permission for the specified user already exists.</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http put">
+<dt class="sig sig-object http" id="put--datasets-permissions-">
+<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/</span></span><a class="headerlink" href="#put--datasets-permissions-" title="Link to this definition"></a></dt>
+<dd><p><strong>Update Dataset Permission</strong></p>
+<p>Update a dataset-user permission.</p>
+<p>You can not edit your own permissions.
+For editing other permissions, you need grant and revoke permissions.
+(Might change in future.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>

@@ -1,26 +1,29 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Endpoints of REST-API &mdash; EnSysMod 0.0.3 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+  <title>Endpoints of REST-API &mdash; EnSysMod 0.0.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=282f96c0"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Project structure" href="projectStructure.html" />
-    <link rel="prev" title="Energy model parameter" href="datamodel/energymodel/energy_model_parameters.html" /> 
+    <link rel="prev" title="Energy model optimization parameters" href="datamodel/energymodel/energy_model_optimization_parameters.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -28,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> EnSysMod
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            EnSysMod
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -62,8 +69,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Endpoints of REST-API</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Endpoints of REST-API</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/NOWUM/ensysmod/blob/main/docs/source/endpoints.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -74,23 +81,23 @@
            <div itemprop="articleBody">
              
   <section id="endpoints-of-rest-api">
-<span id="rest-endpoints"></span><h1>Endpoints of REST-API<a class="headerlink" href="#endpoints-of-rest-api" title="Permalink to this headline"></a></h1>
+<span id="rest-endpoints"></span><h1>Endpoints of REST-API<a class="headerlink" href="#endpoints-of-rest-api" title="Link to this heading"></a></h1>
 <p>You can test the endpoints by running this app locally and visit <a class="reference external" href="http://localhost:8080/docs">the docs page http://localhost:8080/docs</a>.</p>
 <p>Or you can use access the <a class="reference external" href="http://10.13.10.51:9000/docs">development deployment</a>
 or the <a class="reference external" href="http://10.13.10.51:8080/docs">production deployment</a>.
 For more information visit <a class="reference internal" href="userguide/how_to_use.html#how-to-use"><span class="std std-ref">this page.</span></a></p>
 <section id="openapi-description">
-<span id="description"></span><h2>OpenAPI description<a class="headerlink" href="#openapi-description" title="Permalink to this headline"></a></h2>
+<span id="description"></span><h2>OpenAPI description<a class="headerlink" href="#openapi-description" title="Link to this heading"></a></h2>
 <dl class="http post">
 <dt class="sig sig-object http" id="post--auth-login">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/auth/login</span></span><a class="headerlink" href="#post--auth-login" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/auth/login</span></span><a class="headerlink" href="#post--auth-login" title="Link to this definition"></a></dt>
 <dd><p><strong>Login</strong></p>
 <p>OAuth2 compatible token login, get an access token for future requests</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -98,15 +105,15 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--auth-register">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/auth/register</span></span><a class="headerlink" href="#post--auth-register" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/auth/register</span></span><a class="headerlink" href="#post--auth-register" title="Link to this definition"></a></dt>
 <dd><p><strong>Register</strong></p>
 <p>Create a new user</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – User with same name already exists.</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -114,11 +121,11 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--auth-test-token">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/auth/test-token</span></span><a class="headerlink" href="#get--auth-test-token" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/auth/test-token</span></span><a class="headerlink" href="#get--auth-test-token" title="Link to this definition"></a></dt>
 <dd><p><strong>Test Token</strong></p>
 <p>Test access token</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
 </ul>
@@ -128,20 +135,20 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--users-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/users/</span></span><a class="headerlink" href="#get--users-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Users</strong></p>
-<p>Retrieve all user names from database.</p>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/users/</span></span><a class="headerlink" href="#get--users-" title="Link to this definition"></a></dt>
+<dd><p><strong>Get All Users</strong></p>
+<p>Retrieve all users.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Query Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
 <li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -149,20 +156,20 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--datasets-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/</span></span><a class="headerlink" href="#get--datasets-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Datasets</strong></p>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/</span></span><a class="headerlink" href="#get--datasets-" title="Link to this definition"></a></dt>
+<dd><p><strong>Get All Datasets</strong></p>
 <p>Retrieve all datasets.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Query Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
 <li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -170,15 +177,15 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--datasets-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/datasets/</span></span><a class="headerlink" href="#post--datasets-" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/datasets/</span></span><a class="headerlink" href="#post--datasets-" title="Link to this definition"></a></dt>
 <dd><p><strong>Create Dataset</strong></p>
 <p>Create a new dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – Dataset with same name already exists.</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -186,19 +193,19 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--datasets-dataset_id">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/{dataset_id}</span></span><a class="headerlink" href="#get--datasets-dataset_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/{dataset_id}</span></span><a class="headerlink" href="#get--datasets-dataset_id" title="Link to this definition"></a></dt>
 <dd><p><strong>Get Dataset</strong></p>
-<p>Retrieve a dataset.</p>
+<p>Get a dataset by its id.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -206,19 +213,19 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http put">
 <dt class="sig sig-object http" id="put--datasets-dataset_id">
-<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/datasets/{dataset_id}</span></span><a class="headerlink" href="#put--datasets-dataset_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/datasets/{dataset_id}</span></span><a class="headerlink" href="#put--datasets-dataset_id" title="Link to this definition"></a></dt>
 <dd><p><strong>Update Dataset</strong></p>
 <p>Update a dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -226,19 +233,19 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http delete">
 <dt class="sig sig-object http" id="delete--datasets-dataset_id">
-<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/datasets/{dataset_id}</span></span><a class="headerlink" href="#delete--datasets-dataset_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/datasets/{dataset_id}</span></span><a class="headerlink" href="#delete--datasets-dataset_id" title="Link to this definition"></a></dt>
 <dd><p><strong>Remove Dataset</strong></p>
 <p>Delete a dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -246,18 +253,19 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--datasets-dataset_id-upload">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/datasets/{dataset_id}/upload</span></span><a class="headerlink" href="#post--datasets-dataset_id-upload" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Upload Zip Archive</strong></p>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/datasets/{dataset_id}/upload</span></span><a class="headerlink" href="#post--datasets-dataset_id-upload" title="Link to this definition"></a></dt>
+<dd><p><strong>Upload Dataset Zip</strong></p>
+<p>Upload a dataset as zip.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -265,19 +273,19 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--datasets-dataset_id-download">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/{dataset_id}/download</span></span><a class="headerlink" href="#get--datasets-dataset_id-download" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Download Zip Archive</strong></p>
-<p>Downloads the dataset as zip</p>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/{dataset_id}/download</span></span><a class="headerlink" href="#get--datasets-dataset_id-download" title="Link to this definition"></a></dt>
+<dd><p><strong>Download Dataset Zip</strong></p>
+<p>Download a dataset as zip.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -285,25 +293,21 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--datasets-permissions-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/</span></span><a class="headerlink" href="#get--datasets-permissions-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Dataset Permission</strong></p>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/</span></span><a class="headerlink" href="#get--datasets-permissions-" title="Link to this definition"></a></dt>
+<dd><p><strong>Get All Dataset Permissions</strong></p>
 <p>Retrieve all dataset permissions.</p>
-<p>If you provide a dataset_id, only the permissions for that dataset will be returned.</p>
-<p>If you provide a user_id, only the permissions for that user will be returned.</p>
-<p>Otherwise, all of your personal permissions will be returned.</p>
+<p>If you provide a dataset_id, only the permissions for that dataset will be returned.
+Otherwise, all permissions for the current user will be returned.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Query Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
-<li><p><strong>user_id</strong> (<em>integer</em>) – </p></li>
-<li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
-<li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>dataset_id</strong> (<em>{'null', 'integer'}</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -311,58 +315,53 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--datasets-permissions-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/</span></span><a class="headerlink" href="#post--datasets-permissions-" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/</span></span><a class="headerlink" href="#post--datasets-permissions-" title="Link to this definition"></a></dt>
 <dd><p><strong>Create Dataset Permission</strong></p>
 <p>Create a new dataset_permission.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – Dataset permission for same user already exists.</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="http get">
-<dt class="sig sig-object http" id="get--datasets-permissions-permission_id">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/{permission_id}</span></span><a class="headerlink" href="#get--datasets-permissions-permission_id" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Get Dataset Permission</strong></p>
-<p>Retrieve a dataset-user permission.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>permission_id</strong> (<em>integer</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Status Codes</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – Dataset permission for the specified user already exists.</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http put">
-<dt class="sig sig-object http" id="put--datasets-permissions-permission_id">
-<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/{permission_id}</span></span><a class="headerlink" href="#put--datasets-permissions-permission_id" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object http" id="put--datasets-permissions-">
+<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/</span></span><a class="headerlink" href="#put--datasets-permissions-" title="Link to this definition"></a></dt>
 <dd><p><strong>Update Dataset Permission</strong></p>
 <p>Update a dataset-user permission.</p>
-<p>You can not edit your own permissions.</p>
-<p>For editing other permissions, you need grant and revoke permissions.
+<p>You can not edit your own permissions.
+For editing other permissions, you need grant and revoke permissions.
 (Might change in future.)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>permission_id</strong> (<em>integer</em>) – </p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--datasets-permissions-dataset_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/{dataset_id}</span></span><a class="headerlink" href="#get--datasets-permissions-dataset_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Dataset Permission</strong></p>
+<p>Retrieve a dataset permission for the current user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -370,57 +369,19 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http delete">
 <dt class="sig sig-object http" id="delete--datasets-permissions-permission_id">
-<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/{permission_id}</span></span><a class="headerlink" href="#delete--datasets-permissions-permission_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/datasets/permissions/{permission_id}</span></span><a class="headerlink" href="#delete--datasets-permissions-permission_id" title="Link to this definition"></a></dt>
 <dd><p><strong>Remove Dataset Permission</strong></p>
 <p>Delete a dataset-user permission.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>permission_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="http get">
-<dt class="sig sig-object http" id="get--regions-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/regions/</span></span><a class="headerlink" href="#get--regions-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Regions</strong></p>
-<p>Retrieve all energy regions.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
-<li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
-<li><p><strong>dataset</strong> (<em>integer</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Status Codes</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="http post">
-<dt class="sig sig-object http" id="post--regions-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/regions/</span></span><a class="headerlink" href="#post--regions-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Create Region</strong></p>
-<p>Create a new region.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – Region with same name already exists.</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -428,19 +389,19 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--regions-region_id">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/regions/{region_id}</span></span><a class="headerlink" href="#get--regions-region_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/regions/{region_id}</span></span><a class="headerlink" href="#get--regions-region_id" title="Link to this definition"></a></dt>
 <dd><p><strong>Get Region</strong></p>
-<p>Retrieve a region.</p>
+<p>Get a region by its id.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>region_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -448,19 +409,19 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http put">
 <dt class="sig sig-object http" id="put--regions-region_id">
-<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/regions/{region_id}</span></span><a class="headerlink" href="#put--regions-region_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/regions/{region_id}</span></span><a class="headerlink" href="#put--regions-region_id" title="Link to this definition"></a></dt>
 <dd><p><strong>Update Region</strong></p>
 <p>Update a region.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>region_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -468,57 +429,57 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http delete">
 <dt class="sig sig-object http" id="delete--regions-region_id">
-<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/regions/{region_id}</span></span><a class="headerlink" href="#delete--regions-region_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/regions/{region_id}</span></span><a class="headerlink" href="#delete--regions-region_id" title="Link to this definition"></a></dt>
 <dd><p><strong>Remove Region</strong></p>
 <p>Delete a region.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>region_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http get">
-<dt class="sig sig-object http" id="get--commodities-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/commodities/</span></span><a class="headerlink" href="#get--commodities-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Commodities</strong></p>
-<p>Retrieve all energy commodities.</p>
+<dt class="sig sig-object http" id="get--regions-">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/regions/</span></span><a class="headerlink" href="#get--regions-" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Region By Dataset</strong></p>
+<p>Get all regions of a dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Query Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – (Required)</p></li>
 <li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
 <li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
-<li><p><strong>dataset</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http post">
-<dt class="sig sig-object http" id="post--commodities-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/commodities/</span></span><a class="headerlink" href="#post--commodities-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Create Commodity</strong></p>
-<p>Create a new energy commodity.</p>
+<dt class="sig sig-object http" id="post--regions-">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/regions/</span></span><a class="headerlink" href="#post--regions-" title="Link to this definition"></a></dt>
+<dd><p><strong>Create Region</strong></p>
+<p>Create a new region.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – EnergyCommodity with same name already exists.</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – Region with same name already exists.</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -526,19 +487,19 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--commodities-commodity_id">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/commodities/{commodity_id}</span></span><a class="headerlink" href="#get--commodities-commodity_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/commodities/{commodity_id}</span></span><a class="headerlink" href="#get--commodities-commodity_id" title="Link to this definition"></a></dt>
 <dd><p><strong>Get Commodity</strong></p>
-<p>Retrieve a energy commodity.</p>
+<p>Get an energy commodity by its id.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>commodity_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -546,19 +507,19 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http put">
 <dt class="sig sig-object http" id="put--commodities-commodity_id">
-<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/commodities/{commodity_id}</span></span><a class="headerlink" href="#put--commodities-commodity_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/commodities/{commodity_id}</span></span><a class="headerlink" href="#put--commodities-commodity_id" title="Link to this definition"></a></dt>
 <dd><p><strong>Update Commodity</strong></p>
-<p>Update a energy commodity.</p>
+<p>Update an energy commodity.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>commodity_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -566,19 +527,57 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http delete">
 <dt class="sig sig-object http" id="delete--commodities-commodity_id">
-<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/commodities/{commodity_id}</span></span><a class="headerlink" href="#delete--commodities-commodity_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/commodities/{commodity_id}</span></span><a class="headerlink" href="#delete--commodities-commodity_id" title="Link to this definition"></a></dt>
 <dd><p><strong>Remove Commodity</strong></p>
-<p>Delete a energy commodity.</p>
+<p>Delete an energy commodity.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>commodity_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--commodities-">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/commodities/</span></span><a class="headerlink" href="#get--commodities-" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Commodity By Dataset</strong></p>
+<p>Get all energy commodities of a dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Query Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – (Required)</p></li>
+<li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--commodities-">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/commodities/</span></span><a class="headerlink" href="#post--commodities-" title="Link to this definition"></a></dt>
+<dd><p><strong>Create Commodity</strong></p>
+<p>Create a new energy commodity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – EnergyCommodity with same name already exists.</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -586,20 +585,21 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--conversions-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/conversions/</span></span><a class="headerlink" href="#get--conversions-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Energy Conversions</strong></p>
-<p>Retrieve all energy conversions.</p>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/conversions/</span></span><a class="headerlink" href="#get--conversions-" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Energy Conversion By Dataset</strong></p>
+<p>Get all energy conversions of a dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Query Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – (Required)</p></li>
 <li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
 <li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -607,15 +607,15 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--conversions-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/conversions/</span></span><a class="headerlink" href="#post--conversions-" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/conversions/</span></span><a class="headerlink" href="#post--conversions-" title="Link to this definition"></a></dt>
 <dd><p><strong>Create Conversion</strong></p>
 <p>Create a new energy conversion.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – EnergyConversion with same name already exists.</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -623,20 +623,21 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--sinks-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/sinks/</span></span><a class="headerlink" href="#get--sinks-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Energy Sinks</strong></p>
-<p>Retrieve all energy sinks.</p>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/sinks/</span></span><a class="headerlink" href="#get--sinks-" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Energy Sink By Dataset</strong></p>
+<p>Get all energy sinks of a dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Query Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – (Required)</p></li>
 <li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
 <li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -644,15 +645,15 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--sinks-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/sinks/</span></span><a class="headerlink" href="#post--sinks-" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/sinks/</span></span><a class="headerlink" href="#post--sinks-" title="Link to this definition"></a></dt>
 <dd><p><strong>Create Sink</strong></p>
 <p>Create a new energy sink.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – EnergySink with same name already exists.</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -660,20 +661,21 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--sources-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/sources/</span></span><a class="headerlink" href="#get--sources-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Energy Sources</strong></p>
-<p>Retrieve all energy sources.</p>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/sources/</span></span><a class="headerlink" href="#get--sources-" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Energy Source By Dataset</strong></p>
+<p>Get all energy sources of a dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Query Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – (Required)</p></li>
 <li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
 <li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -681,15 +683,15 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--sources-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/sources/</span></span><a class="headerlink" href="#post--sources-" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/sources/</span></span><a class="headerlink" href="#post--sources-" title="Link to this definition"></a></dt>
 <dd><p><strong>Create Source</strong></p>
 <p>Create a new energy source.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – EnergySource with same name already exists.</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -697,20 +699,21 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--storages-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/storages/</span></span><a class="headerlink" href="#get--storages-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Energy Storages</strong></p>
-<p>Retrieve all energy storages.</p>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/storages/</span></span><a class="headerlink" href="#get--storages-" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Energy Storage By Dataset</strong></p>
+<p>Get all energy storages of a dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Query Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – (Required)</p></li>
 <li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
 <li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -718,15 +721,15 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--storages-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/storages/</span></span><a class="headerlink" href="#post--storages-" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/storages/</span></span><a class="headerlink" href="#post--storages-" title="Link to this definition"></a></dt>
 <dd><p><strong>Create Storage</strong></p>
 <p>Create a new energy storage.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – EnergyStorage with same name already exists.</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -734,20 +737,21 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--transmissions-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/transmissions/</span></span><a class="headerlink" href="#get--transmissions-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Energy Transmissions</strong></p>
-<p>Retrieve all energy transmissions.</p>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/transmissions/</span></span><a class="headerlink" href="#get--transmissions-" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Energy Transmission By Dataset</strong></p>
+<p>Get all energy transmissions of a dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Query Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – (Required)</p></li>
 <li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
 <li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -755,53 +759,337 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--transmissions-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/transmissions/</span></span><a class="headerlink" href="#post--transmissions-" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/transmissions/</span></span><a class="headerlink" href="#post--transmissions-" title="Link to this definition"></a></dt>
 <dd><p><strong>Create Transmission</strong></p>
 <p>Create a new energy transmission.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – EnergyTransmission with same name already exists.</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http get">
-<dt class="sig sig-object http" id="get--models-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/</span></span><a class="headerlink" href="#get--models-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Models</strong></p>
-<p>Retrieve all energy models.</p>
+<dt class="sig sig-object http" id="get--transmission-distances-entry_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/transmission-distances/{entry_id}</span></span><a class="headerlink" href="#get--transmission-distances-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Transmission Distance</strong></p>
+<p>Get a TransmissionDistance by its id.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
-<li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
-<li><p><strong>dataset</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--transmission-distances-entry_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/transmission-distances/{entry_id}</span></span><a class="headerlink" href="#delete--transmission-distances-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Transmission Distance</strong></p>
+<p>Remove a TransmissionDistance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--transmission-distances-dataset-dataset_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/transmission-distances/dataset/{dataset_id}</span></span><a class="headerlink" href="#get--transmission-distances-dataset-dataset_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Transmission Distance By Dataset</strong></p>
+<p>Get all TransmissionDistance of a dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Query Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--transmission-distances-component-component_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/transmission-distances/component/{component_id}</span></span><a class="headerlink" href="#get--transmission-distances-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Transmission Distance By Component</strong></p>
+<p>Get all TransmissionDistance of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--transmission-distances-component-component_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/transmission-distances/component/{component_id}</span></span><a class="headerlink" href="#delete--transmission-distances-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Transmission Distance By Component</strong></p>
+<p>Remove all TransmissionDistance of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http post">
-<dt class="sig sig-object http" id="post--models-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/models/</span></span><a class="headerlink" href="#post--models-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Create Model</strong></p>
-<p>Create a new energy model.</p>
+<dt class="sig sig-object http" id="post--transmission-distances-">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/transmission-distances/</span></span><a class="headerlink" href="#post--transmission-distances-" title="Link to this definition"></a></dt>
+<dd><p><strong>Create Transmission Distance</strong></p>
+<p>Create a new TransmissionDistance.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – EnergyModel with same name already exists.</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--transmission-distances-component-component_id-upload">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/transmission-distances/component/{component_id}/upload</span></span><a class="headerlink" href="#post--transmission-distances-component-component_id-upload" title="Link to this definition"></a></dt>
+<dd><p><strong>Upload Transmission Distance</strong></p>
+<p>Upload TransmissionDistance of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--transmission-distances-component-component_id-download">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/transmission-distances/component/{component_id}/download</span></span><a class="headerlink" href="#get--transmission-distances-component-component_id-download" title="Link to this definition"></a></dt>
+<dd><p><strong>Download Transmission Distance</strong></p>
+<p>Download TransmissionDistance of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--transmission-losses-entry_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/transmission-losses/{entry_id}</span></span><a class="headerlink" href="#get--transmission-losses-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Transmission Loss</strong></p>
+<p>Get a TransmissionLoss by its id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--transmission-losses-entry_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/transmission-losses/{entry_id}</span></span><a class="headerlink" href="#delete--transmission-losses-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Transmission Loss</strong></p>
+<p>Remove a TransmissionLoss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--transmission-losses-dataset-dataset_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/transmission-losses/dataset/{dataset_id}</span></span><a class="headerlink" href="#get--transmission-losses-dataset-dataset_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Transmission Loss By Dataset</strong></p>
+<p>Get all TransmissionLoss of a dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Query Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--transmission-losses-component-component_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/transmission-losses/component/{component_id}</span></span><a class="headerlink" href="#get--transmission-losses-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Transmission Loss By Component</strong></p>
+<p>Get all TransmissionLoss of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--transmission-losses-component-component_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/transmission-losses/component/{component_id}</span></span><a class="headerlink" href="#delete--transmission-losses-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Transmission Loss By Component</strong></p>
+<p>Remove all TransmissionLoss of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--transmission-losses-">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/transmission-losses/</span></span><a class="headerlink" href="#post--transmission-losses-" title="Link to this definition"></a></dt>
+<dd><p><strong>Create Transmission Loss</strong></p>
+<p>Create a new TransmissionLoss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--transmission-losses-component-component_id-upload">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/transmission-losses/component/{component_id}/upload</span></span><a class="headerlink" href="#post--transmission-losses-component-component_id-upload" title="Link to this definition"></a></dt>
+<dd><p><strong>Upload Transmission Loss</strong></p>
+<p>Upload TransmissionLoss of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--transmission-losses-component-component_id-download">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/transmission-losses/component/{component_id}/download</span></span><a class="headerlink" href="#get--transmission-losses-component-component_id-download" title="Link to this definition"></a></dt>
+<dd><p><strong>Download Transmission Loss</strong></p>
+<p>Download TransmissionLoss of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -809,19 +1097,19 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--models-model_id">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}</span></span><a class="headerlink" href="#get--models-model_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}</span></span><a class="headerlink" href="#get--models-model_id" title="Link to this definition"></a></dt>
 <dd><p><strong>Get Model</strong></p>
-<p>Retrieve a energy model.</p>
+<p>Get an energy model by its id.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -829,19 +1117,19 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http put">
 <dt class="sig sig-object http" id="put--models-model_id">
-<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}</span></span><a class="headerlink" href="#put--models-model_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}</span></span><a class="headerlink" href="#put--models-model_id" title="Link to this definition"></a></dt>
 <dd><p><strong>Update Model</strong></p>
-<p>Update a energy model.</p>
+<p>Update an energy model.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -849,19 +1137,57 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http delete">
 <dt class="sig sig-object http" id="delete--models-model_id">
-<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}</span></span><a class="headerlink" href="#delete--models-model_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}</span></span><a class="headerlink" href="#delete--models-model_id" title="Link to this definition"></a></dt>
 <dd><p><strong>Remove Model</strong></p>
-<p>Delete a energy model.</p>
+<p>Delete an energy model.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--models-">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/</span></span><a class="headerlink" href="#get--models-" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Energy Model By Dataset</strong></p>
+<p>Get all energy models of a dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Query Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – (Required)</p></li>
+<li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--models-">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/models/</span></span><a class="headerlink" href="#post--models-" title="Link to this definition"></a></dt>
+<dd><p><strong>Create Model</strong></p>
+<p>Create a new energy model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">409 Conflict</a></span> – EnergyModel with same name already exists.</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -869,21 +1195,21 @@ For more information visit <a class="reference internal" href="userguide/how_to_
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--models-model_id-esm">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}/esm</span></span><a class="headerlink" href="#get--models-model_id-esm" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}/esm</span></span><a class="headerlink" href="#get--models-model_id-esm" title="Link to this definition"></a></dt>
 <dd><p><strong>Validate Model</strong></p>
 <p>Create FINE energy system model from model.</p>
 <p>Might take a while.
 And return errors if dataset is not valid.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -891,42 +1217,147 @@ And return errors if dataset is not valid.</p>
 
 <dl class="http get">
 <dt class="sig sig-object http" id="get--models-model_id-optimize">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}/optimize</span></span><a class="headerlink" href="#get--models-model_id-optimize" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}/optimize</span></span><a class="headerlink" href="#get--models-model_id-optimize" title="Link to this definition"></a></dt>
 <dd><p><strong>Optimize Model</strong></p>
 <p>Create FINE energy system model from model and optimizes it.</p>
 <p>Might take a while.
 And return errors if dataset is not valid.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http get">
-<dt class="sig sig-object http" id="get--fix-capacities-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/</span></span><a class="headerlink" href="#get--fix-capacities-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Fix Capacities</strong></p>
-<p>Retrieve all fix capacities.</p>
+<dt class="sig sig-object http" id="get--models-model_id-myopic_optimize">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/models/{model_id}/myopic_optimize</span></span><a class="headerlink" href="#get--models-model_id-myopic_optimize" title="Link to this definition"></a></dt>
+<dd><p><strong>Myopic Optimize Model</strong></p>
+<p>Create FINE energy system model from model and optimizes it based on myopic approach.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>model_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--fix-capacities-entry_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/{entry_id}</span></span><a class="headerlink" href="#get--fix-capacities-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Capacity Fix</strong></p>
+<p>Get a CapacityFix by its id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--fix-capacities-entry_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/{entry_id}</span></span><a class="headerlink" href="#delete--fix-capacities-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Capacity Fix</strong></p>
+<p>Remove a CapacityFix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--fix-capacities-dataset-dataset_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/dataset/{dataset_id}</span></span><a class="headerlink" href="#get--fix-capacities-dataset-dataset_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Capacity Fix By Dataset</strong></p>
+<p>Get all CapacityFix of a dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Query Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
 <li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
 <li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--fix-capacities-component-component_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/component/{component_id}</span></span><a class="headerlink" href="#get--fix-capacities-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Capacity Fix By Component</strong></p>
+<p>Get all CapacityFix of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--fix-capacities-component-component_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/component/{component_id}</span></span><a class="headerlink" href="#delete--fix-capacities-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Capacity Fix By Component</strong></p>
+<p>Remove all CapacityFix of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -934,95 +1365,160 @@ And return errors if dataset is not valid.</p>
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--fix-capacities-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/</span></span><a class="headerlink" href="#post--fix-capacities-" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/</span></span><a class="headerlink" href="#post--fix-capacities-" title="Link to this definition"></a></dt>
 <dd><p><strong>Create Capacity Fix</strong></p>
-<p>Create a new fix capacity.</p>
+<p>Create a new CapacityFix.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--fix-capacities-component-component_id-upload">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/component/{component_id}/upload</span></span><a class="headerlink" href="#post--fix-capacities-component-component_id-upload" title="Link to this definition"></a></dt>
+<dd><p><strong>Upload Capacity Fix</strong></p>
+<p>Upload CapacityFix of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http get">
-<dt class="sig sig-object http" id="get--fix-capacities-ts_id">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/{ts_id}</span></span><a class="headerlink" href="#get--fix-capacities-ts_id" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Get Capacity Fix</strong></p>
-<p>Retrieve a fix capacity.</p>
+<dt class="sig sig-object http" id="get--fix-capacities-component-component_id-download">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/component/{component_id}/download</span></span><a class="headerlink" href="#get--fix-capacities-component-component_id-download" title="Link to this definition"></a></dt>
+<dd><p><strong>Download Capacity Fix</strong></p>
+<p>Download CapacityFix of a component.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ts_id</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="http put">
-<dt class="sig sig-object http" id="put--fix-capacities-ts_id">
-<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/{ts_id}</span></span><a class="headerlink" href="#put--fix-capacities-ts_id" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Update Capacity Fix</strong></p>
-<p>Update a fix capacity.</p>
+<dl class="http get">
+<dt class="sig sig-object http" id="get--max-capacities-entry_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-capacities/{entry_id}</span></span><a class="headerlink" href="#get--max-capacities-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Capacity Max</strong></p>
+<p>Get a CapacityMax by its id.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ts_id</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http delete">
-<dt class="sig sig-object http" id="delete--fix-capacities-ts_id">
-<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/fix-capacities/{ts_id}</span></span><a class="headerlink" href="#delete--fix-capacities-ts_id" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Remove Capacity Fix</strong></p>
-<p>Delete a fix capacity.</p>
+<dt class="sig sig-object http" id="delete--max-capacities-entry_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/max-capacities/{entry_id}</span></span><a class="headerlink" href="#delete--max-capacities-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Capacity Max</strong></p>
+<p>Remove a CapacityMax.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ts_id</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http get">
-<dt class="sig sig-object http" id="get--max-capacities-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-capacities/</span></span><a class="headerlink" href="#get--max-capacities-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Max Capacities</strong></p>
-<p>Retrieve all max capacities.</p>
+<dt class="sig sig-object http" id="get--max-capacities-dataset-dataset_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-capacities/dataset/{dataset_id}</span></span><a class="headerlink" href="#get--max-capacities-dataset-dataset_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Capacity Max By Dataset</strong></p>
+<p>Get all CapacityMax of a dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Query Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
 <li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
 <li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--max-capacities-component-component_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-capacities/component/{component_id}</span></span><a class="headerlink" href="#get--max-capacities-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Capacity Max By Component</strong></p>
+<p>Get all CapacityMax of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--max-capacities-component-component_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/max-capacities/component/{component_id}</span></span><a class="headerlink" href="#delete--max-capacities-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Capacity Max By Component</strong></p>
+<p>Remove all CapacityMax of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -1030,95 +1526,321 @@ And return errors if dataset is not valid.</p>
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--max-capacities-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/max-capacities/</span></span><a class="headerlink" href="#post--max-capacities-" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/max-capacities/</span></span><a class="headerlink" href="#post--max-capacities-" title="Link to this definition"></a></dt>
 <dd><p><strong>Create Capacity Max</strong></p>
-<p>Create a new max capacity.</p>
+<p>Create a new CapacityMax.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--max-capacities-component-component_id-upload">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/max-capacities/component/{component_id}/upload</span></span><a class="headerlink" href="#post--max-capacities-component-component_id-upload" title="Link to this definition"></a></dt>
+<dd><p><strong>Upload Capacity Max</strong></p>
+<p>Upload CapacityMax of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http get">
-<dt class="sig sig-object http" id="get--max-capacities-ts_id">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-capacities/{ts_id}</span></span><a class="headerlink" href="#get--max-capacities-ts_id" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Get Capacity Max</strong></p>
-<p>Retrieve a max capacity.</p>
+<dt class="sig sig-object http" id="get--max-capacities-component-component_id-download">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-capacities/component/{component_id}/download</span></span><a class="headerlink" href="#get--max-capacities-component-component_id-download" title="Link to this definition"></a></dt>
+<dd><p><strong>Download Capacity Max</strong></p>
+<p>Download CapacityMax of a component.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ts_id</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="http put">
-<dt class="sig sig-object http" id="put--max-capacities-ts_id">
-<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/max-capacities/{ts_id}</span></span><a class="headerlink" href="#put--max-capacities-ts_id" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Update Capacity Max</strong></p>
-<p>Update a max capacity.</p>
+<dl class="http get">
+<dt class="sig sig-object http" id="get--min-capacities-entry_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/min-capacities/{entry_id}</span></span><a class="headerlink" href="#get--min-capacities-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Capacity Min</strong></p>
+<p>Get a CapacityMin by its id.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ts_id</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http delete">
-<dt class="sig sig-object http" id="delete--max-capacities-ts_id">
-<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/max-capacities/{ts_id}</span></span><a class="headerlink" href="#delete--max-capacities-ts_id" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Remove Capacity Max</strong></p>
-<p>Delete a max capacity.</p>
+<dt class="sig sig-object http" id="delete--min-capacities-entry_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/min-capacities/{entry_id}</span></span><a class="headerlink" href="#delete--min-capacities-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Capacity Min</strong></p>
+<p>Remove a CapacityMin.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ts_id</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http get">
-<dt class="sig sig-object http" id="get--fix-operation-rates-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/fix-operation-rates/</span></span><a class="headerlink" href="#get--fix-operation-rates-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Fix Operation Rates</strong></p>
-<p>Retrieve all fix operation rates.</p>
+<dt class="sig sig-object http" id="get--min-capacities-dataset-dataset_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/min-capacities/dataset/{dataset_id}</span></span><a class="headerlink" href="#get--min-capacities-dataset-dataset_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Capacity Min By Dataset</strong></p>
+<p>Get all CapacityMin of a dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Query Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
 <li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
 <li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--min-capacities-component-component_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/min-capacities/component/{component_id}</span></span><a class="headerlink" href="#get--min-capacities-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Capacity Min By Component</strong></p>
+<p>Get all CapacityMin of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--min-capacities-component-component_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/min-capacities/component/{component_id}</span></span><a class="headerlink" href="#delete--min-capacities-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Capacity Min By Component</strong></p>
+<p>Remove all CapacityMin of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--min-capacities-">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/min-capacities/</span></span><a class="headerlink" href="#post--min-capacities-" title="Link to this definition"></a></dt>
+<dd><p><strong>Create Capacity Min</strong></p>
+<p>Create a new CapacityMin.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--min-capacities-component-component_id-upload">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/min-capacities/component/{component_id}/upload</span></span><a class="headerlink" href="#post--min-capacities-component-component_id-upload" title="Link to this definition"></a></dt>
+<dd><p><strong>Upload Capacity Min</strong></p>
+<p>Upload CapacityMin of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--min-capacities-component-component_id-download">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/min-capacities/component/{component_id}/download</span></span><a class="headerlink" href="#get--min-capacities-component-component_id-download" title="Link to this definition"></a></dt>
+<dd><p><strong>Download Capacity Min</strong></p>
+<p>Download CapacityMin of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--fix-operation-rates-entry_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/fix-operation-rates/{entry_id}</span></span><a class="headerlink" href="#get--fix-operation-rates-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Operation Rate Fix</strong></p>
+<p>Get a OperationRateFix by its id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--fix-operation-rates-entry_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/fix-operation-rates/{entry_id}</span></span><a class="headerlink" href="#delete--fix-operation-rates-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Operation Rate Fix</strong></p>
+<p>Remove a OperationRateFix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--fix-operation-rates-dataset-dataset_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/fix-operation-rates/dataset/{dataset_id}</span></span><a class="headerlink" href="#get--fix-operation-rates-dataset-dataset_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Operation Rate Fix By Dataset</strong></p>
+<p>Get all OperationRateFix of a dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Query Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--fix-operation-rates-component-component_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/fix-operation-rates/component/{component_id}</span></span><a class="headerlink" href="#get--fix-operation-rates-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Operation Rate Fix By Component</strong></p>
+<p>Get all OperationRateFix of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--fix-operation-rates-component-component_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/fix-operation-rates/component/{component_id}</span></span><a class="headerlink" href="#delete--fix-operation-rates-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Operation Rate Fix By Component</strong></p>
+<p>Remove all OperationRateFix of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -1126,95 +1848,160 @@ And return errors if dataset is not valid.</p>
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--fix-operation-rates-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/fix-operation-rates/</span></span><a class="headerlink" href="#post--fix-operation-rates-" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/fix-operation-rates/</span></span><a class="headerlink" href="#post--fix-operation-rates-" title="Link to this definition"></a></dt>
 <dd><p><strong>Create Operation Rate Fix</strong></p>
-<p>Create a new fix operation rate.</p>
+<p>Create a new OperationRateFix.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--fix-operation-rates-component-component_id-upload">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/fix-operation-rates/component/{component_id}/upload</span></span><a class="headerlink" href="#post--fix-operation-rates-component-component_id-upload" title="Link to this definition"></a></dt>
+<dd><p><strong>Upload Operation Rate Fix</strong></p>
+<p>Upload OperationRateFix of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http get">
-<dt class="sig sig-object http" id="get--fix-operation-rates-ts_id">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/fix-operation-rates/{ts_id}</span></span><a class="headerlink" href="#get--fix-operation-rates-ts_id" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Get Operation Rate Fix</strong></p>
-<p>Retrieve a fix operation rate.</p>
+<dt class="sig sig-object http" id="get--fix-operation-rates-component-component_id-download">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/fix-operation-rates/component/{component_id}/download</span></span><a class="headerlink" href="#get--fix-operation-rates-component-component_id-download" title="Link to this definition"></a></dt>
+<dd><p><strong>Download Operation Rate Fix</strong></p>
+<p>Download OperationRateFix of a component.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ts_id</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="http put">
-<dt class="sig sig-object http" id="put--fix-operation-rates-ts_id">
-<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/fix-operation-rates/{ts_id}</span></span><a class="headerlink" href="#put--fix-operation-rates-ts_id" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Update Operation Rate Fix</strong></p>
-<p>Update a fix operation rate.</p>
+<dl class="http get">
+<dt class="sig sig-object http" id="get--max-operation-rates-entry_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-operation-rates/{entry_id}</span></span><a class="headerlink" href="#get--max-operation-rates-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Operation Rate Max</strong></p>
+<p>Get a OperationRateMax by its id.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ts_id</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http delete">
-<dt class="sig sig-object http" id="delete--fix-operation-rates-ts_id">
-<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/fix-operation-rates/{ts_id}</span></span><a class="headerlink" href="#delete--fix-operation-rates-ts_id" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Remove Operation Rate Fix</strong></p>
-<p>Delete a fix operation rate.</p>
+<dt class="sig sig-object http" id="delete--max-operation-rates-entry_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/max-operation-rates/{entry_id}</span></span><a class="headerlink" href="#delete--max-operation-rates-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Operation Rate Max</strong></p>
+<p>Remove a OperationRateMax.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ts_id</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http get">
-<dt class="sig sig-object http" id="get--max-operation-rates-">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-operation-rates/</span></span><a class="headerlink" href="#get--max-operation-rates-" title="Permalink to this definition"></a></dt>
-<dd><p><strong>All Max Operation Rates</strong></p>
-<p>Retrieve all max operation rates.</p>
+<dt class="sig sig-object http" id="get--max-operation-rates-dataset-dataset_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-operation-rates/dataset/{dataset_id}</span></span><a class="headerlink" href="#get--max-operation-rates-dataset-dataset_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Operation Rate Max By Dataset</strong></p>
+<p>Get all OperationRateMax of a dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Query Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Query Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
 <li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
 <li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--max-operation-rates-component-component_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-operation-rates/component/{component_id}</span></span><a class="headerlink" href="#get--max-operation-rates-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Operation Rate Max By Component</strong></p>
+<p>Get all OperationRateMax of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--max-operation-rates-component-component_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/max-operation-rates/component/{component_id}</span></span><a class="headerlink" href="#delete--max-operation-rates-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Operation Rate Max By Component</strong></p>
+<p>Remove all OperationRateMax of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -1222,74 +2009,376 @@ And return errors if dataset is not valid.</p>
 
 <dl class="http post">
 <dt class="sig sig-object http" id="post--max-operation-rates-">
-<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/max-operation-rates/</span></span><a class="headerlink" href="#post--max-operation-rates-" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/max-operation-rates/</span></span><a class="headerlink" href="#post--max-operation-rates-" title="Link to this definition"></a></dt>
 <dd><p><strong>Create Operation Rate Max</strong></p>
-<p>Create a new max operation rate.</p>
+<p>Create a new OperationRateMax.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Status Codes</dt>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--max-operation-rates-component-component_id-upload">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/max-operation-rates/component/{component_id}/upload</span></span><a class="headerlink" href="#post--max-operation-rates-component-component_id-upload" title="Link to this definition"></a></dt>
+<dd><p><strong>Upload Operation Rate Max</strong></p>
+<p>Upload OperationRateMax of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http get">
-<dt class="sig sig-object http" id="get--max-operation-rates-ts_id">
-<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-operation-rates/{ts_id}</span></span><a class="headerlink" href="#get--max-operation-rates-ts_id" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Get Operation Rate Max</strong></p>
-<p>Retrieve a max operation rate.</p>
+<dt class="sig sig-object http" id="get--max-operation-rates-component-component_id-download">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-operation-rates/component/{component_id}/download</span></span><a class="headerlink" href="#get--max-operation-rates-component-component_id-download" title="Link to this definition"></a></dt>
+<dd><p><strong>Download Operation Rate Max</strong></p>
+<p>Download OperationRateMax of a component.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ts_id</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="http put">
-<dt class="sig sig-object http" id="put--max-operation-rates-ts_id">
-<span class="sig-name descname"><span class="pre">PUT</span> </span><span class="sig-name descname"><span class="pre">/max-operation-rates/{ts_id}</span></span><a class="headerlink" href="#put--max-operation-rates-ts_id" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Update Operation Rate Max</strong></p>
-<p>Update a max operation rate.</p>
+<dl class="http get">
+<dt class="sig sig-object http" id="get--max-yearly-full-load-hours-entry_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-yearly-full-load-hours/{entry_id}</span></span><a class="headerlink" href="#get--max-yearly-full-load-hours-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Yearly Full Load Hours Max</strong></p>
+<p>Get a YearlyFullLoadHoursMax by its id.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ts_id</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="http delete">
-<dt class="sig sig-object http" id="delete--max-operation-rates-ts_id">
-<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/max-operation-rates/{ts_id}</span></span><a class="headerlink" href="#delete--max-operation-rates-ts_id" title="Permalink to this definition"></a></dt>
-<dd><p><strong>Remove Operation Rate Max</strong></p>
-<p>Delete a max operation rate.</p>
+<dt class="sig sig-object http" id="delete--max-yearly-full-load-hours-entry_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/max-yearly-full-load-hours/{entry_id}</span></span><a class="headerlink" href="#delete--max-yearly-full-load-hours-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Yearly Full Load Hours Max</strong></p>
+<p>Remove a YearlyFullLoadHoursMax.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ts_id</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Status Codes</dt>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
-<li><p><span><a class="reference external" href="https://tools.ietf.org/html/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--max-yearly-full-load-hours-dataset-dataset_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-yearly-full-load-hours/dataset/{dataset_id}</span></span><a class="headerlink" href="#get--max-yearly-full-load-hours-dataset-dataset_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Yearly Full Load Hours Max By Dataset</strong></p>
+<p>Get all YearlyFullLoadHoursMax of a dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Query Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--max-yearly-full-load-hours-component-component_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-yearly-full-load-hours/component/{component_id}</span></span><a class="headerlink" href="#get--max-yearly-full-load-hours-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Yearly Full Load Hours Max By Component</strong></p>
+<p>Get all YearlyFullLoadHoursMax of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--max-yearly-full-load-hours-component-component_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/max-yearly-full-load-hours/component/{component_id}</span></span><a class="headerlink" href="#delete--max-yearly-full-load-hours-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Yearly Full Load Hours Max By Component</strong></p>
+<p>Remove all YearlyFullLoadHoursMax of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--max-yearly-full-load-hours-">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/max-yearly-full-load-hours/</span></span><a class="headerlink" href="#post--max-yearly-full-load-hours-" title="Link to this definition"></a></dt>
+<dd><p><strong>Create Yearly Full Load Hours Max</strong></p>
+<p>Create a new YearlyFullLoadHoursMax.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--max-yearly-full-load-hours-component-component_id-upload">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/max-yearly-full-load-hours/component/{component_id}/upload</span></span><a class="headerlink" href="#post--max-yearly-full-load-hours-component-component_id-upload" title="Link to this definition"></a></dt>
+<dd><p><strong>Upload Yearly Full Load Hours Max</strong></p>
+<p>Upload YearlyFullLoadHoursMax of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--max-yearly-full-load-hours-component-component_id-download">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/max-yearly-full-load-hours/component/{component_id}/download</span></span><a class="headerlink" href="#get--max-yearly-full-load-hours-component-component_id-download" title="Link to this definition"></a></dt>
+<dd><p><strong>Download Yearly Full Load Hours Max</strong></p>
+<p>Download YearlyFullLoadHoursMax of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--min-yearly-full-load-hours-entry_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/min-yearly-full-load-hours/{entry_id}</span></span><a class="headerlink" href="#get--min-yearly-full-load-hours-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Yearly Full Load Hours Min</strong></p>
+<p>Get a YearlyFullLoadHoursMin by its id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--min-yearly-full-load-hours-entry_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/min-yearly-full-load-hours/{entry_id}</span></span><a class="headerlink" href="#delete--min-yearly-full-load-hours-entry_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Yearly Full Load Hours Min</strong></p>
+<p>Remove a YearlyFullLoadHoursMin.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entry_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--min-yearly-full-load-hours-dataset-dataset_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/min-yearly-full-load-hours/dataset/{dataset_id}</span></span><a class="headerlink" href="#get--min-yearly-full-load-hours-dataset-dataset_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Yearly Full Load Hours Min By Dataset</strong></p>
+<p>Get all YearlyFullLoadHoursMin of a dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Query Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>skip</strong> (<em>integer</em>) – </p></li>
+<li><p><strong>limit</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--min-yearly-full-load-hours-component-component_id">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/min-yearly-full-load-hours/component/{component_id}</span></span><a class="headerlink" href="#get--min-yearly-full-load-hours-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Get Yearly Full Load Hours Min By Component</strong></p>
+<p>Get all YearlyFullLoadHoursMin of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http delete">
+<dt class="sig sig-object http" id="delete--min-yearly-full-load-hours-component-component_id">
+<span class="sig-name descname"><span class="pre">DELETE</span> </span><span class="sig-name descname"><span class="pre">/min-yearly-full-load-hours/component/{component_id}</span></span><a class="headerlink" href="#delete--min-yearly-full-load-hours-component-component_id" title="Link to this definition"></a></dt>
+<dd><p><strong>Remove Yearly Full Load Hours Min By Component</strong></p>
+<p>Remove all YearlyFullLoadHoursMin of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--min-yearly-full-load-hours-">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/min-yearly-full-load-hours/</span></span><a class="headerlink" href="#post--min-yearly-full-load-hours-" title="Link to this definition"></a></dt>
+<dd><p><strong>Create Yearly Full Load Hours Min</strong></p>
+<p>Create a new YearlyFullLoadHoursMin.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Status Codes<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http post">
+<dt class="sig sig-object http" id="post--min-yearly-full-load-hours-component-component_id-upload">
+<span class="sig-name descname"><span class="pre">POST</span> </span><span class="sig-name descname"><span class="pre">/min-yearly-full-load-hours/component/{component_id}/upload</span></span><a class="headerlink" href="#post--min-yearly-full-load-hours-component-component_id-upload" title="Link to this definition"></a></dt>
+<dd><p><strong>Upload Yearly Full Load Hours Min</strong></p>
+<p>Upload YearlyFullLoadHoursMin of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="http get">
+<dt class="sig sig-object http" id="get--min-yearly-full-load-hours-component-component_id-download">
+<span class="sig-name descname"><span class="pre">GET</span> </span><span class="sig-name descname"><span class="pre">/min-yearly-full-load-hours/component/{component_id}/download</span></span><a class="headerlink" href="#get--min-yearly-full-load-hours-component-component_id-download" title="Link to this definition"></a></dt>
+<dd><p><strong>Download Yearly Full Load Hours Min</strong></p>
+<p>Download YearlyFullLoadHoursMin of a component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_id</strong> (<em>integer</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Status Codes<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1">200 OK</a></span> – Successful Response</p></li>
+<li><p><span><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc4918#section-11.2">422 Unprocessable Entity</a></span> – Validation Error</p></li>
 </ul>
 </dd>
 </dl>
@@ -1302,7 +2391,7 @@ And return errors if dataset is not valid.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="datamodel/energymodel/energy_model_parameters.html" class="btn btn-neutral float-left" title="Energy model parameter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="datamodel/energymodel/energy_model_optimization_parameters.html" class="btn btn-neutral float-left" title="Energy model optimization parameters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="projectStructure.html" class="btn btn-neutral float-right" title="Project structure" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

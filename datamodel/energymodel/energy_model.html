@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Energy model &mdash; EnSysMod 0.0.3 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/autodoc_pydantic.css" type="text/css" />
+  <title>Energy model &mdash; EnSysMod 0.0.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=282f96c0"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Energy model parameter" href="energy_model_parameters.html" />
+    <link rel="next" title="Energy model override parameters" href="energy_model_override_parameters.html" />
     <link rel="prev" title="Energy Model" href="../energy_model.html" /> 
 </head>
 
@@ -28,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> EnSysMod
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            EnSysMod
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -44,8 +51,12 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../../datamodel.html">Datamodel</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../dataset.html">Dataset</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../energy_model.html">Energy Model</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Energy model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="energy_model_parameters.html">Energy model parameter</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Energy model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ensysmod.schemas.EnergyModelCreate"><code class="docutils literal notranslate"><span class="pre">EnergyModelCreate</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="energy_model_override_parameters.html">Energy model override parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_model_optimization_parameters.html">Energy model optimization parameters</a></li>
 </ul>
 </li>
 </ul>
@@ -67,10 +78,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../datamodel.html">Datamodel</a> &raquo;</li>
-          <li><a href="../energy_model.html">Energy Model</a> &raquo;</li>
-      <li>Energy model</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../datamodel.html">Datamodel</a></li>
+          <li class="breadcrumb-item"><a href="../energy_model.html">Energy Model</a></li>
+      <li class="breadcrumb-item active">Energy model</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/NOWUM/ensysmod/blob/main/docs/source/datamodel/energymodel/energy_model.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -81,60 +92,66 @@
            <div itemprop="articleBody">
              
   <section id="energy-model">
-<h1>Energy model<a class="headerlink" href="#energy-model" title="Permalink to this headline"></a></h1>
+<h1>Energy model<a class="headerlink" href="#energy-model" title="Link to this heading"></a></h1>
 <p>The energy model is used to create a simulation based on a dataset. The model parameters allows to override the
 default values provided by the dataset.</p>
 <dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelCreate">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">EnergyModelCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/energy_model.html#EnergyModelCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.EnergyModelCreate" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ensysmod.schemas.</span></span><span class="sig-name descname"><span class="pre">EnergyModelCreate</span></span><a class="reference internal" href="../../_modules/ensysmod/schemas/energy_model.html#EnergyModelCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ensysmod.schemas.EnergyModelCreate" title="Link to this definition"></a></dt>
 <dd><p>Attributes to receive via API on creation of an energy model.</p>
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelCreate.description">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelCreate.description" title="Permalink to this definition"></a></dt>
-<dd><p>Description of the energy model</p>
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelCreate.ref_dataset">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelCreate.ref_dataset" title="Link to this definition"></a></dt>
+<dd><p>ID of the dataset that the energy model is based on.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = A model that reduces CO2 emissions by 100%</p></li>
+<li><p><strong>gt</strong> = 0</p></li>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelCreate.override_parameters">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">override_parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="energy_model_override_parameters.html#ensysmod.schemas.EnergyModelOverrideCreate" title="ensysmod.schemas.energy_model_override.EnergyModelOverrideCreate"><span class="pre">EnergyModelOverrideCreate</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelCreate.override_parameters" title="Link to this definition"></a></dt>
+<dd><p>Override parameters of the energy model. If given, overrides the values of the referenced dataset.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelCreate.optimization_parameters">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">optimization_parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="energy_model_optimization_parameters.html#ensysmod.schemas.EnergyModelOptimizationCreate" title="ensysmod.schemas.energy_model_optimization.EnergyModelOptimizationCreate"><span class="pre">EnergyModelOptimizationCreate</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelCreate.optimization_parameters" title="Link to this definition"></a></dt>
+<dd><p>Optimization parameters of the energy model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelCreate.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelCreate.model_computed_fields" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelCreate.name">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelCreate.name" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelCreate.name" title="Link to this definition"></a></dt>
 <dd><p>Name of the energy model.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 100% CO2 reduction</p></li>
+<li><p><strong>min_length</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 255</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelCreate.parameters">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="energy_model_parameters.html#ensysmod.schemas.EnergyModelParameterCreate" title="ensysmod.schemas.energy_model_parameter.EnergyModelParameterCreate"><span class="pre">ensysmod.schemas.energy_model_parameter.EnergyModelParameterCreate</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelCreate.parameters" title="Permalink to this definition"></a></dt>
-<dd><p>Parameters of the energy model. The parameters override the values of the referenced dataset.</p>
+<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelCreate.description">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelCreate.description" title="Link to this definition"></a></dt>
+<dd><p>Description of the energy model</p>
 <dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>examples</strong> = [EnergyModelParameterCreate(ref_dataset=None, component=’CO2 to environment’, region=None, region_to=None, attribute=&lt;EnergyModelParameterAttribute.yearly_limit: ‘yearly_limit’&gt;, operation=&lt;EnergyModelParameterOperation.set: ‘set’&gt;, value=0.0, ref_model=None)]</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="ensysmod.schemas.EnergyModelCreate.ref_dataset">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ref_dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#ensysmod.schemas.EnergyModelCreate.ref_dataset" title="Permalink to this definition"></a></dt>
-<dd><p>ID of the dataset that the energy model is based on.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Constraints</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>example</strong> = 1</p></li>
+<li><p><strong>max_length</strong> = 1024</p></li>
 </ul>
 </dd>
 </dl>
@@ -149,7 +166,7 @@ default values provided by the dataset.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../energy_model.html" class="btn btn-neutral float-left" title="Energy Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="energy_model_parameters.html" class="btn btn-neutral float-right" title="Energy model parameter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="energy_model_override_parameters.html" class="btn btn-neutral float-right" title="Energy model override parameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
